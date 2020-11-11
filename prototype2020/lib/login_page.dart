@@ -88,7 +88,9 @@ class _LoginPageState extends State<LoginPage> {
                       width: double.maxFinite,
                       height: 50,
                       child: RaisedButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          Navigator.pushReplacementNamed(context, '/main');
+                        },
                         child: Text(
                           "Log-in",
                           textAlign: TextAlign.center,
