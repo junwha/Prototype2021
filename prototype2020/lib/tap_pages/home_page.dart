@@ -65,20 +65,51 @@ class _HomePageState extends State<HomePage> {
         travelType: '자유여행',
         preview: 'images/preview.png')
   ];
+
+  Widget buttonRow;
+  Widget searchBar;
+  bool searchOn = false;
+
+  TextEditingController searchController = TextEditingController();
+  @override
+  void initState() {
+    buttonRow = ButtonBar(
+      alignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SelectBarButton(
+          child: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              searchOn = true;
+            });
+          },
+        ),
+        SelectBarButton(child: Text('국가'), onPressed: () {}),
+        SelectBarButton(child: Text('비용'), onPressed: () {}),
+        SelectBarButton(child: Text('계절'), onPressed: () {}),
+        SelectBarButton(child: Text('기간'), onPressed: () {}),
+      ],
+    );
+    searchBar = TextFormField(
+      controller: searchController,
+      decoration: InputDecoration(
+        hintText: 'Search',
+        prefixIcon: Icon(Icons.search),
+      ),
+      onFieldSubmitted: (str) {
+        setState(() {
+          searchOn = false;
+        });
+      },
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        ButtonBar(
-          alignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SelectBarButton(child: Icon(Icons.search)),
-            SelectBarButton(child: Text('국가')),
-            SelectBarButton(child: Text('비용')),
-            SelectBarButton(child: Text('계절')),
-            SelectBarButton(child: Text('기간')),
-          ],
-        ),
+        searchOn ? searchBar : buttonRow,
         Expanded(
           child: ListView.builder(
             itemCount: cards.length,
@@ -93,19 +124,20 @@ class _HomePageState extends State<HomePage> {
 }
 
 class SelectBarButton extends StatelessWidget {
-  Widget child;
+  final Widget child;
+  final Function onPressed;
 
-  SelectBarButton({this.child});
+  SelectBarButton({this.child, this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return RaisedButton(
       color: Colors.white,
-      onPressed: () {},
+      onPressed: this.onPressed,
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(18.0),
           side: BorderSide(color: Colors.grey)),
-      child: child,
+      child: this.child,
     );
   }
 }
