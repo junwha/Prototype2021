@@ -11,64 +11,16 @@ class _HomePageState extends State<HomePage>
   @override
   bool get wantKeepAlive => true;
 
-  final List<ProductCard> cards = [
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png'),
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png'),
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png'),
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png'),
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png'),
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png'),
-    ProductCard(
-        title: '포르투갈',
-        cost: 10000000,
-        period: '4주',
-        companion: 2,
-        season: '여름',
-        travelType: '자유여행',
-        preview: 'images/preview.png')
-  ];
+  final List<ProductCard> cards = List.generate(
+      10,
+      (index) => ProductCard(
+          title: '포르투갈',
+          cost: 10000000,
+          period: '4주',
+          companion: 2,
+          season: '여름',
+          travelType: '자유여행',
+          preview: 'images/preview.png'));
 
   bool searchOn = false;
   String searchData = '';
