@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2020/templates/product_card.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -29,52 +30,6 @@ class _HomePageState extends State<HomePage>
   @override
   void initState() {
     super.initState();
-  }
-
-  Widget buildSearchBar() {
-    return Container(
-      margin: EdgeInsets.all(10),
-      height: 45,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          Container(
-            width: 45,
-            child: FlatButton(
-              child: Icon(Icons.close),
-              onPressed: () {
-                setState(() {
-                  searchOn = false;
-                });
-              },
-            ),
-          ),
-          Expanded(
-            child: TextFormField(
-              //https://kyungsnim.tistory.com/131 Search Bar document
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: 'Search',
-                prefixIcon: Icon(Icons.search),
-              ),
-              textInputAction: TextInputAction.search,
-              onChanged: (str) {
-                setState(() {
-                  if (str == null)
-                    searchData = '';
-                  else
-                    searchData = str;
-                });
-              },
-              onFieldSubmitted: (str) {
-                searchData = str;
-                searchOn = false;
-              },
-            ),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget buildButtonBar() {
@@ -113,24 +68,79 @@ class _HomePageState extends State<HomePage>
     }
   }
 
+  Widget buildFloatingSearchBar() {
+    final isPortrait =
+        MediaQuery.of(context).orientation == Orientation.portrait;
+    final controller = FloatingSearchBarController();
+
+    return FloatingSearchBar(
+      controller: controller,
+      hint: '여행을 떠나보세요',
+      scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
+      transitionDuration: const Duration(milliseconds: 1000),
+      transitionCurve: Curves.easeInOut,
+      physics: const BouncingScrollPhysics(),
+      axisAlignment: isPortrait ? 0.0 : -1.0,
+      openAxisAlignment: 0.0,
+      maxWidth: isPortrait ? 600 : 500,
+      debounceDelay: const Duration(milliseconds: 500),
+      onQueryChanged: (query) {
+        // Call your model, bloc, controller here.
+      },
+      // Specify a custom transition to be used for
+      // animating between opened and closed stated.
+      transition: CircularFloatingSearchBarTransition(),
+      actions: [
+        FloatingSearchBarAction(
+          showIfOpened: false,
+          child: CircularButton(
+            icon: const Icon(Icons.filter_list),
+            onPressed: () {},
+          ),
+        ),
+        FloatingSearchBarAction.searchToClear(
+          showIfClosed: false,
+        ),
+      ],
+      builder: (context, transition) {
+        return ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Material(
+            color: Colors.white,
+            elevation: 4.0,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: Colors.accents.map((color) {
+                return Container(height: 112, color: color);
+              }).toList(),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: <Widget>[
-        searchOn ? buildSearchBar() : buildButtonBar(),
         Expanded(
           child: Stack(
             children: <Widget>[
-              ListView.builder(
-                itemCount: cards.length,
-                itemBuilder: (BuildContext _context, int i) {
-                  return cards[i];
-                },
+              Padding(
+                padding: const EdgeInsets.only(top: 65.0),
+                child: ListView.builder(
+                  itemCount: cards.length,
+                  itemBuilder: (BuildContext _context, int i) {
+                    return cards[i];
+                  },
+                ),
               ),
               buildSearchResultView(searchData),
             ],
           ),
         ),
+        searchOn ? buildFloatingSearchBar() : buildButtonBar(),
       ],
     );
   }
