@@ -6,7 +6,11 @@ class HomePage extends StatefulWidget {
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin<HomePage> {
+  @override
+  bool get wantKeepAlive => true;
+
   final List<ProductCard> cards = [
     ProductCard(
         title: '포르투갈',
@@ -66,14 +70,63 @@ class _HomePageState extends State<HomePage> {
         preview: 'images/preview.png')
   ];
 
-  Widget buttonRow;
-  Widget searchBar;
   bool searchOn = false;
+  String searchData = '';
 
   TextEditingController searchController = TextEditingController();
   @override
   void initState() {
-    buttonRow = ButtonBar(
+    super.initState();
+  }
+
+  Widget buildSearchBar() {
+    return Container(
+      margin: EdgeInsets.all(10),
+      height: 45,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Container(
+            width: 45,
+            child: FlatButton(
+              child: Icon(Icons.close),
+              onPressed: () {
+                setState(() {
+                  searchOn = false;
+                });
+              },
+            ),
+          ),
+          Expanded(
+            child: TextFormField(
+              //https://kyungsnim.tistory.com/131 Search Bar document
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: 'Search',
+                prefixIcon: Icon(Icons.search),
+              ),
+              textInputAction: TextInputAction.search,
+              onChanged: (str) {
+                setState(() {
+                  if (str == null)
+                    searchData = '';
+                  else
+                    searchData = str;
+                });
+              },
+              onFieldSubmitted: (str) {
+                searchData = str;
+                searchOn = false;
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildButtonBar() {
+    return ButtonBar(
       alignment: MainAxisAlignment.start,
       children: <Widget>[
         SelectBarButton(
@@ -90,32 +143,40 @@ class _HomePageState extends State<HomePage> {
         SelectBarButton(child: Text('기간'), onPressed: () {}),
       ],
     );
-    searchBar = TextFormField(
-      controller: searchController,
-      decoration: InputDecoration(
-        hintText: 'Search',
-        prefixIcon: Icon(Icons.search),
-      ),
-      onFieldSubmitted: (str) {
-        setState(() {
-          searchOn = false;
-        });
-      },
-    );
-    super.initState();
+  }
+
+  Widget buildSearchResultView(String searchData) {
+    bool isDataNull = searchData == '';
+    print(searchData);
+    if (!isDataNull) {
+      return Container(
+        color: Colors.white,
+        width: double.maxFinite,
+        height: 200,
+        alignment: Alignment.center,
+        child: Text('검색 결과'),
+      );
+    } else {
+      return SizedBox(height: 0, width: 0);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
-        searchOn ? searchBar : buttonRow,
+        searchOn ? buildSearchBar() : buildButtonBar(),
         Expanded(
-          child: ListView.builder(
-            itemCount: cards.length,
-            itemBuilder: (BuildContext _context, int i) {
-              return cards[i];
-            },
+          child: Stack(
+            children: <Widget>[
+              ListView.builder(
+                itemCount: cards.length,
+                itemBuilder: (BuildContext _context, int i) {
+                  return cards[i];
+                },
+              ),
+              buildSearchResultView(searchData),
+            ],
           ),
         ),
       ],

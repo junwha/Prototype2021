@@ -41,12 +41,11 @@ class _MainPageState extends State<MainPage> {
         currentIndex: _index,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(Icons.home, size: 40.0), title: Text('홈')),
+              icon: Icon(Icons.home, size: 40.0), label: '홈'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.add_box_outlined, size: 40.0),
-              title: Text('추가')),
+              icon: Icon(Icons.add_box_outlined, size: 40.0), label: '추가'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.people, size: 40.0), title: Text('추가')),
+              icon: Icon(Icons.people, size: 40.0), label: '추가'),
         ],
       ),
     );
