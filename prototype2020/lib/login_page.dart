@@ -16,7 +16,7 @@ class _LoginPageState extends State<LoginPage> {
       body: Container(
         decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("images/login_background.jpg"),
+            image: AssetImage("assets/images/login_background.jpg"),
             fit: BoxFit.cover,
           ),
         ),
@@ -28,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
             children: <Widget>[
               SizedBox(height: 10),
               Image(
-                image: AssetImage("images/logo.jpg"),
+                image: AssetImage("assets/images/logo.jpg"),
                 width: 150,
                 height: 150,
               ),

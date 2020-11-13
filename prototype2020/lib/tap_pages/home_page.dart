@@ -1,166 +1,162 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2020/templates/product_card.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+// import 'package:prototype2020/board/board_page.dart';
+import 'package:prototype2020/templates/select_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with AutomaticKeepAliveClientMixin<HomePage> {
-  @override
-  bool get wantKeepAlive => true;
-
-  final List<ProductCard> cards = List.generate(
-      10,
-      (index) => ProductCard(
-          title: '포르투갈',
-          cost: 10000000,
-          period: '4주',
-          companion: 2,
-          season: '여름',
-          travelType: '자유여행',
-          preview: 'images/preview.png'));
-
-  bool searchOn = false;
-  String searchData = '';
-
-  TextEditingController searchController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget buildButtonBar() {
-    return ButtonBar(
-      alignment: MainAxisAlignment.start,
-      children: <Widget>[
-        SelectBarButton(
-          child: Icon(Icons.search),
-          onPressed: () {
-            setState(() {
-              searchOn = true;
-            });
-          },
-        ),
-        SelectBarButton(child: Text('국가'), onPressed: () {}),
-        SelectBarButton(child: Text('비용'), onPressed: () {}),
-        SelectBarButton(child: Text('계절'), onPressed: () {}),
-        SelectBarButton(child: Text('기간'), onPressed: () {}),
-      ],
-    );
-  }
-
-  Widget buildSearchResultView(String searchData) {
-    bool isDataNull = searchData == '';
-    print(searchData);
-    if (!isDataNull) {
-      return Container(
-        color: Colors.white,
-        width: double.maxFinite,
-        height: 200,
-        alignment: Alignment.center,
-        child: Text('검색 결과'),
-      );
-    } else {
-      return SizedBox(height: 0, width: 0);
-    }
-  }
-
-  Widget buildFloatingSearchBar() {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-    final controller = FloatingSearchBarController();
-
-    return FloatingSearchBar(
-      controller: controller,
-      hint: '여행을 떠나보세요',
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
-      transitionDuration: const Duration(milliseconds: 1000),
-      transitionCurve: Curves.easeInOut,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      maxWidth: isPortrait ? 600 : 500,
-      debounceDelay: const Duration(milliseconds: 500),
-      onQueryChanged: (query) {
-        // Call your model, bloc, controller here.
-      },
-      // Specify a custom transition to be used for
-      // animating between opened and closed stated.
-      transition: CircularFloatingSearchBarTransition(),
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {},
-          ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: Colors.accents.map((color) {
-                return Container(height: 112, color: color);
-              }).toList(),
-            ),
-          ),
-        );
-      },
-    );
-  }
-
+class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Expanded(
-          child: Stack(
+    return SingleChildScrollView(
+      child: Container(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(top: 65.0),
-                child: ListView.builder(
-                  itemCount: cards.length,
-                  itemBuilder: (BuildContext _context, int i) {
-                    return cards[i];
-                  },
+              Text('000 님의 여행 MBTI는',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
+              Text('발랄한 모험가 형 입니다.',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 35)),
+              Container(
+                height: 230,
+                padding: const EdgeInsets.symmetric(vertical: 20.0),
+                child: Column(
+                  children: <Widget>[
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Expanded(
+                            child: SelectBarButton(
+                              child: Text(
+                                '여행 제작',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: SelectBarButton(
+                              child: Text(
+                                '여행 게시판',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 10),
+                    Expanded(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Expanded(
+                            child: SelectBarButton(
+                              child: Text(
+                                '여행 후기',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
+                            child: SelectBarButton(
+                              child: Text(
+                                '동행 찾기',
+                                style: TextStyle(
+                                    fontWeight: FontWeight.bold, fontSize: 20),
+                              ),
+                              onPressed: () {},
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
-              buildSearchResultView(searchData),
+              Text(
+                '특가 이벤트',
+                textAlign: TextAlign.left,
+                style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              ),
+              SizedBox(height: 10),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Expanded(
+                      child: Container(
+                        height: 230,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/home_page/dubai_mall.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: FlatButton(
+                          padding: EdgeInsets.fromLTRB(15.0, 120.0, 15.0, 0.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          onPressed: () {},
+                          child: Text(
+                            '두바이 몰\n시즌 특가 세일',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  Expanded(
+                    child: Expanded(
+                      child: Container(
+                        height: 230,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(20)),
+                          image: DecorationImage(
+                            image: AssetImage(
+                                'assets/images/home_page/dubai_marina.jpg'),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        child: FlatButton(
+                          padding: EdgeInsets.fromLTRB(15.0, 120.0, 15.0, 0.0),
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20.0)),
+                          onPressed: () {},
+                          child: Text(
+                            '두바이 마리나\n유람선 할인',
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              )
             ],
           ),
         ),
-        searchOn ? buildFloatingSearchBar() : buildButtonBar(),
-      ],
-    );
-  }
-}
-
-class SelectBarButton extends StatelessWidget {
-  final Widget child;
-  final Function onPressed;
-
-  SelectBarButton({this.child, this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    return RaisedButton(
-      color: Colors.white,
-      onPressed: this.onPressed,
-      shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(18.0),
-          side: BorderSide(color: Colors.grey)),
-      child: this.child,
+      ),
     );
   }
 }
