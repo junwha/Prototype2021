@@ -32,7 +32,11 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           ExpandedButton(text: '여행 제작', onPressed: () {}),
                           SizedBox(width: 10),
-                          ExpandedButton(text: '여행 게시판', onPressed: () {})
+                          ExpandedButton(
+                              text: '여행 게시판',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/board');
+                              })
                         ],
                       ),
                     ),
