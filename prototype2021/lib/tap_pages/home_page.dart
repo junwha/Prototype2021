@@ -126,15 +126,17 @@ class _HomePageState extends State<HomePage> {
               ),
               SizedBox(height: 20),
               Container(
-                width: MediaQuery.of(context).size.width,
-                height: 60,
-                child: ExpandedButton(
-                  text: '여행지 추천 더보기',
-                  onPressed: () {},
-                  fontSize: 25,
-                  radius: 40,
-                ),
-              ),
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  child: SelectBarButton(
+                    child: Text(
+                      '여행지 추천 더보기',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 25),
+                    ),
+                    onPressed: () {},
+                    radius: 40,
+                  )),
             ],
           ),
         ),

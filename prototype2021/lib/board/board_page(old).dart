@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2020/templates/product_card.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:prototype2020/board/sub_pages/filter_page.dart';
+import 'package:prototype2020/templates/select_button.dart';
 
 class BoardPage extends StatefulWidget {
   @override
@@ -24,12 +24,33 @@ class _BoardPageState extends State<BoardPage>
           travelType: '자유여행',
           preview: 'images/preview.png'));
 
+  bool searchOn = false;
   String searchData = '';
 
   TextEditingController searchController = TextEditingController();
   @override
   void initState() {
     super.initState();
+  }
+
+  Widget buildButtonBar() {
+    return ButtonBar(
+      alignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SelectBarButton(
+          child: Icon(Icons.search),
+          onPressed: () {
+            setState(() {
+              searchOn = true;
+            });
+          },
+        ),
+        SelectBarButton(child: Text('국가'), onPressed: () {}),
+        SelectBarButton(child: Text('비용'), onPressed: () {}),
+        SelectBarButton(child: Text('계절'), onPressed: () {}),
+        SelectBarButton(child: Text('기간'), onPressed: () {}),
+      ],
+    );
   }
 
   Widget buildSearchResultView(String searchData) {
@@ -52,7 +73,6 @@ class _BoardPageState extends State<BoardPage>
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final controller = FloatingSearchBarController();
-    final _applyKey = GlobalKey<FormState>();
 
     return FloatingSearchBar(
       controller: controller,
@@ -76,62 +96,7 @@ class _BoardPageState extends State<BoardPage>
           showIfOpened: false,
           child: CircularButton(
             icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => FilterPage()),
-              // );
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Stack(
-                        children: [
-                          Positioned(
-                            right: -40.0,
-                            top: -40.0,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: CircleAvatar(
-                                child: Icon(Icons.close),
-                                backgroundColor: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Form(
-                            key: _applyKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextFormField(),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextFormField(),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                    child: Text("Submitß"),
-                                    onPressed: () {
-                                      if (_applyKey.currentState.validate()) {
-                                        _applyKey.currentState.save();
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  });
-            },
+            onPressed: () {},
           ),
         ),
         FloatingSearchBarAction.searchToClear(
@@ -180,7 +145,7 @@ class _BoardPageState extends State<BoardPage>
           ),
         ),
         buildSearchResultView(searchData),
-        buildFloatingSearchBar(),
+        searchOn ? buildFloatingSearchBar() : buildButtonBar(),
       ],
     );
   }

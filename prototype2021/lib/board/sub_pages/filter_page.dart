@@ -8,6 +8,8 @@ class FilterPage extends StatefulWidget {
 class _FilterPageState extends State<FilterPage> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      child: Text('test'),
+    );
   }
 }
