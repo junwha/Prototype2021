@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import 'package:prototype2021/board/board_page.dart';
-import 'package:prototype2021/templates/select_button.dart';
+import 'package:prototype2021/templates/borded_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -128,7 +128,7 @@ class _HomePageState extends State<HomePage> {
               Container(
                   width: MediaQuery.of(context).size.width,
                   height: 60,
-                  child: SelectBarButton(
+                  child: BordedButton(
                     child: Text(
                       '여행지 추천 더보기',
                       style:
@@ -157,7 +157,7 @@ class ExpandedButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SelectBarButton(
+      child: BordedButton(
         child: Text(
           this.text,
           style:

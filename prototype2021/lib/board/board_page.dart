@@ -22,7 +22,8 @@ class _BoardPageState extends State<BoardPage>
           companion: 2,
           season: '여름',
           travelType: '자유여행',
-          preview: 'images/preview.png'));
+          preview: 'images/preview.png',
+          tags: ['여행 감상', '맛집 탐방', '액티비티']));
 
   String searchData = '';
 
@@ -175,7 +176,10 @@ class _BoardPageState extends State<BoardPage>
           child: ListView.builder(
             itemCount: cards.length,
             itemBuilder: (BuildContext _context, int i) {
-              return cards[i];
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 10),
+                child: cards[i],
+              );
             },
           ),
         ),

@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class SelectBarButton extends StatelessWidget {
+class BordedButton extends StatelessWidget {
   final Widget child;
   final Function onPressed;
   final double radius;
 
-  SelectBarButton({this.child, this.onPressed, this.radius = 10.0});
+  BordedButton({this.child, this.onPressed, this.radius = 10.0});
 
   @override
   Widget build(BuildContext context) {
