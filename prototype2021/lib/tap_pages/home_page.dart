@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-// import 'package:prototype2020/board/board_page.dart';
-import 'package:prototype2020/templates/select_button.dart';
+// import 'package:prototype2021/board/board_page.dart';
+import 'package:prototype2021/templates/select_button.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
                     ),
                     SizedBox(width: 10),
                     ImageButton(
-                      title: '2020\n두바이 엑스포',
+                      title: '2021\n두바이 엑스포',
                       backgroundImageDir:
                           'assets/images/home_page/dubai_marina.jpg',
                     ),

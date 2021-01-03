@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2020/tap_pages/home_page.dart';
-import 'package:prototype2020/tap_pages/add_page.dart';
-import 'package:prototype2020/tap_pages/community_page.dart';
-import 'package:prototype2020/templates/sub_navigator.dart';
-import 'package:prototype2020/board/board_page.dart';
+import 'package:prototype2021/tap_pages/home_page.dart';
+import 'package:prototype2021/tap_pages/add_page.dart';
+import 'package:prototype2021/tap_pages/community_page.dart';
+import 'package:prototype2021/templates/sub_navigator.dart';
+import 'package:prototype2021/board/board_page.dart';
 import 'package:flutter/services.dart';
 
 GlobalKey<NavigatorState> homeNavigatorKey =

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2020/login_page.dart';
-import 'package:prototype2020/main_page.dart';
-import 'package:prototype2020/board/board_page.dart';
+import 'package:prototype2021/login_page.dart';
+import 'package:prototype2021/main_page.dart';
+import 'package:prototype2021/board/board_page.dart';
 
 void main() {
   runApp(

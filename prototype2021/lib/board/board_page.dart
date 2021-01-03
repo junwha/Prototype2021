@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2020/templates/product_card.dart';
+import 'package:prototype2021/templates/product_card.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:prototype2020/board/sub_pages/filter_page.dart';
+import 'package:prototype2021/board/sub_pages/filter_page.dart';
 
 class BoardPage extends StatefulWidget {
   @override
