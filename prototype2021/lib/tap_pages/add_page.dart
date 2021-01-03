@@ -8,6 +8,6 @@ class AddPage extends StatefulWidget {
 class _AddPageState extends State<AddPage> {
   @override
   Widget build(BuildContext context) {
-    return Text('add');
+    return Text('plan');
   }
 }
