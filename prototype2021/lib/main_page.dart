@@ -48,8 +48,9 @@ class _MainPageState extends State<MainPage> {
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
-          leading:
-              FlatButton(onPressed: () {}, child: Icon(Icons.arrow_back_ios)),
+          leading: FlatButton(
+              onPressed: () => _systemBackButtonPressed(),
+              child: Icon(Icons.arrow_back_ios)),
           title: Text(
             'Trip Builder',
             style: TextStyle(
@@ -87,9 +88,9 @@ class _MainPageState extends State<MainPage> {
             BottomNavigationBarItem(
                 icon: Icon(Icons.home, size: 40.0), label: '홈'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.add_box_outlined, size: 40.0), label: '추가'),
+                icon: Icon(Icons.add_box_outlined, size: 40.0), label: '여행 계획'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.people, size: 40.0), label: '추가'),
+                icon: Icon(Icons.people, size: 40.0), label: '커뮤니티'),
           ],
         ),
       ),

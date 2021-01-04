@@ -16,38 +16,14 @@ class _BoardPageState extends State<BoardPage>
   final List<ProductCard> cards = List.generate(
       10,
       (index) => ProductCard(
-          title: '포르투갈',
-          cost: 10000000,
-          period: '4주',
-          companion: 2,
-          season: '여름',
-          travelType: '자유여행',
-          preview: 'images/preview.png',
-          tags: ['여행 감상', '맛집 탐방', '액티비티']));
-
-  String searchData = '';
-
-  TextEditingController searchController = TextEditingController();
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  Widget buildSearchResultView(String searchData) {
-    bool isDataNull = searchData == '';
-    print(searchData);
-    if (!isDataNull) {
-      return Container(
-        color: Colors.white,
-        width: double.maxFinite,
-        height: 200,
-        alignment: Alignment.center,
-        child: Text('검색 결과'),
-      );
-    } else {
-      return SizedBox(height: 0, width: 0);
-    }
-  }
+            preview: 'images/preview.png',
+            title: '포르투갈',
+            cost: 10000000,
+            period: '4주',
+            tags: ['여행 감상', '맛집 탐방', '액티비티'],
+            matchPercent: 99,
+            tendencies: [0, 1, 2],
+          ));
 
   Widget buildFloatingSearchBar() {
     final isPortrait =
@@ -56,8 +32,16 @@ class _BoardPageState extends State<BoardPage>
     final _applyKey = GlobalKey<FormState>();
 
     return FloatingSearchBar(
+      shadowColor: Colors.transparent,
+      backdropColor: Colors.transparent,
+      borderRadius: BorderRadius.circular(50),
+      height: 45,
+      backgroundColor: const Color(0xFFEDECEC),
       controller: controller,
-      hint: '여행을 떠나보세요',
+      title: Row(
+        children: [Icon(Icons.search), Text('여행을 떠나보세요')],
+      ),
+      hint: 'search',
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
       transitionDuration: const Duration(milliseconds: 1000),
       transitionCurve: Curves.easeInOut,
@@ -66,6 +50,7 @@ class _BoardPageState extends State<BoardPage>
       openAxisAlignment: 0.0,
       maxWidth: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
+      automaticallyImplyBackButton: false,
       onQueryChanged: (query) {
         // Call your model, bloc, controller here.
       },
@@ -141,7 +126,7 @@ class _BoardPageState extends State<BoardPage>
       ],
       builder: (context, transition) {
         return ClipRRect(
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: BorderRadius.circular(10),
           child: Material(
             color: Colors.white,
             elevation: 4.0,
@@ -183,8 +168,10 @@ class _BoardPageState extends State<BoardPage>
             },
           ),
         ),
-        buildSearchResultView(searchData),
-        buildFloatingSearchBar(),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),
+          child: buildFloatingSearchBar(),
+        ),
       ],
     );
   }
