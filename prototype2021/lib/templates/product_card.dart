@@ -28,12 +28,12 @@ class ProductCard extends StatelessWidget {
       child: Card(
         //margin: EdgeInsets.fromLTRB(8.0, 0, 8.0, 10.0),
         child: Container(
-          color: Colors.grey[200],
+          color: const Color(0xFFF3F3F3),
           height: 160,
           child: Row(
             children: <Widget>[
               Expanded(
-                flex: 3,
+                flex: 1,
                 child: Column(
                   children: [
                     Expanded(
@@ -56,20 +56,20 @@ class ProductCard extends StatelessWidget {
                 ),
               ), //Image.asset(preview),
               Expanded(
-                flex: 7,
+                flex: 2,
                 child: Padding(
-                  padding: const EdgeInsets.fromLTRB(15.0, 10.0, 10.0, 10.0),
+                  padding: const EdgeInsets.fromLTRB(15.0, 10.0, 0, 10.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 8, 0, 8),
-                        child: Text(title,
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18.0,
-                            )),
+                      Text(
+                        title,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18.0,
+                        ),
                       ),
+                      SizedBox(height: 10),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -78,28 +78,41 @@ class ProductCard extends StatelessWidget {
                           Text('기간: $period'),
                         ],
                       ),
+                      SizedBox(height: 5),
                       SizedBox(
-                        height: 35,
-                        child: ListView.builder(
-                          scrollDirection: Axis.horizontal,
-                          itemCount: tags.length,
-                          itemBuilder: (BuildContext _ctx, int i) {
-                            return Padding(
-                              padding: const EdgeInsets.fromLTRB(0, 5, 10, 0),
-                              child: BordedButton(
-                                child: Text(
-                                  tags[i],
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12.0,
+                        height: 30,
+                        child: Row(
+                          children: List<Widget>.generate(
+                            3,
+                            (index) => Expanded(
+                              child: Padding(
+                                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
+                                child: BordedButton(
+                                  child: FittedBox(
+                                    fit: BoxFit.fitWidth,
+                                    child: Text(
+                                      tags[index],
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 100,
+                                      ),
+                                    ),
                                   ),
+                                  onPressed: () {},
+                                  radius: 25,
                                 ),
-                                onPressed: () {},
-                                radius: 25,
                               ),
-                            );
-                          },
+                            ),
+                          ),
                         ),
+                      ),
+                      SizedBox(height: 5),
+                      Row(
+                        children: [],
+                      ),
+                      SizedBox(height: 8),
+                      Row(
+                        children: [],
                       ),
                     ],
                   ),
