@@ -4,6 +4,7 @@ import 'package:prototype2021/tap_pages/add_page.dart';
 import 'package:prototype2021/tap_pages/community_page.dart';
 import 'package:prototype2021/templates/sub_navigator.dart';
 import 'package:prototype2021/board/board_page.dart';
+import 'package:prototype2021/myplan/myplan_page.dart';
 import 'package:flutter/services.dart';
 
 GlobalKey<NavigatorState> homeNavigatorKey =
@@ -20,7 +21,12 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   int _index = 0;
-  Map<String, Widget> homeRouteMap = {'/': HomePage(), '/board': BoardPage()};
+  //Set all routes in here
+  Map<String, Widget> homeRouteMap = {
+    '/': HomePage(),
+    '/board': BoardPage(),
+    '/myplan': MyPlanPage(),
+  };
   Map<String, Widget> addRouteMap = {'/': AddPage()};
   Map<String, Widget> communityRouteMap = {'/': CommunityPage()};
 

@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/templates/product_card.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:prototype2021/board/sub_pages/filter_page.dart';
 
-class BoardPage extends StatefulWidget {
+class MyPlanPage extends StatefulWidget {
   @override
-  _BoardPageState createState() => _BoardPageState();
+  _MyPlanPageState createState() => _MyPlanPageState();
 }
 
-class _BoardPageState extends State<BoardPage>
-    with AutomaticKeepAliveClientMixin<BoardPage> {
+class _MyPlanPageState extends State<MyPlanPage>
+    with AutomaticKeepAliveClientMixin<MyPlanPage> {
   @override
   bool get wantKeepAlive => true;
 
@@ -163,11 +162,40 @@ class _BoardPageState extends State<BoardPage>
           itemCount: cards.length,
           itemBuilder: (BuildContext _context, int i) {
             return Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+              padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
               child: (i == 0)
                   ? Column(
                       children: [
                         SizedBox(height: 65.0),
+                        Row(children: [
+                          SizedBox(width: 5),
+                          Column(
+                            children: [
+                              ClipRRect(
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(5.0)),
+                                child: Container(
+                                  width: 25,
+                                  height: 25,
+                                  color: Colors.teal[200],
+                                  child: Icon(Icons.airplanemode_active,
+                                      color: Colors.white, size: 20),
+                                ),
+                              ),
+                              Container(
+                                height: 5,
+                                width: 2,
+                                color: Colors.black,
+                              )
+                            ],
+                          ),
+                          SizedBox(width: 10),
+                          Text(
+                            '마이 플랜',
+                            style: TextStyle(
+                                fontSize: 25, fontWeight: FontWeight.bold),
+                          )
+                        ]),
                         cards[i],
                       ],
                     )

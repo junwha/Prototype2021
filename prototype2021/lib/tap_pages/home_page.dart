@@ -47,7 +47,11 @@ class _HomePageState extends State<HomePage> {
                         children: <Widget>[
                           ExpandedButton(text: '여행 후기', onPressed: () {}),
                           SizedBox(width: 10),
-                          ExpandedButton(text: '마이 플랜', onPressed: () {}),
+                          ExpandedButton(
+                              text: '마이 플랜',
+                              onPressed: () {
+                                Navigator.pushNamed(context, '/myplan');
+                              }),
                         ],
                       ),
                     )
