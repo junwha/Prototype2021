@@ -23,6 +23,7 @@ class _BoardPageState extends State<BoardPage>
             tags: ['여행 감상', '맛집 탐방', '액티비티'],
             matchPercent: 99,
             tendencies: [0, 1, 2],
+            onTap: () {},
           ));
 
   Widget buildFloatingSearchBar() {
