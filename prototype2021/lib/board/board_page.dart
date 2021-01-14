@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/templates/product_card.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:prototype2021/board/sub_pages/filter_page.dart';
 
 class BoardPage extends StatefulWidget {
   @override
@@ -12,6 +11,7 @@ class _BoardPageState extends State<BoardPage>
     with AutomaticKeepAliveClientMixin<BoardPage> {
   @override
   bool get wantKeepAlive => true;
+  bool isFilterOn = false;
 
   final List<ProductCard> cards = List.generate(
       10,
@@ -64,60 +64,7 @@ class _BoardPageState extends State<BoardPage>
           child: CircularButton(
             icon: const Icon(Icons.filter_list),
             onPressed: () {
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => FilterPage()),
-              // );
-              showDialog(
-                  context: context,
-                  builder: (BuildContext context) {
-                    return AlertDialog(
-                      content: Stack(
-                        children: [
-                          Positioned(
-                            right: -40.0,
-                            top: -40.0,
-                            child: InkResponse(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: CircleAvatar(
-                                child: Icon(Icons.close),
-                                backgroundColor: Colors.black,
-                              ),
-                            ),
-                          ),
-                          Form(
-                            key: _applyKey,
-                            child: Column(
-                              mainAxisSize: MainAxisSize.min,
-                              children: <Widget>[
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextFormField(),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: TextFormField(),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: RaisedButton(
-                                    child: Text("Submitß"),
-                                    onPressed: () {
-                                      if (_applyKey.currentState.validate()) {
-                                        _applyKey.currentState.save();
-                                      }
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  });
+              Navigator.pushNamed(context, '/board/filter');
             },
           ),
         ),
@@ -160,21 +107,25 @@ class _BoardPageState extends State<BoardPage>
   Widget build(BuildContext context) {
     return Stack(
       children: <Widget>[
-        ListView.builder(
-          itemCount: cards.length,
-          itemBuilder: (BuildContext _context, int i) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
-              child: (i == 0)
-                  ? Column(
-                      children: [
-                        SizedBox(height: 65.0),
-                        cards[i],
-                      ],
-                    )
-                  : cards[i],
-            );
-          },
+        Stack(
+          children: [
+            ListView.builder(
+              itemCount: cards.length,
+              itemBuilder: (BuildContext _context, int i) {
+                return Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 0, 5, 10),
+                  child: (i == 0)
+                      ? Column(
+                          children: [
+                            SizedBox(height: 65.0),
+                            cards[i],
+                          ],
+                        )
+                      : cards[i],
+                );
+              },
+            ),
+          ],
         ),
         Padding(
           padding: const EdgeInsets.fromLTRB(0, 5, 0, 0),

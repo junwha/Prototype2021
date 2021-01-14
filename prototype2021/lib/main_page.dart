@@ -7,6 +7,7 @@ import 'package:prototype2021/board/board_page.dart';
 import 'package:prototype2021/board/info_page.dart';
 import 'package:prototype2021/myplan/myplan_page.dart';
 import 'package:flutter/services.dart';
+import 'package:prototype2021/board/sub_pages/filter_page.dart';
 
 GlobalKey<NavigatorState> homeNavigatorKey =
     GlobalKey<NavigatorState>(debugLabel: 'home');
@@ -27,6 +28,7 @@ class _MainPageState extends State<MainPage> {
     '/': HomePage(),
     '/board': BoardPage(),
     '/board/info': InfoPage(),
+    '/board/filter': FilterPage(),
     '/myplan': MyPlanPage(),
   };
   Map<String, Widget> addRouteMap = {'/': AddPage()};
