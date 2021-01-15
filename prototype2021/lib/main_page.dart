@@ -55,7 +55,6 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
       onWillPop: _systemBackButtonPressed,
       child: Scaffold(
-        drawer: _buildSideDrawer(),
         appBar: AppBar(
           centerTitle: true,
           backgroundColor: Colors.white,
@@ -71,12 +70,6 @@ class _MainPageState extends State<MainPage> {
               fontSize: 18,
             ),
           ),
-          actions: [
-            IconButton(
-              icon: Icon(Icons.settings, color: Colors.red),
-              onPressed: () {},
-            )
-          ],
         ),
         body: Container(
           child: IndexedStack(
@@ -110,52 +103,6 @@ class _MainPageState extends State<MainPage> {
                 icon: Icon(Icons.people, size: 40.0), label: '커뮤니티'),
           ],
         ),
-      ),
-    );
-  }
-
-  _buildSideDrawer() {
-    return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: <Widget>[
-          DrawerHeader(
-            child: Text(
-              'Side menu',
-              style: TextStyle(color: Colors.white, fontSize: 25),
-            ),
-            decoration: BoxDecoration(
-                color: Colors.green,
-                image: DecorationImage(
-                    fit: BoxFit.fill,
-                    image: AssetImage('assets/images/cover.jpg'))),
-          ),
-          ListTile(
-            leading: Icon(Icons.input),
-            title: Text('Welcome'),
-            onTap: () => {},
-          ),
-          ListTile(
-            leading: Icon(Icons.verified_user),
-            title: Text('Profile'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.settings),
-            title: Text('Settings'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.border_color),
-            title: Text('Feedback'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-          ListTile(
-            leading: Icon(Icons.exit_to_app),
-            title: Text('Logout'),
-            onTap: () => {Navigator.of(context).pop()},
-          ),
-        ],
       ),
     );
   }
