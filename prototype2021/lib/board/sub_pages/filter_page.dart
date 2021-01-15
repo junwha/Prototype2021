@@ -92,7 +92,7 @@ class _FilterPageState extends State<FilterPage> {
                     onChanged: (double value) {
                       setState(() {
                         _value = value;
-                      });
+                      }); 
                     },
                   ),
                 )

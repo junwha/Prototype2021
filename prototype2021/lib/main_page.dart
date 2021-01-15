@@ -70,6 +70,15 @@ class _MainPageState extends State<MainPage> {
               fontSize: 18,
             ),
           ),
+<<<<<<< HEAD
+=======
+          actions: [
+            IconButton(
+              icon: Icon(Icons.settings, color: Colo),
+              onPressed: () {},
+            )
+          ],
+>>>>>>> parent of a155f24... 2021-01-16
         ),
         body: Container(
           child: IndexedStack(
