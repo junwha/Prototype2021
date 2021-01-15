@@ -73,7 +73,7 @@ class _MainPageState extends State<MainPage> {
           ),
           actions: [
             IconButton(
-              icon: Icon(Icons.settings, color: Colo),
+              icon: Icon(Icons.settings, color: Colors.red),
               onPressed: () {},
             )
           ],
