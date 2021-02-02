@@ -1,36 +1,5 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
-        // This makes the visual density adapt to the platform that you run
-        // the app on. For desktop platforms, the controls will be smaller and
-        // closer together (more dense) than on mobile platforms.
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key, this.title}) : super(key: key);
 
@@ -51,7 +20,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final _valueList = ['0', '1', '2', '3', '4', '5'];
-  var _selectedValue = '0';
 
   @override
   Widget build(BuildContext context) {
@@ -64,161 +32,73 @@ class _MyHomePageState extends State<MyHomePage> {
         width: 320,
         height: 300,
         child: Column(children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.access_time_rounded, size: 30),
-                SizedBox(
-                  width: 1,
-                ),
-                Text("아침 전",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                SizedBox(width: 108),
-                Container(
-                  color: Colors.white,
-                  child: DropdownButton(
-                    iconEnabledColor: Colors.grey,
-                    focusColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    value: _selectedValue,
-                    items: _valueList.map(
-                      (value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text('         ' + value + '      '),
-                        );
-                      },
-                    ).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
+          _buildSelectMenuBar(
+            Icon(Icons.access_time_rounded, size: 30),
+            "아침 전",
+            _valueList[0],
           ),
           SizedBox(height: 8),
           Container(height: 1, width: 320, color: Colors.white),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.access_time_rounded, size: 30),
-                SizedBox(
-                  width: 1,
-                ),
-                Text("아침과 점심 사이",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                SizedBox(width: 50),
-                Container(
-                  color: Colors.white,
-                  child: DropdownButton(
-                    iconEnabledColor: Colors.grey,
-                    focusColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    value: _selectedValue,
-                    items: _valueList.map(
-                      (value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text('         ' + value + '      '),
-                        );
-                      },
-                    ).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
+          _buildSelectMenuBar(
+            Icon(Icons.access_time_rounded, size: 30),
+            "아침과 점심 사이",
+            _valueList[0],
           ),
           SizedBox(height: 8),
           Container(height: 1, width: 320, color: Colors.white),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.access_time_rounded, size: 30),
-                SizedBox(
-                  width: 1,
-                ),
-                Text("점심과 저녁 사이",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                SizedBox(width: 50),
-                Container(
-                  color: Colors.white,
-                  child: DropdownButton(
-                    iconEnabledColor: Colors.grey,
-                    focusColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    value: _selectedValue,
-                    items: _valueList.map(
-                      (value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text('         ' + value + '      '),
-                        );
-                      },
-                    ).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
+          _buildSelectMenuBar(
+            Icon(Icons.access_time_rounded, size: 30),
+            "점심과 점심 사이",
+            _valueList[0],
           ),
           SizedBox(height: 8),
           Container(height: 1, width: 320, color: Colors.white),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Row(
-              children: [
-                Icon(Icons.access_time_rounded, size: 30),
-                SizedBox(
-                  width: 1,
-                ),
-                Text("저녁 이후",
-                    style:
-                        TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-                SizedBox(width: 97),
-                Container(
-                  color: Colors.white,
-                  child: DropdownButton(
-                    iconEnabledColor: Colors.grey,
-                    focusColor: Colors.white,
-                    dropdownColor: Colors.white,
-                    value: _selectedValue,
-                    items: _valueList.map(
-                      (value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text('         ' + value + '      '),
-                        );
-                      },
-                    ).toList(),
-                    onChanged: (value) {
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                    },
-                  ),
-                ),
-              ],
-            ),
-          )
+          _buildSelectMenuBar(
+            Icon(Icons.access_time_rounded, size: 30),
+            "저녁 이후",
+            _valueList[0],
+          ),
         ]),
+      ),
+    );
+  }
+
+  Padding _buildSelectMenuBar(Icon icon, String text, String _value) {
+    var _selectedValue = _value;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          icon,
+          SizedBox(
+            width: 1,
+          ),
+          Text(text,
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          Container(
+            color: Colors.white,
+            child: DropdownButton(
+              iconEnabledColor: Colors.grey,
+              focusColor: Colors.white,
+              dropdownColor: Colors.white,
+              value: _selectedValue,
+              items: _valueList.map(
+                (value) {
+                  return DropdownMenuItem(
+                    value: value,
+                    child: Text('         ' + value + '      '),
+                  );
+                },
+              ).toList(),
+              onChanged: (value) {
+                setState(() {
+                  _selectedValue = value;
+                });
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

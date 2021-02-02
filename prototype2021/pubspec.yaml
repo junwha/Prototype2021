@@ -50,9 +50,7 @@ flutter:
     - assets/images/login_background.jpg
     - assets/images/home_page/dubai_marina.jpg
     - assets/images/home_page/dubai_mall.jpg
-    - assets/bad.png
-    - assets/2.0x/bad.png
-    - assets/3.0x/bad.png
+    
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 

@@ -3,7 +3,7 @@ import 'package:prototype2021/templates/ticket_button.dart';
 
 class SurveyPage extends StatefulWidget {
   @override
-  _SurveyPageState createState() => _SurveyPageState()
+  _SurveyPageState createState() => _SurveyPageState();
 }
 
 class _SurveyPageState extends State<SurveyPage> {
@@ -28,15 +28,11 @@ class _SurveyPageState extends State<SurveyPage> {
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
-                  children: [
-                  
-                  ],
+                  children: [],
                 ),
               ),
             ),
-            Container(
-                height: 80,
-                child: Text('asfd'))
+            Container(height: 80, child: Text('asfd'))
           ],
         ));
   }
