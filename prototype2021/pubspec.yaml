@@ -24,7 +24,6 @@ dependencies:
   flutter:
     sdk: flutter
   material_floating_search_bar: ^0.2.3
-  flutter_svg: ^0.19.2+1
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -51,7 +50,9 @@ flutter:
     - assets/images/login_background.jpg
     - assets/images/home_page/dubai_marina.jpg
     - assets/images/home_page/dubai_mall.jpg
-    - assets/svgs/ticket.svg
+    - assets/bad.png
+    - assets/2.0x/bad.png
+    - assets/3.0x/bad.png
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
