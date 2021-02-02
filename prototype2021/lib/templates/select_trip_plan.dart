@@ -1,101 +1,112 @@
 import 'package:flutter/material.dart';
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
-
+class SelectTripPlan extends StatefulWidget {
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _SelectTripPlanState createState() => _SelectTripPlanState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SelectTripPlanState extends State<SelectTripPlan> {
   final _valueList = ['0', '1', '2', '3', '4', '5'];
+  List<String> _selectedValue = ['0', '0', '0', '0'];
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(40),
-            border: Border.all(color: Colors.greenAccent[100], width: 3),
-            color: Colors.greenAccent[100]),
-        width: 320,
-        height: 300,
-        child: Column(children: [
-          _buildSelectMenuBar(
-            Icon(Icons.access_time_rounded, size: 30),
-            "아침 전",
-            _valueList[0],
-          ),
-          SizedBox(height: 8),
-          Container(height: 1, width: 320, color: Colors.white),
-          _buildSelectMenuBar(
-            Icon(Icons.access_time_rounded, size: 30),
-            "아침과 점심 사이",
-            _valueList[0],
-          ),
-          SizedBox(height: 8),
-          Container(height: 1, width: 320, color: Colors.white),
-          _buildSelectMenuBar(
-            Icon(Icons.access_time_rounded, size: 30),
-            "점심과 점심 사이",
-            _valueList[0],
-          ),
-          SizedBox(height: 8),
-          Container(height: 1, width: 320, color: Colors.white),
-          _buildSelectMenuBar(
-            Icon(Icons.access_time_rounded, size: 30),
-            "저녁 이후",
-            _valueList[0],
-          ),
-        ]),
-      ),
+    return Container(
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: Colors.greenAccent[100], width: 3),
+          color: Colors.greenAccent[100]),
+      width: 320,
+      height: 270,
+      child: Column(children: [
+        _buildSelectMenuBar(
+          0,
+          Icon(Icons.access_time_rounded, size: 30),
+          "아침 전",
+        ),
+        SizedBox(height: 8),
+        Container(height: 1, width: 320, color: Colors.white),
+        _buildSelectMenuBar(
+          1,
+          Icon(Icons.access_time_rounded, size: 30),
+          "아침과 점심 사이",
+        ),
+        SizedBox(height: 8),
+        Container(height: 1, width: 320, color: Colors.white),
+        _buildSelectMenuBar(
+          2,
+          Icon(Icons.access_time_rounded, size: 30),
+          "점심과 저녁 사이",
+        ),
+        SizedBox(height: 8),
+        Container(height: 1, width: 320, color: Colors.white),
+        _buildSelectMenuBar(
+          3,
+          Icon(Icons.access_time_rounded, size: 30),
+          "저녁 이후",
+        ),
+      ]),
     );
   }
 
-  Padding _buildSelectMenuBar(Icon icon, String text, String _value) {
-    var _selectedValue = _value;
+  Widget _buildSelectMenuBar(int i, Icon icon, String text) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          icon,
-          SizedBox(
-            width: 1,
+          Row(
+            children: [
+              icon,
+              SizedBox(
+                width: 4,
+              ),
+              Text(text,
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+            ],
           ),
-          Text(text,
-              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-          Container(
-            color: Colors.white,
-            child: DropdownButton(
-              iconEnabledColor: Colors.grey,
-              focusColor: Colors.white,
-              dropdownColor: Colors.white,
-              value: _selectedValue,
-              items: _valueList.map(
-                (value) {
-                  return DropdownMenuItem(
-                    value: value,
-                    child: Text('         ' + value + '      '),
-                  );
-                },
-              ).toList(),
-              onChanged: (value) {
-                setState(() {
-                  _selectedValue = value;
-                });
-              },
+          DecoratedBox(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 1,
+                  blurRadius: 5,
+                  offset: Offset(1, 3), // changes position of shadow
+                ),
+              ],
+            ),
+            child: DecoratedBox(
+              decoration: ShapeDecoration(
+                color: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                ),
+              ),
+              child: SizedBox(
+                height: 40,
+                child: DropdownButton(
+                  underline: SizedBox(),
+                  focusColor: Colors.white,
+                  dropdownColor: Colors.white,
+                  value: _selectedValue[i],
+                  items: _valueList.map(
+                    (value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Container(
+                            color: Colors.white,
+                            child: Text('         ' + value + '      ')),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue[i] = value;
+                    });
+                  },
+                ),
+              ),
             ),
           ),
         ],

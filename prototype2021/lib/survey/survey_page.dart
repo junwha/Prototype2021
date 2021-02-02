@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/templates/ticket_button.dart';
+import 'package:prototype2021/templates/select_trip_plan.dart';
 
 class SurveyPage extends StatefulWidget {
   @override
@@ -25,13 +26,14 @@ class _SurveyPageState extends State<SurveyPage> {
         ),
         body: Column(
           children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [],
-                ),
-              ),
-            ),
+            SelectTripPlan(),
+            // Expanded(
+            //   child: SingleChildScrollView(
+            //     child: Column(
+            //       children: [],
+            //     ),
+            //   ),
+            // ),
             Container(height: 80, child: Text('asfd'))
           ],
         ));
