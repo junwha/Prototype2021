@@ -16,7 +16,6 @@ class _SelectTripPlanState extends State<SelectTripPlan> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(color: Colors.greenAccent[100], width: 3),
           color: Colors.greenAccent[100]),
-      width: 320,
       height: 270,
       child: Column(children: [
         _buildSelectMenuBar(
