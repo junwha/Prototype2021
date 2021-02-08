@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/templates/ticket_button.dart';
-import 'package:prototype2021/templates/select_trip_plan.dart';
-import 'package:prototype2021/templates/story_explanation.dart';
+import 'package:prototype2021/survey/templates/ticket_button.dart';
+import 'package:prototype2021/survey/templates/select_trip_plan.dart';
+import 'package:prototype2021/survey/templates/story_explanation.dart';
 
 class SurveyPage extends StatefulWidget {
   @override
@@ -9,6 +9,7 @@ class SurveyPage extends StatefulWidget {
 }
 
 class _SurveyPageState extends State<SurveyPage> {
+  List<bool> _isSelected = [false, false, false, false, false, false];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,10 +30,27 @@ class _SurveyPageState extends State<SurveyPage> {
         body: Column(
           children: [
             StoryExplanation(
-              title: "스토리 설명",
               explanation: "TripBuilder Devloper",
             ),
-            SelectTripPlan(),
+            Column(
+              children: [
+                Row(
+                  children: [
+                    // FlatButton(
+                    //   child: Text("asdf"),
+                    //   onPressed: () {},
+                    // ),
+                    Toggle
+                  ],
+                ),
+                Row(
+                  children: [],
+                ),
+                Row(
+                  children: [],
+                )
+              ],
+            ),
             // Expanded(
             //   child: SingleChildScrollView(
             //     child: Column(
