@@ -8,23 +8,25 @@ class StoryExplanation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.all(10.0),
       child: Stack(
         children: [
           Container(
             margin: EdgeInsets.fromLTRB(0, 20, 0, 0),
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(20),
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                border: Border.all(color: Colors.grey, width: 3),
+                borderRadius: BorderRadius.circular(20),
+                border: Border.all(color: Colors.grey, width: 2),
                 color: Colors.white),
             width: 400,
-            height: 200,
-            child: Column(
+            // height: 200,
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(
-                  explanation,
+                Flexible(
+                  child: Text(
+                    explanation,
+                  ),
                 ),
               ],
             ),
