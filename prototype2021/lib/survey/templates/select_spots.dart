@@ -32,11 +32,15 @@ class _SelectSpotsState extends State<SelectSpots> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-        child: GridView.count(
-      crossAxisCount: 2,
-      children: _buildGridCards(context),
-    ));
+    return Column(
+      children: [
+        Expanded(
+            child: GridView.count(
+          crossAxisCount: 2,
+          children: _buildGridCards(context),
+        )),
+      ],
+    );
   }
 }
 
