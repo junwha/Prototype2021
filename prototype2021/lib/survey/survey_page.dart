@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/survey/templates/ticket_button.dart';
 import 'package:prototype2021/survey/templates/select_trip_plan.dart';
 import 'package:prototype2021/survey/templates/story_explanation.dart';
+import 'package:prototype2021/survey/custom_map/custom_map.dart';
 
 class SurveyPage extends StatefulWidget {
   @override
@@ -29,7 +30,15 @@ class _SurveyPageState extends State<SurveyPage> {
       ),
       body: Padding(
         padding: const EdgeInsets.all(10.0),
-        child: SelectTripPlan(),
+        child: Column(
+          children: [
+            StoryExplanation(
+              explanation: "asdf",
+            ),
+            //   SelectTripPlan(),
+            CustomMap(),
+          ],
+        ),
       ),
     );
   }
