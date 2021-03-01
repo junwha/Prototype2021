@@ -8,7 +8,7 @@ class SelectSpots extends StatefulWidget {
 }
 
 class _SelectSpotsState extends State<SelectSpots> {
-  List<int> selectedCards = List(); // 선태된 카드의 index를 저장하는 리스트
+  List<int> selectedCards = List(); // 선택된 카드의 index를 저장하는 리스트
   List<GridCards> _buildGridCards(BuildContext context) {
     List<GridCards> cards = List.generate(6, (index) {
       return GridCards(
