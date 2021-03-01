@@ -32,6 +32,7 @@ class _SurveyPageState extends State<SurveyPage> {
         padding: const EdgeInsets.all(10.0),
         child: Column(
           children: [
+            StoryExplanation(explanation: "asfdasfassdassfaf\nsasdf\nasdf"),
             SelectTripPlan(),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -51,7 +52,7 @@ class _SurveyPageState extends State<SurveyPage> {
                 borderRadius: BorderRadius.all(Radius.circular(10)),
                 child: LinearProgressIndicator(
                   value: 0.3,
-                  minHeight: 12,
+                  minHeight: 1,
                   backgroundColor: Colors.grey[100],
                   valueColor: new AlwaysStoppedAnimation<Color>(Colors.black),
                 ),
