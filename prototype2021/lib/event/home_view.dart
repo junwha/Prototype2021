@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/event/map_view.dart';
 
 class HomeView extends StatefulWidget {
   @override
