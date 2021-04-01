@@ -25,6 +25,7 @@ dependencies:
     sdk: flutter
   material_floating_search_bar: ^0.2.3
   naver_map_plugin: ^0.9.6
+  f_datetimerangepicker: ^0.1.3
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -56,6 +57,7 @@ flutter:
   # https://flutter.dev/assets-and-images/#resolution-aware.
 
   # For details regarding adding assets from package dependencies, see
+
   # https://flutter.dev/assets-and-images/#from-packages
 
   # To add custom fonts to your application, add a fonts section here,

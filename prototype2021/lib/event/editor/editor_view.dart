@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
 
 class EditorView extends StatefulWidget {
   @override
@@ -10,6 +11,7 @@ class _EditorViewState extends State<EditorView> {
   var _isChecked2 = false;
   final _valueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   var _selectedValue = '0';
+  String resultString;
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +65,7 @@ class _EditorViewState extends State<EditorView> {
                 ),
                 _buildUI(_isChecked1, _isChecked2),
               ],
-            )
+            ),
           ],
         ),
       ),
@@ -109,7 +111,28 @@ class _EditorViewState extends State<EditorView> {
               SizedBox(
                 width: 40,
               ),
-              Text("선택안함")
+              FlatButton(
+                child: Text("선택안함"),
+                onPressed: () {
+                  DateTimeRangePicker(
+                      startText: "여행시작일",
+                      endText: "여행종료일",
+                      doneText: "Yes",
+                      cancelText: "Cancel",
+                      interval: 5,
+                      initialStartTime: DateTime.now(),
+                      initialEndTime: DateTime.now().add(Duration(days: 20)),
+                      mode: DateTimeRangePickerMode.dateAndTime,
+                      minimumTime: DateTime.now().subtract(Duration(days: 5)),
+                      maximumTime: DateTime.now().add(Duration(days: 25)),
+                      use24hFormat: true,
+                      onConfirm: (start, end) {
+                        print(start);
+                        print(end);
+                      }).showPicker(context);
+                },
+              ),
+              Text(resultString ?? "")
             ],
           ),
           Row(
