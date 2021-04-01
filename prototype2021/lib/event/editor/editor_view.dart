@@ -311,7 +311,126 @@ class _EditorViewState extends State<EditorView> {
         ],
       );
     } else if (_isChecked2) {
-      return Text("");
+      return Column(
+        children: [
+          Row(children: [
+            Text("모집인원"),
+            SizedBox(
+              width: 50,
+            ),
+            Row(
+              children: [
+                DropdownButton(
+                  value: _selectedValue1,
+                  items: _valueList1.map(
+                    (value) {
+                      return DropdownMenuItem(
+                        value: value,
+                        child: Text(value),
+                      );
+                    },
+                  ).toList(),
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue1 = value;
+                    });
+                  },
+                ),
+                Text("명")
+              ],
+            ),
+          ]),
+          Row(
+            children: [
+              Text("모집인원"),
+              SizedBox(
+                width: 40,
+              ),
+              Text("남"),
+              SizedBox(
+                width: 10,
+              ),
+              DropdownButton(
+                value: _selectedValue2,
+                items: _valueList2.map(
+                  (value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue2 = value;
+                  });
+                },
+              ),
+              Text("명"),
+              SizedBox(
+                width: 10,
+              ),
+              Text("여"),
+              SizedBox(
+                width: 10,
+              ),
+              DropdownButton(
+                value: _selectedValue3,
+                items: _valueList3.map(
+                  (value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
+                onChanged: (value) {
+                  setState(() {
+                    _selectedValue3 = value;
+                  });
+                },
+              ),
+              Text("명")
+            ],
+          ),
+          Row(
+            children: [
+              Text("시작날짜"),
+              SizedBox(
+                width: 40,
+              ),
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: Text('날짜선택',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black)),
+                onPressed: () => _showDatePicker(context),
+              ),
+            ],
+          ),
+          Text(_chosenDateTime != null ? _chosenDateTime.toString() : '선택안함'),
+          Row(
+            children: [
+              Text("종료날짜"),
+              SizedBox(
+                width: 40,
+              ),
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: Text('날짜선택',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black)),
+                onPressed: () => _showDatePicker(context),
+              ),
+            ],
+          ),
+          Text(_chosenDateTime != null ? _chosenDateTime.toString() : '선택안함'),
+        ],
+      );
     } else {
       return Text("");
     }
