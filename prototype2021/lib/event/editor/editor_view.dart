@@ -68,12 +68,39 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget _buildUI(bool isChecked1, bool isChecked2) {
-    if (isChecked1 && isChecked2) {
-      return Text("안ㄴ여?");
-    } else if (isChecked1) {
+  Widget _buildUI(bool _isChecked1, bool _isChecked2) {
+    final _valueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    var _selectedValue = '0';
+
+    if (_isChecked1 && _isChecked2) {
+      return Column(
+        children: [
+          Row(
+            children: [
+              Text("모집인원"),
+            ],
+          ),
+          DropdownButton(
+            value: _selectedValue,
+            items: _valueList.map(
+              (value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text(value),
+                );
+              },
+            ).toList(),
+            onChanged: (value) {
+              setState(() {
+                _selectedValue = value;
+              });
+            },
+          )
+        ],
+      );
+    } else if (_isChecked1) {
       return Text("메롱");
-    } else if (isChecked2) {
+    } else if (_isChecked2) {
       return Text("g하,,..언제끝나냐");
     } else {
       return Text("망했따");
