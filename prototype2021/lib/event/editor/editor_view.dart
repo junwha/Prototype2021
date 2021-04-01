@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:f_datetimerangepicker/f_datetimerangepicker.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:flutter/cupertino.dart';
 
 class EditorView extends StatefulWidget {
   @override
@@ -12,64 +14,116 @@ class _EditorViewState extends State<EditorView> {
   final _valueList = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
   var _selectedValue = '0';
   String resultString;
+  DateTime _chosenDateTime;
+
+  void _showDatePicker(ctx) {
+    // showCupertinoModalPopup is a built-in function of the cupertino library
+    showCupertinoModalPopup(
+        context: ctx,
+        builder: (_) => Container(
+              height: 500,
+              color: Color.fromARGB(255, 255, 255, 255),
+              child: Column(
+                children: [
+                  Container(
+                    height: 400,
+                    child: CupertinoDatePicker(
+                        initialDateTime: DateTime.now(),
+                        onDateTimeChanged: (val) {
+                          setState(() {
+                            _chosenDateTime = val;
+                          });
+                        }),
+                  ),
+
+                  // Close the modal
+                  CupertinoButton(
+                    child: Text('OK'),
+                    onPressed: () => Navigator.of(ctx).pop(),
+                  )
+                ],
+              ),
+            ));
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("MINAMONA"),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          children: [
-            Container(height: 1, width: 500, color: Colors.grey),
-            Text("제목",
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14)),
-            Container(height: 1, width: 500, color: Colors.grey),
-            Column(
+    return MaterialApp(
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: [
+          const Locale('ko', 'KO'),
+          const Locale('en', 'US'),
+        ],
+        home: Scaffold(
+          appBar: AppBar(
+            brightness: Brightness.light,
+            backgroundColor: Colors.transparent,
+            elevation: 0.0,
+            title: Text(
+              'Cupertino Date Picker',
+              style: TextStyle(
+                color: Colors.black,
+              ),
+            ),
+          ),
+          body: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                Container(height: 1, width: 500, color: Colors.grey),
+                Text("제목",
+                    style:
+                        TextStyle(fontWeight: FontWeight.normal, fontSize: 14)),
+                Container(height: 1, width: 500, color: Colors.grey),
+                Column(
                   children: [
-                    Text("이벤트 정보",
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, fontSize: 14)),
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text("성별무관",
+                        Text("이벤트 정보",
                             style: TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 14)),
-                        Checkbox(
-                          value: _isChecked1,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _isChecked1 = value;
-                            });
-                          },
-                        ),
-                        Text("나이무관",
-                            style: TextStyle(
-                                fontWeight: FontWeight.normal, fontSize: 14)),
-                        Checkbox(
-                          value: _isChecked2,
-                          onChanged: (bool value) {
-                            setState(() {
-                              _isChecked2 = value;
-                            });
-                          },
+                                fontWeight: FontWeight.bold, fontSize: 14)),
+                        Row(
+                          children: [
+                            Text("성별무관",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14)),
+                            Checkbox(
+                              value: _isChecked1,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _isChecked1 = value;
+                                });
+                              },
+                            ),
+                            Text("나이무관",
+                                style: TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 14)),
+                            Checkbox(
+                              value: _isChecked2,
+                              onChanged: (bool value) {
+                                setState(() {
+                                  _isChecked2 = value;
+                                });
+                              },
+                            ),
+                          ],
                         ),
                       ],
                     ),
+                    _buildUI(_isChecked1, _isChecked2),
                   ],
                 ),
-                _buildUI(_isChecked1, _isChecked2),
               ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget _buildUI(bool _isChecked1, bool _isChecked2) {
@@ -107,43 +161,40 @@ class _EditorViewState extends State<EditorView> {
           ),
           Row(
             children: [
-              Text("여행시작일"),
+              Text("시작날짜"),
               SizedBox(
                 width: 40,
               ),
-              FlatButton(
-                child: Text("선택안함"),
-                onPressed: () {
-                  DateTimeRangePicker(
-                      startText: "여행시작일",
-                      endText: "여행종료일",
-                      doneText: "Yes",
-                      cancelText: "Cancel",
-                      interval: 5,
-                      initialStartTime: DateTime.now(),
-                      initialEndTime: DateTime.now().add(Duration(days: 20)),
-                      mode: DateTimeRangePickerMode.dateAndTime,
-                      minimumTime: DateTime.now().subtract(Duration(days: 5)),
-                      maximumTime: DateTime.now().add(Duration(days: 25)),
-                      use24hFormat: true,
-                      onConfirm: (start, end) {
-                        print(start);
-                        print(end);
-                      }).showPicker(context);
-                },
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: Text('날짜 선택',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black)),
+                onPressed: () => _showDatePicker(context),
               ),
-              Text(resultString ?? "")
             ],
           ),
+          Text(_chosenDateTime != null ? _chosenDateTime.toString() : '선택안함'),
           Row(
             children: [
-              Text("여행종료일"),
+              Text("종료날짜"),
               SizedBox(
                 width: 40,
               ),
-              Text("선택안함")
+              CupertinoButton(
+                padding: EdgeInsets.zero,
+                child: Text('날짜 선택',
+                    style: TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 14,
+                        color: Colors.black)),
+                onPressed: () => _showDatePicker(context),
+              ),
             ],
-          )
+          ),
+          Text(_chosenDateTime != null ? _chosenDateTime.toString() : '선택안함'),
         ],
       );
     } else if (_isChecked1) {
