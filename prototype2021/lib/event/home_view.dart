@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/event/map_view.dart';
 
 class HomeView extends StatefulWidget {
   @override
@@ -28,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
         child: RaisedButton(
           child: Text("지도 화면"),
           onPressed: () {
-            Navigator.pushNamed(context, '/event_map');
+            Navigator.pushNamed(context, '/editor');
           },
         ),
       ),
