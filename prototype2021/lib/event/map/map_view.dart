@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -9,6 +10,8 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
+  CameraPosition _kInitialPosition =
+      CameraPosition(target: LatLng(-33.852, 151.211), zoom: 11.0);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +36,10 @@ class _MapViewState extends State<MapView> {
           ),
         ),
       ),
-      body: Container(),
+      body: GoogleMap(
+        initialCameraPosition: _kInitialPosition,
+        liteModeEnabled: true,
+      ),
     );
   }
 }

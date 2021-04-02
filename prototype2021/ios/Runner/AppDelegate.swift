@@ -17,7 +17,12 @@ import Flutter
         break
     }
 }
+    //Google Map
+    GMSServices.provideAPIKey("AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc")
+    GeneratedPluginRegistrant.register(with: self)
+  
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
+    
   }
   
 }
