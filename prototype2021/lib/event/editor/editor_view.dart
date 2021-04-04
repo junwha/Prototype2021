@@ -78,9 +78,11 @@ class _EditorViewState extends State<EditorView> {
             child: Column(
               children: [
                 Container(height: 1, width: 500, color: Colors.grey),
-                Text("제목",
-                    style:
-                        TextStyle(fontWeight: FontWeight.normal, fontSize: 14)),
+                TextField(
+                    decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: 'Hint',
+                )),
                 Container(height: 1, width: 500, color: Colors.grey),
                 Column(
                   children: [
