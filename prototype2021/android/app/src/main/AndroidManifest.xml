@@ -3,6 +3,7 @@
    <application
         android:label="prototype2021"
         android:icon="@mipmap/ic_launcher">
+        
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -37,11 +38,11 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!--Naver Map-->
-        <meta-data
-            android:name="com.naver.maps.map.CLIENT_ID"
-            android:value="k7d0ey03wa" />
+
+          <!--Google Map API-->
+          <meta-data android:name="com.google.android.geo.API_KEY"
+          android:value="AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc"/>
+      
     </application>
-     <!--Naver Map-->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+
 </manifest>

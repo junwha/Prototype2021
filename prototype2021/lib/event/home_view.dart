@@ -27,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
         child: RaisedButton(
           child: Text("지도 화면"),
           onPressed: () {
-            Navigator.pushNamed(context, '/editor');
+            Navigator.pushNamed(context, '/map');
           },
         ),
       ),
