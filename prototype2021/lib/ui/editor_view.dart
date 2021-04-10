@@ -12,6 +12,7 @@ class EditorView extends StatefulWidget {
 class _EditorViewState extends State<EditorView> {
   var _isChecked1 = false;
   var _isChecked2 = false;
+  List<bool> ischeckedbutton = [false, false];
   DateTime chosenDateTime1;
   DateTime chosenDateTime2;
 
@@ -34,13 +35,55 @@ class _EditorViewState extends State<EditorView> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
-            Container(height: 1, width: 500, color: Colors.grey),
-            TextField(
-                decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: '제목',
-            )),
-            Container(height: 1, width: 500, color: Colors.grey),
+            Row(
+              children: [
+                OutlinedButton(
+                  style: ButtonStyle(side:
+                      MaterialStateProperty.resolveWith<BorderSide>(
+                          (Set<MaterialState> states) {
+                    final Color color =
+                        ischeckedbutton[0] ? Colors.blue : Colors.grey;
+                    return BorderSide(color: color, width: 2);
+                  })),
+                  onPressed: () {
+                    setState(() {
+                      ischeckedbutton[0] = ischeckedbutton[0] ? false : true;
+                    });
+                  },
+                  child: Text(
+                    "내 주변 이벤트",
+                    style: TextStyle(
+                      color:
+                          ischeckedbutton[0] ? Colors.blue[300] : Colors.grey,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 10,
+                ),
+                OutlinedButton(
+                  style: ButtonStyle(side:
+                      MaterialStateProperty.resolveWith<BorderSide>(
+                          (Set<MaterialState> states) {
+                    final Color color =
+                        ischeckedbutton[1] ? Colors.blue : Colors.grey;
+                    return BorderSide(color: color, width: 2);
+                  })),
+                  onPressed: () {
+                    setState(() {
+                      ischeckedbutton[1] = ischeckedbutton[1] ? false : true;
+                    });
+                  },
+                  child: Text(
+                    "동행 찾기",
+                    style: TextStyle(
+                      color:
+                          ischeckedbutton[1] ? Colors.blue[300] : Colors.grey,
+                    ),
+                  ),
+                ),
+              ],
+            ),
             Column(
               children: [
                 CheckboxRow(
