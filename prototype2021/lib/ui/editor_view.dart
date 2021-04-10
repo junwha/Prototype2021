@@ -95,6 +95,7 @@ class _EditorViewState extends State<EditorView> {
             ),
             Container(height: 1, width: 500, color: Colors.grey),
             Container(
+              alignment: FractionalOffset.topLeft,
               height: 200,
               width: 500,
               color: Colors.white,
@@ -105,6 +106,8 @@ class _EditorViewState extends State<EditorView> {
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
                     hintText: '내용'),
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
               ),
             ),
             Column(
