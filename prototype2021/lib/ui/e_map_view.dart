@@ -16,7 +16,11 @@ class _MapViewState extends State<MapView> {
   LatLng center =
       LatLng(35.5735, 129.1896); //TODO(junwha): change to dynamic location
 
-  void _onMapCreated(GoogleMapController controller) {
+  //Save positions of last tapped and pressed
+  // LatLng? _lastTap;
+  // LatLng? _lastLongPress;
+
+  void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
   }
 
@@ -57,6 +61,21 @@ class _MapViewState extends State<MapView> {
             () => EagerGestureRecognizer(),
           ),
         },
+        // onTap: (LatLng pos) {
+        //   setState(() {
+        //     _lastTap = pos;
+        //     print("Pressed");
+        //     print(pos.latitude);
+        //     print(pos.longitude);
+        //   });
+        // },
+        // onLongPress: (LatLng pos) {
+        //   setState(() {
+        //     _lastLongPress = pos;
+        //     print(pos.latitude);
+        //     print(pos.longitude);
+        //   });
+        // },
       ),
     );
   }
