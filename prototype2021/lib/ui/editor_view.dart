@@ -35,6 +35,48 @@ class _EditorViewState extends State<EditorView> {
         padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
+            Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              Row(
+                children: [
+                  CloseButton(
+                    color: Colors.black,
+                    onPressed: () {},
+                  ),
+                  Text(
+                    '글 쓰기',
+                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                  )
+                ],
+              ),
+              Row(
+                children: [
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.grey, // background
+                      onPrimary: Colors.black, // foreground
+                    ),
+                    onPressed: () {},
+                    child: Text('임시저장',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      primary: Colors.blue, // background
+                      onPrimary: Colors.white, // foreground
+                    ),
+                    onPressed: () {},
+                    child: Text('등록',
+                        style: TextStyle(fontWeight: FontWeight.bold)),
+                  )
+                ],
+              )
+            ]),
+            SizedBox(
+              height: 25,
+            ),
             Row(
               children: [
                 OutlinedButton(
@@ -83,6 +125,9 @@ class _EditorViewState extends State<EditorView> {
                   ),
                 ),
               ],
+            ),
+            SizedBox(
+              height: 10,
             ),
             Container(height: 1, width: 500, color: Colors.grey),
             TextField(
