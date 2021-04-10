@@ -84,6 +84,29 @@ class _EditorViewState extends State<EditorView> {
                 ),
               ],
             ),
+            Container(height: 1, width: 500, color: Colors.grey),
+            TextField(
+              decoration: new InputDecoration(
+                  border: InputBorder.none,
+                  focusedBorder: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  hintText: '제목'),
+            ),
+            Container(height: 1, width: 500, color: Colors.grey),
+            Container(
+              height: 200,
+              width: 500,
+              color: Colors.white,
+              child: TextField(
+                decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
+                    hintText: '내용'),
+              ),
+            ),
             Column(
               children: [
                 CheckboxRow(
