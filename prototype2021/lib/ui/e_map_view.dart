@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
+import 'package:prototype2021/model/location_model.dart';
+import 'package:provider/provider.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -19,6 +21,7 @@ class _MapViewState extends State<MapView> {
   //Save positions of last tapped and pressed
   // LatLng? _lastTap;
   // LatLng? _lastLongPress;
+  // TODO(junwha): after all test, place marks here
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
@@ -48,34 +51,37 @@ class _MapViewState extends State<MapView> {
           ),
         ),
       ),
-      body: GoogleMap(
-        onMapCreated: _onMapCreated,
-        initialCameraPosition: CameraPosition(
-          //Set initial Camera Position
-          target: center,
-          zoom: 11.0,
-        ),
-        gestureRecognizers: //Gesture Detectors
-            <Factory<OneSequenceGestureRecognizer>>{
-          Factory<OneSequenceGestureRecognizer>(
-            () => EagerGestureRecognizer(),
+      body: ChangeNotifierProvider(
+        create: (context) => LocationModel(),
+        child: GoogleMap(
+          onMapCreated: _onMapCreated,
+          initialCameraPosition: CameraPosition(
+            //Set initial Camera Position
+            target: center,
+            zoom: 18.0,
           ),
-        },
-        // onTap: (LatLng pos) {
-        //   setState(() {
-        //     _lastTap = pos;
-        //     print("Pressed");
-        //     print(pos.latitude);
-        //     print(pos.longitude);
-        //   });
-        // },
-        // onLongPress: (LatLng pos) {
-        //   setState(() {
-        //     _lastLongPress = pos;
-        //     print(pos.latitude);
-        //     print(pos.longitude);
-        //   });
-        // },
+          gestureRecognizers: //Gesture Detectors
+              <Factory<OneSequenceGestureRecognizer>>{
+            Factory<OneSequenceGestureRecognizer>(
+              () => EagerGestureRecognizer(),
+            ),
+          },
+          // onTap: (LatLng pos) {
+          //   setState(() {
+          //     _lastTap = pos;
+          //     print("Pressed");
+          //     print(pos.latitude);
+          //     print(pos.longitude);
+          //   });
+          // },
+          // onLongPress: (LatLng pos) {
+          //   setState(() {
+          //     _lastLongPress = pos;
+          //     print(pos.latitude);
+          //     print(pos.longitude);
+          //   });
+          // },
+        ),
       ),
     );
   }
