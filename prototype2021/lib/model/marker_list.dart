@@ -1,5 +1,6 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/content_location.dart';
+import 'package:prototype2021/model/location.dart';
 import 'package:flutter/material.dart';
 
 class MarkerList {
@@ -11,10 +12,11 @@ class MarkerList {
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
-  MarkerList(List<dynamic> locationList) {
-    //TODO(junwha): check polymorphism!
-    for (ContentLocation location in locationList) {
-      addMarker(location.latLng);
+  MarkerList(List<Location> locationList) {
+    for (Location location in locationList) {
+      if (location is ContentLocation) {
+        addMarker(location.latLng);
+      }
     }
   }
 

@@ -1,10 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/content_location.dart';
 import 'package:prototype2021/model/marker_list.dart';
+import 'package:prototype2021/model/location.dart';
+import 'package:prototype2021/model/content_location.dart';
 
 class LocationModel with ChangeNotifier {
-  List<dynamic> locations = [
+  List<Location> locations = [
     //TODO(junwha): check polymorphism!
     ContentLocation(0, "A", LatLng(35.5735, 129.1896))
   ];

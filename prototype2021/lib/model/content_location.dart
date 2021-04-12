@@ -1,5 +1,5 @@
-import 'package:prototype2021/model/Location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/location.dart';
 
 class ContentLocation extends Location {
   final int cid;
