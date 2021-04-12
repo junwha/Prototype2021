@@ -6,7 +6,6 @@ import 'package:prototype2021/model/content_location.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [
-    //TODO(junwha): check polymorphism!
     ContentLocation(0, "A", LatLng(35.5735, 129.1896))
   ];
 
