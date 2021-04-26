@@ -1,16 +1,3 @@
-// import 'package:flutter/cupertino.dart';
-// import 'package:flutter/material.dart';
-
-// class DateTimePickerCol extends StatefulWidget {
-//   DateTime chosenDateTime1;
-//   DateTime chosenDateTime2;
-
-//   DateTimePickerCol(this.chosenDateTime1, this.chosenDateTime2);
-
-//   @override
-//   _DateTimePickerColState createState() => _DateTimePickerColState();
-// }
-
 // class _DateTimePickerColState extends State<DateTimePickerCol> {
 //   String resultString;
 //   DateTime chosenDateTime1;
