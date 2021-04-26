@@ -21,19 +21,9 @@ class _EditorViewState extends State<EditorView> {
   Widget build(BuildContext context) {
     return MaterialApp(
         home: Scaffold(
-      appBar: AppBar(
-        brightness: Brightness.light,
-        backgroundColor: Colors.transparent,
-        elevation: 0.0,
-        title: Text(
-          'Cupertino Date Picker',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-      ),
       body: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.fromLTRB(
+            20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
         child: Column(
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -45,7 +35,8 @@ class _EditorViewState extends State<EditorView> {
                   ),
                   Text(
                     '글 쓰기',
-                    style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                        fontSize: 14 * pt, fontWeight: FontWeight.bold),
                   )
                 ],
               ),
@@ -58,10 +49,11 @@ class _EditorViewState extends State<EditorView> {
                     ),
                     onPressed: () {},
                     child: Text('임시저장',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 13 * pt, fontWeight: FontWeight.bold)),
                   ),
                   SizedBox(
-                    width: 10,
+                    width: 10 * pt,
                   ),
                   ElevatedButton(
                     style: ElevatedButton.styleFrom(
@@ -70,13 +62,14 @@ class _EditorViewState extends State<EditorView> {
                     ),
                     onPressed: () {},
                     child: Text('등록',
-                        style: TextStyle(fontWeight: FontWeight.bold)),
+                        style: TextStyle(
+                            fontSize: 13 * pt, fontWeight: FontWeight.bold)),
                   )
                 ],
               )
             ]),
             SizedBox(
-              height: 25,
+              height: 23 * pt,
             ),
             Row(
               children: [
@@ -96,14 +89,15 @@ class _EditorViewState extends State<EditorView> {
                   child: Text(
                     "내 주변 이벤트",
                     style: TextStyle(
-                      fontSize: 10 * pt,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12 * pt,
                       color:
                           ischeckedbutton[0] ? Colors.blue[300] : Colors.grey,
                     ),
                   ),
                 ),
                 SizedBox(
-                  width: 10,
+                  width: 12 * pt,
                 ),
                 OutlinedButton(
                   style: ButtonStyle(side:
@@ -121,6 +115,8 @@ class _EditorViewState extends State<EditorView> {
                   child: Text(
                     "동행 찾기",
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 12 * pt,
                       color:
                           ischeckedbutton[1] ? Colors.blue[300] : Colors.grey,
                     ),
@@ -129,7 +125,7 @@ class _EditorViewState extends State<EditorView> {
               ],
             ),
             SizedBox(
-              height: 10,
+              height: 16 * pt,
             ),
             Container(height: 1, width: 500, color: Colors.grey),
             TextField(
@@ -152,11 +148,12 @@ class _EditorViewState extends State<EditorView> {
                     focusedBorder: InputBorder.none,
                     contentPadding: EdgeInsets.only(
                         left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: '내용'),
+                    hintText: '내용을 입력하세요.'),
                 maxLines: null,
                 keyboardType: TextInputType.multiline,
               ),
             ),
+            Container(height: 1, width: 500, color: Colors.grey),
             Column(
               children: [
                 CheckboxRow(

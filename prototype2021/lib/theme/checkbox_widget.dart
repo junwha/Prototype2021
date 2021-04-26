@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class CheckBoxWidget extends StatefulWidget {
   bool isChecked1 = false;
@@ -23,44 +24,12 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
   @override
   Widget build(BuildContext context) {
     if (this.widget.isChecked1 && this.widget.isChecked2) {
-      return Column(
-        children: [
-          Row(
-            children: [
-              Text("모집인원"),
-              SizedBox(
-                width: 50,
-              ),
-              Row(
-                children: [
-                  DropdownButton(
-                    value: _selectedValue1,
-                    items: _valueList1.map(
-                      (value) {
-                        return DropdownMenuItem(
-                          value: value,
-                          child: Text(value),
-                        );
-                      },
-                    ).toList(),
-                    onChanged: (String? value) {
-                      setState(() {
-                        _selectedValue1 = value == null ? "" : value;
-                      });
-                    },
-                  ),
-                  Text("명")
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
+      return Text("");
     } else if (this.widget.isChecked1) {
       return Column(
         children: [
           Row(children: [
-            Text("모집인원"),
+            Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
             SizedBox(
               width: 50,
             ),
@@ -82,13 +51,13 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                     });
                   },
                 ),
-                Text("명")
+                Text("명", style: TextStyle(fontSize: 13 * pt))
               ],
             ),
           ]),
           Row(
             children: [
-              Text("나이"),
+              Text("나이", style: TextStyle(fontSize: 13 * pt)),
               SizedBox(
                 width: 80,
               ),
@@ -125,7 +94,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   });
                 },
               ),
-              Text("살")
+              Text("살", style: TextStyle(fontSize: 13 * pt))
             ],
           ),
         ],
@@ -134,7 +103,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
       return Column(
         children: [
           Row(children: [
-            Text("모집인원"),
+            Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
             SizedBox(
               width: 50,
             ),
@@ -156,19 +125,19 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                     });
                   },
                 ),
-                Text("명")
+                Text("명", style: TextStyle(fontSize: 13 * pt))
               ],
             ),
           ]),
           Row(
             children: [
-              Text("모집인원"),
+              Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
               SizedBox(
                 width: 40,
               ),
-              Text("남"),
+              Text("남", style: TextStyle(fontSize: 13 * pt)),
               SizedBox(
-                width: 10,
+                width: 10 * pt,
               ),
               DropdownButton(
                 value: _selectedValue2,
@@ -186,13 +155,13 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   });
                 },
               ),
-              Text("명"),
+              Text("명", style: TextStyle(fontSize: 13 * pt)),
               SizedBox(
-                width: 10,
+                width: 20 * pt,
               ),
-              Text("여"),
+              Text("여", style: TextStyle(fontSize: 13 * pt)),
               SizedBox(
-                width: 10,
+                width: 10 * pt,
               ),
               DropdownButton(
                 value: _selectedValue3,
@@ -210,13 +179,111 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                   });
                 },
               ),
-              Text("명")
+              Text("명", style: TextStyle(fontSize: 13 * pt))
             ],
           ),
         ],
       );
     } else {
-      return Text("");
+      return Column(
+        children: [
+          Row(
+            children: [
+              Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
+              SizedBox(
+                width: 40,
+              ),
+              Text("남", style: TextStyle(fontSize: 13 * pt)),
+              SizedBox(
+                width: 10 * pt,
+              ),
+              DropdownButton(
+                value: _selectedValue2,
+                items: _valueList2.map(
+                  (value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedValue2 = value == null ? "" : value;
+                  });
+                },
+              ),
+              Text("명", style: TextStyle(fontSize: 13 * pt)),
+              SizedBox(
+                width: 20 * pt,
+              ),
+              Text("여", style: TextStyle(fontSize: 13 * pt)),
+              SizedBox(
+                width: 10 * pt,
+              ),
+              DropdownButton(
+                value: _selectedValue3,
+                items: _valueList3.map(
+                  (value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedValue3 = value == null ? "" : value;
+                  });
+                },
+              ),
+              Text("명", style: TextStyle(fontSize: 13 * pt))
+            ],
+          ),
+          Row(
+            children: [
+              Text("나이", style: TextStyle(fontSize: 13 * pt)),
+              SizedBox(
+                width: 80,
+              ),
+              DropdownButton(
+                value: _selectedValue2,
+                items: _valueList2.map(
+                  (value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedValue2 = value == null ? "" : value;
+                  });
+                },
+              ),
+              Text("     ~     "),
+              DropdownButton(
+                value: _selectedValue3,
+                items: _valueList3.map(
+                  (value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  },
+                ).toList(),
+                onChanged: (String? value) {
+                  setState(() {
+                    _selectedValue3 = value == null ? "" : value;
+                  });
+                },
+              ),
+              Text("살", style: TextStyle(fontSize: 13 * pt))
+            ],
+          ),
+        ],
+      );
     }
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class CheckboxRow extends StatefulWidget {
   //fields for check box
@@ -29,17 +30,19 @@ class _CheckboxRowState extends State<CheckboxRow> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text("이벤트 정보",
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14)),
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14 * pt)),
         Row(
           children: [
             Text("성별무관",
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14)),
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 13 * pt)),
             Checkbox(
               value: this.widget.value1,
               onChanged: this.widget.onChanged1,
             ),
             Text("나이무관",
-                style: TextStyle(fontWeight: FontWeight.normal, fontSize: 14)),
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 13 * pt)),
             Checkbox(
               value: this.widget.value2,
               onChanged: this.widget.onChanged2,
