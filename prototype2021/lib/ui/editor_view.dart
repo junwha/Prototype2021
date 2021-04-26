@@ -13,7 +13,7 @@ class EditorView extends StatefulWidget {
 class _EditorViewState extends State<EditorView> {
   bool _isChecked1 = false;
   bool _isChecked2 = false;
-  List<bool> ischeckedbutton = [false, false];
+  List<bool> isCheckedButton = [true, false];
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
 
@@ -78,12 +78,13 @@ class _EditorViewState extends State<EditorView> {
                       MaterialStateProperty.resolveWith<BorderSide>(
                           (Set<MaterialState> states) {
                     final Color color =
-                        ischeckedbutton[0] ? Colors.blue : Colors.grey;
+                        isCheckedButton[0] ? Colors.blue : Colors.grey;
                     return BorderSide(color: color, width: 2);
                   })),
                   onPressed: () {
                     setState(() {
-                      ischeckedbutton[0] = ischeckedbutton[0] ? false : true;
+                      isCheckedButton[1] =false;
+                      isCheckedButton[0] = true;
                     });
                   },
                   child: Text(
@@ -92,7 +93,7 @@ class _EditorViewState extends State<EditorView> {
                       fontWeight: FontWeight.bold,
                       fontSize: 12 * pt,
                       color:
-                          ischeckedbutton[0] ? Colors.blue[300] : Colors.grey,
+                          isCheckedButton[0] ? Colors.blue[300] : Colors.grey,
                     ),
                   ),
                 ),
@@ -104,12 +105,13 @@ class _EditorViewState extends State<EditorView> {
                       MaterialStateProperty.resolveWith<BorderSide>(
                           (Set<MaterialState> states) {
                     final Color color =
-                        ischeckedbutton[1] ? Colors.blue : Colors.grey;
+                        isCheckedButton[1] ? Colors.blue : Colors.grey;
                     return BorderSide(color: color, width: 2);
                   })),
                   onPressed: () {
                     setState(() {
-                      ischeckedbutton[1] = ischeckedbutton[1] ? false : true;
+                      isCheckedButton[1] = true;
+                      isCheckedButton[0] = false;
                     });
                   },
                   child: Text(
@@ -118,7 +120,7 @@ class _EditorViewState extends State<EditorView> {
                       fontWeight: FontWeight.bold,
                       fontSize: 12 * pt,
                       color:
-                          ischeckedbutton[1] ? Colors.blue[300] : Colors.grey,
+                          isCheckedButton[1] ? Colors.blue[300] : Colors.grey,
                     ),
                   ),
                 ),
@@ -128,18 +130,21 @@ class _EditorViewState extends State<EditorView> {
               height: 16 * pt,
             ),
             Container(height: 1, width: 500, color: Colors.grey),
-            TextField(
-              decoration: new InputDecoration(
-                  border: InputBorder.none,
-                  focusedBorder: InputBorder.none,
-                  contentPadding:
-                      EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
-                  hintText: '제목'),
+            Container(
+              height: 61 * pt,
+              child: TextField(
+                decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(
+                        left: 15, bottom: 11, top: 11, right: 15),
+                    hintText: '제목'),
+              ),
             ),
             Container(height: 1, width: 500, color: Colors.grey),
             Container(
               alignment: FractionalOffset.topLeft,
-              height: 200,
+              height: 200 * pt,
               width: 500,
               color: Colors.white,
               child: TextField(
