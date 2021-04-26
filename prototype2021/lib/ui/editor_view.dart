@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/theme/checkbox_row.dart';
 import 'package:prototype2021/theme/datetimepicker_column.dart';
 import 'package:prototype2021/theme/checkbox_widget.dart';
-import 'package:prototype2021/settings/constant.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class EditorView extends StatefulWidget {
   @override
