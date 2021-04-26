@@ -2,12 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class DateTimePickerCol extends StatefulWidget {
-  DateTime chosenDateTime1;
-  DateTime chosenDateTime2;
+  DateTime? chosenDateTime;
+  DateTime? chosenDateTime2;
 
-  DateTimePickerCol(DateTime chosenDateTime1, DateTime chosenDateTime2) {
-    this.chosenDateTime1 = chosenDateTime1;
-    this.chosenDateTime2 = chosenDateTime2;
+  DateTimePickerCol(DateTime chosenDateTime1) {
+    this.chosenDateTime = chosenDateTime;
   }
 
   @override
@@ -15,13 +14,13 @@ class DateTimePickerCol extends StatefulWidget {
 }
 
 class _DateTimePickerColState extends State<DateTimePickerCol> {
-  String resultString;
-  DateTime chosenDateTime1;
-  DateTime chosenDateTime2;
+  String? resultString;
 
-  void showDatePicker1(ctx1) {
+  DateTime? chosenDateTime;
+
+  void showDatePicker(ctx) {
     showCupertinoModalPopup(
-        context: ctx1,
+        context: ctx,
         builder: (_) => Container(
               height: 500,
               color: Color.fromARGB(255, 255, 255, 255),
@@ -31,42 +30,15 @@ class _DateTimePickerColState extends State<DateTimePickerCol> {
                     height: 400,
                     child: CupertinoDatePicker(
                         initialDateTime: DateTime.now(),
-                        onDateTimeChanged: (val1) {
+                        onDateTimeChanged: (val) {
                           setState(() {
-                            this.widget.chosenDateTime1 = val1;
+                            this.widget.chosenDateTime = val;
                           });
                         }),
                   ),
                   CupertinoButton(
                     child: Text('OK'),
-                    onPressed: () => Navigator.of(ctx1).pop(),
-                  )
-                ],
-              ),
-            ));
-  }
-
-  void showDatePicker2(ctx2) {
-    showCupertinoModalPopup(
-        context: ctx2,
-        builder: (_) => Container(
-              height: 500,
-              color: Color.fromARGB(255, 255, 255, 255),
-              child: Column(
-                children: [
-                  Container(
-                    height: 400,
-                    child: CupertinoDatePicker(
-                        initialDateTime: DateTime.now(),
-                        onDateTimeChanged: (val2) {
-                          setState(() {
-                            this.widget.chosenDateTime2 = val2;
-                          });
-                        }),
-                  ),
-                  CupertinoButton(
-                    child: Text('OK'),
-                    onPressed: () => Navigator.of(ctx2).pop(),
+                    onPressed: () => Navigator.of(ctx).pop(),
                   )
                 ],
               ),
@@ -90,12 +62,12 @@ class _DateTimePickerColState extends State<DateTimePickerCol> {
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
                       color: Colors.black)),
-              onPressed: () => showDatePicker1(context),
+              onPressed: () => showDatePicker(context),
             ),
           ],
         ),
-        Text(this.widget.chosenDateTime1 != null
-            ? this.widget.chosenDateTime1.toString()
+        Text(this.widget.chosenDateTime != null
+            ? this.widget.chosenDateTime.toString()
             : '선택안함'),
         Row(
           children: [
@@ -110,12 +82,12 @@ class _DateTimePickerColState extends State<DateTimePickerCol> {
                       fontWeight: FontWeight.normal,
                       fontSize: 14,
                       color: Colors.black)),
-              onPressed: () => showDatePicker2(context),
+              onPressed: () => showDatePicker(context),
             ),
           ],
         ),
-        Text(this.widget.chosenDateTime2 != null
-            ? this.widget.chosenDateTime2.toString()
+        Text(this.widget.chosenDateTime != null
+            ? this.widget.chosenDateTime.toString()
             : '선택안함'),
       ],
     );

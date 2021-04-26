@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/theme/checkbox_row.dart';
 import 'package:prototype2021/theme/datetimepicker_column.dart';
 import 'package:prototype2021/theme/checkbox_widget.dart';
+import 'package:prototype2021/settings/constant.dart';
 
 class EditorView extends StatefulWidget {
   @override
@@ -13,8 +14,8 @@ class _EditorViewState extends State<EditorView> {
   var _isChecked1 = false;
   var _isChecked2 = false;
   List<bool> ischeckedbutton = [false, false];
-  DateTime chosenDateTime1;
-  DateTime chosenDateTime2;
+  DateTime? chosenDateTime1;
+  DateTime? chosenDateTime2;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +96,7 @@ class _EditorViewState extends State<EditorView> {
                   child: Text(
                     "내 주변 이벤트",
                     style: TextStyle(
+                      fontSize: 10 * pt,
                       color:
                           ischeckedbutton[0] ? Colors.blue[300] : Colors.grey,
                     ),
