@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class CheckBoxWidget extends StatefulWidget {
   bool isChecked1 = false;
   bool isChecked2 = false;
-  CheckBoxWidget({bool isChecked1, bool isChecked2}) {
+  CheckBoxWidget(bool isChecked1, bool isChecked2) {
     this.isChecked1 = isChecked1;
     this.isChecked2 = isChecked2;
   }
@@ -43,9 +43,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                         );
                       },
                     ).toList(),
-                    onChanged: (value) {
+                    onChanged: (String? value) {
                       setState(() {
-                        _selectedValue1 = value;
+                        _selectedValue1 = value == null ? "" : value;
                       });
                     },
                   ),
@@ -76,9 +76,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                       );
                     },
                   ).toList(),
-                  onChanged: (value) {
+                  onChanged: (String? value) {
                     setState(() {
-                      _selectedValue1 = value;
+                      _selectedValue1 = value == null ? "" : value;
                     });
                   },
                 ),
@@ -102,9 +102,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
+                onChanged: (String? value) {
                   setState(() {
-                    _selectedValue2 = value;
+                    _selectedValue2 = value == null ? "" : value;
                   });
                 },
               ),
@@ -119,9 +119,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
+                onChanged: (String? value) {
                   setState(() {
-                    _selectedValue3 = value;
+                    _selectedValue3 = value == null ? "" : value;
                   });
                 },
               ),
@@ -150,9 +150,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                       );
                     },
                   ).toList(),
-                  onChanged: (value) {
+                  onChanged: (String? value) {
                     setState(() {
-                      _selectedValue1 = value;
+                      _selectedValue1 = value == null ? "" : value;
                     });
                   },
                 ),
@@ -180,9 +180,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
+                onChanged: (String? value) {
                   setState(() {
-                    _selectedValue2 = value;
+                    _selectedValue2 = value == null ? "" : value;
                   });
                 },
               ),
@@ -204,9 +204,9 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
                     );
                   },
                 ).toList(),
-                onChanged: (value) {
+                onChanged: (String? value) {
                   setState(() {
-                    _selectedValue3 = value;
+                    _selectedValue3 = value == null ? "" : value;
                   });
                 },
               ),

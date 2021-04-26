@@ -10,11 +10,11 @@ class EditorView extends StatefulWidget {
 }
 
 class _EditorViewState extends State<EditorView> {
-  var _isChecked1 = false;
-  var _isChecked2 = false;
+  bool _isChecked1 = false;
+  bool _isChecked2 = false;
   List<bool> ischeckedbutton = [false, false];
-  DateTime chosenDateTime1;
-  DateTime chosenDateTime2;
+  DateTime? chosenDateTime1;
+  DateTime? chosenDateTime2;
 
   @override
   Widget build(BuildContext context) {
@@ -159,20 +159,19 @@ class _EditorViewState extends State<EditorView> {
               children: [
                 CheckboxRow(
                     value1: _isChecked1,
-                    onChanged1: (bool value) {
+                    onChanged1: (bool? value) {
                       setState(() {
-                        _isChecked1 = value;
+                        _isChecked1 = value == null ? false : value;
                       });
                     },
                     value2: _isChecked2,
-                    onChanged2: (bool value) {
+                    onChanged2: (bool? value) {
                       setState(() {
-                        _isChecked2 = value;
+                        _isChecked2 = value == null ? false : value;
                       });
                     }),
-                CheckBoxWidget(
-                    isChecked1: _isChecked1, isChecked2: _isChecked2),
-                DateTimePickerCol(chosenDateTime1)
+                CheckBoxWidget(_isChecked1, _isChecked2),
+                //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
               ],
             ),
           ],

@@ -4,20 +4,19 @@ class CheckboxRow extends StatefulWidget {
   //fields for check box
   bool value1;
   bool value2;
-  Function onChanged1;
-  Function onChanged2;
+  Function(bool?) onChanged1;
+  Function(bool?) onChanged2;
 
   /*
   * Widget for Combining CheckBox
   * value1, onChanged1, value2  onChanged2 are corresponding to each parameters of checkboxes
   */
   CheckboxRow(
-      {bool value1, Function onChanged1, bool value2, Function onChanged2}) {
-    this.value1 = value1;
-    this.value2 = value2;
-    this.onChanged1 = onChanged1;
-    this.onChanged2 = onChanged2;
-  } //If it have to be used in other classes, please add some parameters and generalize texts.
+      {required this.value1,
+      required this.onChanged1,
+      required this.value2,
+      required this.onChanged2});
+  //If it have to be used in other classes, please add some parameters and generalize texts.
 
   @override
   _CheckboxRowState createState() => _CheckboxRowState();
