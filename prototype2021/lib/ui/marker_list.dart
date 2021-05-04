@@ -1,7 +1,10 @@
+import 'dart:ui';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/content_location.dart';
-import 'package:prototype2021/model/location.dart';
+import 'package:prototype2021/ui/content_location.dart';
+import 'package:prototype2021/ui/location.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/ui/custom_marker.dart';
 
 class MarkerList {
   //TODO(junwha): generalize with CID and EID
@@ -9,10 +12,24 @@ class MarkerList {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
+  late BitmapDescriptor markerIcon; //= BitmapDescriptor.defaultMarker;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
-  MarkerList(List<Location> locationList) {
+  MarkerList() {
+    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(48, 48)),
+            'assets/images/map/marker.png')
+        .then((onValue) {
+      print("succeed");
+      print(onValue.toJson());
+      markerIcon = onValue;
+    }).onError((error, stackTrace) {
+      markerIcon = BitmapDescriptor.defaultMarker;
+    });
+  }
+
+  void addMarkerList(List<Location> locationList) {
+    // print(markerIcon);
     for (Location location in locationList) {
       if (location is ContentLocation) {
         addMarker(location.latLng);
@@ -45,6 +62,8 @@ class MarkerList {
       onDragEnd: (LatLng position) {
         //_onMarkerDragEnd(markerId, position);
       },
+      flat: true,
+      icon: markerIcon,
     );
 
     markers[markerId] = marker;

@@ -1,16 +1,23 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/marker_list.dart';
-import 'package:prototype2021/model/location.dart';
-import 'package:prototype2021/model/content_location.dart';
+import 'package:prototype2021/ui/marker_list.dart';
+import 'package:prototype2021/ui/location.dart';
+import 'package:prototype2021/ui/content_location.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [
     ContentLocation(0, "A", LatLng(35.5735, 129.1896))
   ];
 
-  Set<Marker> get markers => MarkerList(locations)
-      .markerList; //TODO: consider update location with efficiency
+  late MarkerList markerList;
+
+  LocationModel() {
+    markerList = MarkerList();
+    markerList.addMarkerList(locations);
+  }
+
+  Set<Marker> get markers =>
+      markerList.markerList; //TODO: consider update location with efficiency
 
   /*
   * Update locations field with the locations included in boundary of bounds.
