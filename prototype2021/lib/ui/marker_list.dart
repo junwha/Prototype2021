@@ -1,5 +1,7 @@
+import 'dart:typed_data';
 import 'dart:ui';
 
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/ui/content_location.dart';
 import 'package:prototype2021/ui/location.dart';
@@ -18,11 +20,27 @@ class MarkerList {
 
   void init(Function notifyListeners) async {
     // markerIcon = BitmapDescriptor.defaultMarker;
-    markerIcon = await BitmapDescriptor.fromAssetImage(
-        ImageConfiguration(size: Size(150.0, 150.0)),
-        'assets/images/map/marker.png');
+    // markerIcon = await BitmapDescriptor.fromAssetImage(
+    //     ImageConfiguration(size: Size(150.0, 150.0)),
+    //     'assets/images/map/marker.png');
+    Uint8List bytes =
+        await getBytesFromAsset('assets/images/map/marker.png', 100);
+    markerIcon = BitmapDescriptor.fromBytes(bytes);
     this.loaded = true;
     notifyListeners();
+  }
+
+  /*
+  * Converts Image to byte data
+  */
+  Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 
   void addMarkerList(List<Location> locationList) {
