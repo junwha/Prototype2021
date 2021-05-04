@@ -9,15 +9,18 @@ class LocationModel with ChangeNotifier {
     ContentLocation(0, "A", LatLng(35.5735, 129.1896))
   ];
 
-  late MarkerList markerList;
+  MarkerList markerList = MarkerList();
 
   LocationModel() {
-    markerList = MarkerList();
-    markerList.addMarkerList(locations);
+    markerList.init(notifyListeners);
   }
 
-  Set<Marker> get markers =>
-      markerList.markerList; //TODO: consider update location with efficiency
+  Set<Marker> markers() {
+    markerList.addMarkerList(locations);
+    ChangeNotifier();
+    return markerList
+        .markerList; //TODO: consider update location with efficiency
+  }
 
   /*
   * Update locations field with the locations included in boundary of bounds.

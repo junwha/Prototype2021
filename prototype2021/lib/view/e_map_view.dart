@@ -54,36 +54,38 @@ class _MapViewState extends State<MapView> {
       body: ChangeNotifierProvider(
         create: (context) => LocationModel(),
         child: Consumer(builder: (contet, LocationModel locationModel, child) {
-          return GoogleMap(
-            onMapCreated: _onMapCreated,
-            initialCameraPosition: CameraPosition(
-              //Set initial Camera Position
-              target: center,
-              zoom: 18.0,
-            ),
-            gestureRecognizers: //Gesture Detectors
-                <Factory<OneSequenceGestureRecognizer>>{
-              Factory<OneSequenceGestureRecognizer>(
-                () => EagerGestureRecognizer(),
-              ),
-            },
-            markers: locationModel.markers,
-            // onTap: (LatLng pos) {
-            //   setState(() {
-            //     _lastTap = pos;
-            //     print("Pressed");
-            //     print(pos.latitude);
-            //     print(pos.longitude);
-            //   });
-            // },
-            // onLongPress: (LatLng pos) {
-            //   setState(() {
-            //     _lastLongPress = pos;
-            //     print(pos.latitude);
-            //     print(pos.longitude);
-            //   });
-            // },
-          );
+          return !locationModel.markerList.loaded
+              ? Text("Loading...")
+              : GoogleMap(
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    //Set initial Camera Position
+                    target: center,
+                    zoom: 18.0,
+                  ),
+                  gestureRecognizers: //Gesture Detectors
+                      <Factory<OneSequenceGestureRecognizer>>{
+                    Factory<OneSequenceGestureRecognizer>(
+                      () => EagerGestureRecognizer(),
+                    ),
+                  },
+                  markers: locationModel.markers(),
+                  // onTap: (LatLng pos) {
+                  //   setState(() {
+                  //     _lastTap = pos;
+                  //     print("Pressed");
+                  //     print(pos.latitude);
+                  //     print(pos.longitude);
+                  //   });
+                  // },
+                  // onLongPress: (LatLng pos) {
+                  //   setState(() {
+                  //     _lastLongPress = pos;
+                  //     print(pos.latnotifyListenersitude);
+                  //     print(pos.longitude);
+                  //   });
+                  // },
+                );
         }),
       ),
     );

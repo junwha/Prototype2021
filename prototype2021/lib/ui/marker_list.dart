@@ -4,7 +4,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/ui/content_location.dart';
 import 'package:prototype2021/ui/location.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/ui/custom_marker.dart';
 
 class MarkerList {
   //TODO(junwha): generalize with CID and EID
@@ -13,19 +12,17 @@ class MarkerList {
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
   late BitmapDescriptor markerIcon; //= BitmapDescriptor.defaultMarker;
+  bool loaded = false;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
-  MarkerList() {
-    BitmapDescriptor.fromAssetImage(ImageConfiguration(size: Size(48, 48)),
-            'assets/images/map/marker.png')
-        .then((onValue) {
-      print("succeed");
-      print(onValue.toJson());
-      markerIcon = onValue;
-    }).onError((error, stackTrace) {
-      markerIcon = BitmapDescriptor.defaultMarker;
-    });
+  void init(Function notifyListeners) async {
+    // markerIcon = BitmapDescriptor.defaultMarker;
+    markerIcon = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(size: Size(150.0, 150.0)),
+        'assets/images/map/marker.png');
+    this.loaded = true;
+    notifyListeners();
   }
 
   void addMarkerList(List<Location> locationList) {
