@@ -39,7 +39,15 @@ class _PopButtonState extends State<PopButton> {
                     ),
                   ],
                 ),
-                content: SingleChildScrollView(child: this.widget.listBody),
+                content: SingleChildScrollView(
+                    child: Column(children: [
+                  this.widget.listBody,
+                  Container(
+                    height: 1,
+                    width: double.infinity,
+                    color: Colors.grey,
+                  ),
+                ])),
                 actions: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,

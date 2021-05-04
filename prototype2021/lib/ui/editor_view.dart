@@ -53,11 +53,6 @@ class _EditorViewState extends State<EditorView> {
                           height: 250 * pt,
                           child: ListBodyText(),
                         ),
-                        Container(
-                          height: 1,
-                          width: double.infinity,
-                          color: Colors.grey,
-                        ),
                       ],
                     ),
                   ),
@@ -160,15 +155,8 @@ class _EditorViewState extends State<EditorView> {
       ),
     ));
   }
-}
 
-class ListBodyText extends StatelessWidget {
-  const ListBodyText({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Column ListBodyText() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
