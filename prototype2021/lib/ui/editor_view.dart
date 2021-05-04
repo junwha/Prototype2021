@@ -6,6 +6,7 @@ import 'package:prototype2021/theme/checkbox_widget.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/theme/textfieldform.dart';
 
 class EditorView extends StatefulWidget {
   @override
@@ -18,6 +19,7 @@ class _EditorViewState extends State<EditorView> {
   List<bool> isChecked = [true, false]; //initialize state as 동행찾기
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
+  TextEditingController controlofoto = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -103,33 +105,19 @@ class _EditorViewState extends State<EditorView> {
             ),
             Container(height: 1, width: 500, color: Colors.grey),
             Container(
-              height: 61 * pt,
-              child: TextField(
-                decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: '제목'),
-              ),
-            ),
+                height: 61 * pt,
+                child: TextFieldForm(
+                  hintText: "제목",
+                )),
             Container(height: 1, width: 500, color: Colors.grey),
             Container(
-              alignment: FractionalOffset.topLeft,
-              height: 200 * pt,
-              width: 500,
-              color: Colors.white,
-              child: TextField(
-                decoration: new InputDecoration(
-                    border: InputBorder.none,
-                    focusedBorder: InputBorder.none,
-                    contentPadding: EdgeInsets.only(
-                        left: 15, bottom: 11, top: 11, right: 15),
-                    hintText: '내용을 입력하세요.'),
-                maxLines: null,
-                keyboardType: TextInputType.multiline,
-              ),
-            ),
+                alignment: FractionalOffset.topLeft,
+                height: 200 * pt,
+                width: 500,
+                color: Colors.white,
+                child: TextFieldForm(
+                  hintText: "내용을 입력하세요.",
+                )),
             Container(height: 1, width: 500, color: Colors.grey),
             Column(
               children: [
