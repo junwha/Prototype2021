@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter/foundation.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/rendering.dart';
 import 'package:prototype2021/model/location_model.dart';
 import 'package:provider/provider.dart';
+import 'package:prototype2021/ui/event_map.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -54,43 +53,14 @@ class _MapViewState extends State<MapView> {
       ),
       body: ChangeNotifierProvider(
         create: (context) => LocationModel(),
-        child: Consumer(builder: (contet, LocationModel locationModel, child) {
-          return !locationModel.loaded
-              ? Text("Loading...")
-              : GoogleMap(
-                  onMapCreated: _onMapCreated,
-                  initialCameraPosition: CameraPosition(
-                    //Set initial Camera Position
-                    target: center,
-                    zoom: 18.0,
-                  ),
-                  gestureRecognizers: //Gesture Detectors
-                      <Factory<OneSequenceGestureRecognizer>>{
-                    Factory<OneSequenceGestureRecognizer>(
-                      () => EagerGestureRecognizer(),
-                    ),
-                  },
-                  markers: locationModel.markers,
-                  onCameraMove: (CameraPosition cameraPostion) {
-                    locationModel.setBearing(cameraPostion.bearing);
-                  },
-                  // onTap: (LatLng pos) {
-                  //   setState(() {
-                  //     _lastTap = pos;
-                  //     print("Pressed");
-                  //     print(pos.latitude);
-                  //     print(pos.longitude);
-                  //   });
-                  // },
-                  // onLongPress: (LatLng pos) {
-                  //   setState(() {
-                  //     _lastLongPress = pos;
-                  //     print(pos.latnotifyListenersitude);
-                  //     print(pos.longitude);
-                  //   });
-                  // },
-                );
-        }),
+        child: Stack(
+          children: [
+            //initial position
+            EventMap(
+                center: LatLng(35.5735,
+                    129.1896)), //TODO(junwha): change to dynamic location
+          ],
+        ),
       ),
     );
   }
