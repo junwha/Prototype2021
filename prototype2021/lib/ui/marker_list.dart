@@ -13,16 +13,15 @@ class MarkerList {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
-  late BitmapDescriptor markerIcon; //= BitmapDescriptor.defaultMarker;
+  late BitmapDescriptor markerIcon;
   bool loaded = false;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
+  /*
+  * Initialize marker image. if image loaded completely, call notifyListeners
+  */
   void init(Function notifyListeners) async {
-    // markerIcon = BitmapDescriptor.defaultMarker;
-    // markerIcon = await BitmapDescriptor.fromAssetImage(
-    //     ImageConfiguration(size: Size(150.0, 150.0)),
-    //     'assets/images/map/marker.png');
     Uint8List bytes =
         await getBytesFromAsset('assets/images/map/marker.png', 100);
     markerIcon = BitmapDescriptor.fromBytes(bytes);
@@ -43,6 +42,9 @@ class MarkerList {
         .asUint8List();
   }
 
+  /*
+  * Add markers on the locations in location list
+  */
   void addMarkerList(List<Location> locationList) {
     // print(markerIcon);
     for (Location location in locationList) {
@@ -52,7 +54,9 @@ class MarkerList {
     }
   }
 
-  //Add New Marker
+  /*
+  * Add new marker on the location
+  */
   void addMarker(LatLng latLng) {
     final int markerCount = markers.length;
 
