@@ -32,6 +32,7 @@ class _MapViewState extends State<MapView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
+        toolbarHeight: 50,
         centerTitle: false,
         backgroundColor: Colors.white,
         leading: IconButton(
