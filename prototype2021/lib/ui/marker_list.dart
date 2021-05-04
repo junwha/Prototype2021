@@ -14,19 +14,21 @@ class MarkerList {
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
   late BitmapDescriptor markerIcon;
-  bool loaded = false;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
   /*
   * Initialize marker image. if image loaded completely, call notifyListeners
   */
-  void init(Function notifyListeners) async {
-    Uint8List bytes =
-        await getBytesFromAsset('assets/images/map/marker.png', 100);
-    markerIcon = BitmapDescriptor.fromBytes(bytes);
-    this.loaded = true;
-    notifyListeners();
+  Future<bool> loadImage() async {
+    try {
+      Uint8List bytes =
+          await getBytesFromAsset('assets/images/map/marker.png', 100);
+      markerIcon = BitmapDescriptor.fromBytes(bytes);
+      return true;
+    } catch (e) {
+      return false;
+    }
   }
 
   /*
@@ -74,7 +76,7 @@ class MarkerList {
     final Marker marker = Marker(
       markerId: markerId,
       position: latLng,
-      infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
+      //infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       onTap: () {
         //_onMarkerTapped(markerId);
       },

@@ -54,7 +54,7 @@ class _MapViewState extends State<MapView> {
       body: ChangeNotifierProvider(
         create: (context) => LocationModel(),
         child: Consumer(builder: (contet, LocationModel locationModel, child) {
-          return !locationModel.markerList.loaded
+          return !locationModel.loaded
               ? Text("Loading...")
               : GoogleMap(
                   onMapCreated: _onMapCreated,
@@ -69,7 +69,7 @@ class _MapViewState extends State<MapView> {
                       () => EagerGestureRecognizer(),
                     ),
                   },
-                  markers: locationModel.markers(),
+                  markers: locationModel.markers,
                   // onTap: (LatLng pos) {
                   //   setState(() {
                   //     _lastTap = pos;

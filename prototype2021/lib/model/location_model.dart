@@ -10,17 +10,20 @@ class LocationModel with ChangeNotifier {
   ];
 
   MarkerList markerList = MarkerList();
+  bool loaded = false;
 
   LocationModel() {
-    markerList.init(notifyListeners);
+    init();
   }
 
-  Set<Marker> markers() {
+  void init() async {
+    loaded = await markerList.loadImage();
     markerList.addMarkerList(locations);
-    ChangeNotifier();
-    return markerList
-        .markerList; //TODO: consider update location with efficiency
+    notifyListeners();
   }
+
+  Set<Marker> get markers =>
+      markerList.markerList; //TODO: consider update location with efficiency
 
   /*
   * Update locations field with the locations included in boundary of bounds.
