@@ -44,7 +44,23 @@ class _EditorViewState extends State<EditorView> {
               ),
               Row(
                 children: [
-                  PopButton(),
+                  PopButton(
+                    buttonTitle: "임시저장",
+                    listBody: ListBody(
+                      children: [
+                        Container(
+                          width: 291 * pt,
+                          height: 250 * pt,
+                          child: ListBodyText(),
+                        ),
+                        Container(
+                          height: 1,
+                          width: double.infinity,
+                          color: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  ),
                   SizedBox(
                     width: 10 * pt,
                   ),
@@ -143,5 +159,31 @@ class _EditorViewState extends State<EditorView> {
         ),
       ),
     ));
+  }
+}
+
+class ListBodyText extends StatelessWidget {
+  const ListBodyText({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("임시 저장하시겠습니까?", style: TextStyle(fontSize: 17 * pt)),
+        SizedBox(
+          height: 15,
+        ),
+        Text('임시 저장한 글은',
+            style: TextStyle(
+              fontSize: 14 * pt,
+            )),
+        Text('\'내 정보 > 임시 저장한 글\'',
+            style: TextStyle(fontSize: 14 * pt, fontWeight: FontWeight.bold)),
+        Text('에서 볼 수 있어요.', style: TextStyle(fontSize: 14 * pt))
+      ],
+    );
   }
 }

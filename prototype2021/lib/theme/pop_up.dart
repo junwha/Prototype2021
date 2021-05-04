@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class PopButton extends StatefulWidget {
+  String buttonTitle;
+  ListBody listBody;
+
+  PopButton({required this.buttonTitle, required this.listBody});
   @override
   _PopButtonState createState() => _PopButtonState();
 }
@@ -22,7 +26,9 @@ class _PopButtonState extends State<PopButton> {
               return AlertDialog(
                 title: Column(
                   children: [
-                    Text('임시저장'),
+                    Text(
+                      this.widget.buttonTitle,
+                    ),
                     SizedBox(
                       height: 10,
                     ),
@@ -33,41 +39,7 @@ class _PopButtonState extends State<PopButton> {
                     ),
                   ],
                 ),
-                content: SingleChildScrollView(
-                  child: ListBody(
-                    children: [
-                      Container(
-                        width: 291 * pt,
-                        height: 250 * pt,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text("임시 저장하시겠습니까?",
-                                style: TextStyle(fontSize: 17 * pt)),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            Text('임시 저장한 글은',
-                                style: TextStyle(
-                                  fontSize: 14 * pt,
-                                )),
-                            Text('\'내 정보 > 임시 저장한 글\'',
-                                style: TextStyle(
-                                    fontSize: 14 * pt,
-                                    fontWeight: FontWeight.bold)),
-                            Text('에서 볼 수 있어요.',
-                                style: TextStyle(fontSize: 14 * pt))
-                          ],
-                        ),
-                      ),
-                      Container(
-                        height: 1,
-                        width: double.infinity,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
-                ),
+                content: SingleChildScrollView(child: this.widget.listBody),
                 actions: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +74,7 @@ class _PopButtonState extends State<PopButton> {
               );
             });
       },
-      child: Text('임시저장',
+      child: Text(this.widget.buttonTitle,
           style: TextStyle(fontSize: 13 * pt, fontWeight: FontWeight.bold)),
     );
   }
