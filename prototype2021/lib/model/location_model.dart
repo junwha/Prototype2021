@@ -28,6 +28,14 @@ class LocationModel with ChangeNotifier {
   /*
   * Update locations field with the locations included in boundary of bounds.
   */
+
+  void setBearing(double bearing) {
+    markerList.bearing = bearing;
+    markerList.removeAll();
+    markerList.addMarkerList(locations);
+    notifyListeners();
+  }
+
   void updateLocations(LatLngBounds bounds) {
     //TODO(junwha): call this method when map changed action detected.
     //bounds.southwest; bounds.northeast;

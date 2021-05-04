@@ -70,6 +70,9 @@ class _MapViewState extends State<MapView> {
                     ),
                   },
                   markers: locationModel.markers,
+                  onCameraMove: (CameraPosition cameraPostion) {
+                    locationModel.setBearing(cameraPostion.bearing);
+                  },
                   // onTap: (LatLng pos) {
                   //   setState(() {
                   //     _lastTap = pos;

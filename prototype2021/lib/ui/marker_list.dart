@@ -14,6 +14,7 @@ class MarkerList {
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
   late BitmapDescriptor markerIcon;
+  double bearing = 0;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
@@ -85,10 +86,16 @@ class MarkerList {
       },
       flat: true,
       icon: markerIcon,
+      anchor: Offset(0.5, 0.5),
+      rotation: bearing,
     );
 
     markers[markerId] = marker;
   }
 
   void removeMarker(LatLng latLng) {}
+
+  void removeAll() {
+    markers = <MarkerId, Marker>{};
+  }
 }
