@@ -5,6 +5,7 @@ import 'package:prototype2021/theme/datetimepicker_column.dart';
 import 'package:prototype2021/theme/checkbox_widget.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/selectable_text_button.dart';
 
 class EditorView extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class EditorView extends StatefulWidget {
 class _EditorViewState extends State<EditorView> {
   bool _isChecked1 = false;
   bool _isChecked2 = false;
-  List<bool> isCheckedButton = [true, false]; //initialize state as 동행찾기
+  List<bool> isChecked = [true, false]; //initialize state as 동행찾기
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
 
@@ -65,57 +66,25 @@ class _EditorViewState extends State<EditorView> {
             ),
             Row(
               children: [
-                OutlinedButton(
-                  style: ButtonStyle(side:
-                      MaterialStateProperty.resolveWith<BorderSide>(
-                          (Set<MaterialState> states) {
-                    final Color color =
-                        isCheckedButton[0] ? Colors.blue : Colors.grey;
-                    return BorderSide(color: color, width: 2);
-                  })),
-                  onPressed: () {
-                    setState(() {
-                      isCheckedButton[1] = false;
-                      isCheckedButton[0] = true;
-                    });
-                  },
-                  child: Text(
-                    "내 주변 이벤트",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12 * pt,
-                      color:
-                          isCheckedButton[0] ? Colors.blue[300] : Colors.grey,
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  width: 12 * pt,
-                ),
-                OutlinedButton(
-                  style: ButtonStyle(side:
-                      MaterialStateProperty.resolveWith<BorderSide>(
-                          (Set<MaterialState> states) {
-                    final Color color =
-                        isCheckedButton[1] ? Colors.blue : Colors.grey;
-                    return BorderSide(color: color, width: 2);
-                  })),
-                  onPressed: () {
-                    setState(() {
-                      isCheckedButton[1] = true;
-                      isCheckedButton[0] = false;
-                    });
-                  },
-                  child: Text(
-                    "동행 찾기",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12 * pt,
-                      color:
-                          isCheckedButton[1] ? Colors.blue[300] : Colors.grey,
-                    ),
-                  ),
-                ),
+                SelectableTextButton(
+                    titleName: "내 주변 이벤트",
+                    isChecked: isChecked[0],
+                    onPressed: () {
+                      setState(() {
+                        isChecked[1] = false;
+                        isChecked[0] = true;
+                      });
+                    }),
+                SizedBox(width: 10),
+                SelectableTextButton(
+                    titleName: "동행찾기",
+                    isChecked: isChecked[1],
+                    onPressed: () {
+                      setState(() {
+                        isChecked[1] = true;
+                        isChecked[0] = false;
+                      });
+                    })
               ],
             ),
             SizedBox(
