@@ -25,7 +25,8 @@ class _EventPlanState extends State<EventPlan> {
               matchPercent: 92,
               cost: 20000,
               period: '2박3일',
-              tags: ['액티비티', '관광명소', '인생사진'],
+              tags: ['액티비티', '관광명소', '인생사진'], onTap: null, preview: '',
+              tendencies: [],
             );
           },
         )),
@@ -35,26 +36,26 @@ class _EventPlanState extends State<EventPlan> {
 }
 
 class ProductCard extends StatefulWidget {
-  final String preview;
-  final String title;
-  final String place;
-  final List<String> tags;
-  final int matchPercent;
-  final int cost;
-  final String period;
-  final List<int> tendencies;
-  final Function onTap;
+  final String? preview;
+  final String? title;
+  final String? place;
+  final List<String>? tags;
+  final int? matchPercent;
+  final int? cost;
+  final String? period;
+  final List<int>? tendencies;
+  final Function? onTap;
 
   const ProductCard({
-    this.preview,
-    this.title,
-    this.place,
-    this.tags,
-    this.matchPercent,
-    this.cost,
-    this.period,
-    this.tendencies,
-    this.onTap,
+    required this.preview,
+    required this.title,
+    required this.place,
+    required this.tags,
+    required this.matchPercent,
+    required this.cost,
+    required this.period,
+    required this.tendencies,
+    required this.onTap,
   });
 
   @override
@@ -62,6 +63,16 @@ class ProductCard extends StatefulWidget {
 }
 
 class _ProductCardState extends State<ProductCard> {
+  late String preview;
+  late String title;
+  late String place;
+  late List<String> tags;
+  late int matchPercent;
+  late int cost;
+  late String period;
+  late List<int> tendencies;
+  late Function onTap;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -119,7 +130,7 @@ class _ProductCardState extends State<ProductCard> {
                       height: 2,
                     ),
                     Text(
-                      widget.title,
+                      title = widget.title ?? 'empty',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
@@ -128,7 +139,7 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                     SizedBox(height: 2),
                     Text(
-                      widget.place,
+                      place = widget.place ?? 'empty',
                       style: TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.bold,
@@ -146,7 +157,10 @@ class _ProductCardState extends State<ProductCard> {
                           width: 3,
                         ),
                         Text(
-                          '여행 스타일 ' + widget.matchPercent.toString() + '% 일치',
+                          '여행 스타일 ' +
+                              (matchPercent = widget.matchPercent ?? -1)
+                                  .toString() +
+                              '% 일치',
                           style: TextStyle(
                             fontSize: 10,
                             fontWeight: FontWeight.bold,
@@ -159,7 +173,7 @@ class _ProductCardState extends State<ProductCard> {
                     Row(
                       children: [
                         Text(
-                          '비용: ' + widget.cost.toString() + '원',
+                          '비용: ' + (cost = widget.cost ?? -1).toString() + '원',
                           style: TextStyle(
                             fontSize: 10,
                             color: const Color.fromARGB(255, 112, 112, 112),
@@ -169,7 +183,7 @@ class _ProductCardState extends State<ProductCard> {
                           width: 11,
                         ),
                         Text(
-                          '기간: ' + widget.period,
+                          '기간: ' + (period = widget.period ?? 'empty'),
                           style: TextStyle(
                             fontSize: 10,
                             color: const Color.fromARGB(255, 112, 112, 112),
@@ -218,7 +232,8 @@ class _ProductCardState extends State<ProductCard> {
             border: Border.all(
                 color: const Color.fromARGB(255, 219, 219, 219), width: 1)),
         child: Text(
-          widget.tags[index],
+          //TODO: Null check
+          widget.tags![index],
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 10,

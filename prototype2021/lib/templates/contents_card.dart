@@ -11,7 +11,7 @@ class EventContents extends StatefulWidget {
 class _EventContentsState extends State<EventContents> {
   // TODO: 선택 항목을 저장하고, 클릭 시 이를 보여줘야 함.
   // e.content.heartSelect 참고.
-  List<int> selectedCards = List(); // 선택된 카드의 index를 저장하는 리스트
+  List<int> selectedCards = []; // 선택된 카드의 index를 저장하는 리스트
 
   @override
   // ContentsCard를 element로 가지는 리스트를 생성한다.
@@ -23,13 +23,13 @@ class _EventContentsState extends State<EventContents> {
           itemCount: 4,
           itemBuilder: (context, int index) {
             return ContentsCard(
-              explanation: '울산대공원은 울산광역시 남구 대공원로 94에 있으며, 옥동과 신정동에 걸쳐 있는 도심...',
               preview: 'fill it!',
               title: '울산대공원',
               place: '대한민국, 울산',
               rating: 3.7,
               ratingNumbers: 369,
               tags: ['액티비티', '관광명소', '인생사진'],
+              explanation: '',
             );
           },
         )),
@@ -40,22 +40,28 @@ class _EventContentsState extends State<EventContents> {
 
 // e.content.heart에 있는 개별 카드 클래스
 class ContentsCard extends StatefulWidget {
-  final String preview;
-  final String title;
-  final String place;
-  final String explanation;
-  final double rating;
-  final int ratingNumbers;
-  final List<String> tags;
+  final String? preview;
+
+  final String? title;
+
+  final String? place;
+
+  final String? explanation;
+
+  final double? rating;
+
+  final int? ratingNumbers;
+
+  final List<String>? tags;
 
   const ContentsCard({
-    this.preview,
-    this.title,
-    this.place,
-    this.explanation,
-    this.rating,
-    this.ratingNumbers,
-    this.tags,
+    required this.preview,
+    required this.title,
+    required this.place,
+    required this.explanation,
+    required this.rating,
+    required this.ratingNumbers,
+    required this.tags,
   });
 
   @override
@@ -64,6 +70,19 @@ class ContentsCard extends StatefulWidget {
 
 class _ContentsCardState extends State<ContentsCard> {
   bool isSelected = false;
+
+  late String preview;
+  late String title;
+  late String place;
+
+  late String explanation;
+
+  late double rating;
+
+  late int ratingNumbers;
+
+  late List<String> tags;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -128,7 +147,7 @@ class _ContentsCardState extends State<ContentsCard> {
                       height: 2,
                     ),
                     Text(
-                      widget.title,
+                      title = widget.title ?? 'empty',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
@@ -137,7 +156,7 @@ class _ContentsCardState extends State<ContentsCard> {
                     ),
                     SizedBox(height: 3),
                     Text(
-                      widget.place,
+                      place = widget.place ?? 'empty',
                       style: TextStyle(
                         fontSize: 9,
                         fontWeight: FontWeight.bold,
@@ -148,7 +167,7 @@ class _ContentsCardState extends State<ContentsCard> {
                       height: 5,
                     ),
                     Text(
-                      widget.explanation,
+                      explanation = widget.explanation ?? 'empty',
                       style: TextStyle(
                         fontSize: 10,
                         color: const Color.fromARGB(255, 112, 112, 112),
@@ -171,7 +190,7 @@ class _ContentsCardState extends State<ContentsCard> {
                         Icon(Icons.star, color: Colors.yellow[600]),
                         SizedBox(width: 3),
                         Text(
-                          widget.rating.toString(),
+                          (rating = widget.rating ?? 0).toString(),
                           style: TextStyle(
                             fontSize: 11,
                             color: const Color(0xff707070),
@@ -179,7 +198,10 @@ class _ContentsCardState extends State<ContentsCard> {
                         ),
                         SizedBox(width: 1),
                         Text(
-                          '(' + widget.ratingNumbers.toString() + ')',
+                          '(' +
+                              (ratingNumbers = widget.ratingNumbers ?? 0)
+                                  .toString() +
+                              ')',
                           style: TextStyle(
                             fontSize: 11,
                             color: const Color(0xff707070),
@@ -210,7 +232,8 @@ class _ContentsCardState extends State<ContentsCard> {
             border: Border.all(
                 color: const Color.fromARGB(255, 219, 219, 219), width: 1)),
         child: Text(
-          widget.tags[index],
+          //TODO: Null check
+          widget.tags![index],
           style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 10,
