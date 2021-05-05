@@ -12,9 +12,6 @@ const String DEFAULT = "default";
 
 class PlaceLoader {
   LatLng center;
-  String? type;
-  late String url =
-      "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=2000&key=$kGoogleApiKey";
   List types = [RESTAURANT, HOTEL, SPOT, CAFFEE];
 
   PlaceLoader({required this.center});
@@ -23,7 +20,8 @@ class PlaceLoader {
 
   Future<List<PlaceData>> getPlace(String type) async {
     if (types.contains(type)) {
-      this.type = type;
+      String url =
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=2000&key=$kGoogleApiKey";
       print(url);
       try {
         http.Response res = await http.get(Uri.parse(url));
@@ -42,7 +40,6 @@ class PlaceLoader {
     for (String type in typeList) {
       placeList.addAll(await getPlace(type));
     }
-
     return placeList;
   }
 

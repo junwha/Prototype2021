@@ -15,7 +15,7 @@ class _MapViewState extends State<MapView> {
 
   //initial position
   LatLng center =
-      LatLng(35.5735, 129.1896); //TODO(junwha): change to dynamic location
+      LatLng(37.5172, 127.0473); //TODO(junwha): change to dynamic location
 
   //Save positions of last tapped and pressed
   // LatLng? _lastTap;
@@ -52,13 +52,30 @@ class _MapViewState extends State<MapView> {
         ),
       ),
       body: ChangeNotifierProvider(
-        create: (context) => LocationModel(),
+        create: (context) => LocationModel(center: center),
         child: Stack(
           children: [
             //initial position
             EventMap(
-                center: LatLng(35.5735,
-                    129.1896)), //TODO(junwha): change to dynamic location
+              center: center,
+            ), //TODO(junwha): change to dynamic location
+            Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                AnimatedContainer(
+                  color: Colors.white,
+                  width: double.maxFinite,
+                  height: 150,
+                  child: Column(
+                    children: [
+                      Text("이 장소가 언급된 글"),
+                    ],
+                  ),
+                  duration: Duration(seconds: 1),
+                  curve: Curves.fastOutSlowIn,
+                ),
+              ],
+            ),
           ],
         ),
       ),

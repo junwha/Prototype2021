@@ -15,6 +15,7 @@ class MarkerList {
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
   Map<String, BitmapDescriptor> markerIconMap = {};
+
   double bearing = 0;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
@@ -24,19 +25,15 @@ class MarkerList {
   */
   Future<bool> loadImage() async {
     try {
-      Uint8List bytes =
-          await getBytesFromAsset('assets/images/map/marker.png', 100);
-      markerIconMap["default"] = BitmapDescriptor.fromBytes(bytes);
-      // bytes =
-      //     await getBytesFromAsset('assets/images/map/caffee_marker.png', 100);
-      // markerIconMap[CAFFEE] = BitmapDescriptor.fromBytes(bytes);
-      // bytes =
-      //     await getBytesFromAsset('assets/images/map/event_marker.png', 100);
-      // markerIconMap["E"] =
-      //     BitmapDescriptor.fromBytes(bytes); //TODO: change to type
-      // bytes = await getBytesFromAsset(
-      //     'assets/images/map/restaurant_marker.png', 100);
-      // markerIconMap[RESTAURANT] = BitmapDescriptor.fromBytes(bytes);
+      markerIconMap[DEFAULT] =
+          await MarkerImage.createIcon('assets/images/map/marker.png', 100);
+      markerIconMap[CAFFEE] = await MarkerImage.createIcon(
+          'assets/images/map/caffee_marker.png', 100);
+      markerIconMap[RESTAURANT] = await MarkerImage.createIcon(
+          'assets/images/map/restaurant_marker.png', 100);
+      markerIconMap['E'] = await MarkerImage.createIcon(
+          'assets/images/map/event_marker.png', 100);
+
       return true;
     } catch (e) {
       return false;
@@ -46,15 +43,6 @@ class MarkerList {
   /*
   * Converts Image to byte data
   */
-  Future<Uint8List> getBytesFromAsset(String path, int width) async {
-    ByteData data = await rootBundle.load(path);
-    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
-        targetWidth: width);
-    FrameInfo fi = await codec.getNextFrame();
-    return (await fi.image.toByteData(format: ImageByteFormat.png))!
-        .buffer
-        .asUint8List();
-  }
 
   /*
   * Add markers on the locations in location list
@@ -72,7 +60,6 @@ class MarkerList {
   * Add new marker on the location
   */
   void addMarker(LatLng latLng, String type) {
-    print(type);
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -85,7 +72,7 @@ class MarkerList {
     _markerIdCounter++;
     final MarkerId markerId = MarkerId(markerIdVal);
 
-    BitmapDescriptor markerIcon = markerIconMap["default"]!;
+    BitmapDescriptor markerIcon = markerIconMap[DEFAULT]!;
     if (markerIconMap.containsKey(type)) {
       markerIcon = markerIconMap[type]!;
     }
@@ -113,5 +100,22 @@ class MarkerList {
 
   void removeAll() {
     markers = <MarkerId, Marker>{};
+  }
+}
+
+class MarkerImage {
+  static Future<BitmapDescriptor> createIcon(String path, int size) async {
+    Uint8List bytes = await getBytesFromAsset(path, size);
+    return BitmapDescriptor.fromBytes(bytes);
+  }
+
+  static Future<Uint8List> getBytesFromAsset(String path, int width) async {
+    ByteData data = await rootBundle.load(path);
+    Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),
+        targetWidth: width);
+    FrameInfo fi = await codec.getNextFrame();
+    return (await fi.image.toByteData(format: ImageByteFormat.png))!
+        .buffer
+        .asUint8List();
   }
 }
