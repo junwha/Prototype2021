@@ -4,6 +4,7 @@ import 'dart:convert';
 
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 
+// Types of places
 const String RESTAURANT = "식당";
 const String HOTEL = "호텔";
 const String SPOT = "관광지";
@@ -16,7 +17,9 @@ class PlaceLoader {
 
   PlaceLoader({required this.center});
 
-  void changeCenter(LatLng center) {}
+  void changeCenter(LatLng center) {
+    this.center = center;
+  }
 
   Future<List<PlaceData>> getPlace(String type) async {
     if (types.contains(type)) {
