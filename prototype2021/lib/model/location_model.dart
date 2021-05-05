@@ -25,7 +25,6 @@ class LocationModel with ChangeNotifier {
     this.placeLoader = PlaceLoader(center: this.center);
     List<PlaceData> placeDataList =
         await placeLoader.getPlaces([RESTAURANT, HOTEL, SPOT, CAFFEE]);
-    print("asdf");
 
     for (PlaceData placeData in placeDataList) {
       locations.add(ContentLocation(locations.length, placeData.name,
@@ -45,12 +44,12 @@ class LocationModel with ChangeNotifier {
   */
 
   void setBearing(double bearing) {
-    // if (markerList.bearing != bearing) {
-    //   markerList.bearing = bearing;
-    //   markerList.removeAll();
-    //   markerList.addMarkerList(locations);
-    //   notifyListeners();
-    // }
+    if (markerList.bearing != bearing) {
+      markerList.bearing = bearing;
+      markerList.removeAll();
+      markerList.addMarkerList(locations);
+      notifyListeners();
+    }
   }
 
   void updateLocations(LatLngBounds bounds) {
