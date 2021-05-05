@@ -48,7 +48,7 @@ class MarkerList {
     // print(markerIcon);
     for (Location location in locationList) {
       if (location is ContentLocation) {
-        addMarker(location.latLng, location.type);
+        addMarker(location.latLng, location.type, location.name);
       }
     }
   }
@@ -56,7 +56,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(LatLng latLng, String type) {
+  void addMarker(LatLng latLng, String type, String name) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -64,10 +64,11 @@ class MarkerList {
     //   return;
     // }
 
+    final MarkerId markerId = MarkerId(name);
     //marker ID
-    final String markerIdVal = 'marker_id_$_markerIdCounter';
-    _markerIdCounter++;
-    final MarkerId markerId = MarkerId(markerIdVal);
+    // final String markerIdVal = 'marker_id_$_markerIdCounter';
+    // _markerIdCounter++;
+    // final MarkerId markerId = MarkerId(markerIdVal);
 
     BitmapDescriptor markerIcon = markerIconMap[DEFAULT]!;
     if (markerIconMap.containsKey(type)) {
@@ -77,7 +78,7 @@ class MarkerList {
     final Marker marker = Marker(
       markerId: markerId,
       position: latLng,
-      infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
+      infoWindow: InfoWindow(title: name, snippet: '*'),
       onTap: () {
         //_onMarkerTapped(markerId);
       },

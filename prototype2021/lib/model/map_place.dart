@@ -86,4 +86,5 @@ class PlaceData {
       placeMeta["geometry"]["location"]["lng"]);
 
   String get name => placeMeta["name"];
+  String get businessStatus => placeMeta["business_status"];
 }
