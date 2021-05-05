@@ -64,9 +64,9 @@ class MarkerList {
     final int markerCount = markers.length;
 
     //Set maximum of marker
-    if (markerCount == 12) {
-      return;
-    }
+    // if (markerCount == 12) {
+    //   return;
+    // }
 
     //marker ID
     final String markerIdVal = 'marker_id_$_markerIdCounter';
@@ -77,7 +77,7 @@ class MarkerList {
     final Marker marker = Marker(
       markerId: markerId,
       position: latLng,
-      //infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
+      infoWindow: InfoWindow(title: markerIdVal, snippet: '*'),
       onTap: () {
         //_onMarkerTapped(markerId);
       },
