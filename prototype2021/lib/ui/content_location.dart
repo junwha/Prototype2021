@@ -4,6 +4,8 @@ import 'package:prototype2021/ui/location.dart';
 class ContentLocation extends Location {
   final int cid;
   final String name;
+  final String type;
 
-  const ContentLocation(this.cid, this.name, LatLng latLng) : super(latLng);
+  const ContentLocation(this.cid, this.name, LatLng latLng, this.type)
+      : super(latLng);
 }

@@ -7,13 +7,15 @@ const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 const String RESTAURANT = "식당";
 const String HOTEL = "호텔";
 const String SPOT = "관광지";
+const String CAFFEE = "카페";
+const String DEFAULT = "default";
 
 class PlaceLoader {
   LatLng center;
   String? type;
   late String url =
       "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=2000&key=$kGoogleApiKey";
-  List types = [RESTAURANT, HOTEL, SPOT];
+  List types = [RESTAURANT, HOTEL, SPOT, CAFFEE];
 
   PlaceLoader({required this.center});
 
@@ -22,8 +24,14 @@ class PlaceLoader {
   Future<List<PlaceData>> getPlace(String type) async {
     if (types.contains(type)) {
       this.type = type;
-      http.Response res = await http.get(Uri.parse(url));
-      return parseData(res.body);
+      print(url);
+      try {
+        http.Response res = await http.get(Uri.parse(url));
+        return parseData(res.body, type);
+      } catch (e) {
+        print("check internet");
+        throw Exception;
+      }
     } else {
       throw Exception;
     }
@@ -38,7 +46,7 @@ class PlaceLoader {
     return placeList;
   }
 
-  List<PlaceData> parseData(String jsonString) {
+  List<PlaceData> parseData(String jsonString, String type) {
     Map<String, dynamic> result = jsonDecode(jsonString);
     List<PlaceData> placeList = [];
 
@@ -48,7 +56,7 @@ class PlaceLoader {
 
     try {
       for (var placeMeta in result['results']) {
-        placeList.add(PlaceData(placeMeta));
+        placeList.add(PlaceData(placeMeta, type));
       }
     } catch (e) {
       print(e);
@@ -61,8 +69,9 @@ class PlaceLoader {
 class PlaceData {
   Map<String, dynamic>
       placeMeta; //{business_status, geometry: {location: lat, lng,}, viewport: {northeast, southest}, icon, name, opening_hours, photos, place_id, plus_code: {compound_code, global_code}, price_level, rating, reference, scope, types, user_ratings_total, vicinty}
+  String type;
 
-  PlaceData(this.placeMeta);
+  PlaceData(this.placeMeta, this.type);
 
   LatLng get location => LatLng(placeMeta["geometry"]["location"]["lat"],
       placeMeta["geometry"]["location"]["lng"]);

@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/map_place.dart';
 import 'package:prototype2021/ui/content_location.dart';
 import 'package:prototype2021/ui/location.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +14,7 @@ class MarkerList {
   Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
-  late BitmapDescriptor markerIcon;
+  Map<String, BitmapDescriptor> markerIconMap = {};
   double bearing = 0;
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
@@ -25,7 +26,17 @@ class MarkerList {
     try {
       Uint8List bytes =
           await getBytesFromAsset('assets/images/map/marker.png', 100);
-      markerIcon = BitmapDescriptor.fromBytes(bytes);
+      markerIconMap["default"] = BitmapDescriptor.fromBytes(bytes);
+      // bytes =
+      //     await getBytesFromAsset('assets/images/map/caffee_marker.png', 100);
+      // markerIconMap[CAFFEE] = BitmapDescriptor.fromBytes(bytes);
+      // bytes =
+      //     await getBytesFromAsset('assets/images/map/event_marker.png', 100);
+      // markerIconMap["E"] =
+      //     BitmapDescriptor.fromBytes(bytes); //TODO: change to type
+      // bytes = await getBytesFromAsset(
+      //     'assets/images/map/restaurant_marker.png', 100);
+      // markerIconMap[RESTAURANT] = BitmapDescriptor.fromBytes(bytes);
       return true;
     } catch (e) {
       return false;
@@ -52,7 +63,7 @@ class MarkerList {
     // print(markerIcon);
     for (Location location in locationList) {
       if (location is ContentLocation) {
-        addMarker(location.latLng);
+        addMarker(location.latLng, location.type);
       }
     }
   }
@@ -60,7 +71,8 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(LatLng latLng) {
+  void addMarker(LatLng latLng, String type) {
+    print(type);
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -73,6 +85,10 @@ class MarkerList {
     _markerIdCounter++;
     final MarkerId markerId = MarkerId(markerIdVal);
 
+    BitmapDescriptor markerIcon = markerIconMap["default"]!;
+    if (markerIconMap.containsKey(type)) {
+      markerIcon = markerIconMap[type]!;
+    }
     //Create Marker
     final Marker marker = Marker(
       markerId: markerId,
@@ -93,7 +109,7 @@ class MarkerList {
     markers[markerId] = marker;
   }
 
-  void removeMarker(LatLng latLng) {}
+  void removeMarker(int id) {}
 
   void removeAll() {
     markers = <MarkerId, Marker>{};

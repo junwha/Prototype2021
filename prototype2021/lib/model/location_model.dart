@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [
-    ContentLocation(0, "A", LatLng(37.5172, 127.0473))
+    ContentLocation(0, "A", LatLng(37.5172, 127.0473), DEFAULT)
   ];
 
   MarkerList markerList = MarkerList();
@@ -24,12 +24,13 @@ class LocationModel with ChangeNotifier {
     loaded = await markerList.loadImage();
     this.placeLoader = PlaceLoader(center: this.center);
     List<PlaceData> placeDataList =
-        await placeLoader.getPlaces([RESTAURANT, HOTEL, SPOT]);
-    for (PlaceData placeData in placeDataList) {
-      locations.add(ContentLocation(
-          locations.length, placeData.name, placeData.location));
-    }
+        await placeLoader.getPlaces([RESTAURANT, HOTEL, SPOT, CAFFEE]);
+    print("asdf");
 
+    for (PlaceData placeData in placeDataList) {
+      locations.add(ContentLocation(locations.length, placeData.name,
+          placeData.location, placeData.type));
+    }
     markerList.addMarkerList(locations);
     notifyListeners();
   }
@@ -44,10 +45,12 @@ class LocationModel with ChangeNotifier {
   */
 
   void setBearing(double bearing) {
-    markerList.bearing = bearing;
-    markerList.removeAll();
-    markerList.addMarkerList(locations);
-    notifyListeners();
+    // if (markerList.bearing != bearing) {
+    //   markerList.bearing = bearing;
+    //   markerList.removeAll();
+    //   markerList.addMarkerList(locations);
+    //   notifyListeners();
+    // }
   }
 
   void updateLocations(LatLngBounds bounds) {
