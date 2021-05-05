@@ -10,13 +10,15 @@ import 'package:flutter/material.dart';
 
 class MarkerList {
   //TODO(junwha): generalize with CID and EID
-  //Fields for Markers
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{};
+
+  Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; //Fields for Markers
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
-  Map<String, BitmapDescriptor> markerIconMap = {};
 
-  double bearing = 0;
+  Map<String, BitmapDescriptor> markerIconMap =
+      {}; // Math marker Icon with Types
+
+  double bearing = 0; //Rotation
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
@@ -39,10 +41,6 @@ class MarkerList {
       return false;
     }
   }
-
-  /*
-  * Converts Image to byte data
-  */
 
   /*
   * Add markers on the locations in location list
@@ -104,11 +102,17 @@ class MarkerList {
 }
 
 class MarkerImage {
+  /*
+  * Return marker icon from asset path
+  */
   static Future<BitmapDescriptor> createIcon(String path, int size) async {
     Uint8List bytes = await getBytesFromAsset(path, size);
     return BitmapDescriptor.fromBytes(bytes);
   }
 
+  /*
+  * Converts Image to byte data
+  */
   static Future<Uint8List> getBytesFromAsset(String path, int width) async {
     ByteData data = await rootBundle.load(path);
     Codec codec = await instantiateImageCodec(data.buffer.asUint8List(),

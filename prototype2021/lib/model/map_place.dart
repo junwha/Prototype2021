@@ -21,6 +21,9 @@ class PlaceLoader {
     this.center = center;
   }
 
+  /* 
+  * Find nearby places from [center] with specified type 
+  */
   Future<List<PlaceData>> getPlace(String type) async {
     if (types.contains(type)) {
       String url =
@@ -38,6 +41,9 @@ class PlaceLoader {
     }
   }
 
+  /* 
+  * Find nearby places from [center] with specified types
+  */
   Future<List<PlaceData>> getPlaces(List typeList) async {
     List<PlaceData> placeList = [];
     for (String type in typeList) {
@@ -66,6 +72,9 @@ class PlaceLoader {
   }
 }
 
+/*
+* This class saves all data of place from google map
+*/
 class PlaceData {
   Map<String, dynamic>
       placeMeta; //{business_status, geometry: {location: lat, lng,}, viewport: {northeast, southest}, icon, name, opening_hours, photos, place_id, plus_code: {compound_code, global_code}, price_level, rating, reference, scope, types, user_ratings_total, vicinty}

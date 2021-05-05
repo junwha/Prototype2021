@@ -19,16 +19,21 @@ class LocationModel with ChangeNotifier {
   }
 
   void init() async {
-    loaded = await markerList.loadImage();
+    loaded = await markerList.loadImage(); // Load Marker Icons
     this.placeLoader = PlaceLoader(center: this.center);
-    List<PlaceData> placeDataList =
-        await placeLoader.getPlaces([RESTAURANT, HOTEL, SPOT, CAFFEE]);
-
+    List<PlaceData> placeDataList = await placeLoader.getPlaces([
+      RESTAURANT,
+      HOTEL,
+      SPOT,
+      CAFFEE
+    ]); // Find nearby places with specified types
     for (PlaceData placeData in placeDataList) {
+      // Add all placeData to location list
       locations.add(ContentLocation(locations.length, placeData.name,
           placeData.location, placeData.type));
     }
-    markerList.addMarkerList(locations);
+
+    markerList.addMarkerList(locations); // Create markers
     notifyListeners();
   }
 
