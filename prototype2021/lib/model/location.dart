@@ -8,3 +8,12 @@ class Location {
 
   const Location(this.latLng);
 }
+
+class ContentLocation extends Location {
+  final int cid;
+  final String name;
+  final String type;
+
+  const ContentLocation(this.cid, this.name, LatLng latLng, this.type)
+      : super(latLng);
+}
