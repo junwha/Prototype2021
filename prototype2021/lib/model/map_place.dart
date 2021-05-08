@@ -27,7 +27,7 @@ class PlaceLoader {
   Future<List<PlaceData>> getPlace(String type) async {
     if (types.contains(type)) {
       String url =
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=2000&key=$kGoogleApiKey";
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=500&key=$kGoogleApiKey";
       print(url);
       try {
         http.Response res = await http.get(Uri.parse(url));
