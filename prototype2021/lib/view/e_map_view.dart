@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:prototype2021/model/location_model.dart';
+import 'package:prototype2021/ui/place_info.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
 
@@ -15,7 +16,7 @@ class _MapViewState extends State<MapView> {
 
   //initial position
   LatLng center =
-      LatLng(37.5172, 127.0473); //TODO(junwha): change to dynamic location
+      LatLng(35.5437, 129.2563); //TODO(junwha): change to dynamic location
 
   //Save positions of last tapped and pressed
   // LatLng? _lastTap;
@@ -59,23 +60,7 @@ class _MapViewState extends State<MapView> {
             EventMap(
               center: center,
             ), //TODO(junwha): change to dynamic location
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                AnimatedContainer(
-                  color: Colors.white,
-                  width: double.maxFinite,
-                  height: 150,
-                  child: Column(
-                    children: [
-                      Text("이 장소가 언급된 글"),
-                    ],
-                  ),
-                  duration: Duration(seconds: 1),
-                  curve: Curves.fastOutSlowIn,
-                ),
-              ],
-            ),
+            PlaceInfo(),
           ],
         ),
       ),
