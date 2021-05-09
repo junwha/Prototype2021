@@ -28,28 +28,28 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     } else if (this.widget.isChecked1) {
       return Column(
         children: [
-          RecruitmentNumber(),
-          AgeSelection(),
+          buildRecruitmentNumber(),
+          buildAgeSelection(),
         ],
       );
     } else if (this.widget.isChecked2) {
       return Column(
         children: [
-          RecruitmentNumber(),
-          GenderRecruitment(),
+          buildRecruitmentNumber(),
+          buildGenderRecruitment(),
         ],
       );
     } else {
       return Column(
         children: [
-          GenderRecruitment(),
-          AgeSelection(),
+          buildGenderRecruitment(),
+          buildAgeSelection(),
         ],
       );
     }
   }
 
-  Row GenderRecruitment() {
+  Row buildGenderRecruitment() {
     return Row(
       children: [
         Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
@@ -105,7 +105,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     );
   }
 
-  Row AgeSelection() {
+  Row buildAgeSelection() {
     return Row(
       children: [
         Text("나이", style: TextStyle(fontSize: 13 * pt)),
@@ -150,7 +150,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     );
   }
 
-  Row RecruitmentNumber() {
+  Row buildRecruitmentNumber() {
     return Row(children: [
       Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
       SizedBox(
