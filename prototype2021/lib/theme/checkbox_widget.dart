@@ -35,7 +35,6 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     } else if (this.widget.isChecked2) {
       return Column(
         children: [
-          buildRecruitmentNumber(),
           buildGenderRecruitment(),
         ],
       );
