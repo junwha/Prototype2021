@@ -38,54 +38,7 @@ class _EditorViewState extends State<EditorView> {
                   20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
               child: Column(
                 children: [
-                  Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Row(
-                          children: [
-                            CloseButton(
-                              color: Colors.black,
-                              onPressed: () {},
-                            ),
-                            Text(
-                              '글 쓰기',
-                              style: TextStyle(
-                                  fontSize: 14 * pt,
-                                  fontWeight: FontWeight.bold),
-                            )
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            PopButton(
-                              buttonTitle: "임시저장",
-                              listBody: ListBody(
-                                children: [
-                                  Container(
-                                    width: 291 * pt,
-                                    height: 250 * pt,
-                                    child: buildListBodyText(),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            SizedBox(
-                              width: 10 * pt,
-                            ),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.blue, // background
-                                onPrimary: Colors.white, // foreground
-                              ),
-                              onPressed: () {},
-                              child: Text('등록',
-                                  style: TextStyle(
-                                      fontSize: 13 * pt,
-                                      fontWeight: FontWeight.bold)),
-                            )
-                          ],
-                        )
-                      ]),
+                  buildHeaderBar(),
                   SizedBox(
                     height: 23 * pt,
                   ),
@@ -164,6 +117,52 @@ class _EditorViewState extends State<EditorView> {
         ),
       ),
     );
+  }
+
+  Widget buildHeaderBar() {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Row(
+        children: [
+          CloseButton(
+            color: Colors.black,
+            onPressed: () {},
+          ),
+          Text(
+            '글 쓰기',
+            style: TextStyle(fontSize: 14 * pt, fontWeight: FontWeight.bold),
+          )
+        ],
+      ),
+      Row(
+        children: [
+          PopButton(
+            buttonTitle: "임시저장",
+            listBody: ListBody(
+              children: [
+                Container(
+                  width: 291 * pt,
+                  height: 250 * pt,
+                  child: buildListBodyText(),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 10 * pt,
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              primary: Colors.blue, // background
+              onPrimary: Colors.white, // foreground
+            ),
+            onPressed: () {},
+            child: Text('등록',
+                style:
+                    TextStyle(fontSize: 13 * pt, fontWeight: FontWeight.bold)),
+          )
+        ],
+      )
+    ]);
   }
 
   Widget buildListBodyText() {
