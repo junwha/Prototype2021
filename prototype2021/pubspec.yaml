@@ -33,7 +33,9 @@ dependencies:
   cupertino_icons: ^1.0.3
 
   #Provider Pattern
-  provider: ^3.0.0+1
+  provider: ^5.0.0
+
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
