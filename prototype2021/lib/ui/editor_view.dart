@@ -42,29 +42,7 @@ class _EditorViewState extends State<EditorView> {
                   SizedBox(
                     height: 23 * pt,
                   ),
-                  Row(
-                    children: [
-                      SelectableTextButton(
-                          titleName: "내 주변 이벤트",
-                          isChecked: articleType[0],
-                          onPressed: () {
-                            setState(() {
-                              articleType[1] = false;
-                              articleType[0] = true;
-                            });
-                          }),
-                      SizedBox(width: 10),
-                      SelectableTextButton(
-                          titleName: "동행찾기",
-                          isChecked: articleType[1],
-                          onPressed: () {
-                            setState(() {
-                              articleType[1] = true;
-                              articleType[0] = false;
-                            });
-                          })
-                    ],
-                  ),
+                  buildTypeToggle(),
                   SizedBox(
                     height: 16 * pt,
                   ),
@@ -116,6 +94,32 @@ class _EditorViewState extends State<EditorView> {
           }),
         ),
       ),
+    );
+  }
+
+  Widget buildTypeToggle() {
+    return Row(
+      children: [
+        SelectableTextButton(
+            titleName: "내 주변 이벤트",
+            isChecked: articleType[0],
+            onPressed: () {
+              setState(() {
+                articleType[1] = false;
+                articleType[0] = true;
+              });
+            }),
+        SizedBox(width: 10),
+        SelectableTextButton(
+            titleName: "동행찾기",
+            isChecked: articleType[1],
+            onPressed: () {
+              setState(() {
+                articleType[1] = true;
+                articleType[0] = false;
+              });
+            })
+      ],
     );
   }
 
