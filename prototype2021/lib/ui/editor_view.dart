@@ -53,7 +53,7 @@ class _EditorViewState extends State<EditorView> {
                         Container(
                           width: 291 * pt,
                           height: 250 * pt,
-                          child: ListBodyText(),
+                          child: buildListBodyText(),
                         ),
                       ],
                     ),
@@ -144,7 +144,7 @@ class _EditorViewState extends State<EditorView> {
     ));
   }
 
-  Column ListBodyText() {
+  Column buildListBodyText() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
