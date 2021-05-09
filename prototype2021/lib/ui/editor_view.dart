@@ -75,13 +75,13 @@ class _EditorViewState extends State<EditorView> {
                           value1: hasGender,
                           onChanged1: (bool? value) {
                             setState(() {
-                              hasGender = value == null ? false : value;
+                              hasGender = value ?? false;
                             });
                           },
                           value2: hasAge,
                           onChanged2: (bool? value) {
                             setState(() {
-                              hasAge = value == null ? false : value;
+                              hasAge = value ?? false;
                             });
                           }),
                       CheckBoxWidget(hasGender, hasAge),
