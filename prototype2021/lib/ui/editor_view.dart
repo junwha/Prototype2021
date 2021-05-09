@@ -16,9 +16,12 @@ class EditorView extends StatefulWidget {
 }
 
 class _EditorViewState extends State<EditorView> {
-  bool _isChecked1 = false;
-  bool _isChecked2 = false;
-  List<bool> isChecked = [true, false]; //initialize state as 동행찾기
+  bool hasGender = false;
+  bool hasAge = false;
+  List<bool> articleType = [
+    true,
+    false
+  ]; //initialize state as 내 주변 이벤트 [내 주변 이벤트, 동행찾기]
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
   TextEditingController controlofoto = TextEditingController();
@@ -90,21 +93,21 @@ class _EditorViewState extends State<EditorView> {
                     children: [
                       SelectableTextButton(
                           titleName: "내 주변 이벤트",
-                          isChecked: isChecked[0],
+                          isChecked: articleType[0],
                           onPressed: () {
                             setState(() {
-                              isChecked[1] = false;
-                              isChecked[0] = true;
+                              articleType[1] = false;
+                              articleType[0] = true;
                             });
                           }),
                       SizedBox(width: 10),
                       SelectableTextButton(
                           titleName: "동행찾기",
-                          isChecked: isChecked[1],
+                          isChecked: articleType[1],
                           onPressed: () {
                             setState(() {
-                              isChecked[1] = true;
-                              isChecked[0] = false;
+                              articleType[1] = true;
+                              articleType[0] = false;
                             });
                           })
                     ],
@@ -138,19 +141,19 @@ class _EditorViewState extends State<EditorView> {
                   Column(
                     children: [
                       CheckboxRow(
-                          value1: _isChecked1,
+                          value1: hasGender,
                           onChanged1: (bool? value) {
                             setState(() {
-                              _isChecked1 = value == null ? false : value;
+                              hasGender = value == null ? false : value;
                             });
                           },
-                          value2: _isChecked2,
+                          value2: hasAge,
                           onChanged2: (bool? value) {
                             setState(() {
-                              _isChecked2 = value == null ? false : value;
+                              hasAge = value == null ? false : value;
                             });
                           }),
-                      CheckBoxWidget(_isChecked1, _isChecked2),
+                      CheckBoxWidget(hasGender, hasAge),
                       //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
                     ],
                   ),
