@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 class TextFieldForm extends StatefulWidget {
   String hintText;
-  TextFieldForm({required this.hintText});
+  Function(String) onChanged;
+  TextFieldForm({required this.hintText, required this.onChanged});
 
   @override
   _TextFieldFormState createState() => _TextFieldFormState();
@@ -22,11 +23,7 @@ class _TextFieldFormState extends State<TextFieldForm> {
               contentPadding:
                   EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
               hintText: this.widget.hintText),
-          onChanged: (text) {
-            setState(() {
-              inputText = text;
-            });
-          },
+          onChanged: this.widget.onChanged,
           maxLines: null,
           keyboardType: TextInputType.multiline,
         )
