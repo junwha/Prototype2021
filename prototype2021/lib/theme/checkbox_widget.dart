@@ -14,12 +14,36 @@ class CheckBoxWidget extends StatefulWidget {
 }
 
 class _CheckBoxWidgetState extends State<CheckBoxWidget> {
-  final _valueList1 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  final _valueList2 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  final _valueList3 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  var _selectedValue1 = '0';
-  var _selectedValue2 = '0';
-  var _selectedValue3 = '0';
+  final List<String> recruitValues = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
+  ];
+  final List<String> ageValues = [
+    '0',
+    '10',
+    '20',
+    '30',
+    '40',
+    '50',
+    '60',
+    '70',
+    '80',
+    '90',
+  ];
+  var recruitNumber = '0';
+  var maleRecruitNumber = '0';
+  var femaleRecruitNumber = '0';
+  var startAge = '0';
+  var endAge = '0';
 
   @override
   Widget build(BuildContext context) {
@@ -60,8 +84,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           width: 10 * pt,
         ),
         DropdownButton(
-          value: _selectedValue2,
-          items: _valueList2.map(
+          value: maleRecruitNumber,
+          items: recruitValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -71,7 +95,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue2 = value == null ? "" : value;
+              maleRecruitNumber = value == null ? "" : value;
             });
           },
         ),
@@ -84,8 +108,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           width: 10 * pt,
         ),
         DropdownButton(
-          value: _selectedValue3,
-          items: _valueList3.map(
+          value: femaleRecruitNumber,
+          items: recruitValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -95,7 +119,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue3 = value == null ? "" : value;
+              femaleRecruitNumber = value == null ? "" : value;
             });
           },
         ),
@@ -112,8 +136,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           width: 80,
         ),
         DropdownButton(
-          value: _selectedValue2,
-          items: _valueList2.map(
+          value: startAge,
+          items: ageValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -123,14 +147,14 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue2 = value == null ? "" : value;
+              startAge = value == null ? "" : value;
             });
           },
         ),
         Text("     ~     "),
         DropdownButton(
-          value: _selectedValue3,
-          items: _valueList3.map(
+          value: endAge,
+          items: ageValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -140,7 +164,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue3 = value == null ? "" : value;
+              endAge = value == null ? "" : value;
             });
           },
         ),
@@ -158,8 +182,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
       Row(
         children: [
           DropdownButton(
-            value: _selectedValue1,
-            items: _valueList1.map(
+            value: recruitNumber,
+            items: recruitValues.map(
               (value) {
                 return DropdownMenuItem(
                   value: value,
@@ -169,7 +193,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
             ).toList(),
             onChanged: (String? value) {
               setState(() {
-                _selectedValue1 = value == null ? "" : value;
+                recruitNumber = value == null ? "" : value;
               });
             },
           ),
