@@ -144,7 +144,7 @@ class _EditorViewState extends State<EditorView> {
     ));
   }
 
-  Column buildListBodyText() {
+  Widget buildListBodyText() {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [

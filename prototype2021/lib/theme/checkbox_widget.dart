@@ -49,7 +49,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     }
   }
 
-  Row buildGenderRecruitment() {
+  Widget buildGenderRecruitment() {
     return Row(
       children: [
         Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
@@ -105,7 +105,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     );
   }
 
-  Row buildAgeSelection() {
+  Widget buildAgeSelection() {
     return Row(
       children: [
         Text("나이", style: TextStyle(fontSize: 13 * pt)),
@@ -150,7 +150,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     );
   }
 
-  Row buildRecruitmentNumber() {
+  Widget buildRecruitmentNumber() {
     return Row(children: [
       Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
       SizedBox(
