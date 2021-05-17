@@ -16,8 +16,6 @@ class EditorView extends StatefulWidget {
 }
 
 class _EditorViewState extends State<EditorView> {
-  bool hasGender = false;
-  bool hasAge = false;
   List<bool> articleType = [
     true,
     false
@@ -72,19 +70,22 @@ class _EditorViewState extends State<EditorView> {
                   Column(
                     children: [
                       CheckboxRow(
-                          value1: hasGender,
+                          value1: editorModel.hasGender,
                           onChanged1: (bool? value) {
                             setState(() {
-                              hasGender = value ?? false;
+                              editorModel.hasGender = value ?? false;
                             });
+
+                            editorModel.printChanged();
                           },
-                          value2: hasAge,
+                          value2: editorModel.hasAge,
                           onChanged2: (bool? value) {
                             setState(() {
-                              hasAge = value ?? false;
+                              editorModel.hasAge = value ?? false;
                             });
+                            editorModel.printChanged();
                           }),
-                      CheckBoxWidget(hasGender, hasAge),
+                      CheckBoxWidget(editorModel.hasGender, editorModel.hasAge),
                       //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
                     ],
                   ),
