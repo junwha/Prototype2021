@@ -36,11 +36,11 @@ class _EditorViewState extends State<EditorView> {
                   20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
               child: Column(
                 children: [
-                  buildHeaderBar(),
+                  buildHeaderBar(editorModel),
                   SizedBox(
                     height: 23 * pt,
                   ),
-                  buildTypeToggle(),
+                  buildTypeToggle(editorModel),
                   SizedBox(
                     height: 16 * pt,
                   ),
@@ -75,7 +75,6 @@ class _EditorViewState extends State<EditorView> {
                             setState(() {
                               editorModel.hasGender = value ?? false;
                             });
-
                             editorModel.printChanged();
                           },
                           value2: editorModel.hasAge,
@@ -98,7 +97,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildTypeToggle() {
+  Widget buildTypeToggle(EditorModel editorModel) {
     return Row(
       children: [
         SelectableTextButton(
@@ -106,6 +105,7 @@ class _EditorViewState extends State<EditorView> {
             isChecked: articleType[0],
             onPressed: () {
               setState(() {
+                editorModel.articleType = EVENT;
                 articleType[1] = false;
                 articleType[0] = true;
               });
@@ -116,6 +116,7 @@ class _EditorViewState extends State<EditorView> {
             isChecked: articleType[1],
             onPressed: () {
               setState(() {
+                editorModel.articleType = COMPANION;
                 articleType[1] = true;
                 articleType[0] = false;
               });
@@ -124,7 +125,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildHeaderBar() {
+  Widget buildHeaderBar(EditorModel editorModel) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Row(
         children: [
