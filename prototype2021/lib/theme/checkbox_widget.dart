@@ -4,9 +4,13 @@ import 'package:prototype2021/settings/constants.dart';
 class CheckBoxWidget extends StatefulWidget {
   bool isChecked1 = false;
   bool isChecked2 = false;
-  CheckBoxWidget(bool isChecked1, bool isChecked2) {
+  Function(String, String, String, String, String) onChanged = (recruitNumber,
+      maleRecruitNumber, femaleRecruitNumber, startAge, endAge) {};
+  CheckBoxWidget(bool isChecked1, bool isChecked2,
+      Function(String, String, String, String, String) onChanged) {
     this.isChecked1 = isChecked1;
     this.isChecked2 = isChecked2;
+    this.onChanged = onChanged;
   }
 
   @override
@@ -39,11 +43,16 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     '80',
     '90',
   ];
-  var recruitNumber = '0';
-  var maleRecruitNumber = '0';
-  var femaleRecruitNumber = '0';
-  var startAge = '0';
-  var endAge = '0';
+  String recruitNumber = '0';
+  String maleRecruitNumber = '0';
+  String femaleRecruitNumber = '0';
+  String startAge = '0';
+  String endAge = '0';
+
+  void updateFields() {
+    this.widget.onChanged(recruitNumber, maleRecruitNumber, femaleRecruitNumber,
+        startAge, endAge);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -96,6 +105,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           onChanged: (String? value) {
             setState(() {
               maleRecruitNumber = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -120,6 +130,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           onChanged: (String? value) {
             setState(() {
               femaleRecruitNumber = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -148,6 +159,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           onChanged: (String? value) {
             setState(() {
               startAge = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -165,6 +177,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           onChanged: (String? value) {
             setState(() {
               endAge = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -194,6 +207,7 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
             onChanged: (String? value) {
               setState(() {
                 recruitNumber = value == null ? "" : value;
+                updateFields();
               });
             },
           ),
