@@ -27,71 +27,83 @@ class _EditorViewState extends State<EditorView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        child: ChangeNotifierProvider(
-          create: (context) => EditorModel(),
-          child: Consumer(builder: (context, EditorModel editorModel, child) {
-            return Padding(
-              padding: const EdgeInsets.fromLTRB(
-                  20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
-              child: Column(
-                children: [
-                  buildHeaderBar(editorModel),
-                  SizedBox(
-                    height: 23 * pt,
-                  ),
-                  buildTypeToggle(editorModel),
-                  SizedBox(
-                    height: 16 * pt,
-                  ),
-                  Container(height: 1, width: 500, color: Colors.grey),
-                  Container(
-                      height: 61 * pt,
-                      child: TextFieldForm(
-                          hintText: "제목",
+      body: SingleChildScrollView(
+        child: Container(
+          child: ChangeNotifierProvider(
+            create: (context) => EditorModel(),
+            child: Consumer(builder: (context, EditorModel editorModel, child) {
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(
+                    20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
+                child: Column(
+                  children: [
+                    buildHeaderBar(editorModel),
+                    SizedBox(
+                      height: 23 * pt,
+                    ),
+                    buildTypeToggle(editorModel),
+                    SizedBox(
+                      height: 16 * pt,
+                    ),
+                    Container(height: 1, width: 500, color: Colors.grey),
+                    Container(
+                        height: 61 * pt,
+                        child: TextFieldForm(
+                            hintText: "제목",
+                            onChanged: (String text) {
+                              editorModel.title = text;
+                              editorModel.printChanged();
+                            })),
+                    Container(height: 1, width: 500, color: Colors.grey),
+                    Container(
+                        alignment: FractionalOffset.topLeft,
+                        height: 200 * pt,
+                        width: 500,
+                        color: Colors.white,
+                        child: TextFieldForm(
+                          hintText: "내용을 입력하세요.",
                           onChanged: (String text) {
-                            editorModel.title = text;
-                            editorModel.printChanged();
-                          })),
-                  Container(height: 1, width: 500, color: Colors.grey),
-                  Container(
-                      alignment: FractionalOffset.topLeft,
-                      height: 200 * pt,
-                      width: 500,
-                      color: Colors.white,
-                      child: TextFieldForm(
-                        hintText: "내용을 입력하세요.",
-                        onChanged: (String text) {
-                          editorModel.content = text;
-                          editorModel.printChanged();
-                        },
-                      )),
-                  Container(height: 1, width: 500, color: Colors.grey),
-                  Column(
-                    children: [
-                      CheckboxRow(
-                          value1: editorModel.hasGender,
-                          onChanged1: (bool? value) {
-                            setState(() {
-                              editorModel.hasGender = value ?? false;
-                            });
+                            editorModel.content = text;
                             editorModel.printChanged();
                           },
-                          value2: editorModel.hasAge,
-                          onChanged2: (bool? value) {
-                            setState(() {
-                              editorModel.hasAge = value ?? false;
-                            });
-                            editorModel.printChanged();
-                          }),
-                      CheckBoxWidget(editorModel.hasGender, editorModel.hasAge),
-                      //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
-                    ],
-                  ),
-                ],
-              ),
-            );
-          }),
+                        )),
+                    Container(height: 1, width: 500, color: Colors.grey),
+                    Column(
+                      children: [
+                        CheckboxRow(
+                            value1: editorModel.hasGender,
+                            onChanged1: (bool? value) {
+                              setState(() {
+                                editorModel.hasGender = value ?? false;
+                              });
+                              editorModel.printChanged();
+                            },
+                            value2: editorModel.hasAge,
+                            onChanged2: (bool? value) {
+                              setState(() {
+                                editorModel.hasAge = value ?? false;
+                              });
+                              editorModel.printChanged();
+                            }),
+                        CheckBoxWidget(
+                            editorModel.hasGender, editorModel.hasAge,
+                            (recruitNumber, maleRecruitNumber,
+                                femaleRecruitNumber, startAge, endAge) {
+                          editorModel.recruitNumber = recruitNumber;
+                          editorModel.maleRecruitNumber = maleRecruitNumber;
+                          editorModel.femaleRecruitNumber = femaleRecruitNumber;
+                          editorModel.startAge = startAge;
+                          editorModel.endAge = endAge;
+                          editorModel.printChanged();
+                        }),
+                        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
+                      ],
+                    ),
+                  ],
+                ),
+              );
+            }),
+          ),
         ),
       ),
     );
