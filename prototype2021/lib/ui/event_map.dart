@@ -27,7 +27,7 @@ class _EventMapState extends State<EventMap> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (contet, LocationModel locationModel, child) {
+    return Consumer(builder: (context, LocationModel locationModel, child) {
       return !locationModel.loaded
           ? Text("Loading...")
           : GoogleMap(
