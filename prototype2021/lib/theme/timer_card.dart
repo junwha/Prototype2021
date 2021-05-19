@@ -22,8 +22,6 @@ class _TimerCardState extends State<TimerCard> {
   Timer? _timer;
   @override
   Widget build(BuildContext context) {
-    remainTime = this.widget.due.difference(DateTime.now());
-    dateTimer(this.widget.due, this.widget.onEnd);
     return Container(
       height: 80,
       child: Column(
@@ -50,23 +48,25 @@ class _TimerCardState extends State<TimerCard> {
   }
 
   @override
-  void dispose() {
-    _timer?.cancel();
-    super.dispose();
-  }
-
-  void dateTimer(DateTime due, Function? onEnd) {
+  void initState() {
     _timer = Timer.periodic(Duration(seconds: 1), (timer) {
       setState(() {
         remainTime = this.widget.due.difference(DateTime.now());
       });
 
-      if (!remainTime.isNegative) {
-        setState(() {
-          timer.cancel();
-          onEnd!();
-        });
+      if (remainTime.isNegative) {
+        timer.cancel();
+        if (this.widget.onEnd != null) {
+          this.widget.onEnd!();
+        }
       }
     });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
   }
 }
