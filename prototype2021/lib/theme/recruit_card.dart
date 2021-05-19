@@ -3,7 +3,6 @@ import "package:flutter/material.dart";
 // TODO(MINA): specify design
 class RecruitCard extends StatelessWidget {
   String title;
-  String description;
   bool hasContents;
   DateTimeRange range;
   int heartCount;
@@ -11,7 +10,6 @@ class RecruitCard extends StatelessWidget {
 
   RecruitCard(
       {required this.title,
-      required this.description,
       required this.hasContents,
       required this.range,
       this.heartCount = 0,
@@ -31,7 +29,6 @@ class RecruitCard extends StatelessWidget {
               hasContents ? ContentTag(tagName: "컨텐츠") : SizedBox(),
             ],
           ),
-          Text(description),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
