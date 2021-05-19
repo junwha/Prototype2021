@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 
+// TODO(MINA): specify design
 class RecruitCard extends StatelessWidget {
   String title;
   String description;
