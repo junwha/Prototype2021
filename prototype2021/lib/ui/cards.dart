@@ -22,9 +22,13 @@ class _CardsState extends State<Cards> {
                     start: DateTime(2021, 5, 23, 3, 10),
                     end: DateTime(2021, 5, 25, 3, 10))),
             TimerCard(
-                title: "태화강 근처",
-                description: "낚시하실분 ㅎㅎ",
-                due: DateTime(2021, 5, 20, 4, 18, 00)),
+              title: "태화강 근처",
+              description: "낚시하실분 ㅎㅎ",
+              due: DateTime(2021, 5, 19, 6, 23, 00),
+              onEnd: () {
+                print("asdf");
+              },
+            ),
           ],
         ),
       ),
