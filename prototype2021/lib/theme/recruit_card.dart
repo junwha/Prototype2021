@@ -4,7 +4,7 @@ import "package:flutter/material.dart";
 class RecruitCard extends StatelessWidget {
   String title;
   bool hasContents;
-  DateTimeRange range;
+  DateTimeRange range; // DateTimeRange have to be checked earlier (start > end)
   int heartCount;
   int commentCount;
 
@@ -58,7 +58,7 @@ class RecruitCard extends StatelessWidget {
     );
   }
 
-  String getWeekDay(int i) {
+  String getWeekDay(int i) { // Convert week days to korean from index
     switch (i) {
       case 1:
         return "월";
