@@ -25,7 +25,7 @@ class RecruitCard extends StatelessWidget {
         children: [
           Wrap(
             children: [
-              Text("태화강 근처"),
+              Text("${this.title}"),
               hasContents ? ContentTag(tagName: "컨텐츠") : SizedBox(),
             ],
           ),
