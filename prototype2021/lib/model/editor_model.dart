@@ -1,4 +1,6 @@
 import 'package:flutter/cupertino.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 const COMPANION = false;
 const EVENT = true;
@@ -15,6 +17,10 @@ class EditorModel with ChangeNotifier {
   String startAge = '0';
   String endAge = '0';
 
+  EditorModel() {
+    getFromServer();
+  }
+
   void printChanged() {
     print(title);
     print(content);
@@ -25,5 +31,32 @@ class EditorModel with ChangeNotifier {
     print(femaleRecruitNumber);
     print(startAge);
     print(endAge);
+  }
+
+  void getFromServer() async {
+    Map<String, dynamic> originData = {
+      "uid": 1,
+      "title": "string",
+      "body": "string",
+      "recruits": {"no": 0, "male": 0, "female": 0},
+      "ages": {"min": 0, "max": 0},
+      "period": {
+        "start": "2021-05-23T09:22:23.150Z",
+        "end": "2021-05-23T09:22:23.150Z"
+      },
+      "pid": 0
+    };
+    var url = Uri.parse(
+        'http://ec2-13-125-99-249.ap-northeast-2.compute.amazonaws.com/recruitments/companions/');
+    var response = await http.post(url,
+        headers: {
+          "accept": "application/json",
+          "Content-Type": "application/json",
+          "X-CSRFToken":
+              "ZrWI7Mf1KMz2WYJjQqo3H30l25UdY4bPcP3RthSlRMoUj7hGxz5Vp6fBWKS0n235"
+        },
+        body: jsonEncode(originData));
+    print(response.statusCode);
+    print(response.body);
   }
 }
