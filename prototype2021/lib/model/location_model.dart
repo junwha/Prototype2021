@@ -30,15 +30,14 @@ class LocationModel with ChangeNotifier {
     await loadPlaces(types, 500);
   }
 
+  /*
+   * Load Places with types and update locations  
+   */
   Future<void> loadPlaces(List<String> types, int radius) async {
     this.placeLoader.updateCenter(this.center);
 
-    List<PlaceData> placeDataList = await placeLoader.getPlaces([
-      PlaceType.RESTAURANT,
-      PlaceType.HOTEL,
-      PlaceType.SPOT,
-      PlaceType.CAFFEE
-    ], radius: 100);
+    List<PlaceData> placeDataList =
+        await placeLoader.getPlaces(types, radius: 100);
 
     // Find nearby places with specified types
     for (PlaceData placeData in placeDataList) {
@@ -47,8 +46,7 @@ class LocationModel with ChangeNotifier {
           placeData.location, placeData.type));
     }
 
-    markerList.addMarkerList(locations); // Create markers
-    notifyListeners();
+    updateMarkers();
   }
 
   void loadData() {}
@@ -59,12 +57,10 @@ class LocationModel with ChangeNotifier {
   /*
   * Update locations field with the locations included in boundary of bounds.
   */
-
   void setBearing(double bearing) {
     if (markerList.bearing != bearing) {
       markerList.bearing = bearing;
-      markerList.removeAll();
-      markerList.addMarkerList(locations);
+      updateMarkers();
       notifyListeners();
     }
   }
@@ -78,11 +74,26 @@ class LocationModel with ChangeNotifier {
     } else {}
   }
 
+  void updateMarkers() {
+    markerList.removeAll();
+    markerList.addMarkerList(locations);
+  }
+
   bool isUpdate(LatLngBounds bounds) {
     return false;
   }
 
-  void updateMarkers() {}
+  void updateCenter(LatLng center) {
+    this.center = center;
+    notifyListeners();
+  }
 
-  void findNearByPlaces() {}
+  /*
+   * When user clicked search result, this method would be called.
+   */
+  void moveToResult(String name, LatLng location) {
+    updateCenter(location);
+    locations = [ContentLocation(0, name, location, PlaceType.DEFAULT)];
+    updateMarkers();
+  }
 }
