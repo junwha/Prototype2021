@@ -15,6 +15,7 @@ class PlaceType {
 
 class PlaceLoader {
   LatLng center;
+
   List types = [
     PlaceType.RESTAURANT,
     PlaceType.HOTEL,
@@ -31,10 +32,10 @@ class PlaceLoader {
   /* 
   * Find nearby places from [center] with specified type 
   */
-  Future<List<PlaceData>> getPlace(String type) async {
+  Future<List<PlaceData>> getPlace(String type, {int radius = 500}) async {
     if (types.contains(type)) {
       String url =
-          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=500&key=$kGoogleApiKey";
+          "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=${radius}&key=$kGoogleApiKey";
       print(url);
       try {
         http.Response res = await http.get(Uri.parse(url));
@@ -51,10 +52,10 @@ class PlaceLoader {
   /* 
   * Find nearby places from [center] with specified types
   */
-  Future<List<PlaceData>> getPlaces(List typeList) async {
+  Future<List<PlaceData>> getPlaces(List typeList, {int radius = 500}) async {
     List<PlaceData> placeList = [];
     for (String type in typeList) {
-      placeList.addAll(await getPlace(type));
+      placeList.addAll(await getPlace(type, radius: radius));
     }
     return placeList;
   }

@@ -27,10 +27,10 @@ class LocationModel with ChangeNotifier {
       PlaceType.SPOT,
       PlaceType.CAFFEE
     ];
-    await loadPlaces(types);
+    await loadPlaces(types, 500);
   }
 
-  Future<void> loadPlaces(List<String> types) async {
+  Future<void> loadPlaces(List<String> types, int radius) async {
     this.placeLoader.changeCenter(this.center);
 
     List<PlaceData> placeDataList = await placeLoader.getPlaces([
@@ -38,7 +38,7 @@ class LocationModel with ChangeNotifier {
       PlaceType.HOTEL,
       PlaceType.SPOT,
       PlaceType.CAFFEE
-    ]);
+    ], radius: 100);
 
     // Find nearby places with specified types
     for (PlaceData placeData in placeDataList) {
