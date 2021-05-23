@@ -24,7 +24,15 @@ class _CardsState extends State<Cards> {
             TimerCard(
               title: "태화강 근처",
               description: "낚시하실분 ㅎㅎ",
-              due: DateTime(2021, 5, 19, 6, 23, 00),
+              due: DateTime(2021, 5, 24, 6, 23, 00),
+              onEnd: () {
+                print("asdf");
+              },
+            ),
+            TimerCard(
+              title: "울산대 공원에서 피맥해요!",
+              description: "경치보면서 같이 힐링해요 ㅎㅎ잘 먹는 분이면 더 좋습니다!",
+              due: DateTime(2021, 5, 24, 6, 23, 00),
               onEnd: () {
                 print("asdf");
               },
