@@ -4,9 +4,10 @@ import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/model/location_model.dart';
 import 'package:prototype2021/ui/place_info.dart';
-import 'package:prototype2021/ui/search_result.dart';
+import 'package:prototype2021/ui/location_result_card.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
+import 'package:prototype2021/model/search_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -14,8 +15,6 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  GoogleMapController? mapController;
-
   //initial position
   LatLng center =
       LatLng(35.5437, 129.2563); //TODO(junwha): change to dynamic location
@@ -24,10 +23,6 @@ class _MapViewState extends State<MapView> {
   // LatLng? _lastTap;
   // LatLng? _lastLongPress;
   // TODO(junwha): after all test, place marks here
-
-  void _onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -59,8 +54,13 @@ class _MapViewState extends State<MapView> {
         child: Stack(
           children: [
             //initial position
-            EventMap(
-              center: center,
+            Consumer(
+              builder: (context, LocationModel locationModel, child) {
+                return EventMap(
+                  center: locationModel.center,
+                  model: locationModel,
+                );
+              },
             ), //TODO(junwha): change to dynamic location
             PlaceInfo(),
             Padding(
@@ -88,67 +88,74 @@ class _MapViewState extends State<MapView> {
 
     double leftPadding = 50;
 
-    return FloatingSearchBar(
-      onFocusChanged: (bool isChanged) {
-        setState(() {
-          leftPadding = !isChanged ? 10 : 50;
-        });
-      },
-      margins: EdgeInsets.fromLTRB(50, 10, 10, 10),
-      shadowColor: Colors.transparent,
-      backdropColor: Colors.transparent,
-      borderRadius: BorderRadius.circular(50),
-      height: 45,
-      backgroundColor: Colors.blueGrey[700],
-      controller: controller,
-      title: Row(
-        children: [
-          Icon(Icons.search),
-          Text(
-            '장소, 여행지, 카페, 음식점 검색',
-            style: TextStyle(color: Colors.white),
-          )
-        ],
-      ),
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
-      transitionDuration: const Duration(milliseconds: 1000),
-      transitionCurve: Curves.easeInOut,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      debounceDelay: const Duration(milliseconds: 500),
-      automaticallyImplyBackButton: false,
-      onQueryChanged: (query) {
-        // Call your model, bloc, controller here.
-      },
-      // Specify a custom transition to be used for
-      // animating between opened and closed stated.
-      transition: CircularFloatingSearchBarTransition(),
-      leadingActions: [
-        FloatingSearchBarAction.back(
-          showIfClosed: false,
+    return Consumer(builder: (context, LocationModel locationModel, child) {
+      return ChangeNotifierProvider(
+        create: (context) => SearchModel(locationModel),
+        child: Consumer(
+          builder: (context, SearchModel searchModel, child) {
+            return FloatingSearchBar(
+                onFocusChanged: (bool isChanged) {
+                  setState(() {
+                    leftPadding = !isChanged ? 10 : 50;
+                  });
+                },
+                margins: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                shadowColor: Colors.transparent,
+                backdropColor: Colors.transparent,
+                borderRadius: BorderRadius.circular(50),
+                height: 45,
+                backgroundColor: Colors.white,
+                controller: controller,
+                title: Row(
+                  children: [
+                    Icon(Icons.search),
+                    Text(
+                      '장소, 여행지, 카페, 음식점 검색',
+                      style: TextStyle(color: Colors.white),
+                    )
+                  ],
+                ),
+                scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
+                transitionDuration: const Duration(milliseconds: 1000),
+                transitionCurve: Curves.easeInOut,
+                physics: const BouncingScrollPhysics(),
+                axisAlignment: isPortrait ? 0.0 : -1.0,
+                openAxisAlignment: 0.0,
+                debounceDelay: const Duration(milliseconds: 500),
+                automaticallyImplyBackButton: false,
+                onQueryChanged: (query) {
+                  searchModel.searchPlace(query);
+                  // Call your model, bloc, controller here.
+                },
+                // Specify a custom transition to be used for
+                // animating between opened and closed stated.
+                transition: CircularFloatingSearchBarTransition(),
+                leadingActions: [
+                  FloatingSearchBarAction.back(
+                    showIfClosed: false,
+                  ),
+                ],
+                actions: [
+                  FloatingSearchBarAction.searchToClear(
+                    showIfClosed: false,
+                  ),
+                ],
+                builder: (context, transition) {
+                  return ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Material(
+                      color: Colors.white,
+                      elevation: 4.0,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: searchModel.resultCards,
+                      ),
+                    ),
+                  );
+                });
+          },
         ),
-      ],
-      actions: [
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: Colors.accents.map((color) {
-                return SearchResult("asdf");
-              }).toList(),
-            ),
-          ),
-        );
-      },
-    );
+      );
+    });
   }
 }

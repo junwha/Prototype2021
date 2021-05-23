@@ -7,8 +7,9 @@ import 'package:provider/provider.dart';
 
 class EventMap extends StatefulWidget {
   LatLng center;
+  LocationModel model;
 
-  EventMap({required this.center});
+  EventMap({required this.center, required this.model});
   @override
   _EventMapState createState() => _EventMapState();
 }
@@ -23,46 +24,45 @@ class _EventMapState extends State<EventMap> {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
+    this.widget.model.mapController = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Consumer(builder: (context, LocationModel locationModel, child) {
-      return !locationModel.loaded
-          ? Text("Loading...")
-          : GoogleMap(
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                //Set initial Camera Position
-                target: this.widget.center,
-                zoom: 18.0,
+    return !this.widget.model.loaded
+        ? Text("Loading...")
+        : GoogleMap(
+            onMapCreated: _onMapCreated,
+            initialCameraPosition: CameraPosition(
+              //Set initial Camera Position
+              target: this.widget.model.center,
+              zoom: 18.0,
+            ),
+            gestureRecognizers: //Gesture Detectors
+                <Factory<OneSequenceGestureRecognizer>>{
+              Factory<OneSequenceGestureRecognizer>(
+                () => EagerGestureRecognizer(),
               ),
-              gestureRecognizers: //Gesture Detectors
-                  <Factory<OneSequenceGestureRecognizer>>{
-                Factory<OneSequenceGestureRecognizer>(
-                  () => EagerGestureRecognizer(),
-                ),
-              },
-              markers: locationModel.markers,
-              onCameraMove: (CameraPosition cameraPostion) {
-                locationModel.updateBearing(cameraPostion.bearing);
-              },
-              // onTap: (LatLng pos) {
-              //   setState(() {
-              //     _lastTap = pos;
-              //     print("Pressed");
-              //     print(pos.latitude);
-              //     print(pos.longitude);
-              //   });
-              // },
-              // onLongPress: (LatLng pos) {
-              //   setState(() {
-              //     _lastLongPress = pos;
-              //     print(pos.latnotifyListenersitude);
-              //     print(pos.longitude);
-              //   });
-              // },
-            );
-    });
+            },
+            markers: this.widget.model.markers,
+            onCameraMove: (CameraPosition cameraPostion) {
+              this.widget.model.updateBearing(cameraPostion.bearing);
+            },
+            // onTap: (LatLng pos) {
+            //   setState(() {
+            //     _lastTap = pos;
+            //     print("Pressed");
+            //     print(pos.latitude);
+            //     print(pos.longitude);
+            //   });
+            // },
+            // onLongPress: (LatLng pos) {
+            //   setState(() {
+            //     _lastLongPress = pos;
+            //     print(pos.latnotifyListenersitude);
+            //     print(pos.longitude);
+            //   });
+            // },
+          );
   }
 }
