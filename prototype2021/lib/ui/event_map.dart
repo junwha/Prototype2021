@@ -45,7 +45,7 @@ class _EventMapState extends State<EventMap> {
               },
               markers: locationModel.markers,
               onCameraMove: (CameraPosition cameraPostion) {
-                locationModel.setBearing(cameraPostion.bearing);
+                locationModel.updateBearing(cameraPostion.bearing);
               },
               // onTap: (LatLng pos) {
               //   setState(() {

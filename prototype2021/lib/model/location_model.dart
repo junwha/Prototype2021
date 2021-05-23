@@ -49,15 +49,13 @@ class LocationModel with ChangeNotifier {
     updateMarkers();
   }
 
-  void loadData() {}
-
   Set<Marker> get markers =>
       markerList.markerList; //TODO: consider update location with efficiency
 
   /*
-  * Update locations field with the locations included in boundary of bounds.
-  */
-  void setBearing(double bearing) {
+   * Update bearing and rotate markers
+   */
+  void updateBearing(double bearing) {
     if (markerList.bearing != bearing) {
       markerList.bearing = bearing;
       updateMarkers();
@@ -65,6 +63,9 @@ class LocationModel with ChangeNotifier {
     }
   }
 
+  /*
+   * Update locations field with the locations included in boundary of bounds.
+   */
   void updateLocations(LatLngBounds bounds) {
     //TODO(junwha): call this method when map changed action detected.
     //bounds.southwest; bounds.northeast;
@@ -79,10 +80,6 @@ class LocationModel with ChangeNotifier {
     markerList.addMarkerList(locations);
   }
 
-  bool isUpdate(LatLngBounds bounds) {
-    return false;
-  }
-
   void updateCenter(LatLng center) {
     this.center = center;
     notifyListeners();
@@ -95,5 +92,10 @@ class LocationModel with ChangeNotifier {
     updateCenter(location);
     locations = [ContentLocation(0, name, location, PlaceType.DEFAULT)];
     updateMarkers();
+    notifyListeners();
+  }
+
+  bool isUpdate(LatLngBounds bounds) {
+    return false;
   }
 }
