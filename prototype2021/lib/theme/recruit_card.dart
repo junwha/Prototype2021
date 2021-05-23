@@ -1,4 +1,5 @@
 import "package:flutter/material.dart";
+import 'package:prototype2021/settings/constants.dart';
 
 // TODO(MINA): specify design
 class RecruitCard extends StatelessWidget {
@@ -17,48 +18,72 @@ class RecruitCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Wrap(
-            children: [
-              Text("${this.title}"),
-              hasContents ? ContentTag(tagName: "컨텐츠") : SizedBox(),
-            ],
+    return Column(
+      children: [
+        Padding(
+          padding:
+              const EdgeInsets.fromLTRB(20 * pt, 10 * pt, 20 * pt, 10 * pt),
+          child: Container(
+            height: 100,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  children: [
+                    Text(
+                      "${this.title}",
+                      style: TextStyle(
+                          fontSize: 14 * pt, fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    hasContents
+                        ? ContentTag(tagName: "컨텐츠")
+                        : SizedBox(width: 9 * pt),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.calendar_today_outlined),
+                        SizedBox(width: 8 * pt),
+                        Text(
+                            "${range.start.year}.${range.start.month}.${range.start.day}(${getWeekDay(range.start.weekday)})~${range.end.year}.${range.end.month}.${range.end.day}(${getWeekDay(range.end.weekday)})")
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Icon(Icons.favorite_border),
+                        SizedBox(width: 10 * pt),
+                        Text("${this.heartCount}"),
+                        SizedBox(width: 8 * pt),
+                        Icon(Icons.comment_outlined),
+                        SizedBox(width: 10 * pt),
+                        Text("${this.commentCount}")
+                      ],
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Row(
-                children: [
-                  Icon(Icons.calendar_today_outlined),
-                  SizedBox(width: 2.0),
-                  Text(
-                      "${range.start.year}.${range.start.month}.${range.start.day}(${getWeekDay(range.start.weekday)})~${range.end.year}.${range.end.month}.${range.end.day}(${getWeekDay(range.end.weekday)})")
-                ],
-              ),
-              Row(
-                children: [
-                  Icon(Icons.favorite),
-                  SizedBox(width: 2.0),
-                  Text("${this.heartCount}"),
-                  SizedBox(width: 2.0),
-                  Icon(Icons.comment_outlined),
-                  SizedBox(width: 2.0),
-                  Text("${this.commentCount}")
-                ],
-              ),
-            ],
-          )
-        ],
-      ),
+        ),
+        Container(
+          height: 0.5,
+          width: double.infinity,
+          color: Colors.grey,
+        ),
+      ],
     );
   }
 
-  String getWeekDay(int i) { // Convert week days to korean from index
+  String getWeekDay(int i) {
+    // Convert week days to korean from index
     switch (i) {
       case 1:
         return "월";
@@ -82,7 +107,7 @@ class RecruitCard extends StatelessWidget {
 
 class ContentTag extends StatelessWidget {
   String tagName;
-  Color? background;
+  LinearGradient? background;
   Color? textColor;
 
   ContentTag({required this.tagName, this.background, this.textColor});
@@ -94,12 +119,23 @@ class ContentTag extends StatelessWidget {
         width: 50,
         height: 25,
         decoration: BoxDecoration(
-          color: background ?? Colors.blue[400],
+          gradient: background ??
+              LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Color.fromRGBO(107, 214, 230, 1.0),
+                  Color.fromRGBO(42, 190, 252, 1.0),
+                ],
+              ),
           borderRadius: BorderRadius.all(Radius.circular(30)),
         ),
         child: Text(
           tagName,
-          style: TextStyle(color: textColor ?? Colors.white),
+          style: TextStyle(
+              color: textColor ?? Colors.white,
+              fontWeight: FontWeight.bold,
+              fontSize: 11 * pt),
         ));
   }
 }
