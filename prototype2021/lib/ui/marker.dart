@@ -26,11 +26,11 @@ class MarkerList {
   */
   Future<bool> loadImage() async {
     try {
-      markerIconMap[DEFAULT] =
+      markerIconMap[PlaceType.DEFAULT] =
           await MarkerImage.createIcon('assets/images/map/marker.png', 100);
-      markerIconMap[CAFFEE] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.CAFFEE] = await MarkerImage.createIcon(
           'assets/images/map/caffee_marker.png', 100);
-      markerIconMap[RESTAURANT] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.RESTAURANT] = await MarkerImage.createIcon(
           'assets/images/map/restaurant_marker.png', 100);
       markerIconMap['E'] = await MarkerImage.createIcon(
           'assets/images/map/event_marker.png', 100);
@@ -70,7 +70,7 @@ class MarkerList {
     // _markerIdCounter++;
     // final MarkerId markerId = MarkerId(markerIdVal);
 
-    BitmapDescriptor markerIcon = markerIconMap[DEFAULT]!;
+    BitmapDescriptor markerIcon = markerIconMap[PlaceType.DEFAULT]!;
     if (markerIconMap.containsKey(type)) {
       markerIcon = markerIconMap[type]!;
     }

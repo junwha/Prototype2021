@@ -6,7 +6,7 @@ import 'package:prototype2021/model/location.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [
-    ContentLocation(0, "A", LatLng(37.5172, 127.0473), DEFAULT)
+    ContentLocation(0, "A", LatLng(37.5172, 127.0473), PlaceType.DEFAULT)
   ];
 
   MarkerList markerList = MarkerList();
@@ -21,12 +21,26 @@ class LocationModel with ChangeNotifier {
   void init() async {
     loaded = await markerList.loadImage(); // Load Marker Icons
     this.placeLoader = PlaceLoader(center: this.center);
+    List<String> types = [
+      PlaceType.RESTAURANT,
+      PlaceType.HOTEL,
+      PlaceType.SPOT,
+      PlaceType.CAFFEE
+    ];
+    await loadPlaces(types);
+  }
+
+  Future<void> loadPlaces(List<String> types) async {
+    this.placeLoader.changeCenter(this.center);
+
     List<PlaceData> placeDataList = await placeLoader.getPlaces([
-      RESTAURANT,
-      HOTEL,
-      SPOT,
-      CAFFEE
-    ]); // Find nearby places with specified types
+      PlaceType.RESTAURANT,
+      PlaceType.HOTEL,
+      PlaceType.SPOT,
+      PlaceType.CAFFEE
+    ]);
+
+    // Find nearby places with specified types
     for (PlaceData placeData in placeDataList) {
       // Add all placeData to location list
       locations.add(ContentLocation(locations.length, placeData.name,

@@ -5,15 +5,22 @@ import 'dart:convert';
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 
 // Types of places
-const String RESTAURANT = "식당";
-const String HOTEL = "호텔";
-const String SPOT = "관광지";
-const String CAFFEE = "카페";
-const String DEFAULT = "default";
+class PlaceType {
+  static const String RESTAURANT = "식당";
+  static const String HOTEL = "호텔";
+  static const String SPOT = "관광지";
+  static const String CAFFEE = "카페";
+  static const String DEFAULT = "default";
+}
 
 class PlaceLoader {
   LatLng center;
-  List types = [RESTAURANT, HOTEL, SPOT, CAFFEE];
+  List types = [
+    PlaceType.RESTAURANT,
+    PlaceType.HOTEL,
+    PlaceType.SPOT,
+    PlaceType.CAFFEE
+  ];
 
   PlaceLoader({required this.center});
 
@@ -57,7 +64,7 @@ class PlaceLoader {
     List<PlaceData> placeList = [];
 
     if (result.containsKey("next_page_token")) {
-      //TODO(junwha): implement next page getter
+      //TODO(junwha): implement next page getter; search with more limited range
     }
 
     try {
