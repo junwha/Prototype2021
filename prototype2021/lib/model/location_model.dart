@@ -31,7 +31,7 @@ class LocationModel with ChangeNotifier {
   }
 
   Future<void> loadPlaces(List<String> types, int radius) async {
-    this.placeLoader.changeCenter(this.center);
+    this.placeLoader.updateCenter(this.center);
 
     List<PlaceData> placeDataList = await placeLoader.getPlaces([
       PlaceType.RESTAURANT,

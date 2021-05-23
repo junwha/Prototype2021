@@ -25,7 +25,7 @@ class PlaceLoader {
 
   PlaceLoader({required this.center});
 
-  void changeCenter(LatLng center) {
+  void updateCenter(LatLng center) {
     this.center = center;
   }
 
