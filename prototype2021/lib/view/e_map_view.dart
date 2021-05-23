@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/model/location_model.dart';
 import 'package:prototype2021/ui/place_info.dart';
+import 'package:prototype2021/ui/search_result.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
 
@@ -142,17 +143,7 @@ class _MapViewState extends State<MapView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: Colors.accents.map((color) {
-                return Container(
-                    height: 112,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Center(
-                      child: Text(
-                        'Search Result Test',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    ));
+                return SearchResult("asdf");
               }).toList(),
             ),
           ),
