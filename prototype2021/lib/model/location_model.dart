@@ -13,6 +13,7 @@ class LocationModel with ChangeNotifier {
   bool loaded = false;
   LatLng center;
   late PlaceLoader placeLoader;
+  GoogleMapController? mapController;
 
   LocationModel({required this.center}) {
     init();
@@ -90,6 +91,12 @@ class LocationModel with ChangeNotifier {
    */
   void moveToResult(String name, LatLng location) {
     updateCenter(location);
+    mapController?.moveCamera(
+      CameraUpdate.newLatLng(
+        location,
+      ),
+    );
+
     locations = [ContentLocation(0, name, location, PlaceType.DEFAULT)];
     updateMarkers();
     notifyListeners();
