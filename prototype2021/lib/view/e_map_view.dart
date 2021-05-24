@@ -28,6 +28,7 @@ class _MapViewState extends State<MapView> {
 
   @override
   Widget build(BuildContext context) {
+    double maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
@@ -69,6 +70,21 @@ class _MapViewState extends State<MapView> {
                         buildPlaceFilterChip(
                             locationModel, "음식점", PlaceType.RESTAURANT),
                       ],
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: maxHeight - 200),
+                  child: Center(
+                    child: TextButton(
+                      style: ButtonStyle(
+                        fixedSize:
+                            MaterialStateProperty.all<Size>(Size(88, 36)),
+                        backgroundColor:
+                            MaterialStateProperty.all<Color>(Colors.blue),
+                      ),
+                      onPressed: () {},
+                      child: Text("글쓰기", style: TextStyle(color: Colors.white)),
                     ),
                   ),
                 ),
