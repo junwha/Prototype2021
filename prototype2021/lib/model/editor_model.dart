@@ -17,9 +17,7 @@ class EditorModel with ChangeNotifier {
   String startAge = '0';
   String endAge = '0';
 
-  EditorModel() {
-    getFromServer();
-  }
+  EditorModel() {}
 
   void printChanged() {
     print(title);
@@ -33,13 +31,17 @@ class EditorModel with ChangeNotifier {
     print(endAge);
   }
 
-  void getFromServer() async {
+  void writeArticle() async {
     Map<String, dynamic> originData = {
       "uid": 1,
-      "title": "string",
-      "body": "string",
-      "recruits": {"no": 0, "male": 0, "female": 0},
-      "ages": {"min": 0, "max": 0},
+      "title": this.title,
+      "body": this.content,
+      "recruits": {
+        "no": this.recruitNumber,
+        "male": this.maleRecruitNumber,
+        "female": this.femaleRecruitNumber
+      },
+      "ages": {"min": this.startAge, "max": this.endAge},
       "period": {
         "start": "2021-05-23T09:22:23.150Z",
         "end": "2021-05-23T09:22:23.150Z"

@@ -173,7 +173,9 @@ class _EditorViewState extends State<EditorView> {
               primary: Colors.blue, // background
               onPrimary: Colors.white, // foreground
             ),
-            onPressed: () {},
+            onPressed: () {
+              editorModel.writeArticle();
+            },
             child: Text('등록',
                 style:
                     TextStyle(fontSize: 13 * pt, fontWeight: FontWeight.bold)),
