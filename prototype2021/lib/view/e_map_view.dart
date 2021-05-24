@@ -4,10 +4,9 @@ import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/model/location_model.dart';
 import 'package:prototype2021/ui/place_info.dart';
-import 'package:prototype2021/ui/location_result_card.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
-import 'package:prototype2021/model/search_model.dart';
+import 'package:prototype2021/model/search_place_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -86,19 +85,13 @@ class _MapViewState extends State<MapView> {
     final controller = FloatingSearchBarController();
     final _applyKey = GlobalKey<FormState>();
 
-    double leftPadding = 50;
-
     return Consumer(builder: (context, LocationModel locationModel, child) {
       return ChangeNotifierProvider(
-        create: (context) => SearchModel(locationModel),
+        create: (context) => SearchPlaceModel(locationModel),
         child: Consumer(
-          builder: (context, SearchModel searchModel, child) {
+          builder: (context, SearchPlaceModel searchModel, child) {
             return FloatingSearchBar(
-                onFocusChanged: (bool isChanged) {
-                  setState(() {
-                    leftPadding = !isChanged ? 10 : 50;
-                  });
-                },
+                onFocusChanged: (bool isChanged) {},
                 margins: EdgeInsets.fromLTRB(10, 10, 10, 10),
                 shadowColor: Colors.transparent,
                 backdropColor: Colors.transparent,
