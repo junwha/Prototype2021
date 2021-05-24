@@ -9,17 +9,18 @@ import 'package:prototype2021/ui/location_result_card.dart';
 
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 
-class SearchModel with ChangeNotifier {
-  List<SearchResultData> searchResult = [];
-  List<LocationResultCard> resultCards = [];
+class SearchPlaceModel with ChangeNotifier {
+  List<SearchResultData> searchResult = []; // save search result data
+  List<LocationResultCard> resultCards = []; // save resultCards UI's
+
   LocationModel locationModel;
 
-  SearchModel(this.locationModel);
+  SearchPlaceModel(this.locationModel);
 
   void searchPlace(String keyword) async {
     String url =
-        "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=$kGoogleApiKey&input=$keyword&inputtype=textquery&fields=photos,place_id,name,geometry";
-    //TODO: set locationbias
+        "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=$kGoogleApiKey&input=$keyword&inputtype=textquery&fields=photos,place_id,name,geometry"; // TODO: set locationbias
+
     try {
       http.Response res = await http.get(Uri.parse(url));
       searchResult = await parseData(res.body);
@@ -32,7 +33,7 @@ class SearchModel with ChangeNotifier {
 
   List<SearchResultData> parseData(String jsonString) {
     Map<String, dynamic> result = jsonDecode(jsonString);
-    searchResult = [];
+    searchResult.clear();
 
     for (var searchResultMeta in result['candidates']) {
       searchResult.add(SearchResultData(searchResultMeta));
@@ -42,7 +43,8 @@ class SearchModel with ChangeNotifier {
   }
 
   void updateLocationResultCards() {
-    resultCards = [];
+    resultCards.clear();
+
     for (var data in searchResult) {
       resultCards.add(LocationResultCard(
         name: data.name,
