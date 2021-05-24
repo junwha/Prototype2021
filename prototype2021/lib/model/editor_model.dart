@@ -44,7 +44,7 @@ class EditorModel with ChangeNotifier {
         "start": "2021-05-23T09:22:23.150Z",
         "end": "2021-05-23T09:22:23.150Z"
       },
-      "pid": 0
+      "pid": 1
     };
     var url = Uri.parse(
         'http://ec2-13-125-99-249.ap-northeast-2.compute.amazonaws.com/recruitments/companions/');
