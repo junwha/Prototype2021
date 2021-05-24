@@ -29,7 +29,7 @@ class _EventMapState extends State<EventMap> {
 
   @override
   Widget build(BuildContext context) {
-    return !this.widget.model.loaded
+    return !this.widget.model.mapLoaded
         ? Text("Loading...")
         : GoogleMap(
             onMapCreated: _onMapCreated,
@@ -47,6 +47,7 @@ class _EventMapState extends State<EventMap> {
             markers: this.widget.model.markers,
             onCameraMove: (CameraPosition cameraPostion) {
               this.widget.model.updateBearing(cameraPostion.bearing);
+              this.widget.model.center = cameraPostion.target;
             },
             // onTap: (LatLng pos) {
             //   setState(() {

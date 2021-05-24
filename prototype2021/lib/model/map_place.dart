@@ -54,8 +54,13 @@ class PlaceLoader {
   */
   Future<List<PlaceData>> getPlaces(List typeList, {int radius = 500}) async {
     List<PlaceData> placeList = [];
-    for (String type in typeList) {
-      placeList.addAll(await getPlace(type, radius: radius));
+    int initialRadius = 500;
+    int i = 1;
+    while (initialRadius * i <= radius && placeList.length < 10) {
+      for (String type in typeList) {
+        placeList.addAll(await getPlace(type, radius: initialRadius * i));
+      }
+      i++;
     }
     return placeList;
   }

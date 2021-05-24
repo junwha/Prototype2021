@@ -6,37 +6,69 @@ import 'package:prototype2021/model/location.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [];
-
+  Map<String, bool> isIncludeType = {
+    PlaceType.RESTAURANT: false,
+    PlaceType.HOTEL: false,
+    PlaceType.SPOT: false,
+    PlaceType.CAFFEE: false,
+  };
   MarkerList markerList = MarkerList();
-  bool loaded = false;
+
+  bool mapLoaded = false;
   LatLng center;
   late PlaceLoader placeLoader;
   GoogleMapController? mapController;
+
+  int radius = 2000;
+
+  bool placeLoaded = false;
 
   LocationModel({required this.center}) {
     init();
   }
 
   void init() async {
-    loaded = await markerList.loadImage(); // Load Marker Icons
+    mapLoaded = await markerList.loadImage(); // Load Marker Icons
     this.placeLoader = PlaceLoader(center: this.center);
-    List<String> types = [
-      PlaceType.RESTAURANT,
-      PlaceType.HOTEL,
-      PlaceType.SPOT,
-      PlaceType.CAFFEE
-    ];
-    await loadPlaces(types, 500);
+    notifyListeners();
+  }
+
+  void clearMap() {
+    locations.clear();
+    markerList.removeAll();
+    notifyListeners();
+  }
+
+  void clearFilters() {
+    isIncludeType = {
+      PlaceType.RESTAURANT: false,
+      PlaceType.HOTEL: false,
+      PlaceType.SPOT: false,
+      PlaceType.CAFFEE: false,
+    };
+    notifyListeners();
   }
 
   /*
    * Load Places with types and update locations  
    */
-  Future<void> loadPlaces(List<String> types, int radius) async {
+  Future<void> loadPlaces() async {
+    placeLoaded = false;
+    clearMap();
+    notifyListeners();
+
     this.placeLoader.updateCenter(this.center);
 
-    List<PlaceData> placeDataList =
-        await placeLoader.getPlaces(types, radius: 100);
+    List<String> types = [];
+
+    for (String type in isIncludeType.keys) {
+      if (isIncludeType[type]!) {
+        types.add(type);
+      }
+    }
+    List<PlaceData> placeDataList = [];
+
+    placeDataList = await placeLoader.getPlaces(types, radius: this.radius);
 
     // Find nearby places with specified types
     for (PlaceData placeData in placeDataList) {
@@ -45,7 +77,11 @@ class LocationModel with ChangeNotifier {
           placeData.location, placeData.type));
     }
 
-    updateMarkers();
+    if (types.isNotEmpty) {
+      updateMarkers();
+    }
+    placeLoaded = true;
+    notifyListeners();
   }
 
   Set<Marker> get markers =>
@@ -58,8 +94,9 @@ class LocationModel with ChangeNotifier {
     if (markerList.bearing != bearing) {
       markerList.bearing = bearing;
       updateMarkers();
-      notifyListeners();
     }
+    placeLoaded = true;
+    notifyListeners();
   }
 
   /*
@@ -88,6 +125,7 @@ class LocationModel with ChangeNotifier {
    * When user clicked search result, this method would be called.
    */
   void moveToResult(String name, LatLng location) {
+    clearMap();
     updateCenter(location);
     mapController?.moveCamera(
       CameraUpdate.newLatLng(
@@ -97,6 +135,7 @@ class LocationModel with ChangeNotifier {
 
     locations = [ContentLocation(0, name, location, PlaceType.DEFAULT)];
     updateMarkers();
+    clearFilters();
     notifyListeners();
   }
 

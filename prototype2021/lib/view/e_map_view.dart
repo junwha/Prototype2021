@@ -3,10 +3,17 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/model/location_model.dart';
+import 'package:prototype2021/model/map_place.dart';
 import 'package:prototype2021/ui/place_info.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
 import 'package:prototype2021/model/search_place_model.dart';
+
+//initial position
+const LatLng center =
+    LatLng(35.5437, 129.2563); //TODO(junwha): change to dynamic location
+
+const double searchbarHeight = 45;
 
 class MapView extends StatefulWidget {
   @override
@@ -14,10 +21,6 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  //initial position
-  LatLng center =
-      LatLng(35.5437, 129.2563); //TODO(junwha): change to dynamic location
-
   //Save positions of last tapped and pressed
   // LatLng? _lastTap;
   // LatLng? _lastLongPress;
@@ -27,55 +30,95 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(
-        toolbarHeight: 0,
-        centerTitle: false,
-        backgroundColor: Colors.white,
-        // leading: IconButton(
-        //   color: Colors.white,
-        //   icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
-        //   onPressed: () {
-        //     Navigator.pop(context);
-        //   },
-        // ),
-        titleSpacing: 10,
-        // title: Text(
-        //   '내 주변 이벤트',
-        //   style: TextStyle(
-        //     color: Colors.black,
-        //     fontWeight: FontWeight.w900,
-        //     fontSize: 20,
-        //   ),
-        // ),
-      ),
+      appBar: buildAppBar(),
       body: ChangeNotifierProvider(
         create: (context) => LocationModel(center: center),
-        child: Stack(
-          children: [
-            //initial position
-            Consumer(
-              builder: (context, LocationModel locationModel, child) {
-                return EventMap(
+        child: Consumer(
+          builder: (context, LocationModel locationModel, child) {
+            return Stack(
+              children: [
+                //initial position
+                EventMap(
                   center: locationModel.center,
                   model: locationModel,
-                );
-              },
-            ), //TODO(junwha): change to dynamic location
-            PlaceInfo(),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
-              child: IconButton(
-                color: Colors.white,
-                icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
-            ),
-            buildFloatingSearchBar(context),
-          ],
+                ), //TODO(junwha): change to dynamic location
+                PlaceInfo(),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
+                  child: IconButton(
+                    color: Colors.white,
+                    icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
+                  child: SizedBox.expand(
+                    child: Wrap(
+                      direction: Axis.horizontal,
+                      alignment: WrapAlignment.spaceEvenly,
+                      children: [
+                        buildPlaceFilterChip(locationModel, "호텔",
+                            PlaceType.HOTEL), // TODO: replace to event
+                        buildPlaceFilterChip(
+                            locationModel, "여행지", PlaceType.SPOT),
+                        buildPlaceFilterChip(
+                            locationModel, "카페", PlaceType.CAFFEE),
+                        buildPlaceFilterChip(
+                            locationModel, "음식점", PlaceType.RESTAURANT),
+                      ],
+                    ),
+                  ),
+                ),
+                buildFloatingSearchBar(context),
+              ],
+            );
+          },
         ),
       ),
+    );
+  }
+
+  PlaceFilterChip buildPlaceFilterChip(
+      LocationModel locationModel, String text, String type) {
+    return PlaceFilterChip(
+      leading: Icon(Icons.comment),
+      text: text,
+      onSelected: (bool _isSelected) {
+        if (locationModel.placeLoaded) {
+          setState(() {
+            locationModel.isIncludeType[type] = _isSelected;
+          });
+          locationModel.loadPlaces();
+        }
+      },
+      isSelected: locationModel.isIncludeType[type]!,
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      toolbarHeight: 0,
+      centerTitle: false,
+      backgroundColor: Colors.white,
+      // leading: IconButton(
+      //   color: Colors.white,
+      //   icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
+      //   onPressed: () {
+      //     Navigator.pop(context);
+      //   },
+      // ),
+      titleSpacing: 10,
+      // title: Text(
+      //   '내 주변 이벤트',
+      //   style: TextStyle(
+      //     color: Colors.black,
+      //     fontWeight: FontWeight.w900,
+      //     fontSize: 20,
+      //   ),
+      // ),
     );
   }
 
@@ -96,7 +139,7 @@ class _MapViewState extends State<MapView> {
                 shadowColor: Colors.transparent,
                 backdropColor: Colors.transparent,
                 borderRadius: BorderRadius.circular(50),
-                height: 45,
+                height: searchbarHeight,
                 backgroundColor: Colors.white,
                 controller: controller,
                 title: Row(
@@ -150,5 +193,39 @@ class _MapViewState extends State<MapView> {
         ),
       );
     });
+  }
+}
+
+class PlaceFilterChip extends StatefulWidget {
+  Widget? leading;
+  String text;
+  Function(bool) onSelected;
+  bool isSelected;
+
+  PlaceFilterChip(
+      {this.leading,
+      required this.text,
+      required this.onSelected,
+      required this.isSelected});
+
+  @override
+  _PlaceFilterChipState createState() => _PlaceFilterChipState();
+}
+
+class _PlaceFilterChipState extends State<PlaceFilterChip> {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(1.0),
+      child: FilterChip(
+        avatar: this.widget.leading,
+        label: Text(this.widget.text),
+        onSelected: this.widget.onSelected,
+        selected: this.widget.isSelected,
+        backgroundColor: Colors.white,
+        selectedColor: Colors.blue,
+        showCheckmark: false,
+      ),
+    );
   }
 }
