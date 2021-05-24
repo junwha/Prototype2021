@@ -19,7 +19,7 @@ class LocationModel with ChangeNotifier {
   late PlaceLoader placeLoader;
   GoogleMapController? mapController;
 
-  int radius = 2000;
+  int radius = 1500;
 
   bool placeLoaded = false;
 
