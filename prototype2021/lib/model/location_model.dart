@@ -5,9 +5,7 @@ import 'package:prototype2021/ui/marker.dart';
 import 'package:prototype2021/model/location.dart';
 
 class LocationModel with ChangeNotifier {
-  List<Location> locations = [
-    ContentLocation(0, "A", LatLng(37.5172, 127.0473), PlaceType.DEFAULT)
-  ];
+  List<Location> locations = [];
 
   MarkerList markerList = MarkerList();
   bool loaded = false;

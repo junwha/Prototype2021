@@ -26,7 +26,6 @@ class SearchModel with ChangeNotifier {
     } catch (e) {
       print("check internet");
     }
-    print(searchResult);
     updateLocationResultCards();
     notifyListeners();
   }
@@ -51,10 +50,9 @@ class SearchModel with ChangeNotifier {
         onclick: () {
           this.locationModel.moveToResult(data.name, data.location);
           this.resultCards = [];
-          print("clicked");
+          print("Card clicked");
         },
       ));
-      print(resultCards.length);
     }
   }
 }

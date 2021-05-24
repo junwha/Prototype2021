@@ -36,7 +36,7 @@ class PlaceLoader {
     if (types.contains(type)) {
       String url =
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=${radius}&key=$kGoogleApiKey";
-      print(url);
+      print(type);
       try {
         http.Response res = await http.get(Uri.parse(url));
         return parseData(res.body, type);
@@ -74,7 +74,6 @@ class PlaceLoader {
       }
     } catch (e) {
       print(e);
-      print(result);
     }
     return placeList;
   }
