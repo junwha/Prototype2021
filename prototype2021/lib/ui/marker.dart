@@ -78,7 +78,7 @@ class MarkerList {
     final Marker marker = Marker(
       markerId: markerId,
       position: latLng,
-      infoWindow: InfoWindow(title: name, snippet: '*'),
+      infoWindow: InfoWindow(title: name),
       onTap: () {
         //_onMarkerTapped(markerId);
       },
