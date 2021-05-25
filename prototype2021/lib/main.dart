@@ -5,6 +5,7 @@ void main() {
   runApp(
     //Don't touch here. route map is in 'main_page.dart'
     MaterialApp(home: MapView(), routes: {
+
       //'/main': (context) => MainPage(),
     }),
   );
