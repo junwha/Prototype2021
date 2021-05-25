@@ -78,7 +78,7 @@ class _MapViewState extends State<MapView> {
                   child: Center(
                     child: TextButton(
                       style: ButtonStyle(
-                        fixedSize:
+                        minimumSize:
                             MaterialStateProperty.all<Size>(Size(88, 36)),
                         backgroundColor:
                             MaterialStateProperty.all<Color>(Colors.blue),
