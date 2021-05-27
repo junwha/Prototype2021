@@ -11,10 +11,41 @@ class EventMainView extends StatefulWidget {
 
 class _EventMainViewState extends State<EventMainView> {
   List<bool> isChecked = [true, false];
+  var _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: (value) {
+          setState(() {
+            _pageIndex = value;
+          });
+        },
+        currentIndex: _pageIndex,
+        selectedItemColor: Colors.blue,
+        unselectedItemColor: Colors.black26,
+        items: <BottomNavigationBarItem>[
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.people_alt_sharp,
+                size: 40,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.home_outlined,
+                size: 40,
+              ),
+              label: ""),
+          BottomNavigationBarItem(
+              icon: Icon(
+                Icons.people,
+                size: 40,
+              ),
+              label: ""),
+        ],
+      ),
       body: Column(
         children: [
           Padding(
