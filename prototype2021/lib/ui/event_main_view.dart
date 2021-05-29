@@ -3,6 +3,7 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/recruit_card.dart';
 import 'package:prototype2021/theme/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 
 class EventMainView extends StatefulWidget {
   @override
@@ -11,6 +12,10 @@ class EventMainView extends StatefulWidget {
 
 class _EventMainViewState extends State<EventMainView> {
   List<bool> isChecked = [true, false];
+  var images = [
+    'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
+  ];
   var _pageIndex = 0;
   @override
   Widget build(BuildContext context) {
@@ -27,11 +32,7 @@ class _EventMainViewState extends State<EventMainView> {
         unselectedItemColor: Colors.black26,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
-              icon: Icon(
-                Icons.people_alt_sharp,
-                size: 40,
-              ),
-              label: ""),
+              icon: Icon(Icons.people_alt_sharp, size: 40), label: ""),
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.home_outlined,
@@ -46,110 +47,132 @@ class _EventMainViewState extends State<EventMainView> {
               label: ""),
         ],
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding:
-                const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 12 * pt),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          "현재 위치",
-                          style: TextStyle(
-                              fontSize: 20 * pt, fontWeight: FontWeight.bold),
-                        ),
-                        Icon(
-                          Icons.arrow_drop_down_outlined,
-                          size: 40,
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text("지도 보기",
-                            style: TextStyle(
-                                fontSize: 17 * pt,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey)),
-                        Icon(Icons.map_sharp, size: 25),
-                      ],
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 6 * pt,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SelectableTextButton(
-                            titleName: "내 주변 이벤트",
-                            isChecked: isChecked[0],
-                            onPressed: () {
-                              setState(() {
-                                isChecked[1] = false;
-                                isChecked[0] = true;
-                              });
-                            }),
-                        SizedBox(width: 10),
-                        SelectableTextButton(
-                            titleName: "동행찾기",
-                            isChecked: isChecked[1],
-                            onPressed: () {
-                              setState(() {
-                                isChecked[1] = true;
-                                isChecked[0] = false;
-                              });
-                            }),
-                      ],
-                    ),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 12 * pt),
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
                         children: [
-                          Icon(
-                            Icons.view_array_outlined,
-                            size: 38,
+                          Text(
+                            "현재 위치",
+                            style: TextStyle(
+                                fontSize: 20 * pt, fontWeight: FontWeight.bold),
                           ),
                           Icon(
-                            Icons.departure_board_outlined,
-                            size: 32,
-                          )
-                        ]),
-                  ],
-                ),
-              ],
+                            Icons.arrow_drop_down_outlined,
+                            size: 40,
+                          ),
+                        ],
+                      ),
+                      Row(
+                        children: [
+                          Text("지도 보기",
+                              style: TextStyle(
+                                  fontSize: 17 * pt,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.grey)),
+                          Icon(Icons.map_sharp, size: 25),
+                        ],
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: 6 * pt,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SelectableTextButton(
+                              titleName: "내 주변 이벤트",
+                              isChecked: isChecked[0],
+                              onPressed: () {
+                                setState(() {
+                                  isChecked[1] = false;
+                                  isChecked[0] = true;
+                                });
+                              }),
+                          SizedBox(width: 10),
+                          SelectableTextButton(
+                              titleName: "동행찾기",
+                              isChecked: isChecked[1],
+                              onPressed: () {
+                                setState(() {
+                                  isChecked[1] = true;
+                                  isChecked[0] = false;
+                                });
+                              }),
+                        ],
+                      ),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Icon(
+                              Icons.view_array_outlined,
+                              size: 38,
+                            ),
+                            Icon(
+                              Icons.departure_board_outlined,
+                              size: 32,
+                            )
+                          ]),
+                    ],
+                  ),
+                  CarouselSlider(
+                      options: CarouselOptions(
+                        height: 300,
+                      ),
+                      items: images.map((url) {
+                        return Builder(
+                          builder: (BuildContext context) {
+                            return Container(
+                                width: MediaQuery.of(context).size.width,
+                                margin: EdgeInsets.symmetric(horizontal: 8.0),
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  child: Image.network(
+                                    url,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ));
+                          },
+                        );
+                      }).toList()),
+                ],
+              ),
             ),
-          ),
-          RecruitCard(
+            RecruitCard(
+                title: "태화강 근처",
+                hasContents: true,
+                range: DateTimeRange(
+                    start: DateTime(2021, 5, 23, 3, 10),
+                    end: DateTime(2021, 5, 25, 3, 10))),
+            TimerCard(
               title: "태화강 근처",
-              hasContents: true,
-              range: DateTimeRange(
-                  start: DateTime(2021, 5, 23, 3, 10),
-                  end: DateTime(2021, 5, 25, 3, 10))),
-          TimerCard(
-            title: "태화강 근처",
-            description: "낚시하실분 ㅎㅎ",
-            due: DateTime(2021, 5, 24, 6, 23, 00),
-            onEnd: () {
-              print("asdf");
-            },
-          ),
-          TimerCard(
-            title: "울산대 공원에서 피맥해요!",
-            description: "경치보면서 같이 힐링해요 ㅎㅎ잘 먹는 분이면 더 좋습니다!",
-            due: DateTime(2021, 5, 24, 6, 23, 00),
-            onEnd: () {
-              print("asdf");
-            },
-          ),
-        ],
+              description: "낚시하실분 ㅎㅎ",
+              due: DateTime(2021, 5, 24, 6, 23, 00),
+              onEnd: () {
+                print("asdf");
+              },
+            ),
+            TimerCard(
+              title: "울산대 공원에서 피맥해요!",
+              description: "경치보면서 같이 힐링해요 ㅎㅎ잘 먹는 분이면 더 좋습니다!",
+              due: DateTime(2021, 5, 24, 6, 23, 00),
+              onEnd: () {
+                print("asdf");
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
