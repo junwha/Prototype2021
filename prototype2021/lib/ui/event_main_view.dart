@@ -1,3 +1,4 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/recruit_card.dart';
@@ -17,6 +18,7 @@ class _EventMainViewState extends State<EventMainView> {
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
   ];
   var _pageIndex = 0;
+  double image_index = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,10 +51,11 @@ class _EventMainViewState extends State<EventMainView> {
       ),
       body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Padding(
               padding:
-                  const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 12 * pt),
+                  const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 30 * pt),
               child: Column(
                 children: [
                   Row(
@@ -126,35 +129,51 @@ class _EventMainViewState extends State<EventMainView> {
                           ]),
                     ],
                   ),
-                  CarouselSlider(
-                      options: CarouselOptions(
-                        height: 300,
-                      ),
-                      items: images.map((url) {
-                        return Builder(
-                          builder: (BuildContext context) {
-                            return Container(
-                                width: MediaQuery.of(context).size.width,
-                                margin: EdgeInsets.symmetric(horizontal: 8.0),
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(8.0),
-                                  child: Image.network(
-                                    url,
-                                    fit: BoxFit.cover,
-                                  ),
-                                ));
-                          },
-                        );
-                      }).toList()),
                 ],
               ),
             ),
-            RecruitCard(
-                title: "태화강 근처",
-                hasContents: true,
-                range: DateTimeRange(
-                    start: DateTime(2021, 5, 23, 3, 10),
-                    end: DateTime(2021, 5, 25, 3, 10))),
+            Stack(
+              alignment: Alignment.bottomCenter,
+              children: [
+                CarouselSlider(
+                    options: CarouselOptions(
+                      onPageChanged: (i, reason) {
+                        setState(() {
+                          image_index = i.toDouble();
+                        });
+                      },
+                      height: 200,
+                      viewportFraction: 1,
+                    ),
+                    items: images.map((url) {
+                      return Builder(
+                        builder: (BuildContext context) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            child: Image.network(
+                              url,
+                              fit: BoxFit.cover,
+                            ),
+                          );
+                        },
+                      );
+                    }).toList()),
+                DotsIndicator(
+                  dotsCount: images.length,
+                  position: image_index,
+                )
+              ],
+            ),
+            SizedBox(
+              height: 30,
+            ),
+            Text(
+              "마감 임박 게시글",
+              style: TextStyle(
+                  color: Colors.grey,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 14 * pt),
+            ),
             TimerCard(
               title: "태화강 근처",
               description: "낚시하실분 ㅎㅎ",
@@ -166,6 +185,14 @@ class _EventMainViewState extends State<EventMainView> {
             TimerCard(
               title: "울산대 공원에서 피맥해요!",
               description: "경치보면서 같이 힐링해요 ㅎㅎ잘 먹는 분이면 더 좋습니다!",
+              due: DateTime(2021, 5, 24, 6, 23, 00),
+              onEnd: () {
+                print("asdf");
+              },
+            ),
+            TimerCard(
+              title: "울산 불꽃 축제 같이 가실분?",
+              description: "사진 찍고 같이 선물 받아요~~!",
               due: DateTime(2021, 5, 24, 6, 23, 00),
               onEnd: () {
                 print("asdf");
