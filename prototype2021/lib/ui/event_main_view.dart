@@ -198,6 +198,22 @@ class _EventMainViewState extends State<EventMainView> {
                 print("asdf");
               },
             ),
+            TextButton(
+                onPressed: () {},
+                child: Container(
+                    height: 35 * pt,
+                    width: 280 * pt,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                        child: Text(
+                      "더보기",
+                      style: TextStyle(
+                          fontSize: 15 * pt,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54),
+                    ))))
           ],
         ),
       ),
