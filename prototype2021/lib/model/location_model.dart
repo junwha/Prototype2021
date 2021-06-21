@@ -52,6 +52,7 @@ class LocationModel with ChangeNotifier {
   /*
    * Load Places with types and update locations  
    */
+
   Future<void> loadPlaces() async {
     placeLoaded = false;
     clearMap();
@@ -69,13 +70,14 @@ class LocationModel with ChangeNotifier {
     // TODO(junwha): Get Event place
     List<GooglePlaceData> placeDataList = [];
 
-    placeDataList = await placeLoader.getPlaces(types, radius: this.radius);
+    placeDataList =
+        await placeLoader.getGooglePlaces(types, radius: this.radius);
 
     // Find nearby places with specified types
     for (GooglePlaceData placeData in placeDataList) {
       // Add all placeData to location list
-      locations.add(GoogleLocation(locations.length, placeData.name,
-          placeData.location, placeData.type));
+      locations.add(GoogleLocation(locations.length, placeData.photo,
+          placeData.name, placeData.location, placeData.type));
     }
 
     if (types.isNotEmpty) {
@@ -134,7 +136,7 @@ class LocationModel with ChangeNotifier {
       ),
     );
 
-    locations = [GoogleLocation(0, name, location, PlaceType.DEFAULT)];
+    locations = [GoogleLocation(0, null, name, location, PlaceType.DEFAULT)];
     updateMarkers();
     clearFilters();
     notifyListeners();
