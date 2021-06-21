@@ -102,6 +102,9 @@ class MarkerList {
     markers = <MarkerId, Marker>{};
   }
 
+  /*
+  * Change focus with markerId
+  */
   void changeFocus(MarkerId markerId) {
     this.focusedMarker = markers[markerId];
     onFocusChanged?.call();
