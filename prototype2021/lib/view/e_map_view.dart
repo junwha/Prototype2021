@@ -89,7 +89,7 @@ class _MapViewState extends State<MapView> {
                     ),
                   ),
                 ),
-                locationModel.markerList.focusedMarker != null
+                locationModel.markerList.focusedLocation != null
                     ? buildContentInfo()
                     : SizedBox(height: 0),
                 buildFloatingSearchBar(context),

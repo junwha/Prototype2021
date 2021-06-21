@@ -10,10 +10,8 @@ import 'package:flutter/material.dart';
 class MarkerList {
   //TODO(junwha): generalize with CID and EID
 
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; //Fields for Markers
-  MarkerId? selectedMarker;
-  int _markerIdCounter = 1;
-  Marker? focusedMarker;
+  Map<Location, Marker> markers = <Location, Marker>{}; //Fields for Markers
+  Location? focusedLocation;
 
   Map<String, BitmapDescriptor> markerIconMap =
       {}; // Math marker Icon with Types
@@ -50,7 +48,7 @@ class MarkerList {
     // print(markerIcon);
     for (Location location in locationList) {
       if (location is ContentLocation) {
-        addMarker(location.latLng, location.type, location.name);
+        addMarker(location);
       }
     }
   }
@@ -58,7 +56,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(LatLng latLng, String type, String name) {
+  void addMarker(ContentLocation location) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -66,22 +64,22 @@ class MarkerList {
     //   return;
     // }
 
-    final MarkerId markerId = MarkerId(name);
+    final MarkerId markerId = MarkerId(location.name);
     //marker ID
     // final String markerIdVal = 'marker_id_$_markerIdCounter';
     // _markerIdCounter++;
     // final MarkerId markerId = MarkerId(markerIdVal);
 
     BitmapDescriptor markerIcon = markerIconMap[PlaceType.DEFAULT]!;
-    if (markerIconMap.containsKey(type)) {
-      markerIcon = markerIconMap[type]!;
+    if (markerIconMap.containsKey(location.type)) {
+      markerIcon = markerIconMap[location.type]!;
     }
     //Create Marker
     final Marker marker = Marker(
       markerId: markerId,
-      position: latLng,
+      position: location.latLng,
       onTap: () {
-        changeFocus(markerId);
+        changeFocus(location);
       },
       flat: true,
       icon: markerIcon,
@@ -89,23 +87,23 @@ class MarkerList {
       rotation: bearing,
     );
 
-    markers[markerId] = marker;
+    markers[location] = marker;
   }
 
   void removeMarker(int id) {}
 
   void removeAll() {
-    markers = <MarkerId, Marker>{};
+    markers = <Location, Marker>{};
   }
 
   /*
-  * Change focus with markerId
+  * Change focus with Location
   */
-  void changeFocus(MarkerId? markerId) {
-    if (markerId != null) {
-      this.focusedMarker = markers[markerId];
+  void changeFocus(Location? location) {
+    if (location != null) {
+      this.focusedLocation = location;
     } else {
-      this.focusedMarker = null;
+      this.focusedLocation = null;
     }
   }
 }
