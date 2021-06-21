@@ -10,6 +10,7 @@ class ContentsCard extends StatefulWidget {
   final int ratingNumbers;
   final List<String> tags;
   final bool clickable;
+  final EdgeInsets margin;
 
   const ContentsCard({
     required this.preview,
@@ -20,6 +21,7 @@ class ContentsCard extends StatefulWidget {
     required this.ratingNumbers,
     required this.tags,
     this.clickable = true,
+    this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
   });
 
   @override
@@ -40,7 +42,7 @@ class _ContentsCardState extends State<ContentsCard> {
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        margin: this.widget.margin,
         //FIXME: Icon 크기 때문에 임시로 170으로 설정해 뒀음.
         height: 170,
         decoration: BoxDecoration(
