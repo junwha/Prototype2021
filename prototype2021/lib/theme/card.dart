@@ -445,10 +445,10 @@ class _ProductCardState extends State<ProductCard> {
   }
 }
 
-List<Widget> tagMethod(isSelected, tags) {
+List<Widget> tagMethod(bool isSelected, List<String> tags) {
   // 태그 박스 구현 코드
   return List<Widget>.generate(
-    3,
+    tags.length,
     (index) => Container(
       padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
       margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
