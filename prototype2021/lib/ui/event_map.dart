@@ -49,14 +49,10 @@ class _EventMapState extends State<EventMap> {
               this.widget.model.updateBearing(cameraPostion.bearing);
               this.widget.model.center = cameraPostion.target;
             },
-            // onTap: (LatLng pos) {
-            //   setState(() {
-            //     _lastTap = pos;
-            //     print("Pressed");
-            //     print(pos.latitude);
-            //     print(pos.longitude);
-            //   });
-            // },
+            onTap: (LatLng pos) {
+              this.widget.model.removeFocus();
+            },
+
             // onLongPress: (LatLng pos) {
             //   setState(() {
             //     _lastLongPress = pos;
