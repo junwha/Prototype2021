@@ -43,7 +43,7 @@ class _ContentsCardState extends State<ContentsCard> {
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
         margin: this.widget.margin,
-        //FIXME: Icon 크기 때문에 임시로 170으로 설정해 뒀음.
+        //TODO(Jiun): Icon 크기 때문에 임시로 170으로 설정해 뒀음.
         height: 170,
         decoration: BoxDecoration(
             boxShadow: [
@@ -73,9 +73,12 @@ class _ContentsCardState extends State<ContentsCard> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                    child: Image.network(
-                      this.widget.preview,
-                      fit: BoxFit.fill,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.network(
+                        this.widget.preview,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ],
