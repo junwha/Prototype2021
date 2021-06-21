@@ -9,6 +9,7 @@ class ContentsCard extends StatefulWidget {
   final double rating;
   final int ratingNumbers;
   final List<String> tags;
+  final bool clickable;
 
   const ContentsCard({
     required this.preview,
@@ -18,6 +19,7 @@ class ContentsCard extends StatefulWidget {
     required this.rating,
     required this.ratingNumbers,
     required this.tags,
+    this.clickable = true,
   });
 
   @override
@@ -30,9 +32,11 @@ class _ContentsCardState extends State<ContentsCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        isSelected = !isSelected;
-        setState(() {});
-        print(isSelected);
+        if (this.widget.clickable) {
+          isSelected = !isSelected;
+          setState(() {});
+          print(isSelected);
+        }
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
