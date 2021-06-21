@@ -4,9 +4,13 @@ import 'package:prototype2021/settings/constants.dart';
 class CheckBoxWidget extends StatefulWidget {
   bool isChecked1 = false;
   bool isChecked2 = false;
-  CheckBoxWidget(bool isChecked1, bool isChecked2) {
+  Function(String, String, String, String, String) onChanged = (recruitNumber,
+      maleRecruitNumber, femaleRecruitNumber, startAge, endAge) {};
+  CheckBoxWidget(bool isChecked1, bool isChecked2,
+      Function(String, String, String, String, String) onChanged) {
     this.isChecked1 = isChecked1;
     this.isChecked2 = isChecked2;
+    this.onChanged = onChanged;
   }
 
   @override
@@ -14,12 +18,41 @@ class CheckBoxWidget extends StatefulWidget {
 }
 
 class _CheckBoxWidgetState extends State<CheckBoxWidget> {
-  final _valueList1 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  final _valueList2 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  final _valueList3 = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
-  var _selectedValue1 = '0';
-  var _selectedValue2 = '0';
-  var _selectedValue3 = '0';
+  final List<String> recruitValues = [
+    '0',
+    '1',
+    '2',
+    '3',
+    '4',
+    '5',
+    '6',
+    '7',
+    '8',
+    '9',
+    '10'
+  ];
+  final List<String> ageValues = [
+    '0',
+    '10',
+    '20',
+    '30',
+    '40',
+    '50',
+    '60',
+    '70',
+    '80',
+    '90',
+  ];
+  String recruitNumber = '0';
+  String maleRecruitNumber = '0';
+  String femaleRecruitNumber = '0';
+  String startAge = '0';
+  String endAge = '0';
+
+  void updateFields() {
+    this.widget.onChanged(recruitNumber, maleRecruitNumber, femaleRecruitNumber,
+        startAge, endAge);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +68,6 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
     } else if (this.widget.isChecked2) {
       return Column(
         children: [
-          buildRecruitmentNumber(),
           buildGenderRecruitment(),
         ],
       );
@@ -61,8 +93,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           width: 10 * pt,
         ),
         DropdownButton(
-          value: _selectedValue2,
-          items: _valueList2.map(
+          value: maleRecruitNumber,
+          items: recruitValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -72,7 +104,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue2 = value == null ? "" : value;
+              maleRecruitNumber = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -85,8 +118,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           width: 10 * pt,
         ),
         DropdownButton(
-          value: _selectedValue3,
-          items: _valueList3.map(
+          value: femaleRecruitNumber,
+          items: recruitValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -96,7 +129,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue3 = value == null ? "" : value;
+              femaleRecruitNumber = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -113,8 +147,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           width: 80,
         ),
         DropdownButton(
-          value: _selectedValue2,
-          items: _valueList2.map(
+          value: startAge,
+          items: ageValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -124,14 +158,15 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue2 = value == null ? "" : value;
+              startAge = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
         Text("     ~     "),
         DropdownButton(
-          value: _selectedValue3,
-          items: _valueList3.map(
+          value: endAge,
+          items: ageValues.map(
             (value) {
               return DropdownMenuItem(
                 value: value,
@@ -141,7 +176,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
           ).toList(),
           onChanged: (String? value) {
             setState(() {
-              _selectedValue3 = value == null ? "" : value;
+              endAge = value == null ? "" : value;
+              updateFields();
             });
           },
         ),
@@ -159,8 +195,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
       Row(
         children: [
           DropdownButton(
-            value: _selectedValue1,
-            items: _valueList1.map(
+            value: recruitNumber,
+            items: recruitValues.map(
               (value) {
                 return DropdownMenuItem(
                   value: value,
@@ -170,7 +206,8 @@ class _CheckBoxWidgetState extends State<CheckBoxWidget> {
             ).toList(),
             onChanged: (String? value) {
               setState(() {
-                _selectedValue1 = value == null ? "" : value;
+                recruitNumber = value == null ? "" : value;
+                updateFields();
               });
             },
           ),
