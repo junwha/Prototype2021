@@ -5,7 +5,7 @@ import 'package:prototype2021/model/map/map_place.dart';
 import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 
-import 'package:prototype2021/theme/marker.dart';
+import 'package:prototype2021/theme/map/marker.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [];

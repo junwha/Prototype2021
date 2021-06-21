@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/ui/e_map_view.dart';
+import 'package:prototype2021/ui/map_view.dart';
 
 void main() {
   runApp(
