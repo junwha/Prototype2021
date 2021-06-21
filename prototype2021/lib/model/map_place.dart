@@ -11,6 +11,7 @@ class PlaceType {
   static const String SPOT = "관광지";
   static const String CAFFEE = "카페";
   static const String DEFAULT = "default";
+  static const String EVENT = "event";
 }
 
 class PlaceLoader {
@@ -32,7 +33,7 @@ class PlaceLoader {
   /* 
   * Find nearby places from [center] with specified type 
   */
-  Future<List<GooglePlaceData>> getPlace(String type,
+  Future<List<GooglePlaceData>> getGooglePlace(String type,
       {int radius = 500}) async {
     if (types.contains(type)) {
       String url =
@@ -40,7 +41,7 @@ class PlaceLoader {
       print(type);
       try {
         http.Response res = await http.get(Uri.parse(url));
-        return parseData(res.body, type);
+        return parseGooglePlaceData(res.body, type);
       } catch (e) {
         print("check internet");
         throw Exception;
@@ -53,21 +54,21 @@ class PlaceLoader {
   /* 
   * Find nearby places from [center] with specified types
   */
-  Future<List<GooglePlaceData>> getPlaces(List typeList,
+  Future<List<GooglePlaceData>> getGooglePlaces(List typeList,
       {int radius = 500}) async {
     List<GooglePlaceData> placeList = [];
     int initialRadius = 500;
     int i = 1;
     while (initialRadius * i <= radius && placeList.length < 10) {
       for (String type in typeList) {
-        placeList.addAll(await getPlace(type, radius: initialRadius * i));
+        placeList.addAll(await getGooglePlace(type, radius: initialRadius * i));
       }
       i++;
     }
     return placeList;
   }
 
-  List<GooglePlaceData> parseData(String jsonString, String type) {
+  List<GooglePlaceData> parseGooglePlaceData(String jsonString, String type) {
     Map<String, dynamic> result = jsonDecode(jsonString);
     List<GooglePlaceData> placeList = [];
 
@@ -86,6 +87,58 @@ class PlaceLoader {
   }
 }
 
+// /* ---------------- */
+// /*
+//   * Find nearby places from [center] with specified type
+//   */
+// Future<List<EventPlaceData>> getEventPlace(String type,
+//     {int radius = 500}) async {
+//   if (type == PlaceType.EVENT) {
+//     String url = "http://api.tripbuilder.co.kr/recruitments/events/";
+//     print(type);
+//     try {
+//       http.Response res = await http.get(Uri.parse(url));
+//       return parseEventPlaceData(res.body);
+//     } catch (e) {
+//       print("check internet");
+//       throw Exception;
+//     }
+//   } else {
+//     throw Exception;
+//   }
+// }
+
+// //   /*
+// //   * Find nearby places from [center] with specified types
+// //   */
+// //   Future<List<GooglePlaceData>> getGooglePlaces(List typeList,
+// //       {int radius = 500}) async {
+// //     List<GooglePlaceData> placeList = [];
+// //     int initialRadius = 500;
+// //     int i = 1;
+// //     while (initialRadius * i <= radius && placeList.length < 10) {
+// //       for (String type in typeList) {
+// //         placeList.addAll(await getGooglePlace(type, radius: initialRadius * i));
+// //       }
+// //       i++;
+// //     }
+// //     return placeList;
+// //   }
+
+//   List<EventPlaceData> parseEventPlaceData(String jsonString) {
+//     Map<String, dynamic> result = jsonDecode(jsonString);
+//     List<EventPlaceData> placeList = [];
+
+//       for (var placeMeta in result['results']) {
+//         placeList.add(EventPlaceData(placeMeta, type));
+//       }
+//     } catch (e) {
+//       print(e);
+//     }
+//     return placeList;
+//   }
+// }
+
 /*
 * This class saves all data of place from google map
 */
@@ -103,6 +156,9 @@ class GooglePlaceData {
   String get businessStatus => placeMeta["business_status"];
   String get userRatingsTotal => placeMeta["user_ratings_total"];
   String get types => placeMeta["types"];
-  String? get photos =>
-      placeMeta.containsKey("photos") ? placeMeta["photos"] : null;
+  String? get photo => placeMeta.containsKey("photos")
+      ? "https://maps.googleapis.com/maps/api/place/photo?photoreference=${placeMeta["photos"][0]["photo_reference"]}&key=$kGoogleApiKey&maxwidth=200&maxheight=200"
+      : null;
 }
+
+class EventPlaceData {}
