@@ -6,8 +6,8 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:prototype2021/theme/card.dart';
-import 'package:prototype2021/ui/place_info.dart';
-import 'package:prototype2021/ui/event_map.dart';
+import 'package:prototype2021/theme/place_info.dart';
+import 'package:prototype2021/theme/event_map.dart';
 
 import 'package:prototype2021/model/map/search_place_model.dart';
 import 'package:prototype2021/model/map/location.dart';

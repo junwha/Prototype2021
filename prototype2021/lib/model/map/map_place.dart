@@ -1,7 +1,7 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:prototype2021/model/place_data.dart';
+import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 // Types of places
