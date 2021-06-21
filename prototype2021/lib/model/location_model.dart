@@ -139,6 +139,11 @@ class LocationModel with ChangeNotifier {
     notifyListeners();
   }
 
+  void removeFocus() {
+    markerList.changeFocus(null);
+    notifyListeners();
+  }
+
   bool isUpdate(LatLngBounds bounds) {
     return false;
   }
