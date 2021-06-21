@@ -14,7 +14,6 @@ class MarkerList {
   MarkerId? selectedMarker;
   int _markerIdCounter = 1;
   Marker? focusedMarker;
-  Function? onFocusChanged;
 
   Map<String, BitmapDescriptor> markerIconMap =
       {}; // Math marker Icon with Types
@@ -23,7 +22,7 @@ class MarkerList {
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
-  MarkerList({this.onFocusChanged});
+  MarkerList();
   /*
   * Initialize marker image. if image loaded completely, call notifyListeners
   */
@@ -81,11 +80,8 @@ class MarkerList {
     final Marker marker = Marker(
       markerId: markerId,
       position: latLng,
-      infoWindow: InfoWindow(title: name),
       onTap: () {
         changeFocus(markerId);
-        print("Marker tapped!!!!!!");
-        //_onMarkerTapped(markerId);
       },
       flat: true,
       icon: markerIcon,
@@ -105,9 +101,13 @@ class MarkerList {
   /*
   * Change focus with markerId
   */
-  void changeFocus(MarkerId markerId) {
-    this.focusedMarker = markers[markerId];
-    onFocusChanged?.call();
+  void changeFocus(MarkerId? markerId) {
+    if (markerId != null) {
+      this.focusedMarker = markers[markerId];
+    } else {
+      print("return to null");
+      this.focusedMarker = null;
+    }
   }
 }
 
