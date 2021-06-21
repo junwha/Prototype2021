@@ -105,7 +105,6 @@ class MarkerList {
     if (markerId != null) {
       this.focusedMarker = markers[markerId];
     } else {
-      print("return to null");
       this.focusedMarker = null;
     }
   }
