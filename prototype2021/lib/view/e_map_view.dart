@@ -127,7 +127,7 @@ class _MapViewState extends State<MapView> {
               ),
             ),
             ContentsCard(
-              preview: "TEMP",
+              preview: location.preview,
               title: location.name,
               place: "TEMP",
               explanation: "TEMP",
