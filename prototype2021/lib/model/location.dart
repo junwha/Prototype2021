@@ -9,11 +9,11 @@ class Location {
   const Location(this.latLng);
 }
 
-class ContentLocation extends Location {
+class GoogleLocation extends Location {
   final int cid;
   final String name;
   final String type;
 
-  const ContentLocation(this.cid, this.name, LatLng latLng, this.type)
+  const GoogleLocation(this.cid, this.name, LatLng latLng, this.type)
       : super(latLng);
 }

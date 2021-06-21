@@ -73,7 +73,7 @@ class LocationModel with ChangeNotifier {
     // Find nearby places with specified types
     for (PlaceData placeData in placeDataList) {
       // Add all placeData to location list
-      locations.add(ContentLocation(locations.length, placeData.name,
+      locations.add(GoogleLocation(locations.length, placeData.name,
           placeData.location, placeData.type));
     }
 
@@ -133,7 +133,7 @@ class LocationModel with ChangeNotifier {
       ),
     );
 
-    locations = [ContentLocation(0, name, location, PlaceType.DEFAULT)];
+    locations = [GoogleLocation(0, name, location, PlaceType.DEFAULT)];
     updateMarkers();
     clearFilters();
     notifyListeners();
