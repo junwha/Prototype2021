@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 /*
 * This Class is parent location class of Event, Content, etc.
@@ -18,8 +19,7 @@ class GoogleLocation extends Location {
   GoogleLocation(
       this.cid, String? preview, String name, LatLng latLng, String type)
       : super(latLng, type, name) {
-    this.preview = preview ??
-        "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg";
+    this.preview = preview ?? placeHolder;
   }
 }
 
