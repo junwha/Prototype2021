@@ -3,6 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:prototype2021/model/location.dart';
 import 'package:prototype2021/model/location_model.dart';
+import 'package:prototype2021/model/map_place.dart';
+import 'package:prototype2021/model/place_data.dart';
+import 'package:prototype2021/settings/constants.dart';
 import 'dart:convert';
 
 import 'package:prototype2021/ui/location_result_card.dart';
@@ -10,7 +13,7 @@ import 'package:prototype2021/ui/location_result_card.dart';
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 
 class SearchPlaceModel with ChangeNotifier {
-  List<SearchResultData> searchResult = []; // save search result data
+  List<GooglePlaceData> searchResult = []; // save search result data
   List<LocationResultCard> resultCards = []; // save resultCards UI's
 
   LocationModel locationModel;
@@ -31,12 +34,12 @@ class SearchPlaceModel with ChangeNotifier {
     notifyListeners();
   }
 
-  List<SearchResultData> parseData(String jsonString) {
+  List<GooglePlaceData> parseData(String jsonString) {
     Map<String, dynamic> result = jsonDecode(jsonString);
     searchResult.clear();
 
     for (var searchResultMeta in result['candidates']) {
-      searchResult.add(SearchResultData(searchResultMeta));
+      searchResult.add(GooglePlaceData(searchResultMeta, PlaceType.DEFAULT));
     }
 
     return searchResult;
@@ -48,36 +51,16 @@ class SearchPlaceModel with ChangeNotifier {
     for (var data in searchResult) {
       resultCards.add(LocationResultCard(
         name: data.name,
-        image: data.loadPhoto(),
+        image: Image(
+          image: NetworkImage(data.photo ?? placeHolder),
+          fit: BoxFit.cover,
+        ),
         onclick: () {
           this.locationModel.moveToResult(data.name, data.location);
           this.resultCards = [];
           print("Card clicked");
         },
       ));
-    }
-  }
-}
-
-class SearchResultData {
-  Map<String, dynamic>
-      searchResultMeta; //{geometry: {location: lat, lng,}, viewport: {northeast, southest}, icon, name, photos, place_id}
-  SearchResultData(this.searchResultMeta);
-
-  LatLng get location => LatLng(searchResultMeta["geometry"]["location"]["lat"],
-      searchResultMeta["geometry"]["location"]["lng"]);
-
-  String get name => searchResultMeta["name"];
-
-  Image? loadPhoto() {
-    if (searchResultMeta.containsKey("photos")) {
-      String photoUrl =
-          "https://maps.googleapis.com/maps/api/place/photo?key=$kGoogleApiKey&photoreference=${searchResultMeta["photos"][0]["photo_reference"]}&maxheight=500";
-
-      return Image(
-        image: NetworkImage(photoUrl),
-        fit: BoxFit.cover,
-      );
     }
   }
 }

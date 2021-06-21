@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -19,5 +20,3 @@ class GooglePlaceData {
       ? "https://maps.googleapis.com/maps/api/place/photo?photoreference=${placeMeta["photos"][0]["photo_reference"]}&key=$kGoogleApiKey&maxwidth=200"
       : null;
 }
-
-class EventPlaceData {}
