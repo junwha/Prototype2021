@@ -1,13 +1,12 @@
 import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:prototype2021/model/location.dart';
-import 'package:prototype2021/model/location_model.dart';
-import 'package:prototype2021/model/map_place.dart';
-import 'package:prototype2021/model/place_data.dart';
-import 'package:prototype2021/settings/constants.dart';
 import 'dart:convert';
 
+import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/place_data.dart';
+
+import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/ui/location_result_card.dart';
 
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";

@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map_place.dart';
-import 'package:prototype2021/model/place_data.dart';
+import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/ui/marker.dart';
-import 'package:prototype2021/model/location.dart';
+import 'package:prototype2021/model/map/location.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [];

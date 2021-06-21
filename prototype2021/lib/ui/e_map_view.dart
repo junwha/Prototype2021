@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
+
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:prototype2021/model/location.dart';
-import 'package:prototype2021/model/location_model.dart';
-import 'package:prototype2021/model/map_place.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 import 'package:prototype2021/theme/card.dart';
 import 'package:prototype2021/ui/place_info.dart';
-import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
-import 'package:prototype2021/model/search_place_model.dart';
+
+import 'package:prototype2021/model/map/search_place_model.dart';
+import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/model/map/map_place.dart';
 
 //initial position
 const LatLng center =
