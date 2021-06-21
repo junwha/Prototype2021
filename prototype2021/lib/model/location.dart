@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 /*
@@ -13,12 +14,17 @@ class Location {
 
 class GoogleLocation extends Location {
   final int cid;
-
-  const GoogleLocation(this.cid, String name, LatLng latLng, String type)
-      : super(latLng, type, name);
+  late String preview;
+  GoogleLocation(
+      this.cid, String? preview, String name, LatLng latLng, String type)
+      : super(latLng, type, name) {
+    this.preview = preview ??
+        "https://image.shutterstock.com/image-vector/ui-image-placeholder-wireframes-apps-260nw-1037719204.jpg";
+  }
 }
 
-// class EventLocation extends Location {
-//   final Stirng name;
-//   const EventLocation()
-// }
+class EventLocation extends Location {
+  final DateTimeRange period;
+  const EventLocation(String name, LatLng latLng, String type, this.period)
+      : super(latLng, type, name);
+}
