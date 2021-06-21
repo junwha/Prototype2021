@@ -56,7 +56,7 @@ class SearchPlaceModel with ChangeNotifier {
           fit: BoxFit.cover,
         ),
         onclick: () {
-          this.locationModel.moveToResult(data.name, data.location);
+          this.locationModel.moveToResult(data);
           this.resultCards = [];
           print("Card clicked");
         },

@@ -128,16 +128,18 @@ class LocationModel with ChangeNotifier {
   /*
    * When user clicked search result, this method would be called.
    */
-  void moveToResult(String name, LatLng location) {
+  void moveToResult(GooglePlaceData data) {
     clearMap();
-    updateCenter(location);
+    updateCenter(data.location);
     mapController?.moveCamera(
       CameraUpdate.newLatLng(
-        location,
+        data.location,
       ),
     );
 
-    locations = [GoogleLocation(0, null, name, location, PlaceType.DEFAULT)];
+    locations = [
+      GoogleLocation(0, data.photo, data.name, data.location, PlaceType.DEFAULT)
+    ];
     updateMarkers();
     clearFilters();
     notifyListeners();
