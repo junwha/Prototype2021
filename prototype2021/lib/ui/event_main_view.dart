@@ -167,12 +167,23 @@ class _EventMainViewState extends State<EventMainView> {
             SizedBox(
               height: 30,
             ),
-            Text(
-              "마감 임박 게시글",
-              style: TextStyle(
-                  color: Colors.grey,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14 * pt),
+            Container(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "마감 임박 게시글",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14 * pt),
+                    ),
+                  ],
+                ),
+              ),
             ),
             TimerCard(
               title: "태화강 근처",
