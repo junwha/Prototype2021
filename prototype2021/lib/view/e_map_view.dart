@@ -4,6 +4,7 @@ import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/model/location_model.dart';
 import 'package:prototype2021/model/map_place.dart';
+import 'package:prototype2021/theme/card.dart';
 import 'package:prototype2021/ui/place_info.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event_map.dart';
@@ -88,12 +89,57 @@ class _MapViewState extends State<MapView> {
                     ),
                   ),
                 ),
+                locationModel.markerList.focusedMarker != null
+                    ? buildContentInfo()
+                    : SizedBox(height: 0),
                 buildFloatingSearchBar(context),
               ],
             );
           },
         ),
       ),
+    );
+  }
+
+  Column buildContentInfo() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          color: Colors.white,
+          height: 60,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text("컨텐츠"),
+              TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black,
+                ),
+                child: Row(
+                  children: [Icon(Icons.article_outlined), Text("글 쓰기")],
+                ),
+                onPressed: () {},
+              )
+            ],
+          ),
+        ),
+        ContentsCard(
+          preview: "TEMP",
+          title: "TEMP",
+          place: "TEMP",
+          explanation: "TEMP",
+          rating: 1,
+          ratingNumbers: 5,
+          tags: ["asdf"],
+          clickable: false,
+          margin: const EdgeInsets.symmetric(vertical: 0),
+        ),
+        Container(
+          color: Colors.white,
+          height: 30,
+        ),
+      ],
     );
   }
 
