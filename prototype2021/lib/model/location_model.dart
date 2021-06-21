@@ -66,6 +66,7 @@ class LocationModel with ChangeNotifier {
         types.add(type);
       }
     }
+    // TODO(junwha): Get Event place
     List<PlaceData> placeDataList = [];
 
     placeDataList = await placeLoader.getPlaces(types, radius: this.radius);
