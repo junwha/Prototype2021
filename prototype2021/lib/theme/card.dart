@@ -74,7 +74,7 @@ class _ContentsCardState extends State<ContentsCard> {
                   ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(9.0)),
                     child: Image.network(
-                      'https://cdn140.picsart.com/302038404009201.jpg?type=webp&to=crop&r=256',
+                      this.widget.preview,
                       fit: BoxFit.fill,
                     ),
                   ),
