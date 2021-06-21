@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:prototype2021/model/location.dart';
 import 'package:prototype2021/model/location_model.dart';
 import 'package:prototype2021/model/map_place.dart';
 import 'package:prototype2021/theme/card.dart';
@@ -89,9 +90,8 @@ class _MapViewState extends State<MapView> {
                     ),
                   ),
                 ),
-                locationModel.markerList.focusedLocation != null
-                    ? buildContentInfo()
-                    : SizedBox(height: 0),
+                buildContentInfo(locationModel.markerList.focusedLocation),
+
                 buildFloatingSearchBar(context),
               ],
             );
@@ -101,46 +101,51 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  Column buildContentInfo() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
-      children: [
-        Container(
-          color: Colors.white,
-          height: 60,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text("컨텐츠"),
-              TextButton(
-                style: TextButton.styleFrom(
-                  primary: Colors.black,
-                ),
-                child: Row(
-                  children: [Icon(Icons.article_outlined), Text("글 쓰기")],
-                ),
-                onPressed: () {},
-              )
-            ],
-          ),
-        ),
-        ContentsCard(
-          preview: "TEMP",
-          title: "TEMP",
-          place: "TEMP",
-          explanation: "TEMP",
-          rating: 1,
-          ratingNumbers: 5,
-          tags: ["asdf"],
-          clickable: false,
-          margin: const EdgeInsets.symmetric(vertical: 0),
-        ),
-        Container(
-          color: Colors.white,
-          height: 30,
-        ),
-      ],
-    );
+  Widget buildContentInfo(Location? location) {
+    if (location != null) {
+      if (location is ContentLocation) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              color: Colors.white,
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("컨텐츠"),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black,
+                    ),
+                    child: Row(
+                      children: [Icon(Icons.article_outlined), Text("글 쓰기")],
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            ),
+            ContentsCard(
+              preview: "TEMP",
+              title: location.name,
+              place: "TEMP",
+              explanation: "TEMP",
+              rating: 1,
+              ratingNumbers: 5,
+              tags: ["asdf"],
+              clickable: false,
+              margin: const EdgeInsets.symmetric(vertical: 0),
+            ),
+            Container(
+              color: Colors.white,
+              height: 30,
+            ),
+          ],
+        );
+      }
+    }
+    return SizedBox(height: 0);
   }
 
   PlaceFilterChip buildPlaceFilterChip(
