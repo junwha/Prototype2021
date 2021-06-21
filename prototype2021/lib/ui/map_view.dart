@@ -49,56 +49,63 @@ class _MapViewState extends State<MapView> {
                   model: locationModel,
                 ), //TODO(junwha): change to dynamic location
                 PlaceInfo(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
-                  child: SizedBox.expand(
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.spaceEvenly,
-                      children: [
-                        buildPlaceFilterChip(locationModel, "호텔",
-                            PlaceType.HOTEL), // TODO: replace to event
-                        buildPlaceFilterChip(
-                            locationModel, "여행지", PlaceType.SPOT),
-                        buildPlaceFilterChip(
-                            locationModel, "카페", PlaceType.CAFFEE),
-                        buildPlaceFilterChip(
-                            locationModel, "음식점", PlaceType.RESTAURANT),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: maxHeight - 200),
-                  child: Center(
-                    child: TextButton(
-                      style: ButtonStyle(
-                        minimumSize:
-                            MaterialStateProperty.all<Size>(Size(88, 36)),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
-                      ),
-                      onPressed: () {},
-                      child: Text("글쓰기", style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
-                ),
+                buildBackButton(context),
+                buildChipBar(locationModel),
+                buildWriteButton(maxHeight),
                 buildContentInfo(locationModel.markerList.focusedLocation),
 
                 buildFloatingSearchBar(context),
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget buildBackButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
+      child: IconButton(
+        color: Colors.white,
+        icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  Widget buildWriteButton(double maxHeight) {
+    return Padding(
+      padding: EdgeInsets.only(top: maxHeight - 200),
+      child: Center(
+        child: TextButton(
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all<Size>(Size(88, 36)),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () {},
+          child: Text("글쓰기", style: TextStyle(color: Colors.white)),
+        ),
+      ),
+    );
+  }
+
+  Widget buildChipBar(LocationModel locationModel) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
+      child: SizedBox.expand(
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.spaceEvenly,
+          children: [
+            buildPlaceFilterChip(
+                locationModel, "호텔", PlaceType.HOTEL), // TODO: replace to event
+            buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT),
+            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE),
+            buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT),
+          ],
         ),
       ),
     );
@@ -151,7 +158,7 @@ class _MapViewState extends State<MapView> {
     return SizedBox(height: 0);
   }
 
-  PlaceFilterChip buildPlaceFilterChip(
+  Widget buildPlaceFilterChip(
       LocationModel locationModel, String text, String type) {
     return PlaceFilterChip(
       leading: Icon(Icons.comment),
