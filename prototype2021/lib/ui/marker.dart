@@ -47,7 +47,7 @@ class MarkerList {
   void addMarkerList(List<Location> locationList) {
     // print(markerIcon);
     for (Location location in locationList) {
-      if (location is ContentLocation) {
+      if (location is GoogleLocation) {
         addMarker(location);
       }
     }
@@ -56,7 +56,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(ContentLocation location) {
+  void addMarker(GoogleLocation location) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
