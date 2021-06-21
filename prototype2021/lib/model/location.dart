@@ -5,15 +5,20 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 */
 class Location {
   final LatLng latLng;
+  final String type;
+  final String name;
 
-  const Location(this.latLng);
+  const Location(this.latLng, this.type, this.name);
 }
 
 class GoogleLocation extends Location {
   final int cid;
-  final String name;
-  final String type;
 
-  const GoogleLocation(this.cid, this.name, LatLng latLng, this.type)
-      : super(latLng);
+  const GoogleLocation(this.cid, String name, LatLng latLng, String type)
+      : super(latLng, type, name);
 }
+
+// class EventLocation extends Location {
+//   final Stirng name;
+//   const EventLocation()
+// }

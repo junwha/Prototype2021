@@ -56,7 +56,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(GoogleLocation location) {
+  void addMarker(Location location) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
