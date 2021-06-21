@@ -22,7 +22,40 @@ class _EventMainViewState extends State<EventMainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        shadowColor: Colors.white,
+        leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back_ios_new_rounded,
+            color: Colors.black,
+          ),
+          onPressed: () {},
+        ),
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.search,
+                color: Colors.black,
+                size: 35,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.people_alt_outlined,
+                color: Colors.black,
+                size: 35,
+              )),
+          IconButton(
+              onPressed: () {},
+              icon: Icon(
+                Icons.notifications_none,
+                color: Colors.black,
+                size: 35,
+              )),
+        ],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (value) {
           setState(() {
