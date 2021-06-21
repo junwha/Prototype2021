@@ -64,8 +64,7 @@ flutter:
   assets:
     - assets/images/logo.jpg
     - assets/images/login_background.jpg
-    - assets/images/home_page/dubai_marina.jpg
-    - assets/images/home_page/dubai_mall.jpg
+
     - assets/images/map/marker.png
     - assets/images/map/event_marker.png
     - assets/images/map/caffee_marker.png
