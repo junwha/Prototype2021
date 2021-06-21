@@ -67,12 +67,12 @@ class LocationModel with ChangeNotifier {
       }
     }
     // TODO(junwha): Get Event place
-    List<PlaceData> placeDataList = [];
+    List<GooglePlaceData> placeDataList = [];
 
     placeDataList = await placeLoader.getPlaces(types, radius: this.radius);
 
     // Find nearby places with specified types
-    for (PlaceData placeData in placeDataList) {
+    for (GooglePlaceData placeData in placeDataList) {
       // Add all placeData to location list
       locations.add(GoogleLocation(locations.length, placeData.name,
           placeData.location, placeData.type));

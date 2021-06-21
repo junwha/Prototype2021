@@ -32,7 +32,8 @@ class PlaceLoader {
   /* 
   * Find nearby places from [center] with specified type 
   */
-  Future<List<PlaceData>> getPlace(String type, {int radius = 500}) async {
+  Future<List<GooglePlaceData>> getPlace(String type,
+      {int radius = 500}) async {
     if (types.contains(type)) {
       String url =
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=${radius}&key=$kGoogleApiKey";
@@ -52,8 +53,9 @@ class PlaceLoader {
   /* 
   * Find nearby places from [center] with specified types
   */
-  Future<List<PlaceData>> getPlaces(List typeList, {int radius = 500}) async {
-    List<PlaceData> placeList = [];
+  Future<List<GooglePlaceData>> getPlaces(List typeList,
+      {int radius = 500}) async {
+    List<GooglePlaceData> placeList = [];
     int initialRadius = 500;
     int i = 1;
     while (initialRadius * i <= radius && placeList.length < 10) {
@@ -65,9 +67,9 @@ class PlaceLoader {
     return placeList;
   }
 
-  List<PlaceData> parseData(String jsonString, String type) {
+  List<GooglePlaceData> parseData(String jsonString, String type) {
     Map<String, dynamic> result = jsonDecode(jsonString);
-    List<PlaceData> placeList = [];
+    List<GooglePlaceData> placeList = [];
 
     if (result.containsKey("next_page_token")) {
       //TODO(junwha): implement next page getter; search with more limited range
@@ -75,7 +77,7 @@ class PlaceLoader {
 
     try {
       for (var placeMeta in result['results']) {
-        placeList.add(PlaceData(placeMeta, type));
+        placeList.add(GooglePlaceData(placeMeta, type));
       }
     } catch (e) {
       print(e);
@@ -87,12 +89,12 @@ class PlaceLoader {
 /*
 * This class saves all data of place from google map
 */
-class PlaceData {
+class GooglePlaceData {
   Map<String, dynamic>
       placeMeta; //{business_status, geometry: {location: lat, lng,}, viewport: {northeast, southest}, icon, name, opening_hours, photos, place_id, plus_code: {compound_code, global_code}, price_level, rating, reference, scope, types, user_ratings_total, vicinty}
   String type;
 
-  PlaceData(this.placeMeta, this.type);
+  GooglePlaceData(this.placeMeta, this.type);
 
   LatLng get location => LatLng(placeMeta["geometry"]["location"]["lat"],
       placeMeta["geometry"]["location"]["lng"]);
