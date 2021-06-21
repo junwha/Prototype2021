@@ -99,4 +99,8 @@ class PlaceData {
 
   String get name => placeMeta["name"];
   String get businessStatus => placeMeta["business_status"];
+  String get userRatingsTotal => placeMeta["user_ratings_total"];
+  String get types => placeMeta["types"];
+  String? get photos =>
+      placeMeta.containsKey("photos") ? placeMeta["photos"] : null;
 }
