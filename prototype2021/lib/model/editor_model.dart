@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
+import 'package:prototype2021/settings/constants.dart';
+
 const COMPANION = false;
 const EVENT = true;
 
@@ -46,10 +48,14 @@ class EditorModel with ChangeNotifier {
         "start": "2021-05-23T09:22:23.150Z",
         "end": "2021-05-23T09:22:23.150Z"
       },
-      "pid": 1
+      "pid": -1
     };
-    var url = Uri.parse(
-        'http://ec2-13-125-99-249.ap-northeast-2.compute.amazonaws.com/recruitments/companions/');
+    var url;
+    if (this.articleType == COMPANION) {
+      url = Uri.parse(ENROL_RECRUITMENTS_COMPANION_API);
+    } else if (this.articleType == EVENT) {
+      url = Uri.parse(ENROL_RECRUITMENTS_EVENT_API);
+    }
     var response = await http.post(url,
         headers: {
           "accept": "application/json",
