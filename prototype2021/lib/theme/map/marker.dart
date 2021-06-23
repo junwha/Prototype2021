@@ -3,16 +3,15 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map_place.dart';
-import 'package:prototype2021/model/location.dart';
+import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/location.dart';
 import 'package:flutter/material.dart';
 
 class MarkerList {
   //TODO(junwha): generalize with CID and EID
 
-  Map<MarkerId, Marker> markers = <MarkerId, Marker>{}; //Fields for Markers
-  MarkerId? selectedMarker;
-  int _markerIdCounter = 1;
+  Map<Location, Marker> markers = <Location, Marker>{}; //Fields for Markers
+  Location? focusedLocation;
 
   Map<String, BitmapDescriptor> markerIconMap =
       {}; // Math marker Icon with Types
@@ -21,6 +20,7 @@ class MarkerList {
 
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
+  MarkerList();
   /*
   * Initialize marker image. if image loaded completely, call notifyListeners
   */
@@ -47,8 +47,8 @@ class MarkerList {
   void addMarkerList(List<Location> locationList) {
     // print(markerIcon);
     for (Location location in locationList) {
-      if (location is ContentLocation) {
-        addMarker(location.latLng, location.type, location.name);
+      if (location is GoogleLocation) {
+        addMarker(location);
       }
     }
   }
@@ -56,7 +56,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(LatLng latLng, String type, String name) {
+  void addMarker(Location location) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -64,26 +64,22 @@ class MarkerList {
     //   return;
     // }
 
-    final MarkerId markerId = MarkerId(name);
+    final MarkerId markerId = MarkerId(location.name);
     //marker ID
     // final String markerIdVal = 'marker_id_$_markerIdCounter';
     // _markerIdCounter++;
     // final MarkerId markerId = MarkerId(markerIdVal);
 
     BitmapDescriptor markerIcon = markerIconMap[PlaceType.DEFAULT]!;
-    if (markerIconMap.containsKey(type)) {
-      markerIcon = markerIconMap[type]!;
+    if (markerIconMap.containsKey(location.type)) {
+      markerIcon = markerIconMap[location.type]!;
     }
     //Create Marker
     final Marker marker = Marker(
       markerId: markerId,
-      position: latLng,
-      infoWindow: InfoWindow(title: name),
+      position: location.latLng,
       onTap: () {
-        //_onMarkerTapped(markerId);
-      },
-      onDragEnd: (LatLng position) {
-        //_onMarkerDragEnd(markerId, position);
+        changeFocus(location);
       },
       flat: true,
       icon: markerIcon,
@@ -91,13 +87,24 @@ class MarkerList {
       rotation: bearing,
     );
 
-    markers[markerId] = marker;
+    markers[location] = marker;
   }
 
   void removeMarker(int id) {}
 
   void removeAll() {
-    markers = <MarkerId, Marker>{};
+    markers = <Location, Marker>{};
+  }
+
+  /*
+  * Change focus with Location
+  */
+  void changeFocus(Location? location) {
+    if (location != null) {
+      this.focusedLocation = location;
+    } else {
+      this.focusedLocation = null;
+    }
   }
 }
 

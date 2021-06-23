@@ -9,6 +9,8 @@ class ContentsCard extends StatefulWidget {
   final double rating;
   final int ratingNumbers;
   final List<String> tags;
+  final bool clickable;
+  final EdgeInsets margin;
 
   const ContentsCard({
     required this.preview,
@@ -18,6 +20,8 @@ class ContentsCard extends StatefulWidget {
     required this.rating,
     required this.ratingNumbers,
     required this.tags,
+    this.clickable = true,
+    this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
   });
 
   @override
@@ -30,14 +34,16 @@ class _ContentsCardState extends State<ContentsCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        isSelected = !isSelected;
-        setState(() {});
-        print(isSelected);
+        if (this.widget.clickable) {
+          isSelected = !isSelected;
+          setState(() {});
+          print(isSelected);
+        }
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-        margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        //FIXME: Icon 크기 때문에 임시로 170으로 설정해 뒀음.
+        margin: this.widget.margin,
+        //TODO(Jiun): Icon 크기 때문에 임시로 170으로 설정해 뒀음.
         height: 170,
         decoration: BoxDecoration(
             boxShadow: [
@@ -67,9 +73,12 @@ class _ContentsCardState extends State<ContentsCard> {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                    child: Image.network(
-                      'https://cdn140.picsart.com/302038404009201.jpg?type=webp&to=crop&r=256',
-                      fit: BoxFit.fill,
+                    child: AspectRatio(
+                      aspectRatio: 1,
+                      child: Image.network(
+                        this.widget.preview,
+                        fit: BoxFit.cover,
+                      ),
                     ),
                   ),
                 ],
@@ -445,10 +454,10 @@ class _ProductCardState extends State<ProductCard> {
   }
 }
 
-List<Widget> tagMethod(isSelected, tags) {
+List<Widget> tagMethod(bool isSelected, List<String> tags) {
   // 태그 박스 구현 코드
   return List<Widget>.generate(
-    3,
+    tags.length,
     (index) => Container(
       padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
       margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
