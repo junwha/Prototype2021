@@ -13,11 +13,11 @@ class EventMainView extends StatefulWidget {
 
 class _EventMainViewState extends State<EventMainView> {
   List<bool> isChecked = [true, false];
-  var images = [
+  List<String> images = [
     'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
   ];
-  var _pageIndex = 0;
+  int _pageIndex = 0;
   double image_index = 0;
   @override
   Widget build(BuildContext context) {
