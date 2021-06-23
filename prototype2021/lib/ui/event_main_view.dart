@@ -27,7 +27,7 @@ class _EventMainViewState extends State<EventMainView> {
         shadowColor: Colors.white,
         leading: IconButton(
           icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
+            Icons.arrow_back,
             color: Colors.black,
           ),
           onPressed: () {},
@@ -299,7 +299,7 @@ class Second extends StatelessWidget {
           shadowColor: Colors.white,
           leading: IconButton(
               icon: Icon(
-                Icons.arrow_back_ios_new_rounded,
+                Icons.arrow_back,
                 color: Colors.black,
               ),
               onPressed: () {
