@@ -117,7 +117,7 @@ class _EditorViewState extends State<EditorView> {
             isChecked: articleType[0],
             onPressed: () {
               setState(() {
-                editorModel.articleType = EVENT;
+                editorModel.articleType = ArticleType.EVENT;
                 articleType[1] = false;
                 articleType[0] = true;
               });
@@ -128,7 +128,7 @@ class _EditorViewState extends State<EditorView> {
             isChecked: articleType[1],
             onPressed: () {
               setState(() {
-                editorModel.articleType = COMPANION;
+                editorModel.articleType = ArticleType.COMPANION;
                 articleType[1] = true;
                 articleType[0] = false;
               });

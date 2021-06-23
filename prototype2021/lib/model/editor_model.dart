@@ -2,15 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-const COMPANION = false;
-const EVENT = true;
+import 'package:prototype2021/settings/constants.dart';
 
 class EditorModel with ChangeNotifier {
   String title = "";
   String content = "";
   bool hasAge = false;
   bool hasGender = false;
-  bool articleType = EVENT;
+  ArticleType articleType = ArticleType.EVENT;
   String recruitNumber = '0';
   String maleRecruitNumber = '0';
   String femaleRecruitNumber = '0';
