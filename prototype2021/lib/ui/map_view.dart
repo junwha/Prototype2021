@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:flutter/rendering.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
-import 'package:prototype2021/model/location_model.dart';
-import 'package:prototype2021/model/map_place.dart';
-import 'package:prototype2021/ui/place_info.dart';
 import 'package:provider/provider.dart';
-import 'package:prototype2021/ui/event_map.dart';
-import 'package:prototype2021/model/search_place_model.dart';
+import 'package:flutter/rendering.dart';
+
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import 'package:prototype2021/theme/card.dart';
+import 'package:prototype2021/theme/map/place_info.dart';
+import 'package:prototype2021/theme/map/event_map.dart';
+
+import 'package:prototype2021/model/map/search_place_model.dart';
+import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/model/map/map_place.dart';
 
 //initial position
 const LatLng center =
@@ -44,50 +49,11 @@ class _MapViewState extends State<MapView> {
                   model: locationModel,
                 ), //TODO(junwha): change to dynamic location
                 PlaceInfo(),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
-                  child: SizedBox.expand(
-                    child: Wrap(
-                      direction: Axis.horizontal,
-                      alignment: WrapAlignment.spaceEvenly,
-                      children: [
-                        buildPlaceFilterChip(locationModel, "호텔",
-                            PlaceType.HOTEL), // TODO: replace to event
-                        buildPlaceFilterChip(
-                            locationModel, "여행지", PlaceType.SPOT),
-                        buildPlaceFilterChip(
-                            locationModel, "카페", PlaceType.CAFFEE),
-                        buildPlaceFilterChip(
-                            locationModel, "음식점", PlaceType.RESTAURANT),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: maxHeight - 200),
-                  child: Center(
-                    child: TextButton(
-                      style: ButtonStyle(
-                        minimumSize:
-                            MaterialStateProperty.all<Size>(Size(88, 36)),
-                        backgroundColor:
-                            MaterialStateProperty.all<Color>(Colors.blue),
-                      ),
-                      onPressed: () {},
-                      child: Text("글쓰기", style: TextStyle(color: Colors.white)),
-                    ),
-                  ),
-                ),
+                buildBackButton(context),
+                buildChipBar(locationModel),
+                buildWriteButton(maxHeight),
+                buildContentInfo(locationModel.markerList.focusedLocation),
+
                 buildFloatingSearchBar(context),
               ],
             );
@@ -97,7 +63,102 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  PlaceFilterChip buildPlaceFilterChip(
+  Widget buildBackButton(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(5, 10, 0, 0),
+      child: IconButton(
+        color: Colors.white,
+        icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+
+  Widget buildWriteButton(double maxHeight) {
+    return Padding(
+      padding: EdgeInsets.only(top: maxHeight - 200),
+      child: Center(
+        child: TextButton(
+          style: ButtonStyle(
+            minimumSize: MaterialStateProperty.all<Size>(Size(88, 36)),
+            backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+          ),
+          onPressed: () {},
+          child: Text("글쓰기", style: TextStyle(color: Colors.white)),
+        ),
+      ),
+    );
+  }
+
+  Widget buildChipBar(LocationModel locationModel) {
+    return Padding(
+      padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
+      child: SizedBox.expand(
+        child: Wrap(
+          direction: Axis.horizontal,
+          alignment: WrapAlignment.spaceEvenly,
+          children: [
+            buildPlaceFilterChip(
+                locationModel, "호텔", PlaceType.HOTEL), // TODO: replace to event
+            buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT),
+            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE),
+            buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildContentInfo(Location? location) {
+    if (location != null) {
+      if (location is GoogleLocation) {
+        return Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            Container(
+              color: Colors.white,
+              height: 60,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("컨텐츠"),
+                  TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black,
+                    ),
+                    child: Row(
+                      children: [Icon(Icons.article_outlined), Text("글 쓰기")],
+                    ),
+                    onPressed: () {},
+                  )
+                ],
+              ),
+            ),
+            ContentsCard(
+              preview: location.preview,
+              title: location.name,
+              place: "TEMP",
+              explanation: "TEMP",
+              rating: 1,
+              ratingNumbers: 5,
+              tags: ["asdf"],
+              clickable: false,
+              margin: const EdgeInsets.symmetric(vertical: 0),
+            ),
+            Container(
+              color: Colors.white,
+              height: 30,
+            ),
+          ],
+        );
+      }
+    }
+    return SizedBox(height: 0);
+  }
+
+  Widget buildPlaceFilterChip(
       LocationModel locationModel, String text, String type) {
     return PlaceFilterChip(
       leading: Icon(Icons.comment),

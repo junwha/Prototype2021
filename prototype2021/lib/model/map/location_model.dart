@@ -1,8 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map_place.dart';
-import 'package:prototype2021/ui/marker.dart';
-import 'package:prototype2021/model/location.dart';
+
+import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/place_data.dart';
+import 'package:prototype2021/model/map/location.dart';
+
+import 'package:prototype2021/theme/map/marker.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [];
@@ -52,6 +55,7 @@ class LocationModel with ChangeNotifier {
   /*
    * Load Places with types and update locations  
    */
+
   Future<void> loadPlaces() async {
     placeLoaded = false;
     clearMap();
@@ -66,15 +70,17 @@ class LocationModel with ChangeNotifier {
         types.add(type);
       }
     }
-    List<PlaceData> placeDataList = [];
+    // TODO(junwha): Get Event place
+    List<GooglePlaceData> placeDataList = [];
 
-    placeDataList = await placeLoader.getPlaces(types, radius: this.radius);
+    placeDataList =
+        await placeLoader.getGooglePlaces(types, radius: this.radius);
 
     // Find nearby places with specified types
-    for (PlaceData placeData in placeDataList) {
+    for (GooglePlaceData placeData in placeDataList) {
       // Add all placeData to location list
-      locations.add(ContentLocation(locations.length, placeData.name,
-          placeData.location, placeData.type));
+      locations.add(GoogleLocation(locations.length, placeData.photo,
+          placeData.name, placeData.location, placeData.type));
     }
 
     if (types.isNotEmpty) {
@@ -124,18 +130,25 @@ class LocationModel with ChangeNotifier {
   /*
    * When user clicked search result, this method would be called.
    */
-  void moveToResult(String name, LatLng location) {
+  void moveToResult(GooglePlaceData data) {
     clearMap();
-    updateCenter(location);
+    updateCenter(data.location);
     mapController?.moveCamera(
       CameraUpdate.newLatLng(
-        location,
+        data.location,
       ),
     );
 
-    locations = [ContentLocation(0, name, location, PlaceType.DEFAULT)];
+    locations = [
+      GoogleLocation(0, data.photo, data.name, data.location, PlaceType.DEFAULT)
+    ];
     updateMarkers();
     clearFilters();
+    notifyListeners();
+  }
+
+  void removeFocus() {
+    markerList.changeFocus(null);
     notifyListeners();
   }
 
