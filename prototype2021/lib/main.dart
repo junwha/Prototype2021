@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/ui/editor_view.dart';
 import 'package:prototype2021/ui/map_view.dart';
 
 void main() {
