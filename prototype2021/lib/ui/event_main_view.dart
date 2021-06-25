@@ -30,7 +30,7 @@ class _EventMainViewState extends State<EventMainView> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             buildTopNotice(),
-            buildSelectSection(),
+            buildSelectSection(), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
             buildImageArea(),
             SizedBox(
               height: 30,
