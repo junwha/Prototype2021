@@ -101,10 +101,17 @@ class _MapViewState extends State<MapView> {
           alignment: WrapAlignment.spaceEvenly,
           children: [
             buildPlaceFilterChip(
-                locationModel, "호텔", PlaceType.HOTEL), // TODO: replace to event
-            buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT),
-            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE),
-            buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT),
+                locationModel,
+                "호텔",
+                PlaceType.HOTEL,
+                Image.asset(
+                    "assets/icons/event.png")), // TODO: replace to event
+            buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
+                Image.asset("assets/icons/place.png")),
+            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE,
+                Image.asset("assets/icons/caffe.png")),
+            buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT,
+                Image.asset("assets/icons/restaurant.png")),
           ],
         ),
       ),
@@ -159,9 +166,9 @@ class _MapViewState extends State<MapView> {
   }
 
   Widget buildPlaceFilterChip(
-      LocationModel locationModel, String text, String type) {
+      LocationModel locationModel, String text, String type, Image icon) {
     return PlaceFilterChip(
-      leading: Icon(Icons.comment),
+      leading: icon,
       text: text,
       onSelected: (bool _isSelected) {
         if (locationModel.placeLoaded) {
