@@ -36,6 +36,9 @@ dependencies:
 
   http: ^0.13.3
 
+  # Search Bar 
+  material_floating_search_bar: ^0.3.4
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -58,6 +61,10 @@ flutter:
     - assets/images/login_background.jpg
     - assets/images/home_page/dubai_marina.jpg
     - assets/images/home_page/dubai_mall.jpg
+    - assets/images/map/marker.png
+    - assets/images/map/event_marker.png
+    - assets/images/map/caffee_marker.png
+    - assets/images/map/restaurant_marker.png
     - assets/icons/
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
