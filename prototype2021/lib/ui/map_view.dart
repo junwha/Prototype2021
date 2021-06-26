@@ -7,7 +7,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:prototype2021/theme/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
-import 'package:prototype2021/theme/map/event_map.dart';
+import 'package:prototype2021/theme/map/background_map.dart';
 
 import 'package:prototype2021/model/map/search_place_model.dart';
 import 'package:prototype2021/model/map/location.dart';
@@ -44,7 +44,7 @@ class _MapViewState extends State<MapView> {
             return Stack(
               children: [
                 //initial position
-                EventMap(
+                BackgroundMap(
                   center: locationModel.center,
                   model: locationModel,
                 ), //TODO(junwha): change to dynamic location
