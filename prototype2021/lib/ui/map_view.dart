@@ -307,7 +307,7 @@ class _PlaceFilterChipState extends State<PlaceFilterChip> {
         onSelected: this.widget.onSelected,
         selected: this.widget.isSelected,
         backgroundColor: Colors.white,
-        selectedColor: Colors.blue,
+        selectedColor: Colors.grey,
         showCheckmark: false,
       ),
     );
