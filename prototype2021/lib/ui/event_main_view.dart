@@ -176,8 +176,15 @@ class _EventMainViewState extends State<EventMainView> {
                       style: TextStyle(
                           fontSize: 17 * pt,
                           fontWeight: FontWeight.bold,
-                          color: Colors.grey)),
-                  Icon(Icons.map_sharp, size: 25),
+                          color: Color.fromRGBO(85, 85, 85, 1))),
+                  IconButton(
+                    icon: Image.asset(
+                      "assets/icons/map.png",
+                      width: 25,
+                      height: 25,
+                    ),
+                    onPressed: () {},
+                  )
                 ],
               )
             ],
@@ -212,13 +219,21 @@ class _EventMainViewState extends State<EventMainView> {
                 ],
               ),
               Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Icon(
-                  Icons.view_array_outlined,
-                  size: 38,
+                IconButton(
+                  icon: Image.asset(
+                    "assets/icons/filter_list_24px.png",
+                    width: 40,
+                    height: 40,
+                  ),
+                  onPressed: () {},
                 ),
-                Icon(
-                  Icons.departure_board_outlined,
-                  size: 32,
+                IconButton(
+                  icon: Image.asset(
+                    "assets/icons/editor.png",
+                    width: 40,
+                    height: 40,
+                  ),
+                  onPressed: () {},
                 )
               ]),
             ],
@@ -233,7 +248,7 @@ class _EventMainViewState extends State<EventMainView> {
       child: Center(
           child: Row(
         children: [
-          Icon(Icons.speaker_notes_rounded),
+          Image.asset("assets/icons/message_outlined.png"),
           SizedBox(
             width: 7,
           ),
@@ -243,7 +258,7 @@ class _EventMainViewState extends State<EventMainView> {
           ),
         ],
       )),
-      color: Colors.grey,
+      color: Color.fromRGBO(219, 219, 219, 1),
       width: double.infinity,
       height: 20 * pt,
     );
@@ -291,26 +306,27 @@ class _EventMainViewState extends State<EventMainView> {
       ),
       actions: [
         IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.search,
-              color: Colors.black,
-              size: 35,
-            )),
+          onPressed: () {},
+          icon: Image.asset("assets/icons/search.png"),
+        ),
+        SizedBox(
+          width: 20,
+          child: IconButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(builder: (BuildContext context) {
+                  return MyPage();
+                }),
+              );
+            },
+            padding: EdgeInsets.all(0),
+            icon: Image.asset("assets/icons/person_outlined@2x.png"),
+          ),
+        ),
         IconButton(
             onPressed: () {},
-            icon: Icon(
-              Icons.people_alt_outlined,
-              color: Colors.black,
-              size: 35,
-            )),
-        IconButton(
-            onPressed: () {},
-            icon: Icon(
-              Icons.notifications_none,
-              color: Colors.black,
-              size: 35,
-            )),
+            icon: Image.asset("assets/icons/notic_pointed.png")),
       ],
     );
   }
@@ -353,6 +369,92 @@ class Second extends StatelessWidget {
                   color: Colors.black,
                   size: 35,
                 )),
+          ],
+        ),
+        body: SingleChildScrollView(
+            child: Column(
+          children: [
+            RecruitCard(
+              title: '울산대 공원에서 간단히 피맥해요!',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 01, 05),
+                  start: DateTime.utc(2020, 01, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '벚꽃놀이 하러가요',
+              range: DateTimeRange(
+                  end: DateTime.utc(2021, 01, 05),
+                  start: DateTime.utc(2021, 01, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '명장스시 가실 분?',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 02, 15),
+                  start: DateTime.utc(2020, 02, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '태화강에서 치맥 하실분 구해요!',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 01, 06),
+                  start: DateTime.utc(2020, 01, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '태화강에서 치맥 하실분 구해요!',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 01, 06),
+                  start: DateTime.utc(2020, 01, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '태화강에서 치맥 하실분 구해요!',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 01, 06),
+                  start: DateTime.utc(2020, 01, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '태화강에서 치맥 하실분 구해요!',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 01, 06),
+                  start: DateTime.utc(2020, 01, 04)),
+              hasContents: false,
+            ),
+            RecruitCard(
+              title: '태화강에서 치맥 하실분 구해요!',
+              range: DateTimeRange(
+                  end: DateTime.utc(2020, 01, 06),
+                  start: DateTime.utc(2020, 01, 04)),
+              hasContents: false,
+            ),
+          ],
+        )));
+  }
+}
+
+class MyPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          shadowColor: Colors.white,
+          leading: IconButton(
+              icon: Icon(
+                Icons.arrow_back,
+                color: Colors.black,
+              ),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          actions: [
+            Text(
+              "내정보",
+              style: TextStyle(fontSize: 15, color: Colors.black),
+            )
           ],
         ),
         body: SingleChildScrollView(
