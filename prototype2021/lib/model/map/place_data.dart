@@ -23,15 +23,18 @@ class GooglePlaceData {
   String? get photo => placeMeta.containsKey("photos")
       ? "https://maps.googleapis.com/maps/api/place/photo?photoreference=${placeMeta["photos"][0]["photo_reference"]}&key=$kGoogleApiKey&maxwidth=200"
       : null;
-  String get plcaeId => placeMeta["place_id"];
+  String get placeId => placeMeta["place_id"];
+  String? get address => placeMeta.containsKey("formatted_address")
+      ? placeMeta["formatted_address"]
+      : null;
 }
 
-/*
- * DTO object from Google Geocoding Response
- */
-class GoogleAddressData extends GooglePlaceData {
-  Map<String, dynamic> addressMeta;
-  GoogleAddressData(this.addressMeta) : super(addressMeta, PlaceType.DEFAULT);
+// /*
+//  * DTO object from Google Geocoding Response
+//  */
+// class GoogleAddressData extends GooglePlaceData {
+//   Map<String, dynamic> addressMeta;
+//   GoogleAddressData(this.addressMeta) : super(addressMeta, PlaceType.DEFAULT);
 
-  String get address => addressMeta["formatted_address"];
-}
+//   String get address => addressMeta["formatted_address"];
+// }
