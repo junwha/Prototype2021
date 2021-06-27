@@ -120,7 +120,7 @@ class _MapViewState extends State<MapView> {
 
   Widget buildContentInfo(Location? location) {
     if (location != null) {
-      if (location is GoogleLocation) {
+      if (location is GooglePlaceLocation) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
