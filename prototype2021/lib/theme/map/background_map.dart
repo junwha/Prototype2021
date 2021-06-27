@@ -49,8 +49,11 @@ class _BackgroundMapState extends State<BackgroundMap> {
               this.widget.model.center = cameraPostion.target;
             },
             onTap: (LatLng pos) {
-              this.widget.model.removeFocus();
-              this.widget.model.findPlace(pos);
+              if (this.widget.model.isFocused()) {
+                this.widget.model.removeFocus();
+              } else {
+                this.widget.model.findPlace(pos);
+              }
             },
 
             // onLongPress: (LatLng pos) {
