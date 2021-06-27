@@ -50,6 +50,7 @@ class _BackgroundMapState extends State<BackgroundMap> {
             },
             onTap: (LatLng pos) {
               this.widget.model.removeFocus();
+              this.widget.model.findPlace(pos);
             },
 
             // onLongPress: (LatLng pos) {

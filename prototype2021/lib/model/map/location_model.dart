@@ -52,10 +52,23 @@ class LocationModel with ChangeNotifier {
     notifyListeners();
   }
 
+  Future<void> findPlace(LatLng point) async {
+    GoogleAddressData? addressData = await this.placeLoader.getOnePlace(point);
+    if (addressData != null) {
+      print(addressData.name);
+      print(addressData.address);
+    }
+    // if (placeData != null) {
+    //   locations.add(GoogleLocation(locations.length, placeData.photo,
+    //       placeData.name, placeData.location, placeData.type));
+    //   updateMarkers();
+    //   notifyListeners();
+    // }
+  }
+
   /*
    * Load Places with types and update locations  
    */
-
   Future<void> loadPlaces() async {
     placeLoaded = false;
     clearMap();
