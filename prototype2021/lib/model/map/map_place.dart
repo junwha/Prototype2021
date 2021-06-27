@@ -33,10 +33,9 @@ class PlaceLoader {
   /* 
   * Find one nearby places from [center]
   */
-  Future<GoogleAddressData?> getOnePlace(LatLng latLng,
-      {int radius = 5}) async {
+  Future<GooglePlaceData?> getOnePlace(LatLng latLng, {int radius = 5}) async {
     String addressUrl =
-        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&key=$kGoogleApiKey&language=ko";
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&key=$kGoogleApiKey&language=ko&location_type=APPROXIMATE|ROOFTOP";
 
     try {
       http.Response res = await http.get(Uri.parse(addressUrl));
@@ -47,7 +46,8 @@ class PlaceLoader {
         String placeUrl =
             "https://maps.googleapis.com/maps/api/place/details/json?place_id=${result["place_id"]}&key=$kGoogleApiKey&language=ko";
         res = await http.get(Uri.parse(placeUrl));
-        return GoogleAddressData(jsonDecode(res.body)["result"]);
+        return GooglePlaceData(
+            jsonDecode(res.body)["result"], PlaceType.DEFAULT);
       } else {
         return null;
       }
