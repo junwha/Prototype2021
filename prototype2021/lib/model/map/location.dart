@@ -14,20 +14,10 @@ class Location {
 }
 
 class GooglePlaceLocation extends Location {
-  final int cid;
+  final String placeId;
   late String preview;
   GooglePlaceLocation(
-      this.cid, String? preview, String name, LatLng latLng, String type)
-      : super(latLng, type, name) {
-    this.preview = preview ?? placeHolder;
-  }
-}
-
-class GoogleAddressLocation extends Location {
-  final int cid;
-  late String preview;
-  GoogleAddressLocation(
-      this.cid, String? preview, String name, LatLng latLng, String type)
+      this.placeId, String? preview, String name, LatLng latLng, String type)
       : super(latLng, type, name) {
     this.preview = preview ?? placeHolder;
   }

@@ -23,6 +23,7 @@ class GooglePlaceData {
   String? get photo => placeMeta.containsKey("photos")
       ? "https://maps.googleapis.com/maps/api/place/photo?photoreference=${placeMeta["photos"][0]["photo_reference"]}&key=$kGoogleApiKey&maxwidth=200"
       : null;
+  String get plcaeId => placeMeta["place_id"];
 }
 
 /*
