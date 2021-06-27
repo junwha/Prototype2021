@@ -47,7 +47,7 @@ class MarkerList {
   void addMarkerList(List<Location> locationList) {
     // print(markerIcon);
     for (Location location in locationList) {
-      if (location is GoogleLocation) {
+      if (location is GooglePlaceLocation) {
         addMarker(location);
       }
     }

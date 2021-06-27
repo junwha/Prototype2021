@@ -54,10 +54,7 @@ class LocationModel with ChangeNotifier {
 
   Future<void> findPlace(LatLng point) async {
     GoogleAddressData? addressData = await this.placeLoader.getOnePlace(point);
-    if (addressData != null) {
-      print(addressData.name);
-      print(addressData.address);
-    }
+    if (addressData != null) {}
     // if (placeData != null) {
     //   locations.add(GoogleLocation(locations.length, placeData.photo,
     //       placeData.name, placeData.location, placeData.type));
@@ -92,7 +89,7 @@ class LocationModel with ChangeNotifier {
     // Find nearby places with specified types
     for (GooglePlaceData placeData in placeDataList) {
       // Add all placeData to location list
-      locations.add(GoogleLocation(locations.length, placeData.photo,
+      locations.add(GooglePlaceLocation(locations.length, placeData.photo,
           placeData.name, placeData.location, placeData.type));
     }
 
@@ -153,7 +150,8 @@ class LocationModel with ChangeNotifier {
     );
 
     locations = [
-      GoogleLocation(0, data.photo, data.name, data.location, PlaceType.DEFAULT)
+      GooglePlaceLocation(
+          0, data.photo, data.name, data.location, PlaceType.DEFAULT)
     ];
     updateMarkers();
     clearFilters();

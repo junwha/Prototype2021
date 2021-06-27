@@ -13,10 +13,20 @@ class Location {
   const Location(this.latLng, this.type, this.name);
 }
 
-class GoogleLocation extends Location {
+class GooglePlaceLocation extends Location {
   final int cid;
   late String preview;
-  GoogleLocation(
+  GooglePlaceLocation(
+      this.cid, String? preview, String name, LatLng latLng, String type)
+      : super(latLng, type, name) {
+    this.preview = preview ?? placeHolder;
+  }
+}
+
+class GoogleAddressLocation extends Location {
+  final int cid;
+  late String preview;
+  GoogleAddressLocation(
       this.cid, String? preview, String name, LatLng latLng, String type)
       : super(latLng, type, name) {
     this.preview = preview ?? placeHolder;
