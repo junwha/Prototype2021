@@ -144,6 +144,9 @@ class LocationModel with ChangeNotifier {
 
   void updateCenter(LatLng center) {
     this.center = center;
+    mapController?.moveCamera(
+      CameraUpdate.newLatLng(center),
+    );
     notifyListeners();
   }
 
@@ -153,11 +156,6 @@ class LocationModel with ChangeNotifier {
   void moveToResult(GooglePlaceData data) {
     clearMap();
     updateCenter(data.location);
-    mapController?.moveCamera(
-      CameraUpdate.newLatLng(
-        data.location,
-      ),
-    );
 
     locations = [
       GooglePlaceLocation(data.placeId, data.photo, data.name, data.address,
