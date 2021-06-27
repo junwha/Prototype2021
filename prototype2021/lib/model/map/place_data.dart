@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/map/map_place.dart';
 import 'package:prototype2021/settings/constants.dart';
 
+/* 
+ * DTO object from Google Places Response
+ */
 class GooglePlaceData {
   Map<String, dynamic>
       placeMeta; //{business_status, geometry: {location: lat, lng,}, viewport: {northeast, southest}, icon, name, opening_hours, photos, place_id, plus_code: {compound_code, global_code}, price_level, rating, reference, scope, types, user_ratings_total, vicinty}
@@ -19,4 +23,14 @@ class GooglePlaceData {
   String? get photo => placeMeta.containsKey("photos")
       ? "https://maps.googleapis.com/maps/api/place/photo?photoreference=${placeMeta["photos"][0]["photo_reference"]}&key=$kGoogleApiKey&maxwidth=200"
       : null;
+}
+
+/*
+ * DTO object from Google Geocoding Response
+ */
+class GoogleAddressData extends GooglePlaceData {
+  Map<String, dynamic> addressMeta;
+  GoogleAddressData(this.addressMeta) : super(addressMeta, PlaceType.DEFAULT);
+
+  String get address => addressMeta["formatted_address"];
 }
