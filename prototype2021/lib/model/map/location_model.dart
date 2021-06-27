@@ -38,6 +38,9 @@ class LocationModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+   * Clear all markers, locations
+   */
   void clearMap() {
     locations.clear();
     markerList.removeAll();
@@ -54,6 +57,9 @@ class LocationModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+   * Find plcae of point and update clicked location
+   */
   Future<void> findPlace(LatLng point) async {
     GooglePlaceData? placeData = await this.placeLoader.getOnePlace(point);
     if (placeData != null) {
@@ -66,12 +72,6 @@ class LocationModel with ChangeNotifier {
       updateCenter(location.latLng);
       notifyListeners();
     }
-    // if (placeData != null) {
-    //   locations.add(GoogleLocation(locations.length, placeData.photo,
-    //       placeData.name, placeData.location, placeData.type));
-    //   updateMarkers();
-    //   notifyListeners();
-    // }
   }
 
   /*
@@ -171,6 +171,11 @@ class LocationModel with ChangeNotifier {
   void removeFocus() {
     markerList.changeFocus(null);
     notifyListeners();
+  }
+
+  bool isFocused() {
+    if (markerList.focusedLocation == null) return false;
+    return true;
   }
 
   bool isUpdate(LatLngBounds bounds) {
