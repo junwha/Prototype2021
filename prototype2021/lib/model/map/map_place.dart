@@ -12,6 +12,7 @@ class PlaceType {
   static const String CAFFEE = "카페";
   static const String DEFAULT = "default";
   static const String EVENT = "event";
+  static const String CLICKED = "clicked";
 }
 
 class PlaceLoader {
@@ -47,7 +48,7 @@ class PlaceLoader {
             "https://maps.googleapis.com/maps/api/place/details/json?place_id=${result["place_id"]}&key=$kGoogleApiKey&language=ko";
         res = await http.get(Uri.parse(placeUrl));
         return GooglePlaceData(
-            jsonDecode(res.body)["result"], PlaceType.DEFAULT);
+            jsonDecode(res.body)["result"], PlaceType.CLICKED);
       } else {
         return null;
       }

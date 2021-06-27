@@ -9,6 +9,8 @@ import 'package:prototype2021/theme/map/marker.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [];
+  Location? clickedLocation;
+
   Map<String, bool> isIncludeType = {
     PlaceType.RESTAURANT: false,
     PlaceType.HOTEL: false,
@@ -57,8 +59,11 @@ class LocationModel with ChangeNotifier {
     if (placeData != null) {
       GooglePlaceLocation location = GooglePlaceLocation.fromData(placeData);
       locations.add(location);
+      locations.remove(this.clickedLocation);
+      this.clickedLocation = location;
       updateMarkers();
       markerList.changeFocus(location);
+      updateCenter(location.latLng);
       notifyListeners();
     }
     // if (placeData != null) {
