@@ -55,14 +55,6 @@ class _BackgroundMapState extends State<BackgroundMap> {
                 this.widget.model.findPlace(pos);
               }
             },
-
-            // onLongPress: (LatLng pos) {
-            //   setState(() {
-            //     _lastLongPress = pos;
-            //     print(pos.latnotifyListenersitude);
-            //     print(pos.longitude);
-            //   });
-            // },
           );
   }
 }
