@@ -1,4 +1,4 @@
-import 'package:prototype2021/theme/recruit_card.dart';
+import 'package:prototype2021/theme/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
 
 class EventArticleView extends StatelessWidget {
