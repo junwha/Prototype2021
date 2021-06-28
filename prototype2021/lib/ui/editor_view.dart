@@ -3,13 +3,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/theme/cards/card.dart';
-import 'package:prototype2021/theme/checkbox_row.dart';
-import 'package:prototype2021/theme/checkbox_widget.dart';
+import 'package:prototype2021/theme/editor/checkbox_row.dart';
+import 'package:prototype2021/theme/editor/checkbox_widget.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
-import 'package:prototype2021/theme/textfieldform.dart';
+import 'package:prototype2021/theme/editor/textfieldform.dart';
 import 'package:provider/provider.dart';
 
 class EditorView extends StatefulWidget {
