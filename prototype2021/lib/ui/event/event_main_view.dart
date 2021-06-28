@@ -103,14 +103,14 @@ class _EventMainViewState extends State<EventMainView> {
   Widget buildEventArticles(EventMainModel eventMainModel) {
     if (eventMainModel.isEventArticleLoading) return Text("Loading ...");
     return Column(
-      children: eventMainModel.eventArticleList
+      children: eventMainModel.topEventArticleList
           .map(
             (e) => TimerCard(
               title: e.title,
               description: e.summary,
               due: e.period.end,
               onEnd: () {
-                eventMainModel.loadArticles();
+                eventMainModel.loadTopEventArticles();
               },
             ),
           )

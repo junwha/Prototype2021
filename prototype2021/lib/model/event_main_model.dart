@@ -8,15 +8,14 @@ class EventMainModel with ChangeNotifier {
   ArticleLoader articleLoader = ArticleLoader();
   LatLng? currentPosition;
   List<String>? images;
-  List<Map<String, dynamic>>? eventArticles; // TODO: Define data models
-  List<Map<String, dynamic>>? companionArticles;
+
   bool isEventArticleLoading = false;
 
-  List<EventArticleData> eventArticleList = [];
+  List<EventArticleData> topEventArticleList = [];
   EventMainModel() {
     // TODO: automatically select current position
     isEventArticleLoading = true;
-    loadArticles();
+    loadTopEventArticles();
   }
 
   void loadImages() async {
@@ -27,10 +26,18 @@ class EventMainModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void loadArticles() async {
-    eventArticleList = await articleLoader.loadTopEventArticles();
+  void loadTopEventArticles() async {
+    topEventArticleList = await articleLoader.loadTopEventArticles();
     isEventArticleLoading = false;
-    print(eventArticleList);
+    print(topEventArticleList);
+    notifyListeners();
+  }
+
+  void loadEventArticles() async {
+    // TODO: add token
+    topEventArticleList = await articleLoader.loadTopEventArticles();
+    isEventArticleLoading = false;
+    print(topEventArticleList);
     notifyListeners();
   }
 }
