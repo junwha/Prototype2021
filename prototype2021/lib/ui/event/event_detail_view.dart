@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/event_detail_model.dart';
+import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
-  const EventDetailView({Key? key}) : super(key: key);
+  final int id;
+  const EventDetailView(this.id);
 
   @override
   _EventDetailViewState createState() => _EventDetailViewState();
@@ -13,39 +16,50 @@ class _EventDetailViewState extends State<EventDetailView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            buildTopNotice(),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Column(
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [buildProfile(), bulidPopupMenuButton()],
+      body: ChangeNotifierProvider(
+        create: (context) => EventDetailModel(this.widget.id),
+        child: Consumer(
+            builder: (context, EventDetailModel eventDetailModel, child) {
+          return SingleChildScrollView(
+            child: eventDetailModel.isLoading
+                ? Text("Loading ...")
+                : Column(
+                    children: [
+                      buildTopNotice(),
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                buildProfile(eventDetailModel),
+                                bulidPopupMenuButton()
+                              ],
+                            ),
+                            SizedBox(
+                              height: 21,
+                            ),
+                            bulidContent(eventDetailModel),
+                            SizedBox(
+                              height: 30,
+                            ),
+                            SizedBox(
+                              height: 15,
+                            ),
+                            buildDetail(eventDetailModel),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: 1,
+                        width: double.infinity,
+                        color: Color.fromRGBO(232, 232, 232, 1),
+                      )
+                    ],
                   ),
-                  SizedBox(
-                    height: 21,
-                  ),
-                  bulidContent(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  SizedBox(
-                    height: 15,
-                  ),
-                  buildDetail(),
-                ],
-              ),
-            ),
-            Container(
-              height: 1,
-              width: double.infinity,
-              color: Color.fromRGBO(232, 232, 232, 1),
-            )
-          ],
-        ),
+          );
+        }),
       ),
     );
   }
@@ -69,12 +83,14 @@ class _EventDetailViewState extends State<EventDetailView> {
           Icons.arrow_back,
           color: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
     );
   }
 
-  Row buildProfile() {
+  Row buildProfile(EventDetailModel eventDetailModel) {
     return Row(
       children: [
         Container(
@@ -91,7 +107,7 @@ class _EventDetailViewState extends State<EventDetailView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '닉네임',
+              eventDetailModel.data.userData.nickname,
               style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -108,7 +124,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Column buildDetail() {
+  Column buildDetail(EventDetailModel eventDetailModel) {
     return Column(
       children: [
         Padding(
@@ -122,13 +138,13 @@ class _EventDetailViewState extends State<EventDetailView> {
                   SizedBox(
                     width: 8,
                   ),
-                  Text('남 3명'),
+                  Text('남 ${eventDetailModel.data.male}명'),
                   SizedBox(
                     width: 13,
                   ),
                   Image.asset('assets/icons/person_half_red.png'),
                   SizedBox(width: 8),
-                  Text("여 2명")
+                  Text("여 ${eventDetailModel.data.female}2명")
                 ],
               ),
               Row(
@@ -137,7 +153,8 @@ class _EventDetailViewState extends State<EventDetailView> {
                   SizedBox(
                     width: 8,
                   ),
-                  Text('20~26 살')
+                  Text(
+                      '${eventDetailModel.data.minAge}~${eventDetailModel.data.maxAge} 살')
                 ],
               ),
             ],
@@ -149,7 +166,7 @@ class _EventDetailViewState extends State<EventDetailView> {
             SizedBox(
               width: 8,
             ),
-            Text("2021.02.27(토) 오후 6시")
+            Text("${eventDetailModel.data.period.end}")
           ],
         )
       ],
@@ -174,19 +191,19 @@ class _EventDetailViewState extends State<EventDetailView> {
             ]);
   }
 
-  Column bulidContent() {
+  Column bulidContent(EventDetailModel eventDetailModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '울산대 공원에서 간단하게 피맥해요!',
+          eventDetailModel.data.title,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
         ),
         SizedBox(
           height: 25,
         ),
         Text(
-          "경치 보면서 같이 힐링해요~ 잘 먹는 분이면 더 좋습니다 연락주세요~",
+          eventDetailModel.data.body,
           style: TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.bold,
