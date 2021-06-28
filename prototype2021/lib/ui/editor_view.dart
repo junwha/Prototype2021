@@ -104,7 +104,7 @@ class _EditorViewState extends State<EditorView> {
                         targetLoction == null
                             ? TextButton(
                                 child: Text("지도 선택하기"), onPressed: () {})
-                            : MapPreview(center: LatLng(35.5735, 129.1896)),
+                            : MapPreview(location: targetLoction!),
                       ],
                     ),
                   ],
