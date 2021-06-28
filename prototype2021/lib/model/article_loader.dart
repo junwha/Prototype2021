@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:prototype2021/settings/constants.dart';
 
 class ArticleLoader {
   Future<List<EventTimerData>> loadTopEventArticles() async {
@@ -82,6 +84,45 @@ class ArticleLoader {
     }
     return articleList;
   }
+
+  Future<ArticleDetailData?> loadArticleDetail(int id) async {
+    String url = "http://api.tripbuilder.co.kr/recruitments/events/$id";
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+
+      Map<String, dynamic> data =
+          jsonDecode(utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
+      print(utf8.decode(response.bodyBytes));
+      try {
+        return ArticleDetailData(
+            data["id"],
+            UserData(data["user_data"]["uid"], data["user_data"]["nickname"],
+                data["user_data"]["profile_photo"]),
+            data["hearts"],
+            data["title"],
+            data["body"],
+            data["recruits"]["no"],
+            data["recruits"]["male"],
+            data["recruits"]["female"],
+            data["ages"]["min"],
+            data["ages"]["max"],
+            DateTimeRange(
+              start: DateTime.parse(data["period"]["start"] ?? ""),
+              end: DateTime.parse(data["period"]["end"] ?? ""),
+            ),
+            LatLng(double.parse(data["coord"]["lat"]),
+                double.parse(data["coord"]["long"])),
+            data["cid"]);
+      } catch (e) {
+        print(e);
+        print("error occurred");
+      }
+    } catch (e) {
+      print("check internet");
+    }
+
+    return null;
+  }
 }
 
 class EventTimerData {
@@ -103,4 +144,44 @@ class EventPreviewData {
 
   EventPreviewData(
       this.id, this.title, this.hearts, this.comments, this.period);
+}
+
+class ArticleDetailData {
+  String title;
+  String body;
+  UserData userData;
+  int recruit;
+  int male;
+  int female;
+  int minAge;
+  int maxAge;
+  int hearts;
+  DateTimeRange period;
+  int id;
+  int? cid;
+  LatLng coord;
+
+  ArticleDetailData(
+      this.id,
+      this.userData,
+      this.hearts,
+      this.title,
+      this.body,
+      this.recruit,
+      this.male,
+      this.female,
+      this.minAge,
+      this.maxAge,
+      this.period,
+      this.coord,
+      this.cid) {}
+}
+
+class UserData {
+  String nickname;
+  late String photo;
+  int uid;
+  UserData(this.uid, this.nickname, String? profilePhoto) {
+    this.photo = profilePhoto ?? placeHolder;
+  }
 }
