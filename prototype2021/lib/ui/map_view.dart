@@ -6,7 +6,7 @@ import 'package:flutter/rendering.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:prototype2021/theme/card.dart';
+import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
