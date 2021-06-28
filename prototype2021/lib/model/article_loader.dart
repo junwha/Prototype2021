@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 class ArticleLoader {
-  Future<List<EventArticleData>> loadTopEventArticles() async {
+  Future<List<EventTimerData>> loadTopEventArticles() async {
     String url =
         "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
     try {
@@ -18,15 +18,15 @@ class ArticleLoader {
     return [];
   }
 
-  List<EventArticleData> parseEventArticle(String jsonString) {
+  List<EventTimerData> parseEventArticle(String jsonString) {
     dynamic jsonData = jsonDecode(jsonString);
-    List<EventArticleData> articleList = [];
+    List<EventTimerData> articleList = [];
 
     for (Map<String, dynamic> data in jsonData) {
       try {
         print(data);
 
-        articleList.add(EventArticleData(
+        articleList.add(EventTimerData(
           data["id"],
           DateTimeRange(
             start: DateTime.parse(data["period"]["start"] ?? ""),
@@ -45,12 +45,12 @@ class ArticleLoader {
   }
 }
 
-class EventArticleData {
+class EventTimerData {
   int id;
   DateTimeRange period;
   String title;
   String summary;
   int? cid;
 
-  EventArticleData(this.id, this.period, this.title, this.summary, this.cid);
+  EventTimerData(this.id, this.period, this.title, this.summary, this.cid);
 }
