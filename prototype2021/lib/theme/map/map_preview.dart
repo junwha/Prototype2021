@@ -48,25 +48,28 @@ class _MapPreviewState extends State<MapPreview> {
         ? Text("Loading...")
         : SizedBox(
             height: 200,
-            child: GoogleMap(
-              zoomControlsEnabled: false,
-              scrollGesturesEnabled: true,
-              rotateGesturesEnabled: false,
-              tiltGesturesEnabled: false,
-              myLocationButtonEnabled: false,
-              onMapCreated: _onMapCreated,
-              initialCameraPosition: CameraPosition(
-                //Set initial Camera Position
-                target: this.widget.location.latLng,
-                zoom: 15.0,
-              ),
-              gestureRecognizers: //Gesture Detectors
-                  <Factory<OneSequenceGestureRecognizer>>{
-                Factory<OneSequenceGestureRecognizer>(
-                  () => EagerGestureRecognizer(),
+            child: AbsorbPointer(
+              absorbing: true,
+              child: GoogleMap(
+                zoomControlsEnabled: false,
+                scrollGesturesEnabled: false,
+                rotateGesturesEnabled: false,
+                tiltGesturesEnabled: false,
+                myLocationButtonEnabled: false,
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  //Set initial Camera Position
+                  target: this.widget.location.latLng,
+                  zoom: 15.0,
                 ),
-              },
-              markers: markerList.markerList,
+                gestureRecognizers: //Gesture Detectors
+                    <Factory<OneSequenceGestureRecognizer>>{
+                  Factory<OneSequenceGestureRecognizer>(
+                    () => EagerGestureRecognizer(),
+                  ),
+                },
+                markers: markerList.markerList,
+              ),
             ),
           );
   }
