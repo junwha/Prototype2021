@@ -11,7 +11,7 @@ class EventMainModel with ChangeNotifier {
 
   bool isEventArticleLoading = false;
 
-  List<EventArticleData> topEventArticleList = [];
+  List<EventTimerData> topEventArticleList = [];
   EventMainModel() {
     // TODO: automatically select current position
     isEventArticleLoading = true;
