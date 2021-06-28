@@ -44,12 +44,11 @@ class ArticleLoader {
     return articleList;
   }
 
-  Future<List<EventTimerData>> loadAkEventArticles() async {
-    String url =
-        "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
+  Future<List<EventPreviewData>> loadEventArticles() async {
+    String url = "http://api.tripbuilder.co.kr/recruitments/events/";
     try {
       http.Response response = await http.get(Uri.parse(url));
-      return parseTopEventArticle(
+      return parseEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
       print("check internet");
@@ -58,23 +57,23 @@ class ArticleLoader {
     return [];
   }
 
-  List<EventTimerData> parseEventArticle(String jsonString) {
+  List<EventPreviewData> parseEventArticle(String jsonString) {
     dynamic jsonData = jsonDecode(jsonString);
-    List<EventTimerData> articleList = [];
+    List<EventPreviewData> articleList = [];
 
     for (Map<String, dynamic> data in jsonData) {
       try {
         print(data);
 
-        articleList.add(EventTimerData(
+        articleList.add(EventPreviewData(
           data["id"],
+          data["title"],
+          data["hearts"],
+          data["comments"],
           DateTimeRange(
             start: DateTime.parse(data["period"]["start"] ?? ""),
             end: DateTime.parse(data["period"]["end"] ?? ""),
           ),
-          data["title"],
-          data["summary"],
-          data["cid"],
         ));
       } catch (e) {
         print(e);

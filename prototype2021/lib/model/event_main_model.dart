@@ -9,12 +9,12 @@ class EventMainModel with ChangeNotifier {
   LatLng? currentPosition;
   List<String>? images;
 
-  bool isEventArticleLoading = false;
-
+  bool isTopEventArticleLoading = false;
   List<EventTimerData> topEventArticleList = [];
+
   EventMainModel() {
     // TODO: automatically select current position
-    isEventArticleLoading = true;
+
     loadTopEventArticles();
   }
 
@@ -27,17 +27,9 @@ class EventMainModel with ChangeNotifier {
   }
 
   void loadTopEventArticles() async {
+    isTopEventArticleLoading = true;
     topEventArticleList = await articleLoader.loadTopEventArticles();
-    isEventArticleLoading = false;
-    print(topEventArticleList);
-    notifyListeners();
-  }
-
-  void loadEventArticles() async {
-    // TODO: add token
-    topEventArticleList = await articleLoader.loadTopEventArticles();
-    isEventArticleLoading = false;
-    print(topEventArticleList);
+    isTopEventArticleLoading = false;
     notifyListeners();
   }
 }

@@ -101,7 +101,7 @@ class _EventMainViewState extends State<EventMainView> {
   }
 
   Widget buildEventArticles(EventMainModel eventMainModel) {
-    if (eventMainModel.isEventArticleLoading) return Text("Loading ...");
+    if (eventMainModel.isTopEventArticleLoading) return Text("Loading ...");
     return Column(
       children: eventMainModel.topEventArticleList
           .map(
