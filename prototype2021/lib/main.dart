@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/ui/event_main_view.dart';
-import 'package:prototype2021/ui/editor_view.dart';
-import 'package:prototype2021/ui/map_view.dart';
-import 'package:prototype2021/ui/select_location_view.dart';
+import 'package:prototype2021/ui/event/event_main_view.dart';
+import 'package:prototype2021/ui/event/editor_view.dart';
+import 'package:prototype2021/ui/event/map_view.dart';
+import 'package:prototype2021/ui/event/select_location_view.dart';
 
 void main() {
   runApp(

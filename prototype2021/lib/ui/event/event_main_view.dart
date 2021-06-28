@@ -5,9 +5,9 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:prototype2021/ui/event_article_view.dart';
-import 'package:prototype2021/ui/event_search_view.dart';
-import 'package:prototype2021/ui/my_page_view.dart';
+import 'package:prototype2021/ui/event/event_article_view.dart';
+import 'package:prototype2021/ui/event/event_search_view.dart';
+import 'package:prototype2021/ui/event/my_page_view.dart';
 import 'package:provider/provider.dart';
 
 class EventMainView extends StatefulWidget {
