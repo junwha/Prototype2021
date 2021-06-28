@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/editor_model.dart';
+import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/theme/checkbox_row.dart';
 import 'package:prototype2021/theme/datetimepicker_column.dart';
 import 'package:prototype2021/theme/checkbox_widget.dart';
+import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
@@ -23,6 +26,7 @@ class _EditorViewState extends State<EditorView> {
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
   TextEditingController controlofoto = TextEditingController();
+  Location? targetLoction;
 
   @override
   Widget build(BuildContext context) {
@@ -97,6 +101,10 @@ class _EditorViewState extends State<EditorView> {
                           editorModel.printChanged();
                         }),
                         //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
+                        targetLoction == null
+                            ? TextButton(
+                                child: Text("지도 선택하기"), onPressed: () {})
+                            : MapPreview(center: LatLng(35.5735, 129.1896)),
                       ],
                     ),
                   ],
