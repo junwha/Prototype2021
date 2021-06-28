@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
-import 'package:prototype2021/ui/editor_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:prototype2021/theme/card.dart';
+import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 

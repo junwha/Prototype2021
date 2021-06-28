@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/ui/event_main_view.dart';
 
 class EventDetailView extends StatefulWidget {
   const EventDetailView({Key? key}) : super(key: key);

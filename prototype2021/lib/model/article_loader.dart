@@ -9,7 +9,7 @@ class ArticleLoader {
         "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
     try {
       http.Response response = await http.get(Uri.parse(url));
-      return parseEventArticle(
+      return parseTopEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
       print("check internet");
@@ -18,7 +18,7 @@ class ArticleLoader {
     return [];
   }
 
-  List<EventArticleData> parseEventArticle(String jsonString) {
+  List<EventArticleData> parseTopEventArticle(String jsonString) {
     dynamic jsonData = jsonDecode(jsonString);
     List<EventArticleData> articleList = [];
 
