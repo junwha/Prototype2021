@@ -156,12 +156,11 @@ class LocationModel with ChangeNotifier {
   void moveToResult(GooglePlaceData data) {
     clearMap();
     updateCenter(data.location);
-
-    locations = [
-      GooglePlaceLocation(data.placeId, data.photo, data.name, data.address,
-          data.location, PlaceType.DEFAULT)
-    ];
+    Location location = GooglePlaceLocation(data.placeId, data.photo, data.name,
+        data.address, data.location, PlaceType.DEFAULT);
+    locations = [location];
     updateMarkers();
+    this.markerList.changeFocus(location);
     clearFilters();
     notifyListeners();
   }

@@ -75,9 +75,18 @@ class _ContentsCardState extends State<ContentsCard> {
                     borderRadius: BorderRadius.all(Radius.circular(9.0)),
                     child: AspectRatio(
                       aspectRatio: 1,
-                      child: Image.network(
-                        this.widget.preview,
-                        fit: BoxFit.cover,
+                      child: Stack(
+                        children: [
+                          Image.network(
+                            this.widget.preview,
+                            fit: BoxFit.cover,
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon:
+                                Image.asset("assets/icons/heart_outlined.png"),
+                          )
+                        ],
                       ),
                     ),
                   ),

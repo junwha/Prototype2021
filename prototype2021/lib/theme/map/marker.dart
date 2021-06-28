@@ -55,7 +55,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(Location location) {
+  void addMarker(Location location, {bool clickable = true}) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -78,7 +78,9 @@ class MarkerList {
       markerId: markerId,
       position: location.latLng,
       onTap: () {
-        changeFocus(location);
+        if (clickable) {
+          changeFocus(location);
+        }
       },
       flat: true,
       icon: markerIcon,
