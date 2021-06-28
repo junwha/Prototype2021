@@ -1,6 +1,5 @@
 import 'dart:typed_data';
 import 'dart:ui';
-
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/map_place.dart';
@@ -47,7 +46,7 @@ class MarkerList {
   void addMarkerList(List<Location> locationList) {
     // print(markerIcon);
     for (Location location in locationList) {
-      if (location is GoogleLocation) {
+      if (location is GooglePlaceLocation) {
         addMarker(location);
       }
     }
@@ -56,7 +55,7 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(Location location) {
+  void addMarker(Location location, {bool clickable = true}) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -79,7 +78,9 @@ class MarkerList {
       markerId: markerId,
       position: location.latLng,
       onTap: () {
-        changeFocus(location);
+        if (clickable) {
+          changeFocus(location);
+        }
       },
       flat: true,
       icon: markerIcon,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 /*
@@ -13,13 +14,22 @@ class Location {
   const Location(this.latLng, this.type, this.name);
 }
 
-class GoogleLocation extends Location {
-  final int cid;
+class GooglePlaceLocation extends Location {
+  late final String placeId;
+  String? description;
   late String preview;
-  GoogleLocation(
-      this.cid, String? preview, String name, LatLng latLng, String type)
+
+  GooglePlaceLocation(this.placeId, String? preview, String name,
+      this.description, latLng, String type)
       : super(latLng, type, name) {
     this.preview = preview ?? placeHolder;
+  }
+
+  GooglePlaceLocation.fromData(GooglePlaceData placeData)
+      : super(placeData.location, placeData.type, placeData.name) {
+    this.placeId = placeData.placeId;
+    this.preview = placeData.photo ?? placeHolder;
+    this.description = placeData.address;
   }
 }
 
