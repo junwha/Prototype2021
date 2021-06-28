@@ -53,7 +53,9 @@ class _TimerCardState extends State<TimerCard> {
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [
                             Text(
-                              "${remainTime.toString().split(".")[0]}",
+                              remainTime.inDays > 0
+                                  ? "${remainTime.inDays}일 ${remainTime.inHours - remainTime.inDays * 24}시간"
+                                  : "${remainTime.toString().split(".")[0]}",
                               style: TextStyle(
                                   color: Colors.blueAccent,
                                   fontWeight: FontWeight.bold,

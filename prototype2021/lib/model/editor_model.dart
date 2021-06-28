@@ -5,15 +5,12 @@ import 'dart:convert';
 
 import 'package:prototype2021/settings/constants.dart';
 
-const COMPANION = false;
-const EVENT = true;
-
 class EditorModel with ChangeNotifier {
   String title = "";
   String content = "";
   bool hasAge = false;
   bool hasGender = false;
-  bool articleType = EVENT;
+  ArticleType articleType = ArticleType.EVENT;
   String recruitNumber = '0';
   String maleRecruitNumber = '0';
   String femaleRecruitNumber = '0';
@@ -46,10 +43,10 @@ class EditorModel with ChangeNotifier {
       "pid": null
     };
     var url;
-    if (this.articleType == COMPANION) {
+    if (this.articleType == ArticleType.COMPANION) {
       originData["pid"] = this.pid;
       url = Uri.parse(ENROL_RECRUITMENTS_COMPANION_API);
-    } else if (this.articleType == EVENT) {
+    } else if (this.articleType == ArticleType.EVENT) {
       originData["coord"] = {
         "lat": this.coord.latitude.toString(),
         "long": this.coord.longitude.toString()
