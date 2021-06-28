@@ -9,6 +9,8 @@ import 'package:prototype2021/theme/map/marker.dart';
 
 class LocationModel with ChangeNotifier {
   List<Location> locations = [];
+  Location? clickedLocation;
+
   Map<String, bool> isIncludeType = {
     PlaceType.RESTAURANT: false,
     PlaceType.HOTEL: false,
@@ -36,6 +38,9 @@ class LocationModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+   * Clear all markers, locations
+   */
   void clearMap() {
     locations.clear();
     markerList.removeAll();
@@ -53,9 +58,25 @@ class LocationModel with ChangeNotifier {
   }
 
   /*
+   * Find plcae of point and update clicked location
+   */
+  Future<void> findPlace(LatLng point) async {
+    GooglePlaceData? placeData = await this.placeLoader.getOnePlace(point);
+    if (placeData != null) {
+      GooglePlaceLocation location = GooglePlaceLocation.fromData(placeData);
+      locations.add(location);
+      locations.remove(this.clickedLocation);
+      this.clickedLocation = location;
+      updateMarkers();
+      markerList.changeFocus(location);
+      updateCenter(location.latLng);
+      notifyListeners();
+    }
+  }
+
+  /*
    * Load Places with types and update locations  
    */
-
   Future<void> loadPlaces() async {
     placeLoaded = false;
     clearMap();
@@ -79,8 +100,7 @@ class LocationModel with ChangeNotifier {
     // Find nearby places with specified types
     for (GooglePlaceData placeData in placeDataList) {
       // Add all placeData to location list
-      locations.add(GoogleLocation(locations.length, placeData.photo,
-          placeData.name, placeData.location, placeData.type));
+      locations.add(GooglePlaceLocation.fromData(placeData));
     }
 
     if (types.isNotEmpty) {
@@ -124,6 +144,9 @@ class LocationModel with ChangeNotifier {
 
   void updateCenter(LatLng center) {
     this.center = center;
+    mapController?.moveCamera(
+      CameraUpdate.newLatLng(center),
+    );
     notifyListeners();
   }
 
@@ -133,16 +156,11 @@ class LocationModel with ChangeNotifier {
   void moveToResult(GooglePlaceData data) {
     clearMap();
     updateCenter(data.location);
-    mapController?.moveCamera(
-      CameraUpdate.newLatLng(
-        data.location,
-      ),
-    );
-
-    locations = [
-      GoogleLocation(0, data.photo, data.name, data.location, PlaceType.DEFAULT)
-    ];
+    Location location = GooglePlaceLocation(data.placeId, data.photo, data.name,
+        data.address, data.location, PlaceType.DEFAULT);
+    locations = [location];
     updateMarkers();
+    this.markerList.changeFocus(location);
     clearFilters();
     notifyListeners();
   }
@@ -150,6 +168,11 @@ class LocationModel with ChangeNotifier {
   void removeFocus() {
     markerList.changeFocus(null);
     notifyListeners();
+  }
+
+  bool isFocused() {
+    if (markerList.focusedLocation == null) return false;
+    return true;
   }
 
   bool isUpdate(LatLngBounds bounds) {

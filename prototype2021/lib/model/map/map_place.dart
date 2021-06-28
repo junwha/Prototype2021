@@ -12,6 +12,7 @@ class PlaceType {
   static const String CAFFEE = "카페";
   static const String DEFAULT = "default";
   static const String EVENT = "event";
+  static const String CLICKED = "clicked";
 }
 
 class PlaceLoader {
@@ -28,6 +29,42 @@ class PlaceLoader {
 
   void updateCenter(LatLng center) {
     this.center = center;
+  }
+
+  /* 
+  * Find one nearby places from [center]
+  */
+  Future<GooglePlaceData?> getOnePlace(LatLng latLng, {int radius = 5}) async {
+    String addressUrl =
+        "https://maps.googleapis.com/maps/api/geocode/json?latlng=${latLng.latitude},${latLng.longitude}&key=$kGoogleApiKey&language=ko&location_type=APPROXIMATE|ROOFTOP";
+
+    try {
+      http.Response res = await http.get(Uri.parse(addressUrl));
+      Map<String, dynamic> result = jsonDecode(res.body);
+      if (result["status"] == "ZERO_RESULTS") return null;
+      result = result["results"][0];
+      if (result.containsKey("place_id")) {
+        String placeUrl =
+            "https://maps.googleapis.com/maps/api/place/details/json?place_id=${result["place_id"]}&key=$kGoogleApiKey&language=ko";
+        res = await http.get(Uri.parse(placeUrl));
+        return GooglePlaceData(
+            jsonDecode(res.body)["result"], PlaceType.CLICKED);
+      } else {
+        return null;
+      }
+
+      // List<GooglePlaceData> placeDataList =
+      //     parseGooglePlaceData(res.body, PlaceType.DEFAULT);
+      // print(placeDataList[0].name);
+
+      // if (placeDataList.isEmpty)
+      //   return null;
+      // else
+      //   return placeDataList[0];
+    } catch (e) {
+      print("check internet");
+      // throw Exception;
+    }
   }
 
   /* 

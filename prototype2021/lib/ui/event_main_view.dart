@@ -171,22 +171,24 @@ class _EventMainViewState extends State<EventMainView> {
                   ),
                 ],
               ),
-              Row(
-                children: [
-                  Text("지도 보기",
-                      style: TextStyle(
-                          fontSize: 17 * pt,
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(85, 85, 85, 1))),
-                  IconButton(
-                    icon: Image.asset(
+              TextButton(
+                child: Row(
+                  children: [
+                    Text("지도 보기",
+                        style: TextStyle(
+                            fontSize: 17 * pt,
+                            fontWeight: FontWeight.bold,
+                            color: Color.fromRGBO(85, 85, 85, 1))),
+                    Image.asset(
                       "assets/icons/map.png",
                       width: 25,
                       height: 25,
-                    ),
-                    onPressed: () {},
-                  )
-                ],
+                    )
+                  ],
+                ),
+                onPressed: () {
+                  Navigator.pushNamed(context, "map");
+                },
               )
             ],
           ),
@@ -234,7 +236,9 @@ class _EventMainViewState extends State<EventMainView> {
                     width: 40,
                     height: 40,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pushNamed(context, "editor");
+                  },
                 )
               ]),
             ],
@@ -497,7 +501,7 @@ class _EventSearchPageState extends State<EventSearchPage> {
       backgroundColor: const Color(0xFFEDECEC),
       controller: controller,
       title: Row(
-        children: [Icon(Icons.search), Text('여행을 떠나보세요')],
+        children: [Icon(Icons.search), Text('이벤트 게시판에 글을 검색해보세요.')],
       ),
       hint: 'search',
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
@@ -538,19 +542,20 @@ class _EventSearchPageState extends State<EventSearchPage> {
             elevation: 4.0,
             child: Column(
               mainAxisSize: MainAxisSize.min,
-              children: Colors.accents.map((color) {
-                return Container(
-                    height: 112,
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.white,
-                    child: Center(
-                      child: Text(
-                        'Search Result Test',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                      ),
-                    ));
-              }).toList(),
+              children: [
+                Container(
+                  height: 112,
+                  width: MediaQuery.of(context).size.width,
+                  color: Colors.white,
+                  child: Center(
+                    child: Text(
+                      '서비스를 준비중입니다',
+                      style: TextStyle(
+                          color: Colors.black, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         );

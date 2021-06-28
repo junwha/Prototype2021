@@ -4,16 +4,16 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:prototype2021/model/map/location_model.dart';
 
-class EventMap extends StatefulWidget {
+class BackgroundMap extends StatefulWidget {
   LatLng center;
   LocationModel model;
 
-  EventMap({required this.center, required this.model});
+  BackgroundMap({required this.center, required this.model});
   @override
-  _EventMapState createState() => _EventMapState();
+  _BackgroundMapState createState() => _BackgroundMapState();
 }
 
-class _EventMapState extends State<EventMap> {
+class _BackgroundMapState extends State<BackgroundMap> {
   GoogleMapController? mapController;
 
   //Save positions of last tapped and pressed
@@ -49,16 +49,12 @@ class _EventMapState extends State<EventMap> {
               this.widget.model.center = cameraPostion.target;
             },
             onTap: (LatLng pos) {
-              this.widget.model.removeFocus();
+              if (this.widget.model.isFocused()) {
+                this.widget.model.removeFocus();
+              } else {
+                this.widget.model.findPlace(pos);
+              }
             },
-
-            // onLongPress: (LatLng pos) {
-            //   setState(() {
-            //     _lastLongPress = pos;
-            //     print(pos.latnotifyListenersitude);
-            //     print(pos.longitude);
-            //   });
-            // },
           );
   }
 }
