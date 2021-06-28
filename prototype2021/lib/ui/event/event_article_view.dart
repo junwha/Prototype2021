@@ -1,6 +1,7 @@
 import 'package:prototype2021/model/event_articles_model.dart';
 import 'package:prototype2021/theme/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:provider/provider.dart';
 
 class EventArticleView extends StatefulWidget {
@@ -31,12 +32,22 @@ class _EventArticleViewState extends State<EventArticleView> {
     return Column(
         children: eventArticlesModel.eventArticleList
             .map(
-              (e) => RecruitCard(
-                title: e.title,
-                hasContents: false,
-                range: e.period,
-                heartCount: e.hearts,
-                commentCount: e.comments,
+              (e) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(builder: (BuildContext context) {
+                      return EventDetailView(e.id);
+                    }),
+                  );
+                },
+                child: RecruitCard(
+                  title: e.title,
+                  hasContents: false,
+                  range: e.period,
+                  heartCount: e.hearts,
+                  commentCount: e.comments,
+                ),
               ),
             )
             .toList());
