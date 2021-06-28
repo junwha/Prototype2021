@@ -49,7 +49,7 @@ class _MapViewState extends State<MapView> {
                 buildBackButton(context),
                 buildWriteButton(maxHeight),
                 buildContentInfo(locationModel.markerList.focusedLocation),
-                MapSearchBar(locationModel),
+                MapSearchBar(locationModel, backButtonEnabled: true),
               ],
             );
           },

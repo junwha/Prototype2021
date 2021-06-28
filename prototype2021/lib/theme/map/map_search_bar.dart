@@ -9,8 +9,8 @@ import 'package:provider/provider.dart';
 
 class MapSearchBar extends StatefulWidget {
   LocationModel locationModel;
-
-  MapSearchBar(this.locationModel);
+  bool backButtonEnabled;
+  MapSearchBar(this.locationModel, {this.backButtonEnabled = false});
 
   @override
   _MapSearchBarState createState() => _MapSearchBarState();
@@ -77,7 +77,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
         MediaQuery.of(context).orientation == Orientation.portrait;
     final controller = FloatingSearchBarController();
     final _applyKey = GlobalKey<FormState>();
-
+    double leftMargin = this.widget.backButtonEnabled ? 50 : 10;
     return Consumer(builder: (context, LocationModel locationModel, child) {
       return ChangeNotifierProvider(
         create: (context) => SearchPlaceModel(locationModel),
@@ -85,7 +85,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
           builder: (context, SearchPlaceModel searchModel, child) {
             return FloatingSearchBar(
                 onFocusChanged: (bool isChanged) {},
-                margins: EdgeInsets.fromLTRB(10, 10, 10, 10),
+                margins: EdgeInsets.fromLTRB(leftMargin, 10, 10, 10),
                 shadowColor: Colors.transparent,
                 backdropColor: Colors.transparent,
                 borderRadius: BorderRadius.circular(50),
