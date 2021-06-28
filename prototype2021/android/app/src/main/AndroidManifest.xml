@@ -2,7 +2,7 @@
     package="com.example.prototype2021">
    <uses-permission android:name="android.permission.INTERNET" />
    <application
-        android:label="prototype2021"
+        android:label="Tripbuilder"
         android:icon="@mipmap/ic_launcher">
         
         <activity
