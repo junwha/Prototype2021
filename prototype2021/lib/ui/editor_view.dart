@@ -107,7 +107,12 @@ class _EditorViewState extends State<EditorView> {
                                 onPressed: () {
                                   loadLocation();
                                 })
-                            : MapPreview(location: targetLoction!),
+                            : GestureDetector(
+                                child: MapPreview(location: targetLoction!),
+                                onTap: () {
+                                  loadLocation();
+                                },
+                              ),
                       ],
                     ),
                   ],
