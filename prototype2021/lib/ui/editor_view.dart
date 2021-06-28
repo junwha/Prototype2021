@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/theme/card.dart';
 import 'package:prototype2021/theme/checkbox_row.dart';
 import 'package:prototype2021/theme/datetimepicker_column.dart';
 import 'package:prototype2021/theme/checkbox_widget.dart';
@@ -41,6 +42,50 @@ class _EditorViewState extends State<EditorView> {
           child: ChangeNotifierProvider(
             create: (context) => EditorModel(),
             child: Consumer(builder: (context, EditorModel editorModel, child) {
+              var children2 = [
+                CheckboxRow(
+                    value1: editorModel.hasGender,
+                    onChanged1: (bool? value) {
+                      setState(() {
+                        editorModel.hasGender = value ?? false;
+                      });
+                      editorModel.printChanged();
+                    },
+                    value2: editorModel.hasAge,
+                    onChanged2: (bool? value) {
+                      setState(() {
+                        editorModel.hasAge = value ?? false;
+                      });
+                      editorModel.printChanged();
+                    }),
+                CheckBoxWidget(editorModel.hasGender, editorModel.hasAge,
+                    (recruitNumber, maleRecruitNumber, femaleRecruitNumber,
+                        startAge, endAge) {
+                  editorModel.recruitNumber = recruitNumber;
+                  editorModel.maleRecruitNumber = maleRecruitNumber;
+                  editorModel.femaleRecruitNumber = femaleRecruitNumber;
+                  editorModel.startAge = startAge;
+                  editorModel.endAge = endAge;
+                  editorModel.printChanged();
+                }),
+                //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
+                targetLoction == null
+                    ? TextButton(
+                        child: Text("지도 선택하기"),
+                        onPressed: () {
+                          loadLocation();
+                        })
+                    : GestureDetector(
+                        child: MapPreview(location: targetLoction!),
+                        onTap: () {
+                          loadLocation();
+                        },
+                      ),
+                SizedBox(height: 20),
+                targetLoction == null && targetLoction is GooglePlaceLocation
+                    ? SizedBox()
+                    : buildContentsCard(targetLoction),
+              ];
               return Padding(
                 padding: const EdgeInsets.fromLTRB(
                     20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
@@ -78,47 +123,7 @@ class _EditorViewState extends State<EditorView> {
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
                     Column(
-                      children: [
-                        CheckboxRow(
-                            value1: editorModel.hasGender,
-                            onChanged1: (bool? value) {
-                              setState(() {
-                                editorModel.hasGender = value ?? false;
-                              });
-                              editorModel.printChanged();
-                            },
-                            value2: editorModel.hasAge,
-                            onChanged2: (bool? value) {
-                              setState(() {
-                                editorModel.hasAge = value ?? false;
-                              });
-                              editorModel.printChanged();
-                            }),
-                        CheckBoxWidget(
-                            editorModel.hasGender, editorModel.hasAge,
-                            (recruitNumber, maleRecruitNumber,
-                                femaleRecruitNumber, startAge, endAge) {
-                          editorModel.recruitNumber = recruitNumber;
-                          editorModel.maleRecruitNumber = maleRecruitNumber;
-                          editorModel.femaleRecruitNumber = femaleRecruitNumber;
-                          editorModel.startAge = startAge;
-                          editorModel.endAge = endAge;
-                          editorModel.printChanged();
-                        }),
-                        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
-                        targetLoction == null
-                            ? TextButton(
-                                child: Text("지도 선택하기"),
-                                onPressed: () {
-                                  loadLocation();
-                                })
-                            : GestureDetector(
-                                child: MapPreview(location: targetLoction!),
-                                onTap: () {
-                                  loadLocation();
-                                },
-                              ),
-                      ],
+                      children: children2,
                     ),
                   ],
                 ),
@@ -128,6 +133,24 @@ class _EditorViewState extends State<EditorView> {
         ),
       ),
     );
+  }
+
+  Widget buildContentsCard(Location? targetLocation) {
+    if (targetLoction is GooglePlaceLocation) {
+      GooglePlaceLocation location = targetLoction as GooglePlaceLocation;
+      return ContentsCard(
+        preview: location.preview,
+        title: location.name,
+        place: "TEMP",
+        explanation: "TEMP",
+        rating: 1,
+        ratingNumbers: 5,
+        tags: ["asdf"],
+        clickable: false,
+        margin: const EdgeInsets.symmetric(vertical: 0),
+      );
+    }
+    return SizedBox();
   }
 
   Widget buildTypeToggle(EditorModel editorModel) {
