@@ -33,7 +33,7 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                   center: locationModel.center,
                   model: locationModel,
                 ), //TODO(junwha): change to dynamic location
-                buildSelectButton(maxHeight),
+                //buildSelectButton(maxHeight),
                 buildContentInfo(locationModel.markerList.focusedLocation),
                 MapSearchBar(locationModel),
               ],
@@ -77,8 +77,13 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                     style: TextButton.styleFrom(
                       primary: Colors.black,
                     ),
-                    child: Row(
-                      children: [Icon(Icons.article_outlined), Text("선택 완료")],
+                    child: TextButton(
+                      child: Row(
+                        children: [Icon(Icons.article_outlined), Text("선택 완료")],
+                      ),
+                      onPressed: () {
+                        selectLoaction(location);
+                      },
                     ),
                     onPressed: () {},
                   )
@@ -129,5 +134,9 @@ class _SelectLocationViewState extends State<SelectLocationView> {
       //   ),
       // ),
     );
+  }
+
+  void selectLoaction(Location location) {
+    Navigator.pop(context, location);
   }
 }

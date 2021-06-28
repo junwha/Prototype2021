@@ -103,7 +103,10 @@ class _EditorViewState extends State<EditorView> {
                         //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
                         targetLoction == null
                             ? TextButton(
-                                child: Text("지도 선택하기"), onPressed: () {})
+                                child: Text("지도 선택하기"),
+                                onPressed: () {
+                                  loadLocation();
+                                })
                             : MapPreview(location: targetLoction!),
                       ],
                     ),
@@ -210,5 +213,17 @@ class _EditorViewState extends State<EditorView> {
         Text('에서 볼 수 있어요.', style: TextStyle(fontSize: 14 * pt))
       ],
     );
+  }
+
+  void loadLocation() async {
+    Location? location =
+        (await Navigator.pushNamed(context, "select_location")) as Location?;
+
+    if (location != null) {
+      setState(() {
+        this.targetLoction = location;
+        print(location.latLng);
+      });
+    }
   }
 }
