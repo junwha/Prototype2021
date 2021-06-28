@@ -458,10 +458,24 @@ class _EventSearchPageState extends State<EventSearchPage> {
         child: Stack(
           children: [
             Center(
-              child: Text("asdf"),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset("assets/icons/search_1.png"),
+                  Text(
+                    "이벤트 게시판에 글을 검색해보세요.",
+                    style: TextStyle(
+                        color: Color.fromRGBO(180, 180, 180, 1), fontSize: 16),
+                  ),
+                ],
+              ),
             ),
             buildFloatingSearchBar(context),
-            IconButton(onPressed: () {}, icon: Icon(Icons.arrow_back)),
+            IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: Icon(Icons.arrow_back)),
           ],
         ),
       ),
