@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
+import 'package:prototype2021/ui/editor_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 
@@ -79,7 +80,9 @@ class _MapViewState extends State<MapView> {
             minimumSize: MaterialStateProperty.all<Size>(Size(88, 36)),
             backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
           ),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, "editor");
+          },
           child: Text("글쓰기", style: TextStyle(color: Colors.white)),
         ),
       ),
@@ -112,7 +115,10 @@ class _MapViewState extends State<MapView> {
                       child: Row(
                         children: [Icon(Icons.article_outlined), Text("글 쓰기")],
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        Navigator.pushNamed(context, "editor",
+                            arguments: {"location": location});
+                      },
                     )
                   ],
                 ),

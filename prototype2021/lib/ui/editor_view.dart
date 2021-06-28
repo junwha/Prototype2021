@@ -30,6 +30,11 @@ class _EditorViewState extends State<EditorView> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, Object>? args =
+        ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
+    if (args != null && args.containsKey("location")) {
+      targetLoction = args["location"] as Location;
+    }
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -159,7 +164,9 @@ class _EditorViewState extends State<EditorView> {
         children: [
           CloseButton(
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
           Text(
             '글 쓰기',
