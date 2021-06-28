@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event_main_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/timer_card.dart';
+import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:prototype2021/ui/event_article_view.dart';
