@@ -9,7 +9,47 @@ class ArticleLoader {
         "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
     try {
       http.Response response = await http.get(Uri.parse(url));
-      return parseEventArticle(
+      return parseTopEventArticle(
+          utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
+    } catch (e) {
+      print("check internet");
+    }
+
+    return [];
+  }
+
+  List<EventTimerData> parseTopEventArticle(String jsonString) {
+    dynamic jsonData = jsonDecode(jsonString);
+    List<EventTimerData> articleList = [];
+
+    for (Map<String, dynamic> data in jsonData) {
+      try {
+        print(data);
+
+        articleList.add(EventTimerData(
+          data["id"],
+          DateTimeRange(
+            start: DateTime.parse(data["period"]["start"] ?? ""),
+            end: DateTime.parse(data["period"]["end"] ?? ""),
+          ),
+          data["title"],
+          data["summary"],
+          data["cid"],
+        ));
+      } catch (e) {
+        print(e);
+        print("error occurred");
+      }
+    }
+    return articleList;
+  }
+
+  Future<List<EventTimerData>> loadAkEventArticles() async {
+    String url =
+        "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      return parseTopEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
       print("check internet");
@@ -53,4 +93,15 @@ class EventTimerData {
   int? cid;
 
   EventTimerData(this.id, this.period, this.title, this.summary, this.cid);
+}
+
+class EventPreviewData {
+  int id;
+  String title;
+  int hearts;
+  int comments;
+  DateTimeRange period;
+
+  EventPreviewData(
+      this.id, this.title, this.hearts, this.comments, this.period);
 }
