@@ -127,20 +127,27 @@ class _MapViewState extends State<MapView> {
             Container(
               color: Colors.white,
               height: 60,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text("컨텐츠"),
-                  TextButton(
-                    style: TextButton.styleFrom(
-                      primary: Colors.black,
+              child: Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "컨텐츠",
+                      style:
+                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
                     ),
-                    child: Row(
-                      children: [Icon(Icons.article_outlined), Text("글 쓰기")],
-                    ),
-                    onPressed: () {},
-                  )
-                ],
+                    TextButton(
+                      style: TextButton.styleFrom(
+                        primary: Colors.black,
+                      ),
+                      child: Row(
+                        children: [Icon(Icons.article_outlined), Text("글 쓰기")],
+                      ),
+                      onPressed: () {},
+                    )
+                  ],
+                ),
               ),
             ),
             ContentsCard(
