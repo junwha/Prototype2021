@@ -1,11 +1,15 @@
+import 'dart:async';
+
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/event_main_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/recruit_card.dart';
 import 'package:prototype2021/theme/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:provider/provider.dart';
 
 class EventMainView extends StatefulWidget {
   @override
@@ -43,75 +47,69 @@ class _EventMainViewState extends State<EventMainView> {
     );
   }
 
-  Column buildArticleList(BuildContext context) {
-    return Column(
-      children: [
-        Container(
-          width: double.infinity,
-          child: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "마감 임박 게시글",
-                  style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14 * pt),
+  Widget buildArticleList(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (context) => EventMainModel(),
+      child: Consumer(builder: (context, EventMainModel eventMainModel, child) {
+        return Column(
+          children: [
+            Container(
+              width: double.infinity,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "마감 임박 게시글",
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14 * pt),
+                    ),
+                  ],
                 ),
-              ],
+              ),
             ),
-          ),
-        ),
-        TimerCard(
-          title: "태화강 근처",
-          description: "낚시하실분 ㅎㅎ",
-          due: DateTime(2021, 5, 24, 6, 23, 00),
-          onEnd: () {
-            print("asdf");
-          },
-        ),
-        TimerCard(
-          title: "울산대 공원에서 피맥해요!",
-          description: "경치보면서 같이 힐링해요 ㅎㅎ잘 먹는 분이면 더 좋습니다!",
-          due: DateTime(2021, 5, 24, 6, 23, 00),
-          onEnd: () {
-            print("asdf");
-          },
-        ),
-        TimerCard(
-          title: "울산 불꽃 축제 같이 가실분?",
-          description: "사진 찍고 같이 선물 받아요~~!",
-          due: DateTime(2021, 5, 24, 6, 23, 00),
-          onEnd: () {
-            print("asdf");
-          },
-        ),
-        TextButton(
-            child: Container(
-                height: 35 * pt,
-                width: 280 * pt,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Center(
-                    child: Text(
-                  "더보기",
-                  style: TextStyle(
-                      fontSize: 15 * pt,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54),
-                ))),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(builder: (BuildContext context) {
-                  return Second();
+            buildEventArticles(eventMainModel),
+            TextButton(
+                child: Container(
+                    height: 35 * pt,
+                    width: 280 * pt,
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    child: Center(
+                        child: Text(
+                      "더보기",
+                      style: TextStyle(
+                          fontSize: 15 * pt,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black54),
+                    ))),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(builder: (BuildContext context) {
+                      return Second();
+                    }),
+                  );
                 }),
-              );
-            }),
-      ],
+          ],
+        );
+      }),
+    );
+  }
+
+  Widget buildEventArticles(EventMainModel eventMainModel) {
+    if (eventMainModel.isEventArticleLoading) return Text("Loading ...");
+    return Column(
+      children: eventMainModel.eventArticleList
+          .map(
+            (e) => TimerCard(
+                title: e.title, description: e.summary, due: e.period.end),
+          )
+          .toList(),
     );
   }
 
