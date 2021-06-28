@@ -10,6 +10,7 @@ void main() {
     MaterialApp(home: EventMainView(), routes: {
       'select_location': (context) => SelectLocationView(),
       'editor': (context) => EditorView(),
+      'map': (context) => MapView(),
       //'/main': (context) => MainPage(),
     }),
   );
