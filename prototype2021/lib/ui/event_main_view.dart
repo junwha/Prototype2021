@@ -1,14 +1,13 @@
-import 'dart:async';
-
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event_main_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/recruit_card.dart';
 import 'package:prototype2021/theme/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:prototype2021/ui/event_article_view.dart';
+import 'package:prototype2021/ui/event_search_view.dart';
+import 'package:prototype2021/ui/my_page_view.dart';
 import 'package:provider/provider.dart';
 
 class EventMainView extends StatefulWidget {
@@ -91,7 +90,7 @@ class _EventMainViewState extends State<EventMainView> {
                   Navigator.push(
                     context,
                     MaterialPageRoute<void>(builder: (BuildContext context) {
-                      return Second();
+                      return EventArticleView();
                     }),
                   );
                 }),
@@ -313,7 +312,7 @@ class _EventMainViewState extends State<EventMainView> {
             Navigator.push(
               context,
               MaterialPageRoute<void>(builder: (BuildContext context) {
-                return EventSearchPage();
+                return EventSearchView();
               }),
             );
           },
@@ -339,312 +338,5 @@ class _EventMainViewState extends State<EventMainView> {
             icon: Image.asset("assets/icons/notic_pointed.png")),
       ],
     );
-  }
-}
-
-class Second extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          shadowColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.black,
-                  size: 35,
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.people_alt_outlined,
-                  color: Colors.black,
-                  size: 35,
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.notifications_none,
-                  color: Colors.black,
-                  size: 35,
-                )),
-          ],
-        ),
-        body: SingleChildScrollView(
-            child: Column(
-          children: [
-            RecruitCard(
-              title: '울산대 공원에서 간단히 피맥해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 05),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '벚꽃놀이 하러가요',
-              range: DateTimeRange(
-                  end: DateTime.utc(2021, 01, 05),
-                  start: DateTime.utc(2021, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '명장스시 가실 분?',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 02, 15),
-                  start: DateTime.utc(2020, 02, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-          ],
-        )));
-  }
-}
-
-class EventSearchPage extends StatefulWidget {
-  const EventSearchPage({Key? key}) : super(key: key);
-
-  @override
-  _EventSearchPageState createState() => _EventSearchPageState();
-}
-
-class _EventSearchPageState extends State<EventSearchPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/icons/search_1.png"),
-                  Text(
-                    "이벤트 게시판에 글을 검색해보세요.",
-                    style: TextStyle(
-                        color: Color.fromRGBO(180, 180, 180, 1), fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-            buildFloatingSearchBar(context),
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.arrow_back)),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget buildFloatingSearchBar(BuildContext context) {
-    final isPortrait =
-        MediaQuery.of(context).orientation == Orientation.portrait;
-    final controller = FloatingSearchBarController();
-    final _applyKey = GlobalKey<FormState>();
-
-    return FloatingSearchBar(
-      margins: EdgeInsets.only(left: 50),
-      shadowColor: Colors.transparent,
-      backdropColor: Colors.transparent,
-      borderRadius: BorderRadius.circular(50),
-      height: 45,
-      backgroundColor: const Color(0xFFEDECEC),
-      controller: controller,
-      title: Row(
-        children: [Icon(Icons.search), Text('이벤트 게시판에 글을 검색해보세요.')],
-      ),
-      hint: 'search',
-      scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
-      transitionDuration: const Duration(milliseconds: 1000),
-      transitionCurve: Curves.easeInOut,
-      physics: const BouncingScrollPhysics(),
-      axisAlignment: isPortrait ? 0.0 : -1.0,
-      openAxisAlignment: 0.0,
-      width: isPortrait ? 600 : 500,
-      debounceDelay: const Duration(milliseconds: 500),
-      automaticallyImplyBackButton: false,
-      onQueryChanged: (query) {
-        // Call your model, bloc, controller here.
-      },
-      onFocusChanged: (bool focus) {},
-      // Specify a custom transition to be used for
-      // animating between opened and closed stated.
-      transition: CircularFloatingSearchBarTransition(),
-      actions: [
-        FloatingSearchBarAction(
-          showIfOpened: false,
-          child: CircularButton(
-            icon: const Icon(Icons.filter_list),
-            onPressed: () {
-              //  Navigator.pushNamed(context, '/board/filter');
-            },
-          ),
-        ),
-        FloatingSearchBarAction.searchToClear(
-          showIfClosed: false,
-        ),
-      ],
-      builder: (context, transition) {
-        return ClipRRect(
-          borderRadius: BorderRadius.circular(10),
-          child: Material(
-            color: Colors.white,
-            elevation: 4.0,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Container(
-                  height: 112,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Center(
-                    child: Text(
-                      '서비스를 준비중입니다',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class MyPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          shadowColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          centerTitle: false,
-          title: Text(
-            "내정보",
-            style: TextStyle(
-                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
-          ),
-        ),
-        body: SingleChildScrollView(
-            child: Column(
-          children: [
-            Container(
-                width: double.infinity,
-                height: 85,
-                child: Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "임시 저장한 글",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(68, 68, 68, 1)),
-                      ),
-                    ],
-                  ),
-                )),
-            Container(
-                width: double.infinity,
-                height: 85,
-                child: Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "내가 쓴 글",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(68, 68, 68, 1)),
-                      ),
-                    ],
-                  ),
-                )),
-            Container(
-                width: double.infinity,
-                height: 85,
-                child: Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "내가 찜한 글",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(68, 68, 68, 1)),
-                      ),
-                    ],
-                  ),
-                )),
-          ],
-        )));
   }
 }
