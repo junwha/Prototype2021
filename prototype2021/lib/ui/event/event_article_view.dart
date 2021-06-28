@@ -1,105 +1,93 @@
+import 'package:prototype2021/model/event_articles_model.dart';
 import 'package:prototype2021/theme/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/ui/event/event_detail_view.dart';
+import 'package:provider/provider.dart';
 
-class EventArticleView extends StatelessWidget {
+class EventArticleView extends StatefulWidget {
+  EventArticleView();
+
+  @override
+  _EventArticleViewState createState() => _EventArticleViewState();
+}
+
+class _EventArticleViewState extends State<EventArticleView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          shadowColor: Colors.white,
-          leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back,
-                color: Colors.black,
+      appBar: buildAppBar(context),
+      body: ChangeNotifierProvider(
+        create: (context) => EventArticlesModel(),
+        child: Consumer(
+            builder: (context, EventArticlesModel eventArticlesModel, child) {
+          return SingleChildScrollView(
+              child: buildArticles(eventArticlesModel));
+        }),
+      ),
+    );
+  }
+
+  Widget buildArticles(EventArticlesModel eventArticlesModel) {
+    if (eventArticlesModel.isEventArticleLoading) return Text("Loading ...");
+    return Column(
+        children: eventArticlesModel.eventArticleList
+            .map(
+              (e) => GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(builder: (BuildContext context) {
+                      return EventDetailView(e.id);
+                    }),
+                  );
+                },
+                child: RecruitCard(
+                  title: e.title,
+                  hasContents: false,
+                  range: e.period,
+                  heartCount: e.hearts,
+                  commentCount: e.comments,
+                ),
               ),
-              onPressed: () {
-                Navigator.pop(context);
-              }),
-          actions: [
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.search,
-                  color: Colors.black,
-                  size: 35,
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.people_alt_outlined,
-                  color: Colors.black,
-                  size: 35,
-                )),
-            IconButton(
-                onPressed: () {},
-                icon: Icon(
-                  Icons.notifications_none,
-                  color: Colors.black,
-                  size: 35,
-                )),
-          ],
-        ),
-        body: SingleChildScrollView(
-            child: Column(
-          children: [
-            RecruitCard(
-              title: '울산대 공원에서 간단히 피맥해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 05),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '벚꽃놀이 하러가요',
-              range: DateTimeRange(
-                  end: DateTime.utc(2021, 01, 05),
-                  start: DateTime.utc(2021, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '명장스시 가실 분?',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 02, 15),
-                  start: DateTime.utc(2020, 02, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-            RecruitCard(
-              title: '태화강에서 치맥 하실분 구해요!',
-              range: DateTimeRange(
-                  end: DateTime.utc(2020, 01, 06),
-                  start: DateTime.utc(2020, 01, 04)),
-              hasContents: false,
-            ),
-          ],
-        )));
+            )
+            .toList());
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      backgroundColor: Colors.white,
+      shadowColor: Colors.white,
+      leading: IconButton(
+          icon: Icon(
+            Icons.arrow_back,
+            color: Colors.black,
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          }),
+      actions: [
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.search,
+              color: Colors.black,
+              size: 35,
+            )),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.people_alt_outlined,
+              color: Colors.black,
+              size: 35,
+            )),
+        IconButton(
+            onPressed: () {},
+            icon: Icon(
+              Icons.notifications_none,
+              color: Colors.black,
+              size: 35,
+            )),
+      ],
+    );
   }
 }
