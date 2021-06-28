@@ -106,7 +106,13 @@ class _EventMainViewState extends State<EventMainView> {
       children: eventMainModel.eventArticleList
           .map(
             (e) => TimerCard(
-                title: e.title, description: e.summary, due: e.period.end),
+              title: e.title,
+              description: e.summary,
+              due: e.period.end,
+              onEnd: () {
+                eventMainModel.loadArticles();
+              },
+            ),
           )
           .toList(),
     );
