@@ -83,6 +83,48 @@ class _EditorViewState extends State<EditorView> {
                 targetLoction == null && targetLoction is GooglePlaceLocation
                     ? SizedBox()
                     : buildContentsCard(targetLoction),
+                Row(
+                  children: [
+                    TextButton(
+                      child: Text(editorModel.startDate == null
+                          ? "시작날짜 선택"
+                          : "${editorModel.startDate!.year}.${editorModel.startDate!.month}.${editorModel.startDate!.day}"),
+                      onPressed: () async {
+                        editorModel.setStartDate(await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2018),
+                          lastDate: DateTime(2030),
+                          builder: (BuildContext context, Widget? child) {
+                            return Theme(
+                              data: ThemeData.light(),
+                              child: child ?? SizedBox(),
+                            );
+                          },
+                        ));
+                      },
+                    ),
+                    TextButton(
+                      child: Text(editorModel.endDate == null
+                          ? "종료날짜 선택"
+                          : "${editorModel.endDate!.year}.${editorModel.endDate!.month}.${editorModel.endDate!.day}"),
+                      onPressed: () async {
+                        editorModel.setEndDate(await showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2018),
+                          lastDate: DateTime(2030),
+                          builder: (BuildContext context, Widget? child) {
+                            return Theme(
+                              data: ThemeData.light(),
+                              child: child ?? SizedBox(),
+                            );
+                          },
+                        ));
+                      },
+                    ),
+                  ],
+                )
               ];
               return Padding(
                 padding: const EdgeInsets.fromLTRB(

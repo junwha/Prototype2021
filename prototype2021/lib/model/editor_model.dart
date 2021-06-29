@@ -20,10 +20,22 @@ class EditorModel with ChangeNotifier {
   int? cid;
   int uid = 0;
   LatLng coord = LatLng(0, 0);
+  DateTime? startDate;
+  DateTime? endDate;
 
   EditorModel();
 
   void printChanged() {}
+
+  void setStartDate(DateTime? startDate) {
+    this.startDate = startDate;
+    notifyListeners();
+  }
+
+  void setEndDate(DateTime? endDate) {
+    this.endDate = endDate;
+    notifyListeners();
+  }
 
   Future<bool> writeArticle() async {
     Map<String, dynamic> originData = {
@@ -37,8 +49,9 @@ class EditorModel with ChangeNotifier {
       },
       "ages": {"min": this.startAge, "max": this.endAge},
       "period": {
-        "start": "2021-05-23T09:22:23.150Z",
-        "end": "2021-05-23T09:22:23.150Z"
+        "start":
+            this.startDate == null ? null : this.startDate!.toIso8601String(),
+        "end": this.endDate == null ? null : this.endDate!.toIso8601String()
       },
       "pid": null
     };

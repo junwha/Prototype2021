@@ -26,6 +26,7 @@ class _TextFieldFormState extends State<TextFieldForm> {
           onChanged: this.widget.onChanged,
           maxLines: null,
           keyboardType: TextInputType.multiline,
+          enableInteractiveSelection: false,
         )
       ],
     );
