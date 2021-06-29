@@ -6,6 +6,7 @@ import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:prototype2021/ui/event/event_article_view.dart';
+import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/ui/event/event_search_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 import 'package:provider/provider.dart';
@@ -105,13 +106,23 @@ class _EventMainViewState extends State<EventMainView> {
     return Column(
       children: eventMainModel.topEventArticleList
           .map(
-            (e) => TimerCard(
-              title: e.title,
-              description: e.summary,
-              due: e.period.end,
-              onEnd: () {
-                eventMainModel.loadTopEventArticles();
+            (e) => GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(builder: (BuildContext context) {
+                    return EventDetailView(e.id);
+                  }),
+                );
               },
+              child: TimerCard(
+                title: e.title,
+                description: e.summary,
+                due: e.period.end,
+                onEnd: () {
+                  eventMainModel.loadTopEventArticles();
+                },
+              ),
             ),
           )
           .toList(),
