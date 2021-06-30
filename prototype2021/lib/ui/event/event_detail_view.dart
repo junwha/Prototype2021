@@ -160,6 +160,9 @@ class _EventDetailViewState extends State<EventDetailView> {
             ],
           ),
         ),
+        SizedBox(
+          height: 10,
+        ),
         Row(
           children: [
             Image.asset('assets/icons/calender_outlined.png'),
