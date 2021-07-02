@@ -50,7 +50,7 @@ class RecruitCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.calendar_today_outlined),
+                        Image.asset("assets/icons/calender_outlined.png"),
                         SizedBox(width: 8 * pt),
                         Text(
                             "${range.start.year}.${range.start.month}.${range.start.day}(${getWeekDay(range.start.weekday)})~${range.end.year}.${range.end.month}.${range.end.day}(${getWeekDay(range.end.weekday)})")
@@ -58,11 +58,11 @@ class RecruitCard extends StatelessWidget {
                     ),
                     Row(
                       children: [
-                        Icon(Icons.favorite_border),
+                        Image.asset("assets/icons/heart_outlined.png"),
                         SizedBox(width: 10 * pt),
                         Text("${this.heartCount}"),
                         SizedBox(width: 8 * pt),
-                        Icon(Icons.comment_outlined),
+                        Image.asset("assets/icons/message_outlined.png"),
                         SizedBox(width: 10 * pt),
                         Text("${this.commentCount}")
                       ],
