@@ -148,9 +148,10 @@ class _EventMainViewState extends State<EventMainView> {
                 builder: (BuildContext context) {
                   return Container(
                     width: MediaQuery.of(context).size.width,
-                    child: Image.network(
-                      url,
+                    child: Image.asset(
+                      "assets/icons/image_bar.png",
                       fit: BoxFit.cover,
+                      scale: 20,
                     ),
                   );
                 },
@@ -193,6 +194,9 @@ class _EventMainViewState extends State<EventMainView> {
                             fontSize: 17 * pt,
                             fontWeight: FontWeight.bold,
                             color: Color.fromRGBO(85, 85, 85, 1))),
+                    SizedBox(
+                      width: 6,
+                    ),
                     Image.asset(
                       "assets/icons/map.png",
                       width: 25,
@@ -339,7 +343,10 @@ class _EventMainViewState extends State<EventMainView> {
               );
             },
             padding: EdgeInsets.all(0),
-            icon: Image.asset("assets/icons/person_outlined@2x.png"),
+            icon: Image.asset(
+              "assets/icons/person_icon_2.png",
+              scale: 0.5,
+            ),
           ),
         ),
         IconButton(
