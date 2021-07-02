@@ -295,19 +295,11 @@ class _EventMainViewState extends State<EventMainView> {
       unselectedItemColor: Colors.black26,
       items: <BottomNavigationBarItem>[
         BottomNavigationBarItem(
-            icon: Icon(Icons.people_alt_sharp, size: 40), label: ""),
+            icon: Image.asset("assets/icons/people_filled.png"), label: ""),
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.home_outlined,
-              size: 40,
-            ),
-            label: ""),
+            icon: Image.asset("assets/icons/home_filled.png"), label: ""),
         BottomNavigationBarItem(
-            icon: Icon(
-              Icons.people,
-              size: 40,
-            ),
-            label: ""),
+            icon: Image.asset("assets/icons/person_filled.png"), label: ""),
       ],
     );
   }
