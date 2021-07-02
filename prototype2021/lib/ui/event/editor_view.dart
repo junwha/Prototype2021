@@ -66,10 +66,81 @@ class _EditorViewState extends State<EditorView> {
                   editorModel.endAge = endAge;
                   editorModel.printChanged();
                 }),
+                Column(
+                  children: [
+                    Row(
+                      children: [
+                        Text('여행 시작일', style: TextStyle(fontSize: 13 * pt)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        TextButton(
+                          child: Text(
+                              editorModel.startDate == null
+                                  ? "시작날짜 선택"
+                                  : "${editorModel.startDate!.year}.${editorModel.startDate!.month}.${editorModel.startDate!.day}",
+                              style: TextStyle(
+                                  color: Color.fromRGBO(112, 112, 112, 1),
+                                  fontSize: 13 * pt)),
+                          onPressed: () async {
+                            editorModel.setStartDate(await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2018),
+                              lastDate: DateTime(2030),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData.light(),
+                                  child: child ?? SizedBox(),
+                                );
+                              },
+                            ));
+                          },
+                        ),
+                      ],
+                    ),
+                    Row(
+                      children: [
+                        Text('여행 종료일', style: TextStyle(fontSize: 13 * pt)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        TextButton(
+                          child: Text(
+                            editorModel.endDate == null
+                                ? "종료날짜 선택"
+                                : "${editorModel.endDate!.year}.${editorModel.endDate!.month}.${editorModel.endDate!.day}",
+                            style: TextStyle(
+                                color: Color.fromRGBO(112, 112, 112, 1),
+                                fontSize: 13 * pt),
+                          ),
+                          onPressed: () async {
+                            editorModel.setEndDate(await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(2018),
+                              lastDate: DateTime(2030),
+                              builder: (BuildContext context, Widget? child) {
+                                return Theme(
+                                  data: ThemeData.light(),
+                                  child: child ?? SizedBox(),
+                                );
+                              },
+                            ));
+                          },
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
                 //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
                 targetLoction == null
                     ? TextButton(
-                        child: Text("지도 선택하기"),
+                        child: Text("지도 선택하기",
+                            style: TextStyle(
+                                color: Color.fromRGBO(112, 112, 112, 1),
+                                fontSize: 13 * pt,
+                                fontWeight: FontWeight.bold)),
                         onPressed: () {
                           loadLocation();
                         })
@@ -83,48 +154,6 @@ class _EditorViewState extends State<EditorView> {
                 targetLoction == null && targetLoction is GooglePlaceLocation
                     ? SizedBox()
                     : buildContentsCard(targetLoction),
-                Row(
-                  children: [
-                    TextButton(
-                      child: Text(editorModel.startDate == null
-                          ? "시작날짜 선택"
-                          : "${editorModel.startDate!.year}.${editorModel.startDate!.month}.${editorModel.startDate!.day}"),
-                      onPressed: () async {
-                        editorModel.setStartDate(await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2018),
-                          lastDate: DateTime(2030),
-                          builder: (BuildContext context, Widget? child) {
-                            return Theme(
-                              data: ThemeData.light(),
-                              child: child ?? SizedBox(),
-                            );
-                          },
-                        ));
-                      },
-                    ),
-                    TextButton(
-                      child: Text(editorModel.endDate == null
-                          ? "종료날짜 선택"
-                          : "${editorModel.endDate!.year}.${editorModel.endDate!.month}.${editorModel.endDate!.day}"),
-                      onPressed: () async {
-                        editorModel.setEndDate(await showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2018),
-                          lastDate: DateTime(2030),
-                          builder: (BuildContext context, Widget? child) {
-                            return Theme(
-                              data: ThemeData.light(),
-                              child: child ?? SizedBox(),
-                            );
-                          },
-                        ));
-                      },
-                    ),
-                  ],
-                )
               ];
               return Padding(
                 padding: const EdgeInsets.fromLTRB(
