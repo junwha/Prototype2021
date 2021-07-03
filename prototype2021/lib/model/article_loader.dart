@@ -44,8 +44,15 @@ class ArticleLoader {
     return articleList;
   }
 
-  Future<List<EventPreviewData>> loadEventArticles() async {
-    String url = "http://api.tripbuilder.co.kr/recruitments/events";
+  Future<List<EventPreviewData>> loadEventArticles(
+      ArticleType articleType) async {
+    String url;
+    if (articleType == ArticleType.EVENT) {
+      url = "http://api.tripbuilder.co.kr/recruitments/events";
+    } else {
+      url = "http://api.tripbuilder.co.kr/recruitments/companions";
+    }
+
     try {
       http.Response response = await http.get(Uri.parse(url));
       return parseEventArticle(

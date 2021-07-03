@@ -26,6 +26,7 @@ class EventArticleModel with ChangeNotifier {
   void setArticleType(ArticleType articleType) {
     this.articleType = articleType;
     loadTopArticles();
+    loadArticles();
   }
 
   void loadImages() async {
@@ -50,7 +51,7 @@ class EventArticleModel with ChangeNotifier {
   void loadArticles() async {
     isEventArticleLoading = true;
     // TODO: add token
-    eventArticleList = await articleLoader.loadEventArticles();
+    eventArticleList = await articleLoader.loadEventArticles(this.articleType);
     isEventArticleLoading = false;
     notifyListeners();
   }
