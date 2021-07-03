@@ -14,21 +14,25 @@ class EventArticleModel with ChangeNotifier {
   LatLng? currentPosition;
   List<String>? images;
 
-  bool isEventArticleLoading = false;
-  bool isTopEventArticleLoading = false;
+  bool isEventArticleLoading = false; // Loading flag of Article List
+  bool isTopEventArticleLoading = false; // Loading flag of Top Article List
 
   EventArticleModel() {
-    loadEventArticles();
+    loadArticles();
   }
 
-  EventArticleModel.detail(int id) {
-    loadEventDetail(id);
+  EventArticleModel.eventDetail(int id) {
+    loadDetail(id, ArticleType.EVENT);
+  }
+
+  EventArticleModel.companionDetail(int id) {
+    loadDetail(id, ArticleType.COMPANION);
   }
 
   EventArticleModel.main() {
     // TODO: automatically select current position
 
-    loadTopEventArticles();
+    loadTopArticles();
   }
 
   void loadImages() async {
@@ -39,14 +43,14 @@ class EventArticleModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void loadTopEventArticles() async {
+  void loadTopArticles() async {
     isTopEventArticleLoading = true;
     topEventArticleList = await articleLoader.loadTopEventArticles();
     isTopEventArticleLoading = false;
     notifyListeners();
   }
 
-  void loadEventArticles() async {
+  void loadArticles() async {
     isEventArticleLoading = true;
     // TODO: add token
     eventArticleList = await articleLoader.loadEventArticles();
@@ -54,7 +58,7 @@ class EventArticleModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void loadEventDetail(int id) async {
+  void loadDetail(int id, ArticleType articleType) async {
     // TODO: add token
 
     ArticleDetailData? result = await articleLoader.loadArticleDetail(id);

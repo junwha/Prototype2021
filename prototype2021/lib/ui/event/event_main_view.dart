@@ -121,7 +121,7 @@ class _EventMainViewState extends State<EventMainView> {
                 description: e.summary,
                 due: e.period.end,
                 onEnd: () {
-                  eventArticleModel.loadTopEventArticles();
+                  eventArticleModel.loadTopArticles();
                 },
               ),
             ),

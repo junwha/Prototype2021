@@ -17,7 +17,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     return Scaffold(
       appBar: buildAppBar(),
       body: ChangeNotifierProvider(
-        create: (context) => EventArticleModel.detail(this.widget.id),
+        create: (context) => EventArticleModel.eventDetail(this.widget.id),
         child: Consumer(
             builder: (context, EventArticleModel eventArticleModel, child) {
           return SingleChildScrollView(
