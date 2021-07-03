@@ -95,7 +95,7 @@ class _EventMainViewState extends State<EventMainView> {
               Navigator.push(
                 context,
                 MaterialPageRoute<void>(builder: (BuildContext context) {
-                  return EventArticleView();
+                  return EventArticleView(eventArticleModel);
                 }),
               );
             }),

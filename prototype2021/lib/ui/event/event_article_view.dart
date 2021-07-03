@@ -7,7 +7,8 @@ import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:provider/provider.dart';
 
 class EventArticleView extends StatefulWidget {
-  EventArticleView();
+  EventArticleModel eventArticleModel;
+  EventArticleView(this.eventArticleModel);
 
   @override
   _EventArticleViewState createState() => _EventArticleViewState();
@@ -17,12 +18,17 @@ class _EventArticleViewState extends State<EventArticleView> {
   List<bool> isChecked = [true, false];
 
   @override
+  void initState() {
+    this.widget.eventArticleModel.loadArticles();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
-      body: ChangeNotifierProvider(
-        create: (context) => EventArticleModel(),
+      body: ChangeNotifierProvider.value(
+        value: this.widget.eventArticleModel,
         child: Consumer(
             builder: (context, EventArticleModel eventArticlesModel, child) {
           return Stack(
