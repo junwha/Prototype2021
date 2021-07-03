@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event_article_model.dart';
+import 'package:prototype2021/settings/constants.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
   final int id;
-  const EventDetailView(this.id);
+  EventArticleModel eventArticleModel;
+  EventDetailView(this.id, this.eventArticleModel);
 
   @override
   _EventDetailViewState createState() => _EventDetailViewState();
@@ -13,11 +15,16 @@ class EventDetailView extends StatefulWidget {
 class _EventDetailViewState extends State<EventDetailView> {
   int _pageIndex = 0;
   @override
+  void initState() {
+    this.widget.eventArticleModel.loadDetail(this.widget.id, ArticleType.EVENT);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: ChangeNotifierProvider(
-        create: (context) => EventArticleModel.eventDetail(this.widget.id),
+      body: ChangeNotifierProvider.value(
+        value: this.widget.eventArticleModel,
         child: Consumer(
             builder: (context, EventArticleModel eventArticleModel, child) {
           return SingleChildScrollView(
