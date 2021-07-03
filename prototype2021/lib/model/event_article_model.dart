@@ -17,20 +17,6 @@ class EventArticleModel with ChangeNotifier {
   bool isEventArticleLoading = false; // Loading flag of Article List
   bool isTopEventArticleLoading = false; // Loading flag of Top Article List
 
-  EventArticleModel() {
-    loadArticles();
-  }
-
-  EventArticleModel.eventDetail(int id) {
-    loadDetail(id, ArticleType.EVENT);
-    this.articleType = ArticleType.EVENT;
-  }
-
-  EventArticleModel.companionDetail(int id) {
-    loadDetail(id, ArticleType.COMPANION);
-    this.articleType = ArticleType.COMPANION;
-  }
-
   EventArticleModel.main() {
     // TODO: automatically select current position
 

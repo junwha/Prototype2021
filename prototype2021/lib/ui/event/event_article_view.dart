@@ -15,8 +15,6 @@ class EventArticleView extends StatefulWidget {
 }
 
 class _EventArticleViewState extends State<EventArticleView> {
-  List<bool> isChecked = [true, false];
-
   @override
   void initState() {
     this.widget.eventArticleModel.loadArticles();
@@ -38,11 +36,12 @@ class _EventArticleViewState extends State<EventArticleView> {
               ),
               Container(
                 color: Colors.white,
-                height: 170,
+                height: 190,
                 child: Column(
                   children: [
                     buildTopNotice(),
-                    buildSelectSection(), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
+                    buildSelectSection(
+                        eventArticlesModel), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
                   ],
                 ),
               ),
@@ -120,9 +119,9 @@ class _EventArticleViewState extends State<EventArticleView> {
     );
   }
 
-  Padding buildSelectSection() {
+  Padding buildSelectSection(EventArticleModel articleModel) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 0),
+      padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 30 * pt),
       child: Column(
         children: [
           Row(
@@ -175,21 +174,20 @@ class _EventArticleViewState extends State<EventArticleView> {
                 children: [
                   SelectableTextButton(
                       titleName: "내 주변 이벤트",
-                      isChecked: isChecked[0],
+                      isChecked: articleModel.articleType == ArticleType.EVENT,
                       onPressed: () {
                         setState(() {
-                          isChecked[1] = false;
-                          isChecked[0] = true;
+                          articleModel.setArticleType(ArticleType.EVENT);
                         });
                       }),
                   SizedBox(width: 10),
                   SelectableTextButton(
                       titleName: "동행찾기",
-                      isChecked: isChecked[1],
+                      isChecked:
+                          articleModel.articleType == ArticleType.COMPANION,
                       onPressed: () {
                         setState(() {
-                          isChecked[1] = true;
-                          isChecked[0] = false;
+                          articleModel.setArticleType(ArticleType.COMPANION);
                         });
                       }),
                 ],
