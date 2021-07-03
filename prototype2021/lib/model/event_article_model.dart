@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/article_loader.dart';
 
-class EventArticlesModel with ChangeNotifier {
+class EventArticleModel with ChangeNotifier {
   ArticleLoader articleLoader = ArticleLoader();
   List<EventPreviewData> eventArticleList = [];
   bool isEventArticleLoading = false;
 
-  EventArticlesModel() {
+  EventArticleModel() {
     loadEventArticles();
   }
 

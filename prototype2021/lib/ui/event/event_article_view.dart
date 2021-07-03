@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/event_articles_model.dart';
+import 'package:prototype2021/model/event_article_model.dart';
 import 'package:prototype2021/theme/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/ui/event/event_detail_view.dart';
@@ -17,9 +17,9 @@ class _EventArticleViewState extends State<EventArticleView> {
     return Scaffold(
       appBar: buildAppBar(context),
       body: ChangeNotifierProvider(
-        create: (context) => EventArticlesModel(),
+        create: (context) => EventArticleModel(),
         child: Consumer(
-            builder: (context, EventArticlesModel eventArticlesModel, child) {
+            builder: (context, EventArticleModel eventArticlesModel, child) {
           return SingleChildScrollView(
               child: buildArticles(eventArticlesModel));
         }),
@@ -27,7 +27,7 @@ class _EventArticleViewState extends State<EventArticleView> {
     );
   }
 
-  Widget buildArticles(EventArticlesModel eventArticlesModel) {
+  Widget buildArticles(EventArticleModel eventArticlesModel) {
     if (eventArticlesModel.isEventArticleLoading) return Text("Loading ...");
     return Column(
         children: eventArticlesModel.eventArticleList
