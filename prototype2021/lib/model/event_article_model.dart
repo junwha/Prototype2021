@@ -23,10 +23,12 @@ class EventArticleModel with ChangeNotifier {
 
   EventArticleModel.eventDetail(int id) {
     loadDetail(id, ArticleType.EVENT);
+    this.articleType = ArticleType.EVENT;
   }
 
   EventArticleModel.companionDetail(int id) {
     loadDetail(id, ArticleType.COMPANION);
+    this.articleType = ArticleType.COMPANION;
   }
 
   EventArticleModel.main() {
@@ -61,12 +63,15 @@ class EventArticleModel with ChangeNotifier {
   void loadDetail(int id, ArticleType articleType) async {
     // TODO: add token
 
-    ArticleDetailData? result = await articleLoader.loadArticleDetail(id);
-    if (result == null) {
-      print("Article Load failed"); // TODO: move to exception page
-      return;
-    } else {
-      detailData = result;
+    if (articleType == ArticleType.EVENT) {
+      ArticleDetailData? result =
+          await articleLoader.loadArticleDetail(id, articleType);
+      if (result == null) {
+        print("Article Load failed"); // TODO: move to exception page
+        return;
+      } else {
+        detailData = result;
+      }
     }
     notifyListeners();
   }
