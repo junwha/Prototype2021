@@ -39,11 +39,9 @@ class EventArticleModel with ChangeNotifier {
 
   void loadTopArticles() async {
     isTopEventArticleLoading = true;
-    if (this.articleType == ArticleType.EVENT) {
-      topEventArticleList = await articleLoader.loadTopEventArticles();
-    } else {
-      topEventArticleList = await articleLoader.loadTopEventArticles();
-    }
+    topEventArticleList =
+        await articleLoader.loadTopEventArticles(this.articleType);
+
     isTopEventArticleLoading = false;
     notifyListeners();
   }

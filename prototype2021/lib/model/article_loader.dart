@@ -6,14 +6,20 @@ import 'package:http/http.dart' as http;
 import 'package:prototype2021/settings/constants.dart';
 
 class ArticleLoader {
-  Future<List<EventTimerData>> loadTopEventArticles() async {
-    String url =
-        "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
+  Future<List<EventTimerData>> loadTopEventArticles(
+      ArticleType articleType) async {
+    String url;
+    if (articleType == ArticleType.EVENT)
+      url = "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
+    else
+      url = "http://api.tripbuilder.co.kr/recruitments/companions?page=1";
+    // TOOD: modify this part with top companion api
     try {
       http.Response response = await http.get(Uri.parse(url));
       return parseTopEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
+      print(e);
       print("check internet");
     }
 
