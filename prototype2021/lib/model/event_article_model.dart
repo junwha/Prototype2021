@@ -37,6 +37,11 @@ class EventArticleModel with ChangeNotifier {
     loadTopArticles();
   }
 
+  void setArticleType(ArticleType articleType) {
+    this.articleType = articleType;
+    loadTopArticles();
+  }
+
   void loadImages() async {
     this.images = [
       'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
@@ -47,7 +52,11 @@ class EventArticleModel with ChangeNotifier {
 
   void loadTopArticles() async {
     isTopEventArticleLoading = true;
-    topEventArticleList = await articleLoader.loadTopEventArticles();
+    if (this.articleType == ArticleType.EVENT) {
+      topEventArticleList = await articleLoader.loadTopEventArticles();
+    } else {
+      topEventArticleList = await articleLoader.loadTopEventArticles();
+    }
     isTopEventArticleLoading = false;
     notifyListeners();
   }
