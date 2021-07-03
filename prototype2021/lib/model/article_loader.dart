@@ -26,8 +26,6 @@ class ArticleLoader {
 
     for (Map<String, dynamic> data in jsonData) {
       try {
-        print(data);
-
         articleList.add(EventTimerData(
           data["id"],
           DateTimeRange(
@@ -47,7 +45,7 @@ class ArticleLoader {
   }
 
   Future<List<EventPreviewData>> loadEventArticles() async {
-    String url = "http://api.tripbuilder.co.kr/recruitments/events/";
+    String url = "http://api.tripbuilder.co.kr/recruitments/events";
     try {
       http.Response response = await http.get(Uri.parse(url));
       return parseEventArticle(
@@ -60,13 +58,11 @@ class ArticleLoader {
   }
 
   List<EventPreviewData> parseEventArticle(String jsonString) {
-    dynamic jsonData = jsonDecode(jsonString);
+    Map<String, dynamic> jsonData = jsonDecode(jsonString);
     List<EventPreviewData> articleList = [];
 
-    for (Map<String, dynamic> data in jsonData) {
+    for (Map<String, dynamic> data in jsonData["results"]) {
       try {
-        print(data);
-
         articleList.add(EventPreviewData(
           data["id"],
           data["title"],
@@ -92,7 +88,6 @@ class ArticleLoader {
 
       Map<String, dynamic> data =
           jsonDecode(utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
-      print(utf8.decode(response.bodyBytes));
       try {
         return ArticleDetailData(
             data["id"],
