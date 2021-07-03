@@ -5,16 +5,17 @@ import 'package:prototype2021/settings/constants.dart';
 
 class EventArticleModel with ChangeNotifier {
   ArticleLoader articleLoader = ArticleLoader();
+
+  List<EventTimerData> topEventArticleList = [];
   List<EventPreviewData> eventArticleList = [];
-  bool isEventArticleLoading = false;
   ArticleDetailData? detailData;
 
   ArticleType articleType = ArticleType.EVENT;
   LatLng? currentPosition;
   List<String>? images;
 
+  bool isEventArticleLoading = false;
   bool isTopEventArticleLoading = false;
-  List<EventTimerData> topEventArticleList = [];
 
   EventArticleModel() {
     loadEventArticles();
