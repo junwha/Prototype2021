@@ -64,7 +64,8 @@ class _EventArticleViewState extends State<EventArticleView> {
                     Navigator.push(
                       context,
                       MaterialPageRoute<void>(builder: (BuildContext context) {
-                        return EventDetailView(e.id, eventArticlesModel);
+                        return EventDetailView(e.id, eventArticlesModel,
+                            eventArticlesModel.articleType);
                       }),
                     );
                   },

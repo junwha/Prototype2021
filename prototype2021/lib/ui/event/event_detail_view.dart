@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 class EventDetailView extends StatefulWidget {
   final int id;
   EventArticleModel eventArticleModel;
-  EventDetailView(this.id, this.eventArticleModel);
+  ArticleType articleType;
+  EventDetailView(this.id, this.eventArticleModel, this.articleType);
 
   @override
   _EventDetailViewState createState() => _EventDetailViewState();
@@ -16,7 +17,10 @@ class _EventDetailViewState extends State<EventDetailView> {
   int _pageIndex = 0;
   @override
   void initState() {
-    this.widget.eventArticleModel.loadDetail(this.widget.id, ArticleType.EVENT);
+    this
+        .widget
+        .eventArticleModel
+        .loadDetail(this.widget.id, this.widget.articleType);
   }
 
   @override

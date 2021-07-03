@@ -58,17 +58,16 @@ class EventArticleModel with ChangeNotifier {
 
   void loadDetail(int id, ArticleType articleType) async {
     // TODO: add token
-
-    if (articleType == ArticleType.EVENT) {
-      ArticleDetailData? result =
-          await articleLoader.loadArticleDetail(id, articleType);
-      if (result == null) {
-        print("Article Load failed"); // TODO: move to exception page
-        return;
-      } else {
-        detailData = result;
-      }
+    this.detailData = null;
+    ArticleDetailData? result =
+        await articleLoader.loadArticleDetail(id, articleType);
+    if (result == null) {
+      print("Article Load failed"); // TODO: move to exception page
+      return;
+    } else {
+      detailData = result;
     }
+
     notifyListeners();
   }
 }

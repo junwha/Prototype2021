@@ -90,14 +90,39 @@ class ArticleLoader {
 
   Future<ArticleDetailData?> loadArticleDetail(
       int id, ArticleType articleType) async {
-    String url = "http://api.tripbuilder.co.kr/recruitments/events/$id";
+    String url;
+    if (articleType == ArticleType.EVENT)
+      url = "http://api.tripbuilder.co.kr/recruitments/events/$id";
+    else
+      url = "http://api.tripbuilder.co.kr/recruitments/companions/$id";
     try {
       http.Response response = await http.get(Uri.parse(url));
 
       Map<String, dynamic> data =
           jsonDecode(utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
       try {
-        return EventDetailData(
+        if (articleType == ArticleType.EVENT)
+          return EventDetailData(
+              data["id"],
+              UserData(data["user_data"]["uid"], data["user_data"]["nickname"],
+                  data["user_data"]["profile_photo"]),
+              data["hearts"],
+              data["title"],
+              data["body"],
+              data["recruits"]["no"],
+              data["recruits"]["male"],
+              data["recruits"]["female"],
+              data["ages"]["min"],
+              data["ages"]["max"],
+              DateTimeRange(
+                start: DateTime.parse(data["period"]["start"] ?? ""),
+                end: DateTime.parse(data["period"]["end"] ?? ""),
+              ),
+              LatLng(double.parse(data["coord"]["lat"]),
+                  double.parse(data["coord"]["long"])),
+              data["cid"]);
+        else
+          return CompanionDetailData(
             data["id"],
             UserData(data["user_data"]["uid"], data["user_data"]["nickname"],
                 data["user_data"]["profile_photo"]),
@@ -113,9 +138,8 @@ class ArticleLoader {
               start: DateTime.parse(data["period"]["start"] ?? ""),
               end: DateTime.parse(data["period"]["end"] ?? ""),
             ),
-            LatLng(double.parse(data["coord"]["lat"]),
-                double.parse(data["coord"]["long"])),
-            data["cid"]);
+            data["pid"],
+          );
       } catch (e) {
         print(e);
         print("error occurred");
