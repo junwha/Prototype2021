@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/event_main_model.dart';
+import 'package:prototype2021/model/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
@@ -49,8 +49,9 @@ class _EventMainViewState extends State<EventMainView> {
 
   Widget buildArticleList(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (context) => EventMainModel(),
-      child: Consumer(builder: (context, EventMainModel eventMainModel, child) {
+      create: (context) => EventArticleModel.main(),
+      child: Consumer(
+          builder: (context, EventArticleModel eventArticleModel, child) {
         return Column(
           children: [
             Container(
@@ -71,7 +72,7 @@ class _EventMainViewState extends State<EventMainView> {
                 ),
               ),
             ),
-            buildEventArticles(eventMainModel),
+            buildEventArticles(eventArticleModel),
             TextButton(
                 child: Container(
                     height: 35 * pt,
@@ -101,10 +102,10 @@ class _EventMainViewState extends State<EventMainView> {
     );
   }
 
-  Widget buildEventArticles(EventMainModel eventMainModel) {
-    if (eventMainModel.isTopEventArticleLoading) return Text("Loading ...");
+  Widget buildEventArticles(EventArticleModel eventArticleModel) {
+    if (eventArticleModel.isTopEventArticleLoading) return Text("Loading ...");
     return Column(
-      children: eventMainModel.topEventArticleList
+      children: eventArticleModel.topEventArticleList
           .map(
             (e) => GestureDetector(
               onTap: () {
@@ -120,7 +121,7 @@ class _EventMainViewState extends State<EventMainView> {
                 description: e.summary,
                 due: e.period.end,
                 onEnd: () {
-                  eventMainModel.loadTopEventArticles();
+                  eventArticleModel.loadTopEventArticles();
                 },
               ),
             ),
