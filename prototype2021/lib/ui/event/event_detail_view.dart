@@ -45,7 +45,7 @@ class _EventDetailViewState extends State<EventDetailView> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 buildProfile(eventArticleModel),
-                                bulidPopupMenuButton()
+                                bulidPopupMenuButton(eventArticleModel)
                               ],
                             ),
                             SizedBox(
@@ -187,22 +187,31 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  PopupMenuButton bulidPopupMenuButton() {
+  PopupMenuButton bulidPopupMenuButton(EventArticleModel articleModel) {
     return PopupMenuButton(
-        icon: Icon(
-          Icons.more_vert,
-          color: Colors.black,
+      icon: Icon(
+        Icons.more_vert,
+        color: Colors.black,
+      ),
+      itemBuilder: (context) => [
+        PopupMenuItem(
+          child: Text("글 삭제하기"), //TODO: popupmenuitem을 눌렀을 때 글 삭제 기능 추가
+          value: "DEL",
         ),
-        itemBuilder: (context) => [
-              PopupMenuItem(
-                child: Text("글 삭제하기"), //TODO: popupmenuitem을 눌렀을 때 글 삭제 기능 추가
-                value: 1,
-              ),
-              PopupMenuItem(
-                child: Text("정보 수정하기"), //TODO: popupmenuitem을 눌렀을 때 글 수정 기능 추가
-                value: 2,
-              )
-            ]);
+        PopupMenuItem(
+          child: Text("정보 수정하기"), //TODO: popupmenuitem을 눌렀을 때 글 수정 기능 추가
+          value: "MOD",
+        )
+      ],
+      onSelected: (dynamic value) async {
+        if (value == "DEL") {
+          if (await articleModel.deleteArticle(
+              this.widget.id, this.widget.articleType)) {
+            Navigator.pop(context);
+          }
+        }
+      },
+    );
   }
 
   Column bulidContent(EventArticleModel eventArticleModel) {

@@ -156,6 +156,23 @@ class ArticleLoader {
 
     return null;
   }
+
+  Future<bool> deleteArticle(int id, ArticleType articleType) async {
+    String url;
+    if (articleType == ArticleType.EVENT)
+      url = "http://api.tripbuilder.co.kr/recruitments/events/${id}/";
+    else
+      url = "http://api.tripbuilder.co.kr/recruitments/companions/${id}/";
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      if (response.statusCode == 204) return true;
+      print(response.body);
+    } catch (e) {
+      print(e);
+      print("check internet");
+    }
+    return false;
+  }
 }
 
 class EventTimerData {
