@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/event_detail_model.dart';
+import 'package:prototype2021/model/event_article_model.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
@@ -17,11 +17,11 @@ class _EventDetailViewState extends State<EventDetailView> {
     return Scaffold(
       appBar: buildAppBar(),
       body: ChangeNotifierProvider(
-        create: (context) => EventDetailModel(this.widget.id),
+        create: (context) => EventArticleModel.detail(this.widget.id),
         child: Consumer(
-            builder: (context, EventDetailModel eventDetailModel, child) {
+            builder: (context, EventArticleModel eventArticleModel, child) {
           return SingleChildScrollView(
-            child: eventDetailModel.isLoading
+            child: eventArticleModel.detailData == null
                 ? Text("Loading ...")
                 : Column(
                     children: [
@@ -33,21 +33,21 @@ class _EventDetailViewState extends State<EventDetailView> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                buildProfile(eventDetailModel),
+                                buildProfile(eventArticleModel),
                                 bulidPopupMenuButton()
                               ],
                             ),
                             SizedBox(
                               height: 21,
                             ),
-                            bulidContent(eventDetailModel),
+                            bulidContent(eventArticleModel),
                             SizedBox(
                               height: 30,
                             ),
                             SizedBox(
                               height: 15,
                             ),
-                            buildDetail(eventDetailModel),
+                            buildDetail(eventArticleModel),
                           ],
                         ),
                       ),
@@ -90,7 +90,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Row buildProfile(EventDetailModel eventDetailModel) {
+  Row buildProfile(EventArticleModel eventArticleModel) {
     return Row(
       children: [
         Container(
@@ -107,7 +107,7 @@ class _EventDetailViewState extends State<EventDetailView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              eventDetailModel.data.userData.nickname,
+              eventArticleModel.detailData!.userData.nickname,
               style: TextStyle(
                   fontSize: 17,
                   fontWeight: FontWeight.bold,
@@ -124,7 +124,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Column buildDetail(EventDetailModel eventDetailModel) {
+  Column buildDetail(EventArticleModel eventArticleModel) {
     return Column(
       children: [
         Padding(
@@ -138,13 +138,13 @@ class _EventDetailViewState extends State<EventDetailView> {
                   SizedBox(
                     width: 8,
                   ),
-                  Text('남 ${eventDetailModel.data.male}명'),
+                  Text('남 ${eventArticleModel.detailData!.male}명'),
                   SizedBox(
                     width: 13,
                   ),
                   Image.asset('assets/icons/person_half_red.png'),
                   SizedBox(width: 8),
-                  Text("여 ${eventDetailModel.data.female}2명")
+                  Text("여 ${eventArticleModel.detailData!.female}2명")
                 ],
               ),
               Row(
@@ -154,7 +154,7 @@ class _EventDetailViewState extends State<EventDetailView> {
                     width: 8,
                   ),
                   Text(
-                      '${eventDetailModel.data.minAge}~${eventDetailModel.data.maxAge} 살')
+                      '${eventArticleModel.detailData!.minAge}~${eventArticleModel.detailData!.maxAge} 살')
                 ],
               ),
             ],
@@ -169,7 +169,7 @@ class _EventDetailViewState extends State<EventDetailView> {
             SizedBox(
               width: 8,
             ),
-            Text("${eventDetailModel.data.period.end}")
+            Text("${eventArticleModel.detailData!.period.end}")
           ],
         )
       ],
@@ -194,19 +194,19 @@ class _EventDetailViewState extends State<EventDetailView> {
             ]);
   }
 
-  Column bulidContent(EventDetailModel eventDetailModel) {
+  Column bulidContent(EventArticleModel eventArticleModel) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          eventDetailModel.data.title,
+          eventArticleModel.detailData!.title,
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
         ),
         SizedBox(
           height: 25,
         ),
         Text(
-          eventDetailModel.data.body,
+          eventArticleModel.detailData!.body,
           style: TextStyle(
               fontSize: 19,
               fontWeight: FontWeight.bold,
