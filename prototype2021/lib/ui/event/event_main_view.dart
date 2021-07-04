@@ -10,6 +10,7 @@ import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/ui/event/event_search_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 import 'package:provider/provider.dart';
+import 'package:prototype2021/theme/top_notice.dart';
 
 class EventMainView extends StatefulWidget {
   @override
@@ -37,7 +38,7 @@ class _EventMainViewState extends State<EventMainView> {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  buildTopNotice(),
+                  TopNoticeSlider(),
                   buildSelectSection(
                       eventArticleModel), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
                   buildImageArea(),
@@ -265,27 +266,6 @@ class _EventMainViewState extends State<EventMainView> {
           ),
         ],
       ),
-    );
-  }
-
-  Container buildTopNotice() {
-    return Container(
-      child: Center(
-          child: Row(
-        children: [
-          Image.asset("assets/icons/message_outlined.png"),
-          SizedBox(
-            width: 7,
-          ),
-          Text(
-            "울산광역시 불꽃축제(2021-01-04~2021-02-03",
-            style: TextStyle(fontSize: 17),
-          ),
-        ],
-      )),
-      color: Color.fromRGBO(219, 219, 219, 1),
-      width: double.infinity,
-      height: 20 * pt,
     );
   }
 
