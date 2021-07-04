@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
+import 'package:prototype2021/theme/event_articles.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:prototype2021/ui/event/event_article_view.dart';
 import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/ui/event/event_search_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
@@ -23,6 +23,7 @@ class _EventMainViewState extends State<EventMainView> {
   ];
   int _pageIndex = 0;
   double image_index = 0;
+  bool isAllList = false;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +77,10 @@ class _EventMainViewState extends State<EventMainView> {
           ),
         ),
         buildEventArticles(eventArticleModel),
+        AnimatedContainer(
+          duration: Duration(seconds: 1),
+          child: !isAllList ? SizedBox() : EventArticles(eventArticleModel),
+        ),
         TextButton(
             child: Container(
                 height: 35 * pt,
@@ -92,12 +97,13 @@ class _EventMainViewState extends State<EventMainView> {
                       color: Colors.black54),
                 ))),
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(builder: (BuildContext context) {
-                  return EventArticleView(eventArticleModel);
-                }),
-              );
+              if (!isAllList) {
+                setState(() {
+                  isAllList = true;
+                });
+              } else {
+                // TODO: next page
+              }
             }),
       ],
     );

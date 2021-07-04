@@ -70,6 +70,12 @@ class EventArticleModel with ChangeNotifier {
   }
 
   Future<bool> deleteArticle(int id, ArticleType articleType) async {
-    return await articleLoader.deleteArticle(id, articleType);
+    bool isDelete = await articleLoader.deleteArticle(id, articleType);
+    if (isDelete) {
+      loadTopArticles();
+      loadArticles();
+      notifyListeners();
+    }
+    return isDelete;
   }
 }

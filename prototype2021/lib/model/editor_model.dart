@@ -16,7 +16,7 @@ class EditorModel with ChangeNotifier {
   String femaleRecruitNumber = '0';
   String startAge = '0';
   String endAge = '0';
-  int? pid;
+  int? pid = 1; // TODO: Change to real pid
   int? cid;
   int uid = 0;
   LatLng coord = LatLng(0, 0);

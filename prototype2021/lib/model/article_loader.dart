@@ -12,7 +12,7 @@ class ArticleLoader {
     if (articleType == ArticleType.EVENT)
       url = "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
     else
-      url = "http://api.tripbuilder.co.kr/recruitments/companions?page=1";
+      url = "http://api.tripbuilder.co.kr/recruitments/companions/recommended";
     // TOOD: modify this part with top companion api
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -164,7 +164,7 @@ class ArticleLoader {
     else
       url = "http://api.tripbuilder.co.kr/recruitments/companions/${id}/";
     try {
-      http.Response response = await http.get(Uri.parse(url));
+      http.Response response = await http.delete(Uri.parse(url));
       if (response.statusCode == 204) return true;
       print(response.body);
     } catch (e) {
