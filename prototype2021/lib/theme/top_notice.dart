@@ -8,7 +8,7 @@ class TopNoticeSlider extends StatefulWidget {
 
 class _TopNoticeSlider extends State<TopNoticeSlider> {
   List<String> content = [
-    "울산광역시 불꽃축제(2021-01-04~2021-02-03",
+    "울산광역시 불꽃축제(2021-01-04~2021-02-03)",
     "벚꽃축제 in 울산대공원(2021-04-25~2021-05-01)"
   ];
 
