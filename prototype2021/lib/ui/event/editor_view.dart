@@ -40,121 +40,6 @@ class _EditorViewState extends State<EditorView> {
           child: ChangeNotifierProvider(
             create: (context) => EditorModel(),
             child: Consumer(builder: (context, EditorModel editorModel, child) {
-              var children2 = [
-                CheckboxRow(
-                    value1: editorModel.hasGender,
-                    onChanged1: (bool? value) {
-                      setState(() {
-                        editorModel.hasGender = value ?? false;
-                      });
-                      editorModel.printChanged();
-                    },
-                    value2: editorModel.hasAge,
-                    onChanged2: (bool? value) {
-                      setState(() {
-                        editorModel.hasAge = value ?? false;
-                      });
-                      editorModel.printChanged();
-                    }),
-                CheckBoxWidget(editorModel.hasGender, editorModel.hasAge,
-                    (recruitNumber, maleRecruitNumber, femaleRecruitNumber,
-                        startAge, endAge) {
-                  editorModel.recruitNumber = recruitNumber;
-                  editorModel.maleRecruitNumber = maleRecruitNumber;
-                  editorModel.femaleRecruitNumber = femaleRecruitNumber;
-                  editorModel.startAge = startAge;
-                  editorModel.endAge = endAge;
-                  editorModel.printChanged();
-                }),
-                Column(
-                  children: [
-                    Row(
-                      children: [
-                        Text('여행 시작일', style: TextStyle(fontSize: 13 * pt)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        TextButton(
-                          child: Text(
-                              editorModel.startDate == null
-                                  ? "시작날짜 선택"
-                                  : "${editorModel.startDate!.year}.${editorModel.startDate!.month}.${editorModel.startDate!.day}",
-                              style: TextStyle(
-                                  color: Color.fromRGBO(112, 112, 112, 1),
-                                  fontSize: 13 * pt)),
-                          onPressed: () async {
-                            editorModel.setStartDate(await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2018),
-                              lastDate: DateTime(2030),
-                              builder: (BuildContext context, Widget? child) {
-                                return Theme(
-                                  data: ThemeData.light(),
-                                  child: child ?? SizedBox(),
-                                );
-                              },
-                            ));
-                          },
-                        ),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Text('여행 종료일', style: TextStyle(fontSize: 13 * pt)),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        TextButton(
-                          child: Text(
-                            editorModel.endDate == null
-                                ? "종료날짜 선택"
-                                : "${editorModel.endDate!.year}.${editorModel.endDate!.month}.${editorModel.endDate!.day}",
-                            style: TextStyle(
-                                color: Color.fromRGBO(112, 112, 112, 1),
-                                fontSize: 13 * pt),
-                          ),
-                          onPressed: () async {
-                            editorModel.setEndDate(await showDatePicker(
-                              context: context,
-                              initialDate: DateTime.now(),
-                              firstDate: DateTime(2018),
-                              lastDate: DateTime(2030),
-                              builder: (BuildContext context, Widget? child) {
-                                return Theme(
-                                  data: ThemeData.light(),
-                                  child: child ?? SizedBox(),
-                                );
-                              },
-                            ));
-                          },
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-                //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
-                targetLoction == null
-                    ? TextButton(
-                        child: Text("지도 선택하기",
-                            style: TextStyle(
-                                color: Color.fromRGBO(112, 112, 112, 1),
-                                fontSize: 13 * pt,
-                                fontWeight: FontWeight.bold)),
-                        onPressed: () {
-                          loadLocation();
-                        })
-                    : GestureDetector(
-                        child: MapPreview(location: targetLoction!),
-                        onTap: () {
-                          loadLocation();
-                        },
-                      ),
-                SizedBox(height: 20),
-                targetLoction == null && targetLoction is GooglePlaceLocation
-                    ? SizedBox()
-                    : buildContentsCard(targetLoction),
-              ];
               return Padding(
                 padding: const EdgeInsets.fromLTRB(
                     20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
@@ -192,7 +77,49 @@ class _EditorViewState extends State<EditorView> {
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
                     Column(
-                      children: children2,
+                      children: [
+                        CheckboxRow(
+                            value1: editorModel.hasGender,
+                            onChanged1: (bool? value) {
+                              setState(() {
+                                editorModel.hasGender = value ?? false;
+                              });
+                              editorModel.printChanged();
+                            },
+                            value2: editorModel.hasAge,
+                            onChanged2: (bool? value) {
+                              setState(() {
+                                editorModel.hasAge = value ?? false;
+                              });
+                              editorModel.printChanged();
+                            }),
+                        CheckBoxWidget(
+                            editorModel.hasGender, editorModel.hasAge,
+                            (recruitNumber, maleRecruitNumber,
+                                femaleRecruitNumber, startAge, endAge) {
+                          editorModel.recruitNumber = recruitNumber;
+                          editorModel.maleRecruitNumber = maleRecruitNumber;
+                          editorModel.femaleRecruitNumber = femaleRecruitNumber;
+                          editorModel.startAge = startAge;
+                          editorModel.endAge = endAge;
+                          editorModel.printChanged();
+                        }),
+                        buildDateSelect(editorModel, context),
+                        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
+                        targetLoction == null
+                            ? buildLocationSelect()
+                            : GestureDetector(
+                                child: MapPreview(location: targetLoction!),
+                                onTap: () {
+                                  loadLocation();
+                                },
+                              ),
+                        SizedBox(height: 20),
+                        targetLoction == null &&
+                                targetLoction is GooglePlaceLocation
+                            ? SizedBox()
+                            : buildContentsCard(targetLoction),
+                      ],
                     ),
                   ],
                 ),
@@ -201,6 +128,87 @@ class _EditorViewState extends State<EditorView> {
           ),
         ),
       ),
+    );
+  }
+
+  TextButton buildLocationSelect() {
+    return TextButton(
+        child: Text("지도 선택하기",
+            style: TextStyle(
+                color: Color.fromRGBO(112, 112, 112, 1),
+                fontSize: 13 * pt,
+                fontWeight: FontWeight.bold)),
+        onPressed: () {
+          loadLocation();
+        });
+  }
+
+  Widget buildDateSelect(EditorModel editorModel, BuildContext context) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Text('여행 시작일', style: TextStyle(fontSize: 13 * pt)),
+            SizedBox(
+              width: 15,
+            ),
+            TextButton(
+              child: Text(
+                  editorModel.startDate == null
+                      ? "시작날짜 선택"
+                      : "${editorModel.startDate!.year}.${editorModel.startDate!.month}.${editorModel.startDate!.day}",
+                  style: TextStyle(
+                      color: Color.fromRGBO(112, 112, 112, 1),
+                      fontSize: 13 * pt)),
+              onPressed: () async {
+                editorModel.setStartDate(await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2018),
+                  lastDate: DateTime(2030),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light(),
+                      child: child ?? SizedBox(),
+                    );
+                  },
+                ));
+              },
+            ),
+          ],
+        ),
+        Row(
+          children: [
+            Text('여행 종료일', style: TextStyle(fontSize: 13 * pt)),
+            SizedBox(
+              width: 15,
+            ),
+            TextButton(
+              child: Text(
+                editorModel.endDate == null
+                    ? "종료날짜 선택"
+                    : "${editorModel.endDate!.year}.${editorModel.endDate!.month}.${editorModel.endDate!.day}",
+                style: TextStyle(
+                    color: Color.fromRGBO(112, 112, 112, 1), fontSize: 13 * pt),
+              ),
+              onPressed: () async {
+                editorModel.setEndDate(await showDatePicker(
+                  context: context,
+                  initialDate: DateTime.now(),
+                  firstDate: DateTime(2018),
+                  lastDate: DateTime(2030),
+                  builder: (BuildContext context, Widget? child) {
+                    return Theme(
+                      data: ThemeData.light(),
+                      child: child ?? SizedBox(),
+                    );
+                  },
+                ));
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
