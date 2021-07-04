@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/event_main_model.dart';
+import 'package:prototype2021/model/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
@@ -17,7 +17,6 @@ class EventMainView extends StatefulWidget {
 }
 
 class _EventMainViewState extends State<EventMainView> {
-  List<bool> isChecked = [true, false];
   List<String> images = [
     'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
@@ -31,87 +30,91 @@ class _EventMainViewState extends State<EventMainView> {
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            buildTopNotice(),
-            buildSelectSection(), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
-            buildImageArea(),
-            SizedBox(
-              height: 30,
-            ),
-            buildArticleList(context)
-          ],
+        child: ChangeNotifierProvider(
+          create: (context) => EventArticleModel.main(),
+          child: Consumer(
+            builder: (context, EventArticleModel eventArticleModel, child) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  buildTopNotice(),
+                  buildSelectSection(
+                      eventArticleModel), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
+                  buildImageArea(),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  buildArticleList(eventArticleModel),
+                ],
+              );
+            },
+          ),
         ),
       ),
     );
   }
 
-  Widget buildArticleList(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => EventMainModel(),
-      child: Consumer(builder: (context, EventMainModel eventMainModel, child) {
-        return Column(
-          children: [
-            Container(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "마감 임박 게시글",
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 14 * pt),
-                    ),
-                  ],
+  Widget buildArticleList(EventArticleModel eventArticleModel) {
+    return Column(
+      children: [
+        Container(
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "마감 임박 게시글",
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 14 * pt),
                 ),
-              ),
+              ],
             ),
-            buildEventArticles(eventMainModel),
-            TextButton(
-                child: Container(
-                    height: 35 * pt,
-                    width: 280 * pt,
-                    decoration: BoxDecoration(
-                        border: Border.all(width: 1),
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    child: Center(
-                        child: Text(
-                      "더보기",
-                      style: TextStyle(
-                          fontSize: 15 * pt,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.black54),
-                    ))),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(builder: (BuildContext context) {
-                      return EventArticleView();
-                    }),
-                  );
+          ),
+        ),
+        buildEventArticles(eventArticleModel),
+        TextButton(
+            child: Container(
+                height: 35 * pt,
+                width: 280 * pt,
+                decoration: BoxDecoration(
+                    border: Border.all(width: 1),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                child: Center(
+                    child: Text(
+                  "더보기",
+                  style: TextStyle(
+                      fontSize: 15 * pt,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black54),
+                ))),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute<void>(builder: (BuildContext context) {
+                  return EventArticleView(eventArticleModel);
                 }),
-          ],
-        );
-      }),
+              );
+            }),
+      ],
     );
   }
 
-  Widget buildEventArticles(EventMainModel eventMainModel) {
-    if (eventMainModel.isTopEventArticleLoading) return Text("Loading ...");
+  Widget buildEventArticles(EventArticleModel eventArticleModel) {
+    if (eventArticleModel.isTopEventArticleLoading) return Text("Loading ...");
     return Column(
-      children: eventMainModel.topEventArticleList
+      children: eventArticleModel.topEventArticleList
           .map(
             (e) => GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute<void>(builder: (BuildContext context) {
-                    return EventDetailView(e.id);
+                    return EventDetailView(
+                        e.id, eventArticleModel, eventArticleModel.articleType);
                   }),
                 );
               },
@@ -120,7 +123,7 @@ class _EventMainViewState extends State<EventMainView> {
                 description: e.summary,
                 due: e.period.end,
                 onEnd: () {
-                  eventMainModel.loadTopEventArticles();
+                  eventArticleModel.loadTopArticles();
                 },
               ),
             ),
@@ -165,7 +168,7 @@ class _EventMainViewState extends State<EventMainView> {
     );
   }
 
-  Padding buildSelectSection() {
+  Padding buildSelectSection(EventArticleModel articleModel) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 30 * pt),
       child: Column(
@@ -220,21 +223,20 @@ class _EventMainViewState extends State<EventMainView> {
                 children: [
                   SelectableTextButton(
                       titleName: "내 주변 이벤트",
-                      isChecked: isChecked[0],
+                      isChecked: articleModel.articleType == ArticleType.EVENT,
                       onPressed: () {
                         setState(() {
-                          isChecked[1] = false;
-                          isChecked[0] = true;
+                          articleModel.setArticleType(ArticleType.EVENT);
                         });
                       }),
                   SizedBox(width: 10),
                   SelectableTextButton(
                       titleName: "동행찾기",
-                      isChecked: isChecked[1],
+                      isChecked:
+                          articleModel.articleType == ArticleType.COMPANION,
                       onPressed: () {
                         setState(() {
-                          isChecked[1] = true;
-                          isChecked[0] = false;
+                          articleModel.setArticleType(ArticleType.COMPANION);
                         });
                       }),
                 ],

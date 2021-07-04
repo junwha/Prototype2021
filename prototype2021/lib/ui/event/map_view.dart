@@ -33,8 +33,8 @@ class _MapViewState extends State<MapView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: ChangeNotifierProvider(
-        create: (context) => LocationModel(center: center),
+      body: ChangeNotifierProvider.value(
+        value: LocationModel(center: center),
         child: Consumer(
           builder: (context, LocationModel locationModel, child) {
             return Stack(
