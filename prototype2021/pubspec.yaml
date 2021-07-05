@@ -43,6 +43,9 @@ dependencies:
 
   # Search Bar 
   material_floating_search_bar: ^0.3.4
+
+  # Current location
+  geolocator: ^7.2.0+1
   
 dev_dependencies:
   flutter_test:

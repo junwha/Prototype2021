@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/model/map/location_model.dart';
@@ -15,32 +16,51 @@ class SelectLocationView extends StatefulWidget {
 }
 
 class _SelectLocationViewState extends State<SelectLocationView> {
+  LatLng? center; //TODO(junwha): change to dynamic location
+
+  @override
+  void initState() {
+    initLocation();
+  }
+
+  void initLocation() async {
+    LatLng savedCenter = await Geolocator.getCurrentPosition()
+        .then((value) => LatLng(value.latitude, value.longitude));
+    print(savedCenter);
+    setState(() {
+      center = savedCenter;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: ChangeNotifierProvider(
-        create: (context) =>
-            LocationModel(center: LatLng(0, 0)), // TODO(junwha): remove center
-        child: Consumer(
-          builder: (context, LocationModel locationModel, child) {
-            return Stack(
-              children: [
-                //initial position
-                BackgroundMap(
-                  center: locationModel.center,
-                  model: locationModel,
-                ), //TODO(junwha): change to dynamic location
-                //buildSelectButton(maxHeight),
-                buildContentInfo(locationModel.markerList.focusedLocation),
-                MapSearchBar(locationModel),
-              ],
-            );
-          },
-        ),
-      ),
+      body: center == null
+          ? Text("Loading")
+          : ChangeNotifierProvider(
+              create: (context) =>
+                  LocationModel(center: center!), // TODO(junwha): remove center
+              child: Consumer(
+                builder: (context, LocationModel locationModel, child) {
+                  return Stack(
+                    children: [
+                      //initial position
+                      BackgroundMap(
+                        center: locationModel.center,
+                        model: locationModel,
+                      ), //TODO(junwha): change to dynamic location
+                      //buildSelectButton(maxHeight),
+                      buildContentInfo(
+                          locationModel.markerList.focusedLocation),
+                      MapSearchBar(locationModel),
+                    ],
+                  );
+                },
+              ),
+            ),
     );
   }
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
@@ -12,10 +13,6 @@ import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/model/map/location_model.dart';
 
-//initial position
-const LatLng center =
-    LatLng(35.5437, 129.2563); //TODO(junwha): change to dynamic location
-
 class MapView extends StatefulWidget {
   @override
   _MapViewState createState() => _MapViewState();
@@ -27,33 +24,53 @@ class _MapViewState extends State<MapView> {
   // LatLng? _lastLongPress;
   // TODO(junwha): after all test, place marks here
 
+  //initial position
+  LatLng? center; //TODO(junwha): change to dynamic location
+
+  @override
+  void initState() {
+    initLocation();
+  }
+
+  void initLocation() async {
+    LatLng savedCenter = await Geolocator.getCurrentPosition()
+        .then((value) => LatLng(value.latitude, value.longitude));
+    print(savedCenter);
+    setState(() {
+      center = savedCenter;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     double maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: ChangeNotifierProvider.value(
-        value: LocationModel(center: center),
-        child: Consumer(
-          builder: (context, LocationModel locationModel, child) {
-            return Stack(
-              children: [
-                //initial position
-                BackgroundMap(
-                  center: locationModel.center,
-                  model: locationModel,
-                ), //TODO(junwha): change to dynamic location
-                PlaceInfo(),
-                buildBackButton(context),
-                buildWriteButton(maxHeight),
-                buildContentInfo(locationModel.markerList.focusedLocation),
-                MapSearchBar(locationModel, backButtonEnabled: true),
-              ],
-            );
-          },
-        ),
-      ),
+      body: center == null
+          ? Text("Loading")
+          : ChangeNotifierProvider.value(
+              value: LocationModel(center: center!),
+              child: Consumer(
+                builder: (context, LocationModel locationModel, child) {
+                  return Stack(
+                    children: [
+                      //initial position
+                      BackgroundMap(
+                        center: locationModel.center,
+                        model: locationModel,
+                      ), //TODO(junwha): change to dynamic location
+                      PlaceInfo(),
+                      buildBackButton(context),
+                      buildWriteButton(maxHeight),
+                      buildContentInfo(
+                          locationModel.markerList.focusedLocation),
+                      MapSearchBar(locationModel, backButtonEnabled: true),
+                    ],
+                  );
+                },
+              ),
+            ),
     );
   }
 
