@@ -4,8 +4,12 @@ class CustomTextField extends StatefulWidget {
   String hintText;
   Function(String) onChanged;
   String initialText;
+  int maxLine;
   CustomTextField(
-      {required this.hintText, required this.onChanged, this.initialText = ''});
+      {required this.hintText,
+      required this.onChanged,
+      this.initialText = '',
+      this.maxLine = 1});
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
@@ -30,10 +34,10 @@ class _CustomTextFieldState extends State<CustomTextField> {
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
               contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 11, right: 15),
+                  EdgeInsets.only(left: 15, bottom: 11, top: 30, right: 15),
               hintText: this.widget.hintText),
           onChanged: this.widget.onChanged,
-          maxLines: null,
+          maxLines: this.widget.maxLine,
           keyboardType: TextInputType.multiline,
           enableInteractiveSelection: false,
         )

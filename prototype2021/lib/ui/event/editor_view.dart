@@ -48,6 +48,7 @@ class _EditorViewState extends State<EditorView> {
       targetLocation = args["location"] as Location;
     }
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           child: ChangeNotifierProvider(
@@ -84,12 +85,15 @@ class _EditorViewState extends State<EditorView> {
                         height: 200 * pt,
                         width: 500,
                         color: Colors.white,
-                        child: CustomTextField(
-                          hintText: "내용을 입력하세요.",
-                          onChanged: (String text) {
-                            editorModel.content = text;
-                          },
-                          initialText: editorModel.content,
+                        child: SingleChildScrollView(
+                          child: CustomTextField(
+                            hintText: "내용을 입력하세요.",
+                            onChanged: (String text) {
+                              editorModel.content = text;
+                            },
+                            initialText: editorModel.content,
+                            maxLine: 15,
+                          ),
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
                     buildBottom(editorModel, context),
