@@ -11,13 +11,13 @@ class EditorModel with ChangeNotifier {
   /* General Arguments */
   String title = "";
   String content = "";
-  bool hasAge = false;
-  bool hasGender = false;
-  String recruitNumber = '0';
-  String maleRecruitNumber = '0';
-  String femaleRecruitNumber = '0';
-  String startAge = '0';
-  String endAge = '0';
+  bool hasAge = true;
+  bool hasGender = true;
+  int recruitNumber = 0;
+  int maleRecruitNumber = 0;
+  int femaleRecruitNumber = 0;
+  int startAge = 0;
+  int endAge = 0;
   int uid = 0;
   DateTime? startDate;
   DateTime? endDate;
@@ -47,14 +47,14 @@ class EditorModel with ChangeNotifier {
     if (data.male == -1 || data.female == -1) {
       this.hasAge = false;
     }
-    this.startAge = data.minAge.toString();
-    this.endAge = data.maxAge.toString();
+    this.startAge = data.minAge;
+    this.endAge = data.maxAge;
     if (data.female == -1 || data.male == -1) {
       this.hasGender = false;
     }
-    this.recruitNumber = data.recruit.toString();
-    this.maleRecruitNumber = data.male.toString();
-    this.femaleRecruitNumber = data.female.toString();
+    this.recruitNumber = data.recruit;
+    this.maleRecruitNumber = data.male;
+    this.femaleRecruitNumber = data.female;
     this.uid = data.userData.uid;
     this.startDate = data.period.start;
     this.endDate = data.period.end;

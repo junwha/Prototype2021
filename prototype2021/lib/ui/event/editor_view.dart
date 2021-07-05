@@ -4,7 +4,6 @@ import 'package:prototype2021/model/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/theme/cards/card.dart';
-import 'package:prototype2021/theme/editor/checkbox_widget.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -37,6 +36,9 @@ class _EditorViewState extends State<EditorView> {
   DateTime? chosenDateTime2;
   TextEditingController controlofoto = TextEditingController();
   Location? targetLocation;
+
+  final List<int> recruitList = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  final List<int> ageList = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90];
 
   @override
   Widget build(BuildContext context) {
@@ -123,16 +125,161 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  CheckBoxWidget buildDropdown(EditorModel editorModel) {
-    return CheckBoxWidget(editorModel.hasGender, editorModel.hasAge,
-        (recruitNumber, maleRecruitNumber, femaleRecruitNumber, startAge,
-            endAge) {
-      editorModel.recruitNumber = recruitNumber;
-      editorModel.maleRecruitNumber = maleRecruitNumber;
-      editorModel.femaleRecruitNumber = femaleRecruitNumber;
-      editorModel.startAge = startAge;
-      editorModel.endAge = endAge;
-    });
+  Widget buildDropdown(EditorModel editorModel) {
+    if (!editorModel.hasGender && !editorModel.hasAge) {
+      return Text("");
+    } else if (!editorModel.hasGender) {
+      return Column(
+        children: [
+          buildRecruitmentNumber(editorModel),
+          buildAgeSelection(editorModel),
+        ],
+      );
+    } else if (!editorModel.hasAge) {
+      return Column(
+        children: [
+          buildGenderRecruitment(editorModel),
+        ],
+      );
+    } else {
+      return Column(
+        children: [
+          buildGenderRecruitment(editorModel),
+          buildAgeSelection(editorModel),
+        ],
+      );
+    }
+  }
+
+  Widget buildGenderRecruitment(EditorModel editorModel) {
+    return Row(
+      children: [
+        Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
+        SizedBox(
+          width: 40,
+        ),
+        Text("남", style: TextStyle(fontSize: 13 * pt)),
+        SizedBox(
+          width: 10 * pt,
+        ),
+        DropdownButton<int>(
+          value: editorModel.maleRecruitNumber,
+          items: recruitList.map(
+            (value) {
+              return DropdownMenuItem(
+                value: value,
+                child: Text("$value"),
+              );
+            },
+          ).toList(),
+          onChanged: (int? value) {
+            setState(() {
+              editorModel.maleRecruitNumber = value == null ? 0 : value;
+            });
+          },
+        ),
+        Text("명", style: TextStyle(fontSize: 13 * pt)),
+        SizedBox(
+          width: 20 * pt,
+        ),
+        Text("여", style: TextStyle(fontSize: 13 * pt)),
+        SizedBox(
+          width: 10 * pt,
+        ),
+        DropdownButton<int>(
+          value: editorModel.femaleRecruitNumber,
+          items: recruitList.map(
+            (value) {
+              return DropdownMenuItem(
+                value: value,
+                child: Text("$value"),
+              );
+            },
+          ).toList(),
+          onChanged: (int? value) {
+            setState(() {
+              editorModel.femaleRecruitNumber = value == null ? 0 : value;
+            });
+          },
+        ),
+        Text("명", style: TextStyle(fontSize: 13 * pt))
+      ],
+    );
+  }
+
+  Widget buildAgeSelection(EditorModel editorModel) {
+    return Row(
+      children: [
+        Text("나이", style: TextStyle(fontSize: 13 * pt)),
+        SizedBox(
+          width: 80,
+        ),
+        DropdownButton<int>(
+          value: editorModel.startAge,
+          items: ageList.map(
+            (value) {
+              return DropdownMenuItem(
+                value: value,
+                child: Text("$value"),
+              );
+            },
+          ).toList(),
+          onChanged: (int? value) {
+            setState(() {
+              editorModel.startAge = value == null ? 0 : value;
+            });
+          },
+        ),
+        Text("     ~     "),
+        DropdownButton<int>(
+          value: editorModel.endAge,
+          items: ageList.map(
+            (value) {
+              return DropdownMenuItem(
+                value: value,
+                child: Text("$value"),
+              );
+            },
+          ).toList(),
+          onChanged: (int? value) {
+            setState(() {
+              editorModel.endAge = value == null ? 0 : value;
+            });
+          },
+        ),
+        Text("살", style: TextStyle(fontSize: 13 * pt))
+      ],
+    );
+  }
+
+  Widget buildRecruitmentNumber(EditorModel editorModel) {
+    return Row(children: [
+      Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
+      SizedBox(
+        width: 50,
+      ),
+      Row(
+        children: [
+          DropdownButton<int>(
+            value: editorModel.recruitNumber,
+            items: ageList.map(
+              (value) {
+                return DropdownMenuItem(
+                  value: value,
+                  child: Text("$value"),
+                );
+              },
+            ).toList(),
+            onChanged: (int? value) {
+              setState(() {
+                editorModel.recruitNumber = value == null ? 0 : value;
+              });
+            },
+          ),
+          Text("명", style: TextStyle(fontSize: 13 * pt))
+        ],
+      ),
+    ]);
   }
 
   Row buildCheckBox(EditorModel editorModel) {
@@ -147,10 +294,11 @@ class _EditorViewState extends State<EditorView> {
                 style: TextStyle(
                     fontWeight: FontWeight.normal, fontSize: 13 * pt)),
             Checkbox(
-              value: editorModel.hasGender,
+              value: !editorModel.hasGender,
               onChanged: (bool? onChecked) {
                 setState(() {
                   editorModel.hasGender = !editorModel.hasGender;
+                  print(editorModel.hasGender);
                 });
               },
             ),
@@ -158,7 +306,7 @@ class _EditorViewState extends State<EditorView> {
                 style: TextStyle(
                     fontWeight: FontWeight.normal, fontSize: 13 * pt)),
             Checkbox(
-              value: editorModel.hasAge,
+              value: !editorModel.hasAge,
               onChanged: (bool? onChecked) {
                 setState(() {
                   editorModel.hasAge = !editorModel.hasAge;
