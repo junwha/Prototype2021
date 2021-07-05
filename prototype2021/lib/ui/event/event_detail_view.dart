@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/ui/event/editor_view.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
@@ -200,7 +201,7 @@ class _EventDetailViewState extends State<EventDetailView> {
         ),
         PopupMenuItem(
           child: Text("정보 수정하기"), //TODO: popupmenuitem을 눌렀을 때 글 수정 기능 추가
-          value: "MOD",
+          value: "EDIT",
         )
       ],
       onSelected: (dynamic value) async {
@@ -209,6 +210,11 @@ class _EventDetailViewState extends State<EventDetailView> {
               this.widget.id, this.widget.articleType)) {
             Navigator.pop(context);
           }
+        } else if (value == "EDIT") {
+          Navigator.pushReplacement(context,
+              MaterialPageRoute<void>(builder: (BuildContext context) {
+            return EditorView.edit(articleModel.detailData!);
+          }));
         }
       },
     );
