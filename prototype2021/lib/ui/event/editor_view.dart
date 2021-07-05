@@ -489,18 +489,20 @@ class _EditorViewState extends State<EditorView> {
       ),
       Row(
         children: [
-          PopButton(
-            buttonTitle: "임시저장",
-            listBody: ListBody(
-              children: [
-                Container(
-                  width: 291 * pt,
-                  height: 250 * pt,
-                  child: buildListBodyText(),
+          this.widget.data != null
+              ? SizedBox()
+              : PopButton(
+                  buttonTitle: "임시저장",
+                  listBody: ListBody(
+                    children: [
+                      Container(
+                        width: 291 * pt,
+                        height: 250 * pt,
+                        child: buildListBodyText(),
+                      ),
+                    ],
+                  ),
                 ),
-              ],
-            ),
-          ),
           SizedBox(
             width: 10 * pt,
           ),
