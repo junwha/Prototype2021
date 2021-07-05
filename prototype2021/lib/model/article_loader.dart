@@ -5,6 +5,53 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:prototype2021/settings/constants.dart';
 
+class SearchLoader {
+  Future<List<EventPreviewData>> loadSearchResults(
+      ArticleType articleType) async {
+    String url1;
+    if (articleType == ArticleType.EVENT)
+      url1 =
+          "http://api.tripbuilder.co.kr/recruitments/events/search/json?query";
+    else
+      url1 =
+          'http://api.tripbuilder.co.kr/recruitments/companions/search/json?query';
+
+    try {
+      http.Response response = await http.get(Uri.parse(url1));
+      return searchEventArticle(utf8.decode(response.bodyBytes));
+    } catch (e) {
+      print(e);
+      print("check internet");
+    }
+
+    return [];
+  }
+
+  List<EventPreviewData> searchEventArticle(String jsonString) {
+    Map<String, dynamic> jsonData = jsonDecode(jsonString);
+    List<EventPreviewData> searcharticleList = [];
+
+    for (Map<String, dynamic> data in jsonData["results"]) {
+      try {
+        searcharticleList.add(EventPreviewData(
+          data["id"],
+          data["title"],
+          data["hearts"],
+          data["comments"],
+          DateTimeRange(
+            start: DateTime.parse(data["period"]["start"] ?? ""),
+            end: DateTime.parse(data["period"]["end"] ?? ""),
+          ),
+        ));
+      } catch (e) {
+        print(e);
+        print("error occurred");
+      }
+    }
+    return searcharticleList;
+  }
+}
+
 class ArticleLoader {
   Future<List<EventTimerData>> loadTopEventArticles(
       ArticleType articleType) async {
