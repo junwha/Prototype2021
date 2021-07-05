@@ -76,8 +76,9 @@ class EditorModel with ChangeNotifier {
   Future<bool> writeCompanionArticle(Map<String, dynamic> originData) async {
     originData["pid"] = this.pid;
     var url;
-    url = ENROLL_RECRUITMENTS_COMPANION_API;
+
     if (this.writeType == WriteType.POST) {
+      url = POST_RECRUITMENTS_COMPANION_API;
       return await safePOST(url, originData);
     }
     return false;
@@ -93,9 +94,9 @@ class EditorModel with ChangeNotifier {
     originData["cid"] = this.cid;
 
     var url;
-    url = ENROLL_RECRUITMENTS_EVENT_API;
 
     if (this.writeType == WriteType.POST) {
+      url = POST_RECRUITMENTS_EVENT_API;
       return await safePOST(url, originData);
     }
     return false;
