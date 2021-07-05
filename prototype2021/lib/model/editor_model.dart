@@ -37,21 +37,10 @@ class EditorModel with ChangeNotifier {
 
   EditorModel();
   EditorModel.location(this.location);
-  EditorModel.editEvent(EventDetailData data) {
-    this.writeType = WriteType.PUT;
-    initData(data);
-    this.cid = data.cid;
-    this.location =
-        Location(data.coord, PlaceType.DEFAULT, ""); // TODO: modify this part
-  }
 
-  EditorModel.editCompanion(CompanionDetailData data) {
+  EditorModel.edit(ArticleDetailData data) {
     this.writeType = WriteType.PUT;
-    this.pid = data.pid;
-    initData(data);
-  }
 
-  void initData(ArticleDetailData data) {
     this.title = data.title;
     this.content = data.body;
     if (data.male == -1 || data.female == -1) {
@@ -68,6 +57,21 @@ class EditorModel with ChangeNotifier {
     this.uid = data.userData.uid;
     this.startDate = data.period.start;
     this.endDate = data.period.end;
+
+    if (data is EventDetailData)
+      initEvent(data);
+    else if (data is CompanionDetailData) initCompanion(data);
+  }
+
+  void initEvent(EventDetailData data) {
+    this.writeType = WriteType.PUT;
+    this.cid = data.cid;
+    this.location =
+        Location(data.coord, PlaceType.DEFAULT, ""); // TODO: modify this part
+  }
+
+  void initCompanion(CompanionDetailData data) {
+    this.pid = data.pid;
   }
 
   void setStartDate(DateTime? startDate) {
