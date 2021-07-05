@@ -44,18 +44,18 @@ class EditorModel with ChangeNotifier {
 
     this.title = data.title;
     this.content = data.body;
-    if (data.male == -1 || data.female == -1) {
+    if (data.minAge == -1 || data.maxAge == -1) {
       this.hasAge = false;
     } else {
-      this.maleRecruitNumber = data.male;
-      this.femaleRecruitNumber = data.female;
+      this.startAge = data.minAge;
+      this.endAge = data.maxAge;
     }
     if (data.female == -1 || data.male == -1) {
       this.hasGender = false;
       this.recruitNumber = data.recruit;
     } else {
-      this.startAge = data.minAge;
-      this.endAge = data.maxAge;
+      this.maleRecruitNumber = data.male;
+      this.femaleRecruitNumber = data.female;
     }
 
     this.uid = data.userData.uid;
@@ -113,6 +113,11 @@ class EditorModel with ChangeNotifier {
       originData["recruits"]["female"] = -1;
     } else {
       originData["recruits"]["no"] = -1;
+    }
+
+    if (!this.hasAge) {
+      originData["ages"]["min"] = -1;
+      originData["ages"]["max"] = -1;
     }
 
     if (this.articleType == ArticleType.COMPANION) {
