@@ -211,7 +211,7 @@ class _EventDetailViewState extends State<EventDetailView> {
             Navigator.pop(context);
           }
         } else if (value == "EDIT") {
-          Navigator.pushReplacement(context,
+          Navigator.push(context,
               MaterialPageRoute<void>(builder: (BuildContext context) {
             return EditorView.edit(articleModel.detailData!);
           }));
