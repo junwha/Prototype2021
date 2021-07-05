@@ -156,7 +156,7 @@ class _EventDetailViewState extends State<EventDetailView> {
                   ),
                   Image.asset('assets/icons/person_half_red.png'),
                   SizedBox(width: 8),
-                  Text("여 ${eventArticleModel.detailData!.female}2명")
+                  Text("여 ${eventArticleModel.detailData!.female}명")
                 ],
               ),
               Row(
