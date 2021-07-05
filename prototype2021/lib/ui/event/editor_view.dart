@@ -514,7 +514,7 @@ class _EditorViewState extends State<EditorView> {
             onPressed: () async {
               bool result = await editorModel.writeArticle();
               if (result)
-                Navigator.pop(context);
+                Navigator.pop(context, true);
               else
                 print("Error");
             },

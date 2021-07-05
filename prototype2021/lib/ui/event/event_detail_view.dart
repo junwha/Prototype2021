@@ -211,10 +211,16 @@ class _EventDetailViewState extends State<EventDetailView> {
             Navigator.pop(context);
           }
         } else if (value == "EDIT") {
-          Navigator.push(context,
-              MaterialPageRoute<void>(builder: (BuildContext context) {
-            return EditorView.edit(articleModel.detailData!);
-          }));
+          try {
+            bool result = await Navigator.push(context,
+                MaterialPageRoute<void>(builder: (BuildContext context) {
+              return EditorView.edit(articleModel.detailData!);
+            })) as bool;
+            if (result) {
+              await articleModel.loadDetail(
+                  this.widget.id, this.widget.articleType);
+            }
+          } catch (e) {}
         }
       },
     );
