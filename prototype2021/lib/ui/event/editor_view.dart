@@ -4,7 +4,6 @@ import 'package:prototype2021/model/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/theme/cards/card.dart';
-import 'package:prototype2021/theme/editor/checkbox_row.dart';
 import 'package:prototype2021/theme/editor/checkbox_widget.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
@@ -71,10 +70,11 @@ class _EditorViewState extends State<EditorView> {
                     Container(
                         height: 61 * pt,
                         child: TextFieldForm(
-                            hintText: "제목",
-                            onChanged: (String text) {
-                              editorModel.title = text;
-                            })),
+                          hintText: "제목",
+                          onChanged: (String text) {
+                            editorModel.title = text;
+                          },
+                        )),
                     Container(height: 1, width: 500, color: Colors.grey),
                     Container(
                         alignment: FractionalOffset.topLeft,
@@ -88,49 +88,7 @@ class _EditorViewState extends State<EditorView> {
                           },
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
-                    Column(
-                      children: [
-                        CheckboxRow(
-                            value1: editorModel.hasGender,
-                            onChanged1: (bool? value) {
-                              setState(() {
-                                editorModel.hasGender = value ?? false;
-                              });
-                            },
-                            value2: editorModel.hasAge,
-                            onChanged2: (bool? value) {
-                              setState(() {
-                                editorModel.hasAge = value ?? false;
-                              });
-                            }),
-                        CheckBoxWidget(
-                            editorModel.hasGender, editorModel.hasAge,
-                            (recruitNumber, maleRecruitNumber,
-                                femaleRecruitNumber, startAge, endAge) {
-                          editorModel.recruitNumber = recruitNumber;
-                          editorModel.maleRecruitNumber = maleRecruitNumber;
-                          editorModel.femaleRecruitNumber = femaleRecruitNumber;
-                          editorModel.startAge = startAge;
-                          editorModel.endAge = endAge;
-                        }),
-                        buildDateSelect(editorModel, context),
-                        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
-                        editorModel.location == null
-                            ? buildLocationSelect(editorModel)
-                            : GestureDetector(
-                                child:
-                                    MapPreview(location: editorModel.location!),
-                                onTap: () {
-                                  loadLocation(editorModel);
-                                },
-                              ),
-                        SizedBox(height: 20),
-                        editorModel.location == null &&
-                                editorModel.location is GooglePlaceLocation
-                            ? SizedBox()
-                            : buildContentsCard(editorModel.location),
-                      ],
-                    ),
+                    buildBottom(editorModel, context),
                   ],
                 ),
               );
@@ -138,6 +96,78 @@ class _EditorViewState extends State<EditorView> {
           ),
         ),
       ),
+    );
+  }
+
+  Column buildBottom(EditorModel editorModel, BuildContext context) {
+    return Column(
+      children: [
+        buildCheckBox(editorModel),
+        buildDropdown(editorModel),
+        buildDateSelect(editorModel, context),
+        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
+        editorModel.location == null
+            ? buildLocationSelect(editorModel)
+            : GestureDetector(
+                child: MapPreview(location: editorModel.location!),
+                onTap: () {
+                  loadLocation(editorModel);
+                },
+              ),
+        SizedBox(height: 20),
+        editorModel.location == null &&
+                editorModel.location is GooglePlaceLocation
+            ? SizedBox()
+            : buildContentsCard(editorModel.location),
+      ],
+    );
+  }
+
+  CheckBoxWidget buildDropdown(EditorModel editorModel) {
+    return CheckBoxWidget(editorModel.hasGender, editorModel.hasAge,
+        (recruitNumber, maleRecruitNumber, femaleRecruitNumber, startAge,
+            endAge) {
+      editorModel.recruitNumber = recruitNumber;
+      editorModel.maleRecruitNumber = maleRecruitNumber;
+      editorModel.femaleRecruitNumber = femaleRecruitNumber;
+      editorModel.startAge = startAge;
+      editorModel.endAge = endAge;
+    });
+  }
+
+  Row buildCheckBox(EditorModel editorModel) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text("이벤트 정보",
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14 * pt)),
+        Row(
+          children: [
+            Text("성별무관",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 13 * pt)),
+            Checkbox(
+              value: editorModel.hasGender,
+              onChanged: (bool? onChecked) {
+                setState(() {
+                  editorModel.hasGender = !editorModel.hasGender;
+                });
+              },
+            ),
+            Text("나이무관",
+                style: TextStyle(
+                    fontWeight: FontWeight.normal, fontSize: 13 * pt)),
+            Checkbox(
+              value: editorModel.hasAge,
+              onChanged: (bool? onChecked) {
+                setState(() {
+                  editorModel.hasAge = !editorModel.hasAge;
+                });
+              },
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -251,31 +281,34 @@ class _EditorViewState extends State<EditorView> {
   }
 
   Widget buildTypeToggle(EditorModel editorModel) {
-    return Row(
-      children: [
-        SelectableTextButton(
-            titleName: "내 주변 이벤트",
-            isChecked: articleType[0],
-            onPressed: () {
-              setState(() {
-                editorModel.articleType = ArticleType.EVENT;
-                articleType[1] = false;
-                articleType[0] = true;
-              });
-            }),
-        SizedBox(width: 10),
-        SelectableTextButton(
-            titleName: "동행찾기",
-            isChecked: articleType[1],
-            onPressed: () {
-              setState(() {
-                editorModel.articleType = ArticleType.COMPANION;
-                articleType[1] = true;
-                articleType[0] = false;
-              });
-            })
-      ],
-    );
+    if (this.widget.data == null)
+      return Row(
+        children: [
+          SelectableTextButton(
+              titleName: "내 주변 이벤트",
+              isChecked: articleType[0],
+              onPressed: () {
+                setState(() {
+                  editorModel.articleType = ArticleType.EVENT;
+                  articleType[1] = false;
+                  articleType[0] = true;
+                });
+              }),
+          SizedBox(width: 10),
+          SelectableTextButton(
+              titleName: "동행찾기",
+              isChecked: articleType[1],
+              onPressed: () {
+                setState(() {
+                  editorModel.articleType = ArticleType.COMPANION;
+                  articleType[1] = true;
+                  articleType[0] = false;
+                });
+              })
+        ],
+      );
+
+    return SizedBox();
   }
 
   Widget buildHeaderBar(EditorModel editorModel) {

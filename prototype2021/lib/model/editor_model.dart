@@ -65,6 +65,7 @@ class EditorModel with ChangeNotifier {
   }
 
   void initEvent(EventDetailData data) {
+    this.articleType = ArticleType.EVENT;
     this.writeType = WriteType.PUT;
     this.cid = data.cid;
     this.location =
@@ -72,6 +73,7 @@ class EditorModel with ChangeNotifier {
   }
 
   void initCompanion(CompanionDetailData data) {
+    this.articleType = ArticleType.COMPANION;
     this.pid = data.pid;
   }
 
