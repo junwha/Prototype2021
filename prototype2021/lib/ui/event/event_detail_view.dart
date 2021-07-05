@@ -36,7 +36,6 @@ class _EventDetailViewState extends State<EventDetailView> {
                 ? Text("Loading ...")
                 : Column(
                     children: [
-                      buildTopNotice(),
                       Padding(
                         padding: const EdgeInsets.all(20.0),
                         child: Column(
@@ -233,27 +232,6 @@ class _EventDetailViewState extends State<EventDetailView> {
               color: Color.fromRGBO(85, 85, 85, 1)),
         ),
       ],
-    );
-  }
-
-  Container buildTopNotice() {
-    return Container(
-      child: Center(
-          child: Row(
-        children: [
-          Image.asset("assets/icons/message_outlined.png"),
-          SizedBox(
-            width: 7,
-          ),
-          Text(
-            "울산광역시 불꽃축제(2021-01-04~2021-02-03",
-            style: TextStyle(fontSize: 17),
-          ),
-        ],
-      )),
-      color: Color.fromRGBO(219, 219, 219, 1),
-      width: double.infinity,
-      height: 23,
     );
   }
 }
