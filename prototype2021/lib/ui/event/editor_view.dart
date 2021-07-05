@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:prototype2021/model/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/theme/cards/card.dart';
@@ -13,6 +14,17 @@ import 'package:prototype2021/theme/editor/textfieldform.dart';
 import 'package:provider/provider.dart';
 
 class EditorView extends StatefulWidget {
+  late WriteType writeType;
+  ArticleDetailData? data;
+
+  EditorView() {
+    this.writeType = WriteType.POST;
+  }
+
+  EditorView.edit(ArticleDetailData data) {
+    this.writeType = WriteType.PUT;
+    this.data = data;
+  }
   @override
   _EditorViewState createState() => _EditorViewState();
 }
@@ -39,7 +51,7 @@ class _EditorViewState extends State<EditorView> {
         child: Container(
           child: ChangeNotifierProvider(
             create: (context) => targetLocation == null
-                ? EditorModel()
+                ? getEditorModel(this.widget.writeType)
                 : EditorModel.location(targetLocation),
             child: Consumer(builder: (context, EditorModel editorModel, child) {
               return Padding(
@@ -127,6 +139,16 @@ class _EditorViewState extends State<EditorView> {
         ),
       ),
     );
+  }
+
+  EditorModel getEditorModel(WriteType writeType) {
+    if (writeType == WriteType.POST)
+      return EditorModel();
+    else {
+      //else if (writeType == WriteType.PUT) {
+      if (this.widget.data == null) Navigator.pop(context);
+      return EditorModel.edit(this.widget.data!);
+    }
   }
 
   TextButton buildLocationSelect(EditorModel editorModel) {
