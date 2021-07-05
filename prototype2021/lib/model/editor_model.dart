@@ -46,15 +46,18 @@ class EditorModel with ChangeNotifier {
     this.content = data.body;
     if (data.male == -1 || data.female == -1) {
       this.hasAge = false;
+    } else {
+      this.maleRecruitNumber = data.male;
+      this.femaleRecruitNumber = data.female;
     }
-    this.startAge = data.minAge;
-    this.endAge = data.maxAge;
     if (data.female == -1 || data.male == -1) {
       this.hasGender = false;
+      this.recruitNumber = data.recruit;
+    } else {
+      this.startAge = data.minAge;
+      this.endAge = data.maxAge;
     }
-    this.recruitNumber = data.recruit;
-    this.maleRecruitNumber = data.male;
-    this.femaleRecruitNumber = data.female;
+
     this.uid = data.userData.uid;
     this.startDate = data.period.start;
     this.endDate = data.period.end;
@@ -104,6 +107,14 @@ class EditorModel with ChangeNotifier {
         "end": this.endDate == null ? null : this.endDate!.toIso8601String()
       },
     };
+
+    if (!this.hasGender) {
+      originData["recruits"]["male"] = -1;
+      originData["recruits"]["female"] = -1;
+    } else {
+      originData["recruits"]["no"] = -1;
+    }
+
     if (this.articleType == ArticleType.COMPANION) {
       return await writeCompanionArticle(originData);
     } else if (this.articleType == ArticleType.EVENT) {
