@@ -262,7 +262,7 @@ class _EditorViewState extends State<EditorView> {
         children: [
           DropdownButton<int>(
             value: editorModel.recruitNumber,
-            items: ageList.map(
+            items: recruitList.map(
               (value) {
                 return DropdownMenuItem(
                   value: value,
