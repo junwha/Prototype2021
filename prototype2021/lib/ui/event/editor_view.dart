@@ -8,7 +8,7 @@ import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
-import 'package:prototype2021/theme/editor/textfieldform.dart';
+import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 class EditorView extends StatefulWidget {
@@ -71,7 +71,7 @@ class _EditorViewState extends State<EditorView> {
                     Container(height: 1, width: 500, color: Colors.grey),
                     Container(
                         height: 61 * pt,
-                        child: TextFieldForm(
+                        child: CustomTextField(
                           hintText: "제목",
                           onChanged: (String text) {
                             editorModel.title = text;
@@ -84,7 +84,7 @@ class _EditorViewState extends State<EditorView> {
                         height: 200 * pt,
                         width: 500,
                         color: Colors.white,
-                        child: TextFieldForm(
+                        child: CustomTextField(
                           hintText: "내용을 입력하세요.",
                           onChanged: (String text) {
                             editorModel.content = text;

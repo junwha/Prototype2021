@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-class TextFieldForm extends StatefulWidget {
+class CustomTextField extends StatefulWidget {
   String hintText;
   Function(String) onChanged;
   String initialText;
-  TextFieldForm(
+  CustomTextField(
       {required this.hintText, required this.onChanged, this.initialText = ''});
 
   @override
-  _TextFieldFormState createState() => _TextFieldFormState();
+  _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
-class _TextFieldFormState extends State<TextFieldForm> {
+class _CustomTextFieldState extends State<CustomTextField> {
   TextEditingController? _controller;
 
   @override
