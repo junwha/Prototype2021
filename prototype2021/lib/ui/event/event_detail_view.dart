@@ -220,25 +220,28 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Column bulidContent(EventArticleModel eventArticleModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          eventArticleModel.detailData!.title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
-        ),
-        SizedBox(
-          height: 25,
-        ),
-        Text(
-          eventArticleModel.detailData!.body,
-          style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(85, 85, 85, 1)),
-        ),
-      ],
+  Widget bulidContent(EventArticleModel eventArticleModel) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            eventArticleModel.detailData!.title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+            eventArticleModel.detailData!.body,
+            style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(85, 85, 85, 1)),
+          ),
+        ],
+      ),
     );
   }
 
