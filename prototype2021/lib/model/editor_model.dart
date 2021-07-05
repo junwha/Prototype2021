@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:prototype2021/model/map/location.dart';
 import 'dart:convert';
 
 import 'package:prototype2021/settings/constants.dart';
@@ -19,11 +20,12 @@ class EditorModel with ChangeNotifier {
   int? pid = 1; // TODO: Change to real pid
   int? cid;
   int uid = 0;
-  LatLng coord = LatLng(0, 0);
   DateTime? startDate;
   DateTime? endDate;
+  Location? location;
 
   EditorModel();
+  EditorModel.location(this.location);
 
   void printChanged() {}
 
@@ -61,8 +63,12 @@ class EditorModel with ChangeNotifier {
       url = Uri.parse(ENROL_RECRUITMENTS_COMPANION_API);
     } else if (this.articleType == ArticleType.EVENT) {
       originData["coord"] = {
-        "lat": this.coord.latitude.toString(),
-        "long": this.coord.longitude.toString()
+        "lat": location == null
+            ? 0
+            : this.location!.latLng.latitude.toString().substring(0, 9),
+        "long": location == null
+            ? 0
+            : this.location!.latLng.longitude.toString().substring(0, 9)
       };
       originData["cid"] = this.cid;
       url = Uri.parse(ENROL_RECRUITMENTS_EVENT_API);

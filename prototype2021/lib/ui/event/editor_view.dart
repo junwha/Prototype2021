@@ -25,20 +25,22 @@ class _EditorViewState extends State<EditorView> {
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
   TextEditingController controlofoto = TextEditingController();
-  Location? targetLoction;
+  Location? targetLocation;
 
   @override
   Widget build(BuildContext context) {
     final Map<String, Object>? args =
         ModalRoute.of(context)!.settings.arguments as Map<String, Object>?;
     if (args != null && args.containsKey("location")) {
-      targetLoction = args["location"] as Location;
+      targetLocation = args["location"] as Location;
     }
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
           child: ChangeNotifierProvider(
-            create: (context) => EditorModel(),
+            create: (context) => targetLocation == null
+                ? EditorModel()
+                : EditorModel.location(targetLocation),
             child: Consumer(builder: (context, EditorModel editorModel, child) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(
@@ -106,19 +108,20 @@ class _EditorViewState extends State<EditorView> {
                         }),
                         buildDateSelect(editorModel, context),
                         //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
-                        targetLoction == null
-                            ? buildLocationSelect()
+                        editorModel.location == null
+                            ? buildLocationSelect(editorModel)
                             : GestureDetector(
-                                child: MapPreview(location: targetLoction!),
+                                child:
+                                    MapPreview(location: editorModel.location!),
                                 onTap: () {
-                                  loadLocation();
+                                  loadLocation(editorModel);
                                 },
                               ),
                         SizedBox(height: 20),
-                        targetLoction == null &&
-                                targetLoction is GooglePlaceLocation
+                        editorModel.location == null &&
+                                editorModel.location is GooglePlaceLocation
                             ? SizedBox()
-                            : buildContentsCard(targetLoction),
+                            : buildContentsCard(editorModel.location),
                       ],
                     ),
                   ],
@@ -131,7 +134,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  TextButton buildLocationSelect() {
+  TextButton buildLocationSelect(EditorModel editorModel) {
     return TextButton(
         child: Text("지도 선택하기",
             style: TextStyle(
@@ -139,7 +142,7 @@ class _EditorViewState extends State<EditorView> {
                 fontSize: 13 * pt,
                 fontWeight: FontWeight.bold)),
         onPressed: () {
-          loadLocation();
+          loadLocation(editorModel);
         });
   }
 
@@ -213,8 +216,8 @@ class _EditorViewState extends State<EditorView> {
   }
 
   Widget buildContentsCard(Location? targetLocation) {
-    if (targetLoction is GooglePlaceLocation) {
-      GooglePlaceLocation location = targetLoction as GooglePlaceLocation;
+    if (targetLocation is GooglePlaceLocation) {
+      GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
       return ContentsCard(
         preview: location.preview,
         title: location.name,
@@ -331,13 +334,13 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  void loadLocation() async {
+  void loadLocation(EditorModel editorModel) async {
     Location? location =
         (await Navigator.pushNamed(context, "select_location")) as Location?;
 
     if (location != null) {
       setState(() {
-        this.targetLoction = location;
+        editorModel.location = location;
         print(location.latLng);
       });
     }
