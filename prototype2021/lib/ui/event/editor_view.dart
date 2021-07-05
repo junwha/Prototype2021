@@ -62,7 +62,6 @@ class _EditorViewState extends State<EditorView> {
                             hintText: "제목",
                             onChanged: (String text) {
                               editorModel.title = text;
-                              editorModel.printChanged();
                             })),
                     Container(height: 1, width: 500, color: Colors.grey),
                     Container(
@@ -74,7 +73,6 @@ class _EditorViewState extends State<EditorView> {
                           hintText: "내용을 입력하세요.",
                           onChanged: (String text) {
                             editorModel.content = text;
-                            editorModel.printChanged();
                           },
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
@@ -86,14 +84,12 @@ class _EditorViewState extends State<EditorView> {
                               setState(() {
                                 editorModel.hasGender = value ?? false;
                               });
-                              editorModel.printChanged();
                             },
                             value2: editorModel.hasAge,
                             onChanged2: (bool? value) {
                               setState(() {
                                 editorModel.hasAge = value ?? false;
                               });
-                              editorModel.printChanged();
                             }),
                         CheckBoxWidget(
                             editorModel.hasGender, editorModel.hasAge,
@@ -104,7 +100,6 @@ class _EditorViewState extends State<EditorView> {
                           editorModel.femaleRecruitNumber = femaleRecruitNumber;
                           editorModel.startAge = startAge;
                           editorModel.endAge = endAge;
-                          editorModel.printChanged();
                         }),
                         buildDateSelect(editorModel, context),
                         //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
