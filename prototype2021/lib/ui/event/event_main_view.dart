@@ -6,6 +6,7 @@ import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/event_articles.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:prototype2021/ui/event/editor_view.dart';
 import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/ui/event/event_search_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
@@ -263,8 +264,18 @@ class _EventMainViewState extends State<EventMainView> {
                     width: 40,
                     height: 40,
                   ),
-                  onPressed: () {
-                    Navigator.pushNamed(context, "editor");
+                  onPressed: () async {
+                    try {
+                      bool result = await Navigator.push(context,
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) {
+                        return EditorView();
+                      })) as bool;
+                      if (result) {
+                        articleModel.loadTopArticles();
+                        articleModel.loadArticles();
+                      }
+                    } catch (e) {}
                   },
                 )
               ]),

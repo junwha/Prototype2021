@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/ui/event/editor_view.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
@@ -154,7 +155,7 @@ class _EventDetailViewState extends State<EventDetailView> {
                   ),
                   Image.asset('assets/icons/person_half_red.png'),
                   SizedBox(width: 8),
-                  Text("여 ${eventArticleModel.detailData!.female}2명")
+                  Text("여 ${eventArticleModel.detailData!.female}명")
                 ],
               ),
               Row(
@@ -199,7 +200,7 @@ class _EventDetailViewState extends State<EventDetailView> {
         ),
         PopupMenuItem(
           child: Text("정보 수정하기"), //TODO: popupmenuitem을 눌렀을 때 글 수정 기능 추가
-          value: "MOD",
+          value: "EDIT",
         )
       ],
       onSelected: (dynamic value) async {
@@ -208,30 +209,44 @@ class _EventDetailViewState extends State<EventDetailView> {
               this.widget.id, this.widget.articleType)) {
             Navigator.pop(context);
           }
+        } else if (value == "EDIT") {
+          try {
+            bool result = await Navigator.push(context,
+                MaterialPageRoute<void>(builder: (BuildContext context) {
+              return EditorView.edit(articleModel.detailData!);
+            })) as bool;
+            if (result) {
+              await articleModel.loadDetail(
+                  this.widget.id, this.widget.articleType);
+            }
+          } catch (e) {}
         }
       },
     );
   }
 
-  Column bulidContent(EventArticleModel eventArticleModel) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          eventArticleModel.detailData!.title,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
-        ),
-        SizedBox(
-          height: 25,
-        ),
-        Text(
-          eventArticleModel.detailData!.body,
-          style: TextStyle(
-              fontSize: 19,
-              fontWeight: FontWeight.bold,
-              color: Color.fromRGBO(85, 85, 85, 1)),
-        ),
-      ],
+  Widget bulidContent(EventArticleModel eventArticleModel) {
+    return Container(
+      width: double.infinity,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            eventArticleModel.detailData!.title,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 21),
+          ),
+          SizedBox(
+            height: 25,
+          ),
+          Text(
+            eventArticleModel.detailData!.body,
+            style: TextStyle(
+                fontSize: 19,
+                fontWeight: FontWeight.bold,
+                color: Color.fromRGBO(85, 85, 85, 1)),
+          ),
+        ],
+      ),
     );
   }
 }

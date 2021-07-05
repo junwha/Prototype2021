@@ -9,7 +9,6 @@ void main() {
     //Don't touch here. route map is in 'main_page.dart'
     MaterialApp(home: EventMainView(), routes: {
       'select_location': (context) => SelectLocationView(),
-      'editor': (context) => EditorView(),
       'map': (context) => MapView(),
       //'/main': (context) => MainPage(),
     }),
