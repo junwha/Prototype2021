@@ -76,6 +76,7 @@ class _EditorViewState extends State<EditorView> {
                           onChanged: (String text) {
                             editorModel.title = text;
                           },
+                          initialText: editorModel.title,
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
                     Container(
@@ -88,6 +89,7 @@ class _EditorViewState extends State<EditorView> {
                           onChanged: (String text) {
                             editorModel.content = text;
                           },
+                          initialText: editorModel.content,
                         )),
                     Container(height: 1, width: 500, color: Colors.grey),
                     buildBottom(editorModel, context),

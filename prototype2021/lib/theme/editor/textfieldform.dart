@@ -3,20 +3,29 @@ import 'package:flutter/material.dart';
 class TextFieldForm extends StatefulWidget {
   String hintText;
   Function(String) onChanged;
-  TextFieldForm({required this.hintText, required this.onChanged});
+  String initialText;
+  TextFieldForm(
+      {required this.hintText, required this.onChanged, this.initialText = ''});
 
   @override
   _TextFieldFormState createState() => _TextFieldFormState();
 }
 
 class _TextFieldFormState extends State<TextFieldForm> {
-  String inputText = '';
+  TextEditingController? _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = new TextEditingController(text: this.widget.initialText);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Text('$inputText'),
         TextField(
+          controller: _controller,
           decoration: new InputDecoration(
               border: InputBorder.none,
               focusedBorder: InputBorder.none,
