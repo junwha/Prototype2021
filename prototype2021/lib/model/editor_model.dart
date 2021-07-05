@@ -7,6 +7,7 @@ import 'dart:convert';
 import 'package:prototype2021/settings/constants.dart';
 
 class EditorModel with ChangeNotifier {
+  /* General Arguments */
   String title = "";
   String content = "";
   bool hasAge = false;
@@ -17,12 +18,21 @@ class EditorModel with ChangeNotifier {
   String femaleRecruitNumber = '0';
   String startAge = '0';
   String endAge = '0';
-  int? pid = 1; // TODO: Change to real pid
-  int? cid;
   int uid = 0;
   DateTime? startDate;
   DateTime? endDate;
+
+  WriteType writeType = WriteType.POST;
+
+  /* For COMPANION */
+  int? pid = 1; // TODO: Change to real pid
+
+  /* For EVENT */
+  int? cid;
   Location? location;
+
+  /* For PATCH, PUT and TEMP */
+  int? articleId;
 
   EditorModel();
   EditorModel.location(this.location);
@@ -55,23 +65,20 @@ class EditorModel with ChangeNotifier {
             this.startDate == null ? null : this.startDate!.toIso8601String(),
         "end": this.endDate == null ? null : this.endDate!.toIso8601String()
       },
-      "pid": null
     };
+
     var url;
     if (this.articleType == ArticleType.COMPANION) {
       originData["pid"] = this.pid;
-      url = Uri.parse(ENROL_RECRUITMENTS_COMPANION_API);
+      url = Uri.parse(ENROLL_RECRUITMENTS_COMPANION_API);
     } else if (this.articleType == ArticleType.EVENT) {
+      if (location == null) return false;
       originData["coord"] = {
-        "lat": location == null
-            ? 0
-            : this.location!.latLng.latitude.toString().substring(0, 9),
-        "long": location == null
-            ? 0
-            : this.location!.latLng.longitude.toString().substring(0, 9)
+        "lat": this.location!.latLng.latitude.toString().substring(0, 9),
+        "long": this.location!.latLng.longitude.toString().substring(0, 9)
       };
       originData["cid"] = this.cid;
-      url = Uri.parse(ENROL_RECRUITMENTS_EVENT_API);
+      url = Uri.parse(ENROLL_RECRUITMENTS_EVENT_API);
     }
     try {
       var response = await http.post(url,
@@ -82,7 +89,6 @@ class EditorModel with ChangeNotifier {
                 "ZrWI7Mf1KMz2WYJjQqo3H30l25UdY4bPcP3RthSlRMoUj7hGxz5Vp6fBWKS0n235"
           },
           body: jsonEncode(originData));
-      print(response.statusCode);
       print(response.body);
       if (response.statusCode == 201) return true;
     } catch (e) {
@@ -90,4 +96,11 @@ class EditorModel with ChangeNotifier {
     }
     return false;
   }
+}
+
+enum WriteType {
+  POST,
+  PUT,
+  PATCH,
+  TEMP,
 }
