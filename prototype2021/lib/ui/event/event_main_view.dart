@@ -263,11 +263,18 @@ class _EventMainViewState extends State<EventMainView> {
                     width: 40,
                     height: 40,
                   ),
-                  onPressed: () {
-                    Navigator.push(context, MaterialPageRoute<void>(
-                        builder: (BuildContext context) {
-                      return EditorView();
-                    }));
+                  onPressed: () async {
+                    try {
+                      bool result = await Navigator.push(context,
+                          MaterialPageRoute<void>(
+                              builder: (BuildContext context) {
+                        return EditorView();
+                      })) as bool;
+                      if (result) {
+                        articleModel.loadTopArticles();
+                        articleModel.loadArticles();
+                      }
+                    } catch (e) {}
                   },
                 )
               ]),
