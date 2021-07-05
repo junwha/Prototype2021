@@ -456,7 +456,19 @@ class _EditorViewState extends State<EditorView> {
         ],
       );
 
-    return SizedBox();
+    return Container(
+      width: double.maxFinite,
+      child: Row(
+        children: [
+          SelectableTextButton(
+            titleName: editorModel.articleType == ArticleType.EVENT
+                ? "내 주변 이벤트"
+                : "동행찾기",
+            isChecked: articleType[0],
+          ),
+        ],
+      ),
+    );
   }
 
   Widget buildHeaderBar(EditorModel editorModel) {
