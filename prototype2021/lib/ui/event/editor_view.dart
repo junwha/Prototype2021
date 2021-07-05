@@ -127,7 +127,7 @@ class _EditorViewState extends State<EditorView> {
 
   Widget buildDropdown(EditorModel editorModel) {
     if (!editorModel.hasGender && !editorModel.hasAge) {
-      return Text("");
+      return buildRecruitmentNumber(editorModel);
     } else if (!editorModel.hasGender) {
       return Column(
         children: [
