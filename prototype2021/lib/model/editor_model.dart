@@ -39,6 +39,7 @@ class EditorModel with ChangeNotifier {
   EditorModel.location(this.location);
 
   EditorModel.edit(ArticleDetailData data) {
+    this.articleId = data.id;
     this.writeType = WriteType.PUT;
 
     this.title = data.title;
