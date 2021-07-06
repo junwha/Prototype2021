@@ -7,7 +7,7 @@ import 'package:prototype2021/model/map/location.dart';
 
 import 'package:prototype2021/theme/map/marker.dart';
 
-class LocationModel with ChangeNotifier {
+class ContentLocationModel with ChangeNotifier {
   List<Location> locations = [];
   Location? clickedLocation;
 
@@ -28,7 +28,7 @@ class LocationModel with ChangeNotifier {
 
   bool placeLoaded = false;
 
-  LocationModel({required this.center}) {
+  ContentLocationModel({required this.center}) {
     init();
   }
 
