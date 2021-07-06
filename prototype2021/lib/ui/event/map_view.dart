@@ -11,7 +11,7 @@ import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
 import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/model/map/content_location_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -50,9 +50,9 @@ class _MapViewState extends State<MapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider.value(
-              value: LocationModel(center: center!),
+              value: ContentLocationModel(center: center!),
               child: Consumer(
-                builder: (context, LocationModel locationModel, child) {
+                builder: (context, ContentLocationModel locationModel, child) {
                   return Stack(
                     children: [
                       //initial position
