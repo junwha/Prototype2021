@@ -1,31 +1,84 @@
 import 'package:flutter/cupertino.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:prototype2021/model/article_loader.dart';
+import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/safe_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
 
 class EditorModel with ChangeNotifier {
+  /* General Arguments */
   String title = "";
   String content = "";
-  bool hasAge = false;
-  bool hasGender = false;
-  ArticleType articleType = ArticleType.EVENT;
-  String recruitNumber = '0';
-  String maleRecruitNumber = '0';
-  String femaleRecruitNumber = '0';
-  String startAge = '0';
-  String endAge = '0';
-  int? pid = 1; // TODO: Change to real pid
-  int? cid;
+  bool hasAge = true;
+  bool hasGender = true;
+  int recruitNumber = 0;
+  int maleRecruitNumber = 0;
+  int femaleRecruitNumber = 0;
+  int startAge = 0;
+  int endAge = 0;
   int uid = 0;
-  LatLng coord = LatLng(0, 0);
   DateTime? startDate;
   DateTime? endDate;
 
-  EditorModel();
+  WriteType writeType = WriteType.POST;
+  ArticleType articleType = ArticleType.EVENT;
 
-  void printChanged() {}
+  /* For COMPANION */
+  int? pid = 1; // TODO: Change to real pid
+
+  /* For EVENT */
+  int? cid;
+  Location? location;
+
+  /* For PATCH, PUT and TEMP */
+  int? articleId;
+
+  EditorModel();
+  EditorModel.location(this.location);
+
+  EditorModel.edit(ArticleDetailData data) {
+    this.articleId = data.id;
+    this.writeType = WriteType.PUT;
+
+    this.title = data.title;
+    this.content = data.body;
+    if (data.minAge == -1 || data.maxAge == -1) {
+      this.hasAge = false;
+    } else {
+      this.startAge = data.minAge;
+      this.endAge = data.maxAge;
+    }
+    if (data.female == -1 || data.male == -1) {
+      this.hasGender = false;
+      this.recruitNumber = data.recruit;
+    } else {
+      this.maleRecruitNumber = data.male;
+      this.femaleRecruitNumber = data.female;
+    }
+
+    this.uid = data.userData.uid;
+    this.startDate = data.period.start;
+    this.endDate = data.period.end;
+
+    if (data is EventDetailData)
+      initEvent(data);
+    else if (data is CompanionDetailData) initCompanion(data);
+  }
+
+  void initEvent(EventDetailData data) {
+    this.articleType = ArticleType.EVENT;
+    this.writeType = WriteType.PUT;
+    this.cid = data.cid;
+    this.location =
+        Location(data.coord, PlaceType.DEFAULT, ""); // TODO: modify this part
+  }
+
+  void initCompanion(CompanionDetailData data) {
+    this.articleType = ArticleType.COMPANION;
+    this.pid = data.pid;
+  }
 
   void setStartDate(DateTime? startDate) {
     this.startDate = startDate;
@@ -53,35 +106,71 @@ class EditorModel with ChangeNotifier {
             this.startDate == null ? null : this.startDate!.toIso8601String(),
         "end": this.endDate == null ? null : this.endDate!.toIso8601String()
       },
-      "pid": null
     };
-    var url;
-    if (this.articleType == ArticleType.COMPANION) {
-      originData["pid"] = this.pid;
-      url = Uri.parse(ENROL_RECRUITMENTS_COMPANION_API);
-    } else if (this.articleType == ArticleType.EVENT) {
-      originData["coord"] = {
-        "lat": this.coord.latitude.toString(),
-        "long": this.coord.longitude.toString()
-      };
-      originData["cid"] = this.cid;
-      url = Uri.parse(ENROL_RECRUITMENTS_EVENT_API);
+
+    if (!this.hasGender) {
+      originData["recruits"]["male"] = -1;
+      originData["recruits"]["female"] = -1;
+    } else {
+      originData["recruits"]["no"] = -1;
     }
-    try {
-      var response = await http.post(url,
-          headers: {
-            "accept": "application/json",
-            "Content-Type": "application/json",
-            "X-CSRFToken":
-                "ZrWI7Mf1KMz2WYJjQqo3H30l25UdY4bPcP3RthSlRMoUj7hGxz5Vp6fBWKS0n235"
-          },
-          body: jsonEncode(originData));
-      print(response.statusCode);
-      print(response.body);
-      if (response.statusCode == 201) return true;
-    } catch (e) {
-      print("Unexpected Error occurred");
+
+    if (!this.hasAge) {
+      originData["ages"]["min"] = -1;
+      originData["ages"]["max"] = -1;
+    }
+
+    if (this.articleType == ArticleType.COMPANION) {
+      return await writeCompanionArticle(originData);
+    } else if (this.articleType == ArticleType.EVENT) {
+      return await writeEventArticle(originData);
+    }
+
+    return false;
+  }
+
+  Future<bool> writeCompanionArticle(Map<String, dynamic> originData) async {
+    originData["pid"] = this.pid;
+    var url;
+
+    if (this.writeType == WriteType.POST) {
+      url = POST_RECRUITMENTS_COMPANION_API;
+      return await safePOST(url, originData);
+    } else if (this.writeType == WriteType.PUT) {
+      if (articleId == null) return false;
+      url =
+          "http://api.tripbuilder.co.kr/recruitments/companions/${articleId!}/";
+      return await safePUT(url, originData);
     }
     return false;
   }
+
+  Future<bool> writeEventArticle(Map<String, dynamic> originData) async {
+    if (location == null) return false;
+    originData["coord"] = {
+      "lat": this.location!.latLng.latitude.toString().substring(0, 9),
+      "long": this.location!.latLng.longitude.toString().substring(0, 9)
+    };
+
+    originData["cid"] = this.cid;
+
+    var url;
+
+    if (this.writeType == WriteType.POST) {
+      url = POST_RECRUITMENTS_EVENT_API;
+      return await safePOST(url, originData);
+    } else if (this.writeType == WriteType.PUT) {
+      if (articleId == null) return false;
+      url = "http://api.tripbuilder.co.kr/recruitments/events/${articleId!}/";
+      return await safePUT(url, originData);
+    }
+    return false;
+  }
+}
+
+enum WriteType {
+  POST,
+  PUT,
+  PATCH,
+  TEMP,
 }

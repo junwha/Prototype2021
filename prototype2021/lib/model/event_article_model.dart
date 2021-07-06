@@ -54,7 +54,7 @@ class EventArticleModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void loadDetail(int id, ArticleType articleType) async {
+  Future<void> loadDetail(int id, ArticleType articleType) async {
     // TODO: add token
     this.detailData = null;
     ArticleDetailData? result =
