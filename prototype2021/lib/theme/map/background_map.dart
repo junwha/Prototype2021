@@ -7,8 +7,13 @@ import 'package:prototype2021/model/map/content_location_model.dart';
 class BackgroundMap extends StatefulWidget {
   LatLng center;
   ContentLocationModel model;
-
-  BackgroundMap({required this.center, required this.model});
+  Function(CameraPosition cameraPostion)? onCameraMove;
+  Function(LatLng pos)? onTap;
+  BackgroundMap(
+      {required this.center,
+      required this.model,
+      this.onCameraMove,
+      this.onTap});
   @override
   _BackgroundMapState createState() => _BackgroundMapState();
 }
@@ -44,17 +49,8 @@ class _BackgroundMapState extends State<BackgroundMap> {
               ),
             },
             markers: this.widget.model.markers,
-            onCameraMove: (CameraPosition cameraPostion) {
-              this.widget.model.updateBearing(cameraPostion.bearing);
-              this.widget.model.center = cameraPostion.target;
-            },
-            onTap: (LatLng pos) {
-              if (this.widget.model.isFocused()) {
-                this.widget.model.removeFocus();
-              } else {
-                this.widget.model.findPlace(pos);
-              }
-            },
+            onCameraMove: this.widget.onCameraMove,
+            onTap: this.widget.onTap,
           );
   }
 }

@@ -59,6 +59,17 @@ class _MapViewState extends State<MapView> {
                       BackgroundMap(
                         center: locationModel.center,
                         model: locationModel,
+                        onCameraMove: (CameraPosition cameraPostion) {
+                          locationModel.updateBearing(cameraPostion.bearing);
+                          locationModel.center = cameraPostion.target;
+                        },
+                        onTap: (LatLng pos) {
+                          if (locationModel.isFocused()) {
+                            locationModel.removeFocus();
+                          } else {
+                            locationModel.findPlace(pos);
+                          }
+                        },
                       ), //TODO(junwha): change to dynamic location
                       PlaceInfo(),
                       buildBackButton(context),
