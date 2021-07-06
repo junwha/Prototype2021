@@ -59,6 +59,8 @@ class _MapViewState extends State<MapView> {
                       BackgroundMap(
                         center: locationModel.center,
                         model: locationModel,
+                        markers: locationModel.markers,
+                        load: locationModel.mapLoaded,
                         onCameraMove: (CameraPosition cameraPostion) {
                           locationModel.updateBearing(cameraPostion.bearing);
                           locationModel.center = cameraPostion.target;

@@ -51,6 +51,8 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                       BackgroundMap(
                         center: locationModel.center,
                         model: locationModel,
+                        markers: locationModel.markers,
+                        load: locationModel.mapLoaded,
                       ), //TODO(junwha): change to dynamic location
                       //buildSelectButton(maxHeight),
                       buildContentInfo(
