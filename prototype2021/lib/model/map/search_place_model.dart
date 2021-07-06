@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 import 'package:prototype2021/model/map/location_model.dart';
-import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/google_place_loader.dart';
 import 'package:prototype2021/model/map/place_data.dart';
 
 import 'package:prototype2021/settings/constants.dart';

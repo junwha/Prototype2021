@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/google_place_loader.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:flutter/material.dart';
 
@@ -20,6 +20,7 @@ class MarkerList {
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
   MarkerList();
+
   /*
   * Initialize marker image. if image loaded completely, call notifyListeners
   */
