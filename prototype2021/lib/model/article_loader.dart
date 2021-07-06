@@ -6,6 +6,28 @@ import 'package:http/http.dart' as http;
 import 'package:prototype2021/settings/constants.dart';
 
 class ArticleLoader {
+  Future<List<EventPreviewData>> loadSearchResults(
+      String text, ArticleType articleType) async {
+    String url;
+    if (articleType == ArticleType.EVENT)
+      url =
+          "http://api.tripbuilder.co.kr/recruitments/events/search/?query=$text&page=1";
+    else
+      url =
+          'http://api.tripbuilder.co.kr/recruitments/companions/search/?query=$text&page=1';
+
+    try {
+      http.Response response = await http.get(Uri.parse(url));
+      print(response.body);
+      return parseEventArticle(utf8.decode(response.bodyBytes));
+    } catch (e) {
+      print(e);
+      print("check internet");
+    }
+
+    return [];
+  }
+
   Future<List<EventTimerData>> loadTopEventArticles(
       ArticleType articleType) async {
     String url;
