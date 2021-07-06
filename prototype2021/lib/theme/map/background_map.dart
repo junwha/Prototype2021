@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/model/map/content_location_model.dart';
 
 class BackgroundMap extends StatefulWidget {
   LatLng center;
-  LocationModel model;
+  Function(CameraPosition cameraPostion)? onCameraMove;
+  Function(LatLng pos)? onTap;
+  Set<Marker> markers;
+  bool load;
 
-  BackgroundMap({required this.center, required this.model});
+  BackgroundMap(
+      {required this.center,
+      required this.markers,
+      this.load = true,
+      this.onCameraMove,
+      this.onTap});
   @override
   _BackgroundMapState createState() => _BackgroundMapState();
 }
@@ -23,18 +31,17 @@ class _BackgroundMapState extends State<BackgroundMap> {
 
   void _onMapCreated(GoogleMapController controller) async {
     mapController = controller;
-    this.widget.model.mapController = controller;
   }
 
   @override
   Widget build(BuildContext context) {
-    return !this.widget.model.mapLoaded
+    return !this.widget.load
         ? Text("Loading...")
         : GoogleMap(
             onMapCreated: _onMapCreated,
             initialCameraPosition: CameraPosition(
               //Set initial Camera Position
-              target: this.widget.model.center,
+              target: this.widget.center,
               zoom: 18.0,
             ),
             gestureRecognizers: //Gesture Detectors
@@ -43,18 +50,9 @@ class _BackgroundMapState extends State<BackgroundMap> {
                 () => EagerGestureRecognizer(),
               ),
             },
-            markers: this.widget.model.markers,
-            onCameraMove: (CameraPosition cameraPostion) {
-              this.widget.model.updateBearing(cameraPostion.bearing);
-              this.widget.model.center = cameraPostion.target;
-            },
-            onTap: (LatLng pos) {
-              if (this.widget.model.isFocused()) {
-                this.widget.model.removeFocus();
-              } else {
-                this.widget.model.findPlace(pos);
-              }
-            },
+            markers: this.widget.markers,
+            onCameraMove: this.widget.onCameraMove,
+            onTap: this.widget.onTap,
           );
   }
 }

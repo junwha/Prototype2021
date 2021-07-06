@@ -11,7 +11,7 @@ import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
 import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/model/map/content_location_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -50,15 +50,27 @@ class _MapViewState extends State<MapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider.value(
-              value: LocationModel(center: center!),
+              value: ContentLocationModel(center: center!),
               child: Consumer(
-                builder: (context, LocationModel locationModel, child) {
+                builder: (context, ContentLocationModel locationModel, child) {
                   return Stack(
                     children: [
                       //initial position
                       BackgroundMap(
                         center: locationModel.center,
-                        model: locationModel,
+                        markers: locationModel.markers,
+                        load: locationModel.mapLoaded,
+                        onCameraMove: (CameraPosition cameraPostion) {
+                          locationModel.updateBearing(cameraPostion.bearing);
+                          locationModel.center = cameraPostion.target;
+                        },
+                        onTap: (LatLng pos) {
+                          if (locationModel.isFocused()) {
+                            locationModel.removeFocus();
+                          } else {
+                            locationModel.findPlace(pos);
+                          }
+                        },
                       ), //TODO(junwha): change to dynamic location
                       PlaceInfo(),
                       buildBackButton(context),
