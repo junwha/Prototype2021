@@ -140,6 +140,7 @@ class ContentLocationModel with ChangeNotifier {
   void updateMarkers() {
     markerList.removeAll();
     markerList.addMarkerList(locations);
+    notifyListeners();
   }
 
   void updateCenter(LatLng center) {

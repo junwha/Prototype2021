@@ -45,12 +45,14 @@ class MarkerList {
   * Add markers on the locations in location list
   */
   void addMarkerList(List<Location> locationList) {
+    print("Draw marker start");
     // print(markerIcon);
     for (Location location in locationList) {
       if (location is GooglePlaceLocation) {
         addMarker(location);
       }
     }
+    print("Draw marker end");
   }
 
   /*
