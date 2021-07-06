@@ -6,7 +6,6 @@ import 'package:prototype2021/model/map/content_location_model.dart';
 
 class BackgroundMap extends StatefulWidget {
   LatLng center;
-  ContentLocationModel model;
   Function(CameraPosition cameraPostion)? onCameraMove;
   Function(LatLng pos)? onTap;
   Set<Marker> markers;
@@ -14,7 +13,6 @@ class BackgroundMap extends StatefulWidget {
 
   BackgroundMap(
       {required this.center,
-      required this.model,
       required this.markers,
       this.load = true,
       this.onCameraMove,
