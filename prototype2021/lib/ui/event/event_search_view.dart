@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:prototype2021/model/article_loader.dart';
 import 'package:prototype2021/model/search_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/recruit_card.dart';
@@ -15,6 +16,7 @@ class EventSearchView extends StatefulWidget {
 }
 
 class _EventSearchViewState extends State<EventSearchView> {
+  List<EventPreviewData> previewData = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,17 +42,7 @@ class _EventSearchViewState extends State<EventSearchView> {
                               ],
                             ),
                           )
-                        : Padding(
-                            padding: EdgeInsets.only(top: 50),
-                            child: Column(
-                              children: searchArticleModel.articleList
-                                  .map((e) => RecruitCard(
-                                      title: e.title,
-                                      hasContents: false,
-                                      range: e.period))
-                                  .toList(),
-                            ),
-                          ),
+                        : buildArticleSection(searchArticleModel),
                     buildFloatingSearchBar(searchArticleModel),
                     IconButton(
                         onPressed: () {
@@ -61,6 +53,43 @@ class _EventSearchViewState extends State<EventSearchView> {
                 );
               },
             )),
+      ),
+    );
+  }
+
+  Padding buildArticleSection(SearchArticleModel searchArticleModel) {
+    return Padding(
+      padding: EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          Row(children: [
+            Expanded(
+                child: TextButton(
+              child: Text("이벤트"),
+              onPressed: () {
+                setState(() {
+                  this.previewData = searchArticleModel.eventArticleList;
+                });
+              },
+            )),
+            Expanded(
+                child: TextButton(
+              child: Text("동행찾기"),
+              onPressed: () {
+                setState(() {
+                  this.previewData = searchArticleModel.companionArticleList;
+                });
+              },
+            ))
+          ]),
+          Column(
+            children: this
+                .previewData
+                .map((e) => RecruitCard(
+                    title: e.title, hasContents: false, range: e.period))
+                .toList(),
+          ),
+        ],
       ),
     );
   }
@@ -95,6 +124,9 @@ class _EventSearchViewState extends State<EventSearchView> {
       onSubmitted: (query) {
         // Call your model, bloc, controller here.
         searchArticleModel.searchArticles(query);
+        setState(() {
+          this.previewData = searchArticleModel.eventArticleList;
+        });
       },
       onFocusChanged: (bool focus) {},
       // Specify a custom transition to be used for

@@ -5,13 +5,17 @@ import 'package:prototype2021/settings/constants.dart';
 
 class SearchArticleModel with ChangeNotifier {
   ArticleLoader articleLoader = ArticleLoader();
-  List<EventPreviewData> articleList = [];
+  List<EventPreviewData> eventArticleList = [];
+  List<EventPreviewData> companionArticleList = [];
   ArticleType articleType = ArticleType.EVENT;
   bool loading = false;
 
   void searchArticles(String text) async {
     loading = true;
-    articleList = await articleLoader.loadSearchResults(text, articleType);
+    eventArticleList =
+        await articleLoader.loadSearchResults(text, ArticleType.EVENT);
+    companionArticleList =
+        await articleLoader.loadSearchResults(text, ArticleType.COMPANION);
     loading = false;
     notifyListeners();
   }
