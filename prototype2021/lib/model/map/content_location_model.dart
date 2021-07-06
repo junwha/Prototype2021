@@ -26,7 +26,7 @@ class ContentLocationModel with ChangeNotifier {
 
   int radius = 1500;
 
-  bool placeLoaded = false;
+  bool placeLoaded = true;
 
   ContentLocationModel({required this.center}) {
     init();
