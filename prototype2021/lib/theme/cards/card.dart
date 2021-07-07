@@ -109,15 +109,15 @@ class _ContentsCardState extends State<ContentsCard> {
                     widget.title,
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      fontSize: 18.0,
+                      fontSize: 20.0,
                       color: const Color.fromARGB(255, 112, 112, 112),
                     ),
                   ),
-                  SizedBox(height: 3),
+                  SizedBox(height: 6),
                   Text(
                     widget.place,
                     style: TextStyle(
-                      fontSize: 9,
+                      fontSize: 12,
                       fontWeight: FontWeight.bold,
                       color: const Color.fromARGB(255, 112, 112, 112),
                     ),
@@ -136,7 +136,7 @@ class _ContentsCardState extends State<ContentsCard> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 9),
+                  SizedBox(height: 7),
                   Row(
                     children: [
                       Flex(
@@ -482,7 +482,7 @@ List<Widget> tagMethod(bool isSelected, List<String> tags) {
         tags[index],
         style: TextStyle(
           fontWeight: FontWeight.bold,
-          fontSize: 10,
+          fontSize: 12,
           color: const Color(0xff707070),
         ),
       ),
