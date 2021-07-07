@@ -52,6 +52,17 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                         center: locationModel.center,
                         markers: locationModel.markers,
                         load: locationModel.mapLoaded,
+                        onCameraMove: (CameraPosition cameraPostion) {
+                          locationModel.updateBearing(cameraPostion.bearing);
+                          locationModel.center = cameraPostion.target;
+                        },
+                        onTap: (LatLng pos) {
+                          if (locationModel.isFocused()) {
+                            locationModel.removeFocus();
+                          } else {
+                            locationModel.findPlace(pos);
+                          }
+                        },
                       ), //TODO(junwha): change to dynamic location
                       //buildSelectButton(maxHeight),
                       buildContentInfo(
