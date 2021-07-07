@@ -113,23 +113,42 @@ class _MapViewState extends State<MapView> {
           children: [
             Container(
               color: Colors.white,
-              height: 60,
+              height: 72,
               child: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text(
-                      "컨텐츠",
-                      style:
-                          TextStyle(fontSize: 17, fontWeight: FontWeight.bold),
+                    Row(
+                      children: [
+                        SizedBox(
+                          width: 8,
+                        ),
+                        Text(
+                          "컨텐츠",
+                          style: TextStyle(
+                              fontSize: 21, fontWeight: FontWeight.bold),
+                        ),
+                      ],
                     ),
                     TextButton(
                       style: TextButton.styleFrom(
                         primary: Colors.black,
                       ),
                       child: Row(
-                        children: [Icon(Icons.article_outlined), Text("글 쓰기")],
+                        children: [
+                          Image.asset("assets/icons/editor.png"),
+                          SizedBox(
+                            width: 9,
+                          ),
+                          Text(
+                            "글 쓰기",
+                            style: TextStyle(
+                                fontSize: 16,
+                                color: Color.fromRGBO(85, 85, 85, 1),
+                                fontWeight: FontWeight.bold),
+                          )
+                        ],
                       ),
                       onPressed: () {
                         Navigator.pushNamed(context, "editor",
@@ -149,7 +168,7 @@ class _MapViewState extends State<MapView> {
                 explanation: "TEMP",
                 rating: 1,
                 ratingNumbers: 5,
-                tags: ["asdf"],
+                tags: ["액티비티", "인생사진", "sns핫플"],
                 clickable: false,
                 margin: const EdgeInsets.symmetric(vertical: 0),
               ),
