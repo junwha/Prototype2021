@@ -12,48 +12,121 @@ class BoardMainView extends StatefulWidget {
 class _BoardMainViewState extends State<BoardMainView> {
   @override
   Widget build(BuildContext context) {
+    final List<String> _tabs = <String>['Pla ', 'Content'];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: DefaultTabController(
         initialIndex: 1,
         length: 2,
-        child: Container(
-          child: Column(
-            children: [
-              buildCurrentLocation(),
-              TabBar(
-                unselectedLabelColor: Color(0xffbdbdbd),
-                labelColor: Colors.black,
-                indicatorColor: Colors.black,
-                indicatorWeight: 1 * pt,
-                tabs: [
-                  Tab(
-                    child: Text(
-                      '플랜',
-                      style: TextStyle(
-                        fontSize: 15 * pt,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                  Tab(
-                    child: Text(
-                      '컨텐츠',
-                      style: TextStyle(
-                        fontSize: 15 * pt,
-                        fontFamily: 'Roboto',
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
+        child: NestedScrollView(
+          headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
+            return <Widget>[
+              SliverAppBar(
+                backgroundColor: Colors.grey[100],
+                title: buildCurrentLocation(),
+              ),
+              SliverAppBar(
+                elevation: 0,
+                pinned: true,
+                backgroundColor: Colors.white,
+                title: buildTabBar(),
+              ),
+            ];
+          },
+          body: TabBarView(children: [
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
+                  Text("플랜"),
+                  SizedBox(height: 100),
                 ],
               ),
-            ],
-          ),
+            ),
+            SingleChildScrollView(
+              child: Column(
+                children: [
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                  Text("컨텐츠"),
+                  SizedBox(height: 100),
+                ],
+              ),
+            ),
+          ]),
         ),
       ),
+    );
+  }
+
+  Widget buildTabBar() {
+    return TabBar(
+      unselectedLabelColor: Color(0xffbdbdbd),
+      labelColor: Colors.black,
+      indicatorColor: Colors.black,
+      indicatorWeight: 1 * pt,
+      tabs: [
+        Tab(
+          child: Container(
+            child: Text(
+              '플랜',
+              style: TextStyle(
+                fontSize: 15 * pt,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+        Tab(
+          child: Text(
+            '컨텐츠',
+            style: TextStyle(
+              fontSize: 15 * pt,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -90,38 +163,41 @@ class _BoardMainViewState extends State<BoardMainView> {
 }
 
 Widget buildCurrentLocation() {
-  return Padding(
-    padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 29 * pt),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        TextButton(
-          child: Row(
-            children: [
-              Text(
-                '국내 전체',
-                style: TextStyle(
-                  color: Color(0xff444444),
-                  fontSize: 24 * pt,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
+  return Container(
+    color: Colors.white,
+    child: Padding(
+      padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 29 * pt),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TextButton(
+            child: Row(
+              children: [
+                Text(
+                  '국내 전체',
+                  style: TextStyle(
+                    color: Color(0xff444444),
+                    fontSize: 24 * pt,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
-              ),
-              SizedBox(width: 10 * pt),
-              ImageIcon(
-                AssetImage("assets/icons/ic_area_arrow_down_unfold.png"),
-                color: Colors.black,
-                size: 14 * pt,
-              ),
-            ],
+                SizedBox(width: 10 * pt),
+                ImageIcon(
+                  AssetImage("assets/icons/ic_area_arrow_down_unfold.png"),
+                  color: Colors.black,
+                  size: 14 * pt,
+                ),
+              ],
+            ),
+            onPressed: () {},
           ),
-          onPressed: () {},
-        ),
-        IconButton(
-          onPressed: () {},
-          icon: Image.asset("assets/icons/ic_filter_gray.png"),
-        ),
-      ],
+          IconButton(
+            onPressed: () {},
+            icon: Image.asset("assets/icons/ic_filter_gray.png"),
+          ),
+        ],
+      ),
     ),
   );
 }
