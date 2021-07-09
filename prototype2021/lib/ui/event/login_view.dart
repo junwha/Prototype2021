@@ -119,125 +119,12 @@ class _LoginViewState extends State<LoginView> {
                             decoration: BoxDecoration(
                               color: const Color(0xff4080ff),
                             ))),
-                    Center(
-                      child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                        "assets/icons/ic_login_kakao.png"),
-                                    Text("카카오 로그인",
-                                        style: const TextStyle(
-                                            color: const Color(0xff555555),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "Roboto",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 12.0),
-                                        textAlign: TextAlign.left)
-                                  ],
-                                )),
-                            TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                        "assets/icons/ic_login_naver.png"),
-                                    Text("네이버 로그인",
-                                        style: const TextStyle(
-                                            color: const Color(0xff555555),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "Roboto",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 12.0),
-                                        textAlign: TextAlign.left)
-                                  ],
-                                )),
-                            TextButton(
-                                onPressed: () {},
-                                child: Row(
-                                  children: [
-                                    Image.asset(
-                                        "assets/icons/ic_login_facebook.png"),
-                                    Text("페이스북 로그인",
-                                        style: const TextStyle(
-                                            color: const Color(0xff555555),
-                                            fontWeight: FontWeight.w400,
-                                            fontFamily: "Roboto",
-                                            fontStyle: FontStyle.normal,
-                                            fontSize: 12.0),
-                                        textAlign: TextAlign.left)
-                                  ],
-                                ))
-                          ]),
-                    ),
+                    buildSocialLoginButtons(),
                     SizedBox(
                       height: 80,
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "아이디 찾기",
-                              style: TextStyle(
-                                  color: const Color(0xff555555),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                            )),
-                        Container(
-                            width: 0,
-                            height: 18,
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: const Color(0xff555555), width: 1))),
-                        TextButton(
-                            onPressed: () {},
-                            child: Text(
-                              "비밀번호 찾기",
-                              style: TextStyle(
-                                  color: const Color(0xff555555),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 12.0),
-                            ))
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text("트립빌더가 처음이신가요?",
-                            style: const TextStyle(
-                                color: const Color(0xff999999),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Roboto",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            textAlign: TextAlign.left),
-                        TextButton(
-                            onPressed: () {},
-                            child: Row(
-                              children: [
-                                Text("회원가입",
-                                    style: const TextStyle(
-                                        color: const Color(0xff000000),
-                                        fontWeight: FontWeight.w400,
-                                        fontFamily: "Roboto",
-                                        fontStyle: FontStyle.normal,
-                                        fontSize: 12.0),
-                                    textAlign: TextAlign.left),
-                                Image.asset(
-                                    "assets/icons/ic_small_arrow_right.png"),
-                              ],
-                            ))
-                      ],
-                    )
+                    buildFindIDPW(),
+                    buildSignin(),
                   ],
                 );
               }),
@@ -303,6 +190,124 @@ class _LoginViewState extends State<LoginView> {
                 fontSize: 24.0,
                 letterSpacing: 3),
             textAlign: TextAlign.left),
+      ],
+    );
+  }
+
+  Center buildSocialLoginButtons() {
+    return Center(
+      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                Image.asset("assets/icons/ic_login_kakao.png"),
+                Text("카카오 로그인",
+                    style: const TextStyle(
+                        color: const Color(0xff555555),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left)
+              ],
+            )),
+        TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                Image.asset("assets/icons/ic_login_naver.png"),
+                Text("네이버 로그인",
+                    style: const TextStyle(
+                        color: const Color(0xff555555),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left)
+              ],
+            )),
+        TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                Image.asset("assets/icons/ic_login_facebook.png"),
+                Text("페이스북 로그인",
+                    style: const TextStyle(
+                        color: const Color(0xff555555),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left)
+              ],
+            ))
+      ]),
+    );
+  }
+
+  Row buildFindIDPW() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        TextButton(
+            onPressed: () {},
+            child: Text(
+              "아이디 찾기",
+              style: TextStyle(
+                  color: const Color(0xff555555),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            )),
+        Container(
+            width: 0,
+            height: 18,
+            decoration: BoxDecoration(
+                border: Border.all(color: const Color(0xff555555), width: 1))),
+        TextButton(
+            onPressed: () {},
+            child: Text(
+              "비밀번호 찾기",
+              style: TextStyle(
+                  color: const Color(0xff555555),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+            ))
+      ],
+    );
+  }
+
+  Row buildSignin() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text("트립빌더가 처음이신가요?",
+            style: const TextStyle(
+                color: const Color(0xff999999),
+                fontWeight: FontWeight.w400,
+                fontFamily: "Roboto",
+                fontStyle: FontStyle.normal,
+                fontSize: 12.0),
+            textAlign: TextAlign.left),
+        TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                Text("회원가입",
+                    style: const TextStyle(
+                        color: const Color(0xff000000),
+                        fontWeight: FontWeight.w400,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 12.0),
+                    textAlign: TextAlign.left),
+                Image.asset("assets/icons/ic_small_arrow_right.png"),
+              ],
+            ))
       ],
     );
   }
