@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/model/map/google_place_loader.dart';
 import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 
 import 'package:prototype2021/theme/map/marker.dart';
 
-class LocationModel with ChangeNotifier {
+class ContentLocationModel with ChangeNotifier {
   List<Location> locations = [];
   Location? clickedLocation;
 
@@ -26,9 +26,9 @@ class LocationModel with ChangeNotifier {
 
   int radius = 1500;
 
-  bool placeLoaded = false;
+  bool placeLoaded = true;
 
-  LocationModel({required this.center}) {
+  ContentLocationModel({required this.center}) {
     init();
   }
 
@@ -140,6 +140,7 @@ class LocationModel with ChangeNotifier {
   void updateMarkers() {
     markerList.removeAll();
     markerList.addMarkerList(locations);
+    notifyListeners();
   }
 
   void updateCenter(LatLng center) {

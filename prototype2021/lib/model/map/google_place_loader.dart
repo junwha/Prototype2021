@@ -92,16 +92,13 @@ class PlaceLoader {
   * Find nearby places from [center] with specified types
   */
   Future<List<GooglePlaceData>> getGooglePlaces(List typeList,
-      {int radius = 500}) async {
+      {int radius = 1000}) async {
     List<GooglePlaceData> placeList = [];
     int initialRadius = 500;
-    int i = 1;
-    while (initialRadius * i <= radius && placeList.length < 10) {
-      for (String type in typeList) {
-        placeList.addAll(await getGooglePlace(type, radius: initialRadius * i));
-      }
-      i++;
+    for (String type in typeList) {
+      placeList.addAll(await getGooglePlace(type, radius: radius));
     }
+
     return placeList;
   }
 
