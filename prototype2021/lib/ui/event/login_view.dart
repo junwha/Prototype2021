@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/model/login_model.dart';
 import 'package:provider/provider.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -24,6 +25,9 @@ class _LoginViewState extends State<LoginView> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(
+                      height: 70,
+                    ),
                     buildText(),
                     SizedBox(
                       height: 27,
@@ -76,7 +80,7 @@ class _LoginViewState extends State<LoginView> {
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Roboto",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 13.0),
+                                fontSize: 13.0 * pt),
                             textAlign: TextAlign.left),
                         SizedBox(
                           width: 10,
@@ -93,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                                 fontWeight: FontWeight.w400,
                                 fontFamily: "Roboto",
                                 fontStyle: FontStyle.normal,
-                                fontSize: 13.0),
+                                fontSize: 13.0 * pt),
                             textAlign: TextAlign.left),
                       ],
                     ),
@@ -121,7 +125,7 @@ class _LoginViewState extends State<LoginView> {
                             ))),
                     buildSocialLoginButtons(),
                     SizedBox(
-                      height: 80,
+                      height: 60,
                     ),
                     buildFindIDPW(),
                     buildSignin(),
@@ -146,7 +150,7 @@ class _LoginViewState extends State<LoginView> {
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
-                fontSize: 15.0),
+                fontSize: 16.0 * pt),
             textAlign: TextAlign.left));
   }
 
@@ -154,16 +158,13 @@ class _LoginViewState extends State<LoginView> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 90,
-        ),
         Text("쉽고 간편한 여행",
             style: const TextStyle(
                 color: const Color(0xff000000),
                 fontWeight: FontWeight.w700,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
-                fontSize: 24.0,
+                fontSize: 22.0 * pt,
                 letterSpacing: 3),
             textAlign: TextAlign.left),
         SizedBox(
@@ -175,7 +176,7 @@ class _LoginViewState extends State<LoginView> {
                 fontWeight: FontWeight.w700,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
-                fontSize: 24.0,
+                fontSize: 22.0 * pt,
                 letterSpacing: 3),
             textAlign: TextAlign.left),
         SizedBox(
@@ -187,7 +188,7 @@ class _LoginViewState extends State<LoginView> {
                 fontWeight: FontWeight.w700,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
-                fontSize: 24.0,
+                fontSize: 22.0 * pt,
                 letterSpacing: 3),
             textAlign: TextAlign.left),
       ],
@@ -208,7 +209,7 @@ class _LoginViewState extends State<LoginView> {
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
                         fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
+                        fontSize: 11.0 * pt),
                     textAlign: TextAlign.left)
               ],
             )),
@@ -223,7 +224,7 @@ class _LoginViewState extends State<LoginView> {
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
                         fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
+                        fontSize: 11.0 * pt),
                     textAlign: TextAlign.left)
               ],
             )),
@@ -238,7 +239,7 @@ class _LoginViewState extends State<LoginView> {
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
                         fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
+                        fontSize: 11.0 * pt),
                     textAlign: TextAlign.left)
               ],
             ))
@@ -259,7 +260,7 @@ class _LoginViewState extends State<LoginView> {
                   fontWeight: FontWeight.w400,
                   fontFamily: "Roboto",
                   fontStyle: FontStyle.normal,
-                  fontSize: 12.0),
+                  fontSize: 12.0 * pt),
             )),
         Container(
             width: 0,
@@ -275,7 +276,7 @@ class _LoginViewState extends State<LoginView> {
                   fontWeight: FontWeight.w400,
                   fontFamily: "Roboto",
                   fontStyle: FontStyle.normal,
-                  fontSize: 12.0),
+                  fontSize: 12.0 * pt),
             ))
       ],
     );
@@ -291,7 +292,7 @@ class _LoginViewState extends State<LoginView> {
                 fontWeight: FontWeight.w400,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
-                fontSize: 12.0),
+                fontSize: 12.0 * pt),
             textAlign: TextAlign.left),
         TextButton(
             onPressed: () {},
@@ -303,7 +304,7 @@ class _LoginViewState extends State<LoginView> {
                         fontWeight: FontWeight.w400,
                         fontFamily: "Roboto",
                         fontStyle: FontStyle.normal,
-                        fontSize: 12.0),
+                        fontSize: 12.0 * pt),
                     textAlign: TextAlign.left),
                 Image.asset("assets/icons/ic_small_arrow_right.png"),
               ],
