@@ -14,6 +14,11 @@ class SigninView1 extends StatefulWidget {
 
 class _SigninView1State extends State<SigninView1> {
   List<bool> isChecked = [false, true];
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+
+  void _changeisChecked1(bool value) => setState(() => isChecked1 = value);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -102,8 +107,12 @@ class _SigninView1State extends State<SigninView1> {
             Row(
               children: [
                 Checkbox(
-                  value: false,
-                  onChanged: (value) => isChecked,
+                  value: isChecked1,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked1 = value!;
+                    });
+                  },
                 ),
                 Text(
                   '이용약관 동의 (필수)',
@@ -111,9 +120,105 @@ class _SigninView1State extends State<SigninView1> {
                     color: Color(0xff444444),
                     fontFamily: 'Roboto',
                   ),
-                )
+                ),
+                SizedBox(
+                  width: 140,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text("전체보기",
+                        style: TextStyle(
+                          color: Color(0xff555555),
+                          fontSize: 12,
+                          fontFamily: 'Roboto',
+                          decoration: TextDecoration.underline,
+                        )))
               ],
-            )
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: isChecked2,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked2 = value!;
+                    });
+                  },
+                ),
+                Text(
+                  '개인정보취급방침 동의 (필수)',
+                  style: TextStyle(
+                    color: Color(0xff444444),
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(
+                  width: 93,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text("전체보기",
+                        style: TextStyle(
+                          color: Color(0xff555555),
+                          fontSize: 12,
+                          fontFamily: 'Roboto',
+                          decoration: TextDecoration.underline,
+                        )))
+              ],
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: isChecked3,
+                  onChanged: (bool? value) {
+                    setState(() {
+                      isChecked3 = value!;
+                    });
+                  },
+                ),
+                Text(
+                  '마케팅 수신 동의 (선택)',
+                  style: TextStyle(
+                    color: Color(0xff444444),
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(
+                  width: 125,
+                ),
+                TextButton(
+                    onPressed: () {},
+                    child: Text("전체보기",
+                        style: TextStyle(
+                          color: Color(0xff555555),
+                          fontSize: 12,
+                          fontFamily: 'Roboto',
+                          decoration: TextDecoration.underline,
+                        ))),
+              ],
+            ),
+            SizedBox(
+              height: 100,
+            ),
+            TextButton(
+                onPressed: () {},
+                child: Container(
+                    child: Center(
+                      child: Text(
+                        "휴대폰 인증",
+                        style: const TextStyle(
+                            color: const Color(0xffffffff),
+                            fontWeight: FontWeight.w700,
+                            fontFamily: "Roboto",
+                            fontStyle: FontStyle.normal,
+                            fontSize: 20.0),
+                      ),
+                    ),
+                    width: 400,
+                    height: 67,
+                    decoration: BoxDecoration(
+                      color: const Color(0xff4080ff),
+                    ))),
           ],
         ),
       ),
