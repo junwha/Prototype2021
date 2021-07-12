@@ -22,6 +22,7 @@ class _SigninView1State extends State<SigninView1> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawerScrimColor: Colors.white,
       appBar: buildAppBar(),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0 * pt, 36 * pt, 15 * pt, 0),
