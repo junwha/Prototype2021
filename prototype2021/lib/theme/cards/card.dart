@@ -13,6 +13,8 @@ class ContentsCard extends StatefulWidget {
   final bool clickable;
   final EdgeInsets margin;
   final int heartCounts;
+  final Function(bool)? onHeartPreessed;
+  final bool isHeartSelected;
 
   const ContentsCard({
     required this.preview,
@@ -25,6 +27,8 @@ class ContentsCard extends StatefulWidget {
     this.clickable = true,
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     this.heartCounts = 3,
+    this.onHeartPreessed,
+    this.isHeartSelected = false,
   });
 
   @override
@@ -76,7 +80,6 @@ class _ContentsCardState extends State<ContentsCard> {
                       fontWeight: FontWeight.w700,
                     ),
                   ),
-
                   SizedBox(height: 6),
                   Text(
                     widget.place,
@@ -92,7 +95,20 @@ class _ContentsCardState extends State<ContentsCard> {
                   Row(
                     children: [
                       //BUG: 클릭시 색이 같이 변하지 않음.
-                      Icon(Icons.star, color: Colors.yellow[600]),
+                      Image.asset(
+                        "assets/icons/ic_pc_star_small.png",
+                      ),
+                      SizedBox(width: 3),
+                      Text(
+                        '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
+                        style: TextStyle(
+                          color: Color(0xff555555),
+                          fontSize: 10 * pt,
+                          fontFamily: 'Roboto',
+                        ),
+                      ),
+                      SizedBox(width: 12 * pt),
+                      Image.asset("assets/icons/ic_pc_heart_small.png"),
                       SizedBox(width: 3),
                       Text(
                         '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
@@ -104,7 +120,7 @@ class _ContentsCardState extends State<ContentsCard> {
                       ),
                     ],
                   ),
-                  // 설명이 길어질 경우 overflow를 막기 위해
+                  SizedBox(height: 6 * pt),
                   Text(
                     widget.explanation,
                     maxLines: 2,
@@ -132,6 +148,7 @@ class _ContentsCardState extends State<ContentsCard> {
             ClipRRect(
               borderRadius: BorderRadius.all(Radius.circular(9.0)),
               child: Stack(
+                alignment: AlignmentDirectional.topEnd,
                 children: [
                   Container(
                     width: 100 * pt,
@@ -143,9 +160,21 @@ class _ContentsCardState extends State<ContentsCard> {
                     ),
                   ),
                   IconButton(
-                    onPressed: () {},
-                    icon: Image.asset("assets/icons/heart_outlined.png"),
-                  )
+                    padding: EdgeInsets.zero,
+                    onPressed: () {
+                      if (this.widget.onHeartPreessed != null)
+                        this
+                            .widget
+                            .onHeartPreessed!
+                            .call(this.widget.isHeartSelected);
+                    },
+                    icon: Image.asset(
+                      this.widget.isHeartSelected
+                          ? "assets/icons/ic_product_heart_fill.png"
+                          : "assets/icons/ic_product_heart_default.png",
+                    ),
+                    iconSize: 30 * pt,
+                  ),
                 ],
               ),
             ),
