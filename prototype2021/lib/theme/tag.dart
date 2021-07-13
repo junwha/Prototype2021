@@ -11,9 +11,8 @@ class ContentTag extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        padding: EdgeInsets.symmetric(horizontal: 8 * pt, vertical: 2 * pt),
         alignment: Alignment.center,
-        width: 50,
-        height: 25,
         decoration: BoxDecoration(
           gradient: background ??
               LinearGradient(
@@ -29,9 +28,11 @@ class ContentTag extends StatelessWidget {
         child: Text(
           tagName,
           style: TextStyle(
-              color: textColor ?? Colors.white,
-              fontWeight: FontWeight.bold,
-              fontSize: 11 * pt),
+            color: Colors.white,
+            fontSize: 11 * pt,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w700,
+          ),
         ));
   }
 }
