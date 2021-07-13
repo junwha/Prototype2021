@@ -10,7 +10,6 @@ class ContentsCard extends StatefulWidget {
   final double rating;
   final int ratingNumbers;
   final List<String> tags;
-  final bool clickable;
   final EdgeInsets margin;
   final int heartCounts;
   final Function(bool)? onHeartPreessed;
@@ -24,7 +23,7 @@ class ContentsCard extends StatefulWidget {
     required this.rating,
     required this.ratingNumbers,
     required this.tags,
-    this.clickable = true,
+    // TODO: Change to required
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     this.heartCounts = 3,
     this.onHeartPreessed,
@@ -36,150 +35,135 @@ class ContentsCard extends StatefulWidget {
 }
 
 class _ContentsCardState extends State<ContentsCard> {
-  bool isSelected = false;
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        if (this.widget.clickable) {
-          isSelected = !isSelected;
-          setState(() {});
-          print(isSelected);
-        }
-      },
-      child: Container(
-        padding: EdgeInsets.all(20 * pt),
-        height: 160 * pt,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(
-            color: Color(0xffe8e8e8),
-            width: 1,
+    return Container(
+      padding: EdgeInsets.all(20 * pt),
+      height: 160 * pt,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: Color(0xffe8e8e8),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 2,
+                ),
+                Text(
+                  widget.title,
+                  style: TextStyle(
+                    fontSize: 18 * pt,
+                    color: Color(0xff444444),
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+                SizedBox(height: 6),
+                Text(
+                  widget.place,
+                  style: TextStyle(
+                    color: Color(0xff555555),
+                    fontSize: 10 * pt,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(
+                  height: 5,
+                ),
+                Row(
+                  children: [
+                    Image.asset(
+                      "assets/icons/ic_pc_star_small.png",
+                    ),
+                    SizedBox(width: 3),
+                    Text(
+                      '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
+                      style: TextStyle(
+                        color: Color(0xff555555),
+                        fontSize: 10 * pt,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                    SizedBox(width: 12 * pt),
+                    Image.asset("assets/icons/ic_pc_heart_small.png"),
+                    SizedBox(width: 3),
+                    Text(
+                      '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
+                      style: TextStyle(
+                        color: Color(0xff555555),
+                        fontSize: 10 * pt,
+                        fontFamily: 'Roboto',
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6 * pt),
+                Text(
+                  widget.explanation,
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: Color(0xff555555),
+                    fontSize: 10 * pt,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(height: 10 * pt),
+                Row(
+                  children: [
+                    Flex(
+                      children: tagMethod(widget.tags),
+                      direction: Axis.horizontal,
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-        child: Row(
-          children: <Widget>[
-            //Ratio is 1:2 which is determined by each flex arguments
-            // 이미지 담는 공간.
-
-            //Information Section
-            Expanded(
-              flex: 2,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 2,
+          SizedBox(
+            width: 15 * pt,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(9.0)),
+            child: Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                Container(
+                  width: 100 * pt,
+                  height: 120 * pt,
+                  color: Colors.black,
+                  child: Image.network(
+                    this.widget.preview,
+                    fit: BoxFit.cover,
                   ),
-                  Text(
-                    widget.title,
-                    style: TextStyle(
-                      fontSize: 18 * pt,
-                      color: Color(0xff444444),
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
-                    ),
+                ),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    if (this.widget.onHeartPreessed != null)
+                      this
+                          .widget
+                          .onHeartPreessed!
+                          .call(this.widget.isHeartSelected);
+                  },
+                  icon: Image.asset(
+                    this.widget.isHeartSelected
+                        ? "assets/icons/ic_product_heart_fill.png"
+                        : "assets/icons/ic_product_heart_default.png",
                   ),
-                  SizedBox(height: 6),
-                  Text(
-                    widget.place,
-                    style: TextStyle(
-                      color: Color(0xff555555),
-                      fontSize: 10 * pt,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Row(
-                    children: [
-                      //BUG: 클릭시 색이 같이 변하지 않음.
-                      Image.asset(
-                        "assets/icons/ic_pc_star_small.png",
-                      ),
-                      SizedBox(width: 3),
-                      Text(
-                        '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
-                        style: TextStyle(
-                          color: Color(0xff555555),
-                          fontSize: 10 * pt,
-                          fontFamily: 'Roboto',
-                        ),
-                      ),
-                      SizedBox(width: 12 * pt),
-                      Image.asset("assets/icons/ic_pc_heart_small.png"),
-                      SizedBox(width: 3),
-                      Text(
-                        '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
-                        style: TextStyle(
-                          color: Color(0xff555555),
-                          fontSize: 10 * pt,
-                          fontFamily: 'Roboto',
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 6 * pt),
-                  Text(
-                    widget.explanation,
-                    maxLines: 2,
-                    style: TextStyle(
-                      color: Color(0xff555555),
-                      fontSize: 10 * pt,
-                      fontFamily: 'Roboto',
-                    ),
-                  ),
-                  SizedBox(height: 10 * pt),
-                  Row(
-                    children: [
-                      Flex(
-                        children: tagMethod(isSelected, widget.tags),
-                        direction: Axis.horizontal,
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                  iconSize: 30 * pt,
+                ),
+              ],
             ),
-            SizedBox(
-              width: 15 * pt,
-            ),
-            ClipRRect(
-              borderRadius: BorderRadius.all(Radius.circular(9.0)),
-              child: Stack(
-                alignment: AlignmentDirectional.topEnd,
-                children: [
-                  Container(
-                    width: 100 * pt,
-                    height: 120 * pt,
-                    color: Colors.black,
-                    child: Image.network(
-                      this.widget.preview,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                  IconButton(
-                    padding: EdgeInsets.zero,
-                    onPressed: () {
-                      if (this.widget.onHeartPreessed != null)
-                        this
-                            .widget
-                            .onHeartPreessed!
-                            .call(this.widget.isHeartSelected);
-                    },
-                    icon: Image.asset(
-                      this.widget.isHeartSelected
-                          ? "assets/icons/ic_product_heart_fill.png"
-                          : "assets/icons/ic_product_heart_default.png",
-                    ),
-                    iconSize: 30 * pt,
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -452,11 +436,9 @@ class _ProductCardState extends State<ProductCard> {
                 Row(
                   children: [
                     Flex(
-                      children: tagMethod(
-                          false,
-                          widget.tags.length > 3
-                              ? widget.tags.sublist(0, 2)
-                              : widget.tags),
+                      children: tagMethod(widget.tags.length > 3
+                          ? widget.tags.sublist(0, 2)
+                          : widget.tags),
                       direction: Axis.horizontal,
                     ),
                   ],
@@ -470,7 +452,7 @@ class _ProductCardState extends State<ProductCard> {
   }
 }
 
-List<Widget> tagMethod(bool isSelected, List<String> tags) {
+List<Widget> tagMethod(List<String> tags) {
   // 태그 박스 구현 코드
   return List<Widget>.generate(
     tags.length,
@@ -478,13 +460,9 @@ List<Widget> tagMethod(bool isSelected, List<String> tags) {
       padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
       margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
       decoration: BoxDecoration(
-          color: isSelected ? Colors.black.withOpacity(0) : Colors.white,
+          color: Colors.black.withOpacity(0),
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(
-              color: isSelected
-                  ? Colors.black.withOpacity(0.1)
-                  : const Color.fromARGB(255, 219, 219, 219),
-              width: 1)),
+          border: Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
       child: Text(
         tags[index],
         style: TextStyle(
