@@ -150,7 +150,6 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               rating: 1,
               ratingNumbers: 5,
               tags: ["asdf"],
-              clickable: false,
               margin: const EdgeInsets.symmetric(vertical: 0),
             ),
             Container(
