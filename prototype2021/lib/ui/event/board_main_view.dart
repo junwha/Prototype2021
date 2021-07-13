@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 
 class BoardMainView extends StatefulWidget {
@@ -38,7 +39,7 @@ class _BoardMainViewState extends State<BoardMainView> {
             SingleChildScrollView(
               child: Column(
                 children: [
-                  Text("플랜"),
+                 
                   SizedBox(height: 100),
                   Text("플랜"),
                   SizedBox(height: 100),
@@ -140,25 +141,62 @@ class _BoardMainViewState extends State<BoardMainView> {
         icon: Image.asset("assets/icons/ic_remove_x.png"),
         onPressed: () {},
       ),
+      toolbarHeight: 60,
       actions: [
-        IconButton(
-          onPressed: () {},
-          icon: Image.asset("assets/icons/ic_main_search.png"),
-        ),
-        IconButton(
-          onPressed: () {},
-          padding: EdgeInsets.all(0),
-          icon: Image.asset(
-            "assets/icons/ic_main_heart_default.png",
-          ),
-        ),
-        IconButton(
-          color: Colors.black,
-          onPressed: () {},
-          icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
-        ),
+
+         AppBarTextButton(
+           onPressed: (){},
+           icon:              Image.asset("assets/icons/ic_main_search.png"),
+
+           text: "검색"
+         ),
+         AppBarTextButton(
+           onPressed: (){},
+           icon:              Image.asset("assets/icons/ic_main_heart_default.png"),
+
+           text: "찜목록"
+         ),
+         AppBarTextButton(
+           onPressed: (){},
+           icon:              Image.asset("assets/icons/ic_hamburger_menu.png"),
+
+           text: "메뉴"
+         ),
+                
+        
       ],
     );
+  }
+}
+
+class AppBarTextButton extends StatelessWidget {
+  Function() onPressed;
+  Image icon;
+  String text;
+
+  AppBarTextButton({
+    required this.onPressed,
+    required this.icon,
+    required this.text,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+         onPressed: this.onPressed,
+         icon: Column(
+           children: [
+             this.icon,
+             Text(this.text,
+     style: TextStyle(
+       color: Color(0xff555555),
+       fontSize: 10,
+       fontFamily: 'Roboto',
+     ),
+        ),   
+           ],
+         ),
+       );
   }
 }
 
