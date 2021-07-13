@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 /// e.content.heart에 있는 개별 카드 클래스
 class ContentsCard extends StatefulWidget {
@@ -11,6 +12,7 @@ class ContentsCard extends StatefulWidget {
   final List<String> tags;
   final bool clickable;
   final EdgeInsets margin;
+  final int heartCounts;
 
   const ContentsCard({
     required this.preview,
@@ -22,6 +24,7 @@ class ContentsCard extends StatefulWidget {
     required this.tags,
     this.clickable = true,
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+    this.heartCounts = 3,
   });
 
   @override
@@ -41,61 +44,20 @@ class _ContentsCardState extends State<ContentsCard> {
         }
       },
       child: Container(
-        padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-        margin: this.widget.margin,
-        //TODO(Jiun): Icon 크기 때문에 임시로 170으로 설정해 뒀음.
-        height: 170,
+        padding: EdgeInsets.all(20 * pt),
+        height: 160 * pt,
         decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                color: isSelected
-                    ? Colors.grey.withOpacity(0)
-                    : Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 3,
-                offset: Offset(1, 3), // changes position of shadow
-              ),
-            ],
-            // 선택 시 배경 색이 바뀌어야 한다.
-            color: isSelected
-                ? Colors.black.withOpacity(0.4)
-                : const Color(0xFFF3F3F3),
-            borderRadius: BorderRadius.all(Radius.circular(20.0))),
-
+          color: Colors.white,
+          border: Border.all(
+            color: Color(0xffe8e8e8),
+            width: 1,
+          ),
+        ),
         child: Row(
           children: <Widget>[
             //Ratio is 1:2 which is determined by each flex arguments
             // 이미지 담는 공간.
-            Expanded(
-              flex: 1,
-              child: Column(
-                // TODO: 이미지에 하트 넣어야 함.
-                children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                    child: AspectRatio(
-                      aspectRatio: 1,
-                      child: Stack(
-                        children: [
-                          Image.network(
-                            this.widget.preview,
-                            fit: BoxFit.cover,
-                          ),
-                          IconButton(
-                            onPressed: () {},
-                            icon:
-                                Image.asset("assets/icons/heart_outlined.png"),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: 13,
-            ),
+
             //Information Section
             Expanded(
               flex: 2,
@@ -108,35 +70,51 @@ class _ContentsCardState extends State<ContentsCard> {
                   Text(
                     widget.title,
                     style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20.0,
-                      color: const Color.fromARGB(255, 112, 112, 112),
+                      fontSize: 18 * pt,
+                      color: Color(0xff444444),
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w700,
                     ),
                   ),
+
                   SizedBox(height: 6),
                   Text(
                     widget.place,
                     style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      color: const Color.fromARGB(255, 112, 112, 112),
+                      color: Color(0xff555555),
+                      fontSize: 10 * pt,
+                      fontFamily: 'Roboto',
                     ),
                   ),
                   SizedBox(
                     height: 5,
                   ),
-                  // 설명이 길어질 경우 overflow를 막기 위해
-                  SizedBox(
-                    height: 28,
-                    child: Text(
-                      widget.explanation,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: const Color.fromARGB(255, 112, 112, 112),
+                  Row(
+                    children: [
+                      //BUG: 클릭시 색이 같이 변하지 않음.
+                      Icon(Icons.star, color: Colors.yellow[600]),
+                      SizedBox(width: 3),
+                      Text(
+                        '${widget.rating.toString()} (${widget.ratingNumbers.toString()})',
+                        style: TextStyle(
+                          color: Color(0xff555555),
+                          fontSize: 10 * pt,
+                          fontFamily: 'Roboto',
+                        ),
                       ),
+                    ],
+                  ),
+                  // 설명이 길어질 경우 overflow를 막기 위해
+                  Text(
+                    widget.explanation,
+                    maxLines: 2,
+                    style: TextStyle(
+                      color: Color(0xff555555),
+                      fontSize: 10 * pt,
+                      fontFamily: 'Roboto',
                     ),
                   ),
-                  SizedBox(height: 7),
+                  SizedBox(height: 10 * pt),
                   Row(
                     children: [
                       Flex(
@@ -145,31 +123,29 @@ class _ContentsCardState extends State<ContentsCard> {
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 6,
+                ],
+              ),
+            ),
+            SizedBox(
+              width: 15 * pt,
+            ),
+            ClipRRect(
+              borderRadius: BorderRadius.all(Radius.circular(9.0)),
+              child: Stack(
+                children: [
+                  Container(
+                    width: 100 * pt,
+                    height: 120 * pt,
+                    color: Colors.black,
+                    child: Image.network(
+                      this.widget.preview,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  Row(
-                    children: [
-                      //BUG: 클릭시 색이 같이 변하지 않음.
-                      Icon(Icons.star, color: Colors.yellow[600]),
-                      SizedBox(width: 3),
-                      Text(
-                        widget.rating.toString(),
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: const Color(0xff707070),
-                        ),
-                      ),
-                      SizedBox(width: 1),
-                      Text(
-                        '(' + widget.ratingNumbers.toString() + ')',
-                        style: TextStyle(
-                          fontSize: 11,
-                          color: const Color(0xff707070),
-                        ),
-                      ),
-                    ],
-                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: Image.asset("assets/icons/heart_outlined.png"),
+                  )
                 ],
               ),
             ),
@@ -359,7 +335,7 @@ class _ProductCardState extends State<ProductCard> {
                   borderRadius: BorderRadius.all(Radius.circular(9.0)),
                   child: Image.network(
                     'https://cdn140.picsart.com/302038404009201.jpg?type=webp&to=crop&r=256',
-                    fit: BoxFit.fill,
+                    fit: BoxFit.cover,
                   ),
                 ),
               ],
@@ -385,7 +361,7 @@ class _ProductCardState extends State<ProductCard> {
                     color: const Color.fromARGB(255, 112, 112, 112),
                   ),
                 ),
-                SizedBox(height: 2),
+                SizedBox(height: 5 * pt),
                 Text(
                   widget.place,
                   style: TextStyle(
@@ -394,9 +370,7 @@ class _ProductCardState extends State<ProductCard> {
                     color: const Color.fromARGB(255, 112, 112, 112),
                   ),
                 ),
-                SizedBox(
-                  height: 8,
-                ),
+                SizedBox(height: 4 * pt),
                 Row(
                   children: [
                     // FIXME: 실제 아이콘으로 바꾸기.
@@ -414,7 +388,7 @@ class _ProductCardState extends State<ProductCard> {
                     ),
                   ],
                 ),
-                SizedBox(height: 5),
+                SizedBox(height: 6 * pt),
                 Row(
                   children: [
                     Text(
@@ -437,19 +411,23 @@ class _ProductCardState extends State<ProductCard> {
                   ],
                 ),
                 SizedBox(
-                  height: 5,
+                  height: 6 * pt,
                 ),
                 Row(children: [
                   // FIXME: 실제 tendencies 아이콘으로 채우기
                   // Icon(Icons.check_circle_outline_rounded),
                 ]),
                 SizedBox(
-                  height: 6,
+                  height: 8 * pt,
                 ),
                 Row(
                   children: [
                     Flex(
-                      children: tagMethod(false, widget.tags),
+                      children: tagMethod(
+                          false,
+                          widget.tags.length > 3
+                              ? widget.tags.sublist(0, 2)
+                              : widget.tags),
                       direction: Axis.horizontal,
                     ),
                   ],
