@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card.dart';
+import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 
 class BoardMainView extends StatefulWidget {
@@ -11,6 +13,9 @@ class BoardMainView extends StatefulWidget {
 }
 
 class _BoardMainViewState extends State<BoardMainView> {
+  bool heartSelected = false;
+  bool heartSelected2 = false;
+
   @override
   Widget build(BuildContext context) {
     final List<String> _tabs = <String>['Pla ', 'Content'];
@@ -24,7 +29,7 @@ class _BoardMainViewState extends State<BoardMainView> {
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
-                backgroundColor: Colors.grey[100],
+                backgroundColor: Colors.white,
                 title: buildCurrentLocation(),
               ),
               SliverAppBar(
@@ -33,13 +38,38 @@ class _BoardMainViewState extends State<BoardMainView> {
                 backgroundColor: Colors.white,
                 title: buildTabBar(),
               ),
+              SliverAppBar(
+                shadowColor: Color(0x29000000),
+                forceElevated: true,
+                pinned: true,
+                backgroundColor: Colors.white,
+                title: buildFilterBar(),
+              )
             ];
           },
           body: TabBarView(children: [
             SingleChildScrollView(
               child: Column(
                 children: [
-                 
+                  ProductCard(
+                    preview: placeHolder,
+                    title: "중국 도장깨기",
+                    place: '상하이(중국), 베이징(중국), 광저우(중국)',
+                    period: 3,
+                    costStart: 3,
+                    costEnd: 5,
+                    matchPercent: 34,
+                    tags: ["액티비티", "관광명소", "인생사진"],
+                    tendencies: [],
+                    onHeartPreessed: (bool isSelected) {
+                      setState(() {
+                        this.heartSelected2 = !isSelected;
+                      });
+                      print(heartSelected2);
+                    },
+                    isHeartSelected: this.heartSelected2,
+                    isGuide: true,
+                  ),
                   SizedBox(height: 100),
                   Text("플랜"),
                   SizedBox(height: 100),
@@ -67,6 +97,22 @@ class _BoardMainViewState extends State<BoardMainView> {
             SingleChildScrollView(
               child: Column(
                 children: [
+                  ContentsCard(
+                    preview: placeHolder,
+                    title: "울산대공원",
+                    place: "대한민국, 울산",
+                    explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
+                    rating: 5,
+                    ratingNumbers: 34,
+                    tags: ["액티비티", "관광명소", "인생사진"],
+                    isHeartSelected: heartSelected,
+                    onHeartPreessed: (bool isSelected) {
+                      setState(() {
+                        this.heartSelected = !isSelected;
+                      });
+                      print(heartSelected);
+                    },
+                  ),
                   Text("컨텐츠"),
                   SizedBox(height: 100),
                   Text("컨텐츠"),
@@ -94,6 +140,51 @@ class _BoardMainViewState extends State<BoardMainView> {
             ),
           ]),
         ),
+      ),
+    );
+  }
+
+  SingleChildScrollView buildFilterBar() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          SelectableTextButton(
+            isChecked: true,
+            titleName: "모두보기",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          SelectableTextButton(
+            isChecked: false,
+            titleName: "여행지",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          SelectableTextButton(
+            isChecked: false,
+            titleName: "카페",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          SelectableTextButton(
+            isChecked: false,
+            titleName: "음식점",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          SelectableTextButton(
+            isChecked: false,
+            titleName: "숙소",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          SelectableTextButton(
+            isChecked: false,
+            titleName: "기타",
+            onPressed: () {},
+          ),
+        ],
       ),
     );
   }
@@ -143,27 +234,18 @@ class _BoardMainViewState extends State<BoardMainView> {
       ),
       toolbarHeight: 60,
       actions: [
-
-         AppBarTextButton(
-           onPressed: (){},
-           icon:              Image.asset("assets/icons/ic_main_search.png"),
-
-           text: "검색"
-         ),
-         AppBarTextButton(
-           onPressed: (){},
-           icon:              Image.asset("assets/icons/ic_main_heart_default.png"),
-
-           text: "찜목록"
-         ),
-         AppBarTextButton(
-           onPressed: (){},
-           icon:              Image.asset("assets/icons/ic_hamburger_menu.png"),
-
-           text: "메뉴"
-         ),
-                
-        
+        AppBarTextButton(
+            onPressed: () {},
+            icon: Image.asset("assets/icons/ic_main_search.png"),
+            text: "검색"),
+        AppBarTextButton(
+            onPressed: () {},
+            icon: Image.asset("assets/icons/ic_main_heart_default.png"),
+            text: "찜목록"),
+        AppBarTextButton(
+            onPressed: () {},
+            icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
+            text: "메뉴"),
       ],
     );
   }
@@ -183,20 +265,21 @@ class AppBarTextButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-         onPressed: this.onPressed,
-         icon: Column(
-           children: [
-             this.icon,
-             Text(this.text,
-     style: TextStyle(
-       color: Color(0xff555555),
-       fontSize: 10,
-       fontFamily: 'Roboto',
-     ),
-        ),   
-           ],
-         ),
-       );
+      onPressed: this.onPressed,
+      icon: Column(
+        children: [
+          this.icon,
+          Text(
+            this.text,
+            style: TextStyle(
+              color: Color(0xff555555),
+              fontSize: 10,
+              fontFamily: 'Roboto',
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
 
