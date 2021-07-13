@@ -50,54 +50,34 @@ class _BoardMainViewState extends State<BoardMainView> {
           body: TabBarView(children: [
             SingleChildScrollView(
               child: Column(
-                children: [
-                  ProductCard(
-                    preview: placeHolder,
-                    title: "중국 도장깨기",
-                    place: '상하이(중국), 베이징(중국), 광저우(중국)',
-                    period: 3,
-                    costStart: 3,
-                    costEnd: 5,
-                    matchPercent: 34,
-                    tags: ["액티비티", "관광명소", "인생사진"],
-                    tendencies: [],
-                    onHeartPreessed: (bool isSelected) {
-                      setState(() {
-                        this.heartSelected2 = !isSelected;
-                      });
-                      print(heartSelected2);
-                    },
-                    isHeartSelected: this.heartSelected2,
-                    isGuide: true,
-                  ),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                  Text("플랜"),
-                  SizedBox(height: 100),
-                ],
-              ),
+                  children: List.generate(
+                20,
+                (index) => ProductCard(
+                  preview: placeHolder,
+                  title: "중국 도장깨기",
+                  place: '상하이(중국), 베이징(중국), 광저우(중국)',
+                  period: 3,
+                  costStart: 3,
+                  costEnd: 5,
+                  matchPercent: 34,
+                  tags: ["액티비티", "관광명소", "인생사진"],
+                  tendencies: [],
+                  onHeartPreessed: (bool isSelected) {
+                    setState(() {
+                      this.heartSelected2 = !isSelected;
+                    });
+                    print(heartSelected2);
+                  },
+                  isHeartSelected: this.heartSelected2,
+                  isGuide: index % 2 == 0,
+                ),
+              )),
             ),
             SingleChildScrollView(
               child: Column(
-                children: [
-                  ContentsCard(
+                children: List.generate(
+                  20,
+                  (index) => ContentsCard(
                     preview: placeHolder,
                     title: "울산대공원",
                     place: "대한민국, 울산",
@@ -113,29 +93,7 @@ class _BoardMainViewState extends State<BoardMainView> {
                       print(heartSelected);
                     },
                   ),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                  Text("컨텐츠"),
-                  SizedBox(height: 100),
-                ],
+                ),
               ),
             ),
           ]),
