@@ -169,6 +169,188 @@ class _ContentsCardState extends State<ContentsCard> {
   }
 }
 
+//TODO: ContentsCard와 중복되는 리팩터링 필요.
+/// 2.4.2 (저장한 플랜)의 카드 클래스.
+class ProductCard extends StatefulWidget {
+  final String preview;
+  final String title;
+  final String place;
+  final List<String> tags;
+  final int matchPercent;
+  final int costStart;
+  final int costEnd;
+  final int period;
+  final List<int> tendencies;
+  final Function(bool)? onHeartPreessed;
+  final bool isHeartSelected;
+  final bool isGuide;
+  const ProductCard({
+    required this.preview,
+    required this.title,
+    required this.place,
+    required this.tags,
+    required this.matchPercent,
+    required this.costStart,
+    required this.costEnd,
+    required this.period,
+    required this.tendencies,
+    this.onHeartPreessed,
+    this.isHeartSelected = false,
+    this.isGuide = false,
+  });
+
+  @override
+  _ProductCardState createState() => _ProductCardState();
+}
+
+class _ProductCardState extends State<ProductCard> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.all(20 * pt),
+      height: 160 * pt,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(
+          color: Color(0xffe8e8e8),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 2,
+                ),
+                Row(
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          widget.title,
+                          style: TextStyle(
+                            fontSize: 18 * pt,
+                            color: Color(0xff444444),
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+                SizedBox(height: 6),
+                Text(
+                  widget.place,
+                  style: TextStyle(
+                    color: Color(0xff555555),
+                    fontSize: 10 * pt,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(
+                  height: 12 * pt,
+                ),
+                Text(
+                  "기간: ${widget.period}일",
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: Color(0xff555555),
+                    fontSize: 12 * pt,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(height: 4 * pt),
+                Text(
+                  '예산: ${widget.costStart}~${widget.costEnd}만원',
+                  maxLines: 2,
+                  style: TextStyle(
+                    color: Color(0xff555555),
+                    fontSize: 12 * pt,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(height: 14 * pt),
+                Row(
+                  children: [
+                    Flex(
+                      children: tagMethod(widget.tags),
+                      direction: Axis.horizontal,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 15 * pt,
+          ),
+          ClipRRect(
+            borderRadius: BorderRadius.all(Radius.circular(9.0)),
+            child: Stack(
+              alignment: AlignmentDirectional.topEnd,
+              children: [
+                Container(
+                  width: 100 * pt,
+                  height: 120 * pt,
+                  color: Colors.black,
+                  child: Image.network(
+                    this.widget.preview,
+                    fit: BoxFit.cover,
+                  ),
+                ),
+                IconButton(
+                  padding: EdgeInsets.zero,
+                  onPressed: () {
+                    if (this.widget.onHeartPreessed != null)
+                      this
+                          .widget
+                          .onHeartPreessed!
+                          .call(this.widget.isHeartSelected);
+                  },
+                  icon: Image.asset(
+                    this.widget.isHeartSelected
+                        ? "assets/icons/ic_product_heart_fill.png"
+                        : "assets/icons/ic_product_heart_default.png",
+                  ),
+                  iconSize: 30 * pt,
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+List<Widget> tagMethod(List<String> tags) {
+  // 태그 박스 구현 코드
+  return List<Widget>.generate(
+    tags.length,
+    (index) => Container(
+      padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
+      margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
+      decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
+      child: Text(
+        tags[index],
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+          color: const Color(0xff707070),
+        ),
+      ),
+    ),
+  );
+}
+
 class InfoCard extends StatelessWidget {
   const InfoCard({
     Key? key,
@@ -284,193 +466,4 @@ class InfoCard extends StatelessWidget {
       ),
     );
   }
-}
-
-//TODO: ContentsCard와 중복되는 리팩터링 필요.
-/// 2.4.2 (저장한 플랜)의 카드 클래스.
-class ProductCard extends StatefulWidget {
-  final String preview;
-  final String title;
-  final String place;
-  final List<String> tags;
-  final int matchPercent;
-  final int cost;
-  final String period;
-  final List<int> tendencies;
-  final Function onTap;
-
-  const ProductCard({
-    required this.preview,
-    required this.title,
-    required this.place,
-    required this.tags,
-    required this.matchPercent,
-    required this.cost,
-    required this.period,
-    required this.tendencies,
-    required this.onTap,
-  });
-
-  @override
-  _ProductCardState createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.fromLTRB(10, 15, 0, 15),
-      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      //FIXME: Icon 크기 때문에 임시로 170으로 설정해 뒀음. 바꿔야 할 것 같다.
-      height: 170,
-      decoration: BoxDecoration(
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.5),
-              spreadRadius: 1,
-              blurRadius: 3,
-              offset: Offset(1, 3),
-            ),
-          ],
-          color: const Color(0xFFF3F3F3),
-          borderRadius: BorderRadius.all(Radius.circular(20.0))),
-
-      child: Row(
-        children: <Widget>[
-          //Ratio is 1:2 which is determined by each flex arguments
-          // 이미지 담는 공간.
-          Expanded(
-            flex: 1,
-            child: Column(
-              // TODO: 이미지에 하트 넣어야 함.
-              children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(9.0)),
-                  child: Image.network(
-                    'https://cdn140.picsart.com/302038404009201.jpg?type=webp&to=crop&r=256',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 13,
-          ),
-          //Information Section
-          Expanded(
-            flex: 2,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 2,
-                ),
-                Text(
-                  widget.title,
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18.0,
-                    color: const Color.fromARGB(255, 112, 112, 112),
-                  ),
-                ),
-                SizedBox(height: 5 * pt),
-                Text(
-                  widget.place,
-                  style: TextStyle(
-                    fontSize: 9,
-                    fontWeight: FontWeight.bold,
-                    color: const Color.fromARGB(255, 112, 112, 112),
-                  ),
-                ),
-                SizedBox(height: 4 * pt),
-                Row(
-                  children: [
-                    // FIXME: 실제 아이콘으로 바꾸기.
-                    // Icon(Icons.check_circle_outline_rounded),
-                    SizedBox(
-                      width: 3,
-                    ),
-                    Text(
-                      '여행 스타일 ' + widget.matchPercent.toString() + '% 일치',
-                      style: TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 112, 112, 112),
-                      ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 6 * pt),
-                Row(
-                  children: [
-                    Text(
-                      '비용: ' + widget.cost.toString() + '원',
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: const Color.fromARGB(255, 112, 112, 112),
-                      ),
-                    ),
-                    SizedBox(
-                      width: 11,
-                    ),
-                    Text(
-                      '기간: ' + widget.period,
-                      style: TextStyle(
-                        fontSize: 10,
-                        color: const Color.fromARGB(255, 112, 112, 112),
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 6 * pt,
-                ),
-                Row(children: [
-                  // FIXME: 실제 tendencies 아이콘으로 채우기
-                  // Icon(Icons.check_circle_outline_rounded),
-                ]),
-                SizedBox(
-                  height: 8 * pt,
-                ),
-                Row(
-                  children: [
-                    Flex(
-                      children: tagMethod(widget.tags.length > 3
-                          ? widget.tags.sublist(0, 2)
-                          : widget.tags),
-                      direction: Axis.horizontal,
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-List<Widget> tagMethod(List<String> tags) {
-  // 태그 박스 구현 코드
-  return List<Widget>.generate(
-    tags.length,
-    (index) => Container(
-      padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
-      margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-      decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0),
-          borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
-      child: Text(
-        tags[index],
-        style: TextStyle(
-          fontWeight: FontWeight.bold,
-          fontSize: 12,
-          color: const Color(0xff707070),
-        ),
-      ),
-    ),
-  );
 }
