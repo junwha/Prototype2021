@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/tag.dart';
 
 /// e.content.heart에 있는 개별 카드 클래스
 class ContentsCard extends StatefulWidget {
@@ -228,19 +229,19 @@ class _ProductCardState extends State<ProductCard> {
                 ),
                 Row(
                   children: [
-                    Row(
-                      children: [
-                        Text(
-                          widget.title,
-                          style: TextStyle(
-                            fontSize: 18 * pt,
-                            color: Color(0xff444444),
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
+                    Text(
+                      widget.title,
+                      style: TextStyle(
+                        fontSize: 18 * pt,
+                        color: Color(0xff444444),
+                        fontFamily: 'Roboto',
+                        fontWeight: FontWeight.w700,
+                      ),
                     ),
+                    SizedBox(width: 8 * pt),
+                    this.widget.isGuide
+                        ? ContentTag(tagName: "가이드")
+                        : SizedBox(),
                   ],
                 ),
                 SizedBox(height: 6),
