@@ -230,6 +230,27 @@ class _SigninView4State extends State<SigninView4> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 60,
+              ),
+              TextButton(
+                  onPressed: () {},
+                  child: Container(
+                      child: Center(
+                        child: Text(
+                          "시작하기",
+                          style: const TextStyle(
+                              color: const Color(0xffffffff),
+                              fontWeight: FontWeight.w700,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20.0),
+                        ),
+                      ),
+                      height: 67,
+                      decoration: BoxDecoration(
+                        color: const Color(0xff4080ff),
+                      ))),
             ],
           ),
         ),
