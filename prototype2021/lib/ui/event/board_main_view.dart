@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
@@ -18,7 +19,7 @@ class _BoardMainViewState extends State<BoardMainView> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> _tabs = <String>['Pla ', 'Content'];
+    final List<String> _tabs = <String>['Plan', 'Content'];
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
