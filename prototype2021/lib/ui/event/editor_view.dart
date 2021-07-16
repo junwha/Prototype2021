@@ -496,17 +496,20 @@ class _EditorViewState extends State<EditorView> {
         children: [
           this.widget.data != null
               ? SizedBox()
-              : PopButton(
-                  buttonTitle: "임시저장",
-                  listBody: ListBody(
-                    children: [
-                      Container(
-                        width: 291 * pt,
-                        height: 250 * pt,
-                        child: buildListBodyText(),
-                      ),
-                    ],
+              : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, // background
+                    onPrimary: Colors.white, // foreground
                   ),
+                  onPressed: () {
+                    tbShowDialog(
+                        context,
+                        TBSimpleDialog(
+                            title: "임시 저장하시겠습니까?", body: buildListBodyText()));
+                  },
+                  child: Text('임시저장',
+                      style: TextStyle(
+                          fontSize: 13 * pt, fontWeight: FontWeight.bold)),
                 ),
           SizedBox(
             width: 10 * pt,
@@ -533,21 +536,20 @@ class _EditorViewState extends State<EditorView> {
   }
 
   Widget buildListBodyText() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("임시 저장하시겠습니까?", style: TextStyle(fontSize: 17 * pt)),
-        SizedBox(
-          height: 15,
-        ),
-        Text('임시 저장한 글은',
-            style: TextStyle(
-              fontSize: 14 * pt,
-            )),
-        Text('\'내 정보 > 임시 저장한 글\'',
-            style: TextStyle(fontSize: 14 * pt, fontWeight: FontWeight.bold)),
-        Text('에서 볼 수 있어요.', style: TextStyle(fontSize: 14 * pt))
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('임시 저장한 글은',
+              style: TextStyle(
+                fontSize: 14 * pt,
+              )),
+          Text('\'내 정보 > 임시 저장한 글\'',
+              style: TextStyle(fontSize: 14 * pt, fontWeight: FontWeight.bold)),
+          Text('에서 볼 수 있어요.', style: TextStyle(fontSize: 14 * pt))
+        ],
+      ),
     );
   }
 
