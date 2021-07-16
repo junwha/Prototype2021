@@ -427,7 +427,6 @@ class _EditorViewState extends State<EditorView> {
         rating: 1,
         ratingNumbers: 5,
         tags: ["asdf"],
-        clickable: false,
         margin: const EdgeInsets.symmetric(vertical: 0),
       );
     }

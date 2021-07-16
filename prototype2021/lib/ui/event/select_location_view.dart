@@ -104,14 +104,34 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("컨텐츠"),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text(
+                        "컨텐츠",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.black,
                     ),
                     child: TextButton(
                       child: Row(
-                        children: [Icon(Icons.article_outlined), Text("선택 완료")],
+                        children: [
+                          Image.asset('assets/icons/check_outlined.png'),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            "선택 완료",
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                          )
+                        ],
                       ),
                       onPressed: () {
                         selectLoaction(location);
@@ -130,7 +150,6 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               rating: 1,
               ratingNumbers: 5,
               tags: ["asdf"],
-              clickable: false,
               margin: const EdgeInsets.symmetric(vertical: 0),
             ),
             Container(
