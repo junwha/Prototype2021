@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'dart:async';
+import 'dart:io';
+import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class SigninView2 extends StatefulWidget {
   const SigninView2({Key? key}) : super(key: key);
@@ -11,10 +15,18 @@ class SigninView2 extends StatefulWidget {
 }
 
 class _SigninView2State extends State<SigninView2> {
+  PickedFile? _image;
   List<bool> isChecked = [false, true];
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
+  Future getImageFromGallry() async {
+    var image =
+        await ImagePicker.platform.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _image = image;
+    });
+  }
 
   void _changeisChecked1(bool value) => setState(() => isChecked1 = value);
   @override
@@ -52,22 +64,39 @@ class _SigninView2State extends State<SigninView2> {
             Stack(
               children: [
                 Container(
-                  height: 120,
-                  width: 120,
+                  height: 140,
+                  width: 140,
                   margin: EdgeInsets.only(
                     left: 128,
                     right: 128,
                   ),
                   decoration: BoxDecoration(
-                      color: Color(0xffdbdbdb),
-                      borderRadius: BorderRadius.all(Radius.circular(100))),
+                    shape: BoxShape.circle,
+                    color: Color(0xffdbdbdb),
+                    image: (_image == null)
+                        ? null
+                        : DecorationImage(
+                            fit: BoxFit.cover,
+                            image: FileImage(
+                              File(_image!.path),
+                            ),
+                          ),
+                  ),
+                  // borderRadius: BorderRadius.all(Radius.circular(100))),
                 ),
                 Positioned(
-                  child: IconButton(
-                    onPressed: () {},
-                    icon: Image.asset(
-                      "assets/icons/ic_image_gray.png",
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(100),
+                      ),
                     ),
+                    child: IconButton(
+                        onPressed: getImageFromGallry,
+                        icon: Image.asset(
+                          "assets/icons/ic_image_gray.png",
+                        )),
                   ),
                   right: 110,
                   bottom: 0,
