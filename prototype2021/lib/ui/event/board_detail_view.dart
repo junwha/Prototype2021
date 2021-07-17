@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:prototype2021/model/event_article_model.dart';
+import 'package:provider/provider.dart';
+import 'package:prototype2021/ui/event/editor_view.dart';
+import 'package:prototype2021/ui/event/event_detail_view.dart';
+import 'package:prototype2021/theme/cards/timer_card.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class BoardDetailView extends StatefulWidget {
   const BoardDetailView();
@@ -11,6 +17,8 @@ class BoardDetailView extends StatefulWidget {
 
 class BoardDetailViewState extends State<BoardDetailView> {
   double image_index = 0;
+  bool isAllList = false;
+
   List<String> images = [
     'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
@@ -18,97 +26,121 @@ class BoardDetailViewState extends State<BoardDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(25.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        appBar: buildAppBar(),
+        body: SingleChildScrollView(
+            child: ChangeNotifierProvider(
+          create: (context) => EventArticleModel.main(),
+          child: Consumer(
+              builder: (context, EventArticleModel eventArticleModel, child) {
+            return Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '울산대공원',
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 21,
+                              fontFamily: 'Roboto',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          IconButton(
+                              onPressed: () {},
+                              icon: Image.asset(
+                                  'assets/icons/ic_main_heart_default.png'))
+                        ],
+                      ),
                       Text(
-                        '울산대공원',
+                        '대한민국, 울산',
                         style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 21,
+                          color: Color(0xff707070),
+                          fontSize: 13,
                           fontFamily: 'Roboto',
                           fontWeight: FontWeight.w700,
                         ),
                       ),
-                      IconButton(
-                          onPressed: () {},
-                          icon: Image.asset(
-                              'assets/icons/ic_main_heart_default.png'))
-                    ],
-                  ),
-                  Text(
-                    '대한민국, 울산',
-                    style: TextStyle(
-                      color: Color(0xff707070),
-                      fontSize: 13,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  SizedBox(
-                    height: 8,
-                  ),
-                  Row(
-                    children: [
-                      Image.asset('assets/icons/ic_pc_star_big.png'),
                       SizedBox(
-                        width: 5,
+                        height: 8,
                       ),
-                      Text(
-                        '3.7 (369)',
-                        style: TextStyle(
-                          color: Color(0xff707070),
-                          fontSize: 15,
-                          fontFamily: 'Roboto',
-                        ),
+                      Row(
+                        children: [
+                          Image.asset('assets/icons/ic_pc_star_big.png'),
+                          SizedBox(
+                            width: 5,
+                          ),
+                          Text(
+                            '3.7 (369)',
+                            style: TextStyle(
+                              color: Color(0xff707070),
+                              fontSize: 15,
+                              fontFamily: 'Roboto',
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 6,
+                      ),
+                      buildTags(),
+                      SizedBox(
+                        height: 18,
+                      ),
+                      buildImageArea(),
+                      SizedBox(
+                        height: 8,
                       ),
                     ],
                   ),
-                  SizedBox(
-                    height: 6,
-                  ),
-                  buildTags(),
-                  SizedBox(
-                    height: 18,
-                  ),
-                  buildImageArea(),
-                  SizedBox(
-                    height: 8,
-                  ),
-                ],
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: Color(0xffe8e8e8),
-            ),
-            buildTextArea(),
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: Color(0xffe8e8e8),
-            ),
-            buildPriceArea(),
-            Container(
-              width: double.infinity,
-              height: 1,
-              color: Color(0xffe8e8e8),
-            ),
-            buildTimeArea(),
-          ],
-        ),
-      ),
-    );
+                ),
+                buildLineArea(),
+                buildTextArea(),
+                buildLineArea(),
+                buildPriceArea(),
+                buildLineArea(),
+                buildTimeArea(),
+                buildLineArea(),
+                buildLocationArea(),
+                buildLineArea(),
+                buildEventArea(eventArticleModel),
+                buildEventArticles(eventArticleModel),
+                TextButton(
+                    child: Container(
+                        height: 35 * pt,
+                        width: 280 * pt,
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(10))),
+                        child: Center(
+                            child: Text(
+                          "이벤트 게시판에서 더보기 ->",
+                          style: TextStyle(
+                            color: Color(0xff555555),
+                            fontSize: 18,
+                            fontFamily: 'Roboto',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ))),
+                    onPressed: () {
+                      if (!isAllList) {
+                        setState(() {
+                          isAllList = true;
+                        });
+                      } else {
+                        // TODO: next page
+                      }
+                    })
+              ],
+            );
+          }),
+        )));
   }
 
   AppBar buildAppBar() {
@@ -229,6 +261,14 @@ class BoardDetailViewState extends State<BoardDetailView> {
     );
   }
 
+  Container buildLineArea() {
+    return Container(
+      width: double.infinity,
+      height: 1,
+      color: Color(0xffe8e8e8),
+    );
+  }
+
   Padding buildTextArea() {
     return Padding(
       padding: const EdgeInsets.all(25.0),
@@ -317,7 +357,7 @@ class BoardDetailViewState extends State<BoardDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('영업 시간, 휴무일',
+          Text('영업 시간, 휴무일                                         ',
               style: TextStyle(
                   color: Color(0xff080808),
                   fontSize: 17,
@@ -333,7 +373,7 @@ class BoardDetailViewState extends State<BoardDetailView> {
               style: TextStyle(
                 fontFamily: 'Roboto',
                 height: 1.9,
-                color: Color(0xff080808),
+                color: Color(0xff707070),
                 fontSize: 15,
                 fontWeight: FontWeight.w700,
                 fontStyle: FontStyle.normal,
@@ -341,6 +381,194 @@ class BoardDetailViewState extends State<BoardDetailView> {
               textAlign: TextAlign.left)
         ],
       ),
+    );
+  }
+
+  Padding buildLocationArea() {
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            '위치 및 가는 법',
+            style: TextStyle(
+              color: Color(0xff080808),
+              fontSize: 17,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(
+            height: 15,
+          ),
+          Image.asset('assets/icons/mapimage.png'),
+          SizedBox(
+            height: 10,
+          ),
+          RichText(
+              text: new TextSpan(children: [
+            new TextSpan(
+                text: "주소 ",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0xff040404),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "Amusementstreet 1, 1071 XX Sanghai\n",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0x80080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "가는 방법 ",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0xff080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "장궈이 역에서 도보 5분 거리\n",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0x80080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "전화 ",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0xff080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "+31206747000\n",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0x80080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "홈페이지 ",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0xff080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+            new TextSpan(
+                text: "https://portal.unist.ac.kr/irj/portal",
+                style: TextStyle(
+                    fontFamily: 'Roboto',
+                    color: Color(0x80080808),
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    fontStyle: FontStyle.normal,
+                    height: 2)),
+          ]))
+        ],
+      ),
+    );
+  }
+
+  Padding buildEventArea(EventArticleModel articleModel) {
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                '이 장소 같이 가요',
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 17,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              Row(
+                children: [
+                  IconButton(
+                    icon: Image.asset(
+                      "assets/icons/editor.png",
+                      width: 40,
+                      height: 40,
+                    ),
+                    onPressed: () async {
+                      try {
+                        bool result = await Navigator.push(context,
+                            MaterialPageRoute<void>(
+                                builder: (BuildContext context) {
+                          return EditorView();
+                        })) as bool;
+                        if (result) {
+                          articleModel.loadTopArticles();
+                          articleModel.loadArticles();
+                        }
+                      } catch (e) {}
+                    },
+                  ),
+                  Text(
+                    '글 쓰기',
+                    style: TextStyle(
+                      color: Color(0xff555555),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildEventArticles(EventArticleModel eventArticleModel) {
+    if (eventArticleModel.isTopEventArticleLoading) return Text("Loading ...");
+    return Column(
+      children: eventArticleModel.topEventArticleList
+          .map(
+            (e) => GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(builder: (BuildContext context) {
+                    return EventDetailView(
+                        e.id, eventArticleModel, eventArticleModel.articleType);
+                  }),
+                );
+              },
+              child: TimerCard(
+                title: e.title,
+                description: e.summary,
+                due: e.period.end,
+                onEnd: () {
+                  eventArticleModel.loadTopArticles();
+                },
+              ),
+            ),
+          )
+          .toList(),
     );
   }
 }
