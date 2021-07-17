@@ -98,7 +98,13 @@ class BoardDetailViewState extends State<BoardDetailView> {
               height: 1,
               color: Color(0xffe8e8e8),
             ),
-            buildPriceArea()
+            buildPriceArea(),
+            Container(
+              width: double.infinity,
+              height: 1,
+              color: Color(0xffe8e8e8),
+            ),
+            buildTimeArea(),
           ],
         ),
       ),
@@ -300,6 +306,39 @@ class BoardDetailViewState extends State<BoardDetailView> {
                 fontWeight: FontWeight.w700,
               ),
               textAlign: TextAlign.left),
+        ],
+      ),
+    );
+  }
+
+  Padding buildTimeArea() {
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text('영업 시간, 휴무일',
+              style: TextStyle(
+                  color: Color(0xff080808),
+                  fontSize: 17,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                  letterSpacing: 1.5),
+              textAlign: TextAlign.left),
+          SizedBox(
+            height: 3,
+          ),
+          Text(
+              "일 09:00 - 21:00\n월 휴무\n화 09:00 - 21:00\n수 09:00 - 21:00\n목 09:00 - 21:00\n금 09:00 - 21:00\n토 09:00 - 21:00\n",
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                height: 1.9,
+                color: Color(0xff080808),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.normal,
+              ),
+              textAlign: TextAlign.left)
         ],
       ),
     );
