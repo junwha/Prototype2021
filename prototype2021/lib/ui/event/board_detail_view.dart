@@ -354,32 +354,35 @@ class BoardDetailViewState extends State<BoardDetailView> {
   Padding buildTimeArea() {
     return Padding(
       padding: const EdgeInsets.all(25.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text('영업 시간, 휴무일                                         ',
-              style: TextStyle(
-                  color: Color(0xff080808),
-                  fontSize: 17,
+      child: Container(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('영업 시간, 휴무일',
+                style: TextStyle(
+                    color: Color(0xff080808),
+                    fontSize: 17,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 1.5),
+                textAlign: TextAlign.left),
+            SizedBox(
+              height: 3,
+            ),
+            Text(
+                "일 09:00 - 21:00\n월 휴무\n화 09:00 - 21:00\n수 09:00 - 21:00\n목 09:00 - 21:00\n금 09:00 - 21:00\n토 09:00 - 21:00\n",
+                style: TextStyle(
                   fontFamily: 'Roboto',
+                  height: 1.9,
+                  color: Color(0xff707070),
+                  fontSize: 15,
                   fontWeight: FontWeight.w700,
-                  letterSpacing: 1.5),
-              textAlign: TextAlign.left),
-          SizedBox(
-            height: 3,
-          ),
-          Text(
-              "일 09:00 - 21:00\n월 휴무\n화 09:00 - 21:00\n수 09:00 - 21:00\n목 09:00 - 21:00\n금 09:00 - 21:00\n토 09:00 - 21:00\n",
-              style: TextStyle(
-                fontFamily: 'Roboto',
-                height: 1.9,
-                color: Color(0xff707070),
-                fontSize: 15,
-                fontWeight: FontWeight.w700,
-                fontStyle: FontStyle.normal,
-              ),
-              textAlign: TextAlign.left)
-        ],
+                  fontStyle: FontStyle.normal,
+                ),
+                textAlign: TextAlign.left)
+          ],
+        ),
       ),
     );
   }
