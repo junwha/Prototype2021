@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({Key? key}) : super(key: key);
@@ -9,6 +10,7 @@ class FilterView extends StatefulWidget {
 
 class _FilterViewState extends State<FilterView> {
   bool isChecked2 = false;
+  bool isChecked = false;
 
   @override
   Widget build(BuildContext context) {
@@ -27,14 +29,27 @@ class _FilterViewState extends State<FilterView> {
                 textAlign: TextAlign.left),
             Row(
               children: [
-                Checkbox(
-                  value: isChecked2,
-                  onChanged: (bool? value) {
-                    setState(() {
-                      isChecked2 = value!;
-                    });
-                  },
-                ), // 전체
+                CupertinoButton(
+                    child: Container(
+                      decoration: BoxDecoration(
+                          color:
+                              isChecked ? Colors.blue : CupertinoColors.white,
+                          border: Border.all(
+                              color: CupertinoColors.systemGrey,
+                              style: BorderStyle.solid,
+                              width: 1),
+                          borderRadius: BorderRadius.all(Radius.circular(5))),
+                      child: Icon(CupertinoIcons.check_mark,
+                          size: 25,
+                          color: isChecked
+                              ? CupertinoColors.white
+                              : CupertinoColors.systemGrey),
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        isChecked = !isChecked;
+                      });
+                    }), // 전체
                 Text("전체",
                     style: const TextStyle(
                         color: const Color(0xff707070),
