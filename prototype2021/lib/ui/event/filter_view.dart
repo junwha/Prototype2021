@@ -50,7 +50,7 @@ class _FilterViewState extends State<FilterView> {
                                     style: BorderStyle.solid,
                                     width: 1),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(2))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
                                 color: isChecked1
@@ -85,7 +85,7 @@ class _FilterViewState extends State<FilterView> {
                                     style: BorderStyle.solid,
                                     width: 1),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(2))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
                                 color: isChecked2
@@ -120,7 +120,7 @@ class _FilterViewState extends State<FilterView> {
                                     style: BorderStyle.solid,
                                     width: 1),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(2))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
                                 color: isChecked3
@@ -160,7 +160,7 @@ class _FilterViewState extends State<FilterView> {
                                     style: BorderStyle.solid,
                                     width: 1),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(2))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
                                 color: isChecked4
@@ -195,7 +195,7 @@ class _FilterViewState extends State<FilterView> {
                                     style: BorderStyle.solid,
                                     width: 1),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(2))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
                                 color: isChecked5
@@ -230,7 +230,7 @@ class _FilterViewState extends State<FilterView> {
                                     style: BorderStyle.solid,
                                     width: 1),
                                 borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
+                                    BorderRadius.all(Radius.circular(2))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
                                 color: isChecked6
@@ -253,7 +253,345 @@ class _FilterViewState extends State<FilterView> {
                     ],
                   ),
                 ],
-              )
+              ), // 컨텐츠 테마
+              Text("컨텐츠 테마",
+                  style: const TextStyle(
+                      color: const Color(0xff000000),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.left),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked1
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked1
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked1 = !isChecked1;
+                            });
+                          }), // 전체
+                      Text("역사탐방",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked2
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked2
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked2 = !isChecked2;
+                            });
+                          }), // 전체
+                      Text("맛집탐방",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked3
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked3
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked3 = !isChecked3;
+                            });
+                          }), // 전체
+                      Text("액티비티",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked1
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked1
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked1 = !isChecked1;
+                            });
+                          }), // 전체
+                      Text("야경감상",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked2
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked2
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked2 = !isChecked2;
+                            });
+                          }), // 전체
+                      Text("SNS핫플",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked3
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked3
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked3 = !isChecked3;
+                            });
+                          }), // 전체
+                      Text("휴양",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                ],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked1
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked1
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked1 = !isChecked1;
+                            });
+                          }), // 전체
+                      Text("이색체험",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked2
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked2
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked2 = !isChecked2;
+                            });
+                          }), // 전체
+                      Text("인생사진",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      CupertinoButton(
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: isChecked3
+                                    ? Colors.blue
+                                    : CupertinoColors.white,
+                                border: Border.all(
+                                    color: CupertinoColors.systemGrey,
+                                    style: BorderStyle.solid,
+                                    width: 1),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(2))),
+                            child: Icon(CupertinoIcons.check_mark,
+                                size: 20,
+                                color: isChecked3
+                                    ? CupertinoColors.white
+                                    : CupertinoColors.systemGrey),
+                          ),
+                          onPressed: () {
+                            setState(() {
+                              isChecked3 = !isChecked3;
+                            });
+                          }), // 전체
+                      Text("쇼핑메카",
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 12.0),
+                          textAlign: TextAlign.left)
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ));
