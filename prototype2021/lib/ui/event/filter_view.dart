@@ -10,9 +10,11 @@ class FilterView extends StatefulWidget {
 
 class _FilterViewState extends State<FilterView> {
   bool isChecked2 = false;
-  bool isChecked = false;
   bool isChecked1 = false;
   bool isChecked3 = false;
+  bool isChecked4 = false;
+  bool isChecked5 = false;
+  bool isChecked6 = false;
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +152,7 @@ class _FilterViewState extends State<FilterView> {
                       CupertinoButton(
                           child: Container(
                             decoration: BoxDecoration(
-                                color: isChecked1
+                                color: isChecked4
                                     ? Colors.blue
                                     : CupertinoColors.white,
                                 border: Border.all(
@@ -161,16 +163,16 @@ class _FilterViewState extends State<FilterView> {
                                     BorderRadius.all(Radius.circular(5))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
-                                color: isChecked1
+                                color: isChecked4
                                     ? CupertinoColors.white
                                     : CupertinoColors.systemGrey),
                           ),
                           onPressed: () {
                             setState(() {
-                              isChecked1 = !isChecked1;
+                              isChecked4 = !isChecked4;
                             });
                           }), // 전체
-                      Text("전체",
+                      Text("음식점",
                           style: const TextStyle(
                               color: const Color(0xff707070),
                               fontWeight: FontWeight.w400,
@@ -185,7 +187,7 @@ class _FilterViewState extends State<FilterView> {
                       CupertinoButton(
                           child: Container(
                             decoration: BoxDecoration(
-                                color: isChecked2
+                                color: isChecked5
                                     ? Colors.blue
                                     : CupertinoColors.white,
                                 border: Border.all(
@@ -196,16 +198,16 @@ class _FilterViewState extends State<FilterView> {
                                     BorderRadius.all(Radius.circular(5))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
-                                color: isChecked2
+                                color: isChecked5
                                     ? CupertinoColors.white
                                     : CupertinoColors.systemGrey),
                           ),
                           onPressed: () {
                             setState(() {
-                              isChecked2 = !isChecked2;
+                              isChecked5 = !isChecked5;
                             });
                           }), // 전체
-                      Text("여행지",
+                      Text("숙소",
                           style: const TextStyle(
                               color: const Color(0xff707070),
                               fontWeight: FontWeight.w400,
@@ -220,7 +222,7 @@ class _FilterViewState extends State<FilterView> {
                       CupertinoButton(
                           child: Container(
                             decoration: BoxDecoration(
-                                color: isChecked3
+                                color: isChecked6
                                     ? Colors.blue
                                     : CupertinoColors.white,
                                 border: Border.all(
@@ -231,16 +233,16 @@ class _FilterViewState extends State<FilterView> {
                                     BorderRadius.all(Radius.circular(5))),
                             child: Icon(CupertinoIcons.check_mark,
                                 size: 20,
-                                color: isChecked3
+                                color: isChecked6
                                     ? CupertinoColors.white
                                     : CupertinoColors.systemGrey),
                           ),
                           onPressed: () {
                             setState(() {
-                              isChecked3 = !isChecked3;
+                              isChecked6 = !isChecked6;
                             });
                           }), // 전체
-                      Text("카페",
+                      Text("기타",
                           style: const TextStyle(
                               color: const Color(0xff707070),
                               fontWeight: FontWeight.w400,
