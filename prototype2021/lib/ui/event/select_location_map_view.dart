@@ -8,14 +8,14 @@ import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
 import 'package:provider/provider.dart';
 
-class SelectLocationView extends StatefulWidget {
-  const SelectLocationView({Key? key}) : super(key: key);
+class SelectLocationMapView extends StatefulWidget {
+  const SelectLocationMapView({Key? key}) : super(key: key);
 
   @override
-  _SelectLocationViewState createState() => _SelectLocationViewState();
+  _SelectLocationMapViewState createState() => _SelectLocationMapViewState();
 }
 
-class _SelectLocationViewState extends State<SelectLocationView> {
+class _SelectLocationMapViewState extends State<SelectLocationMapView> {
   LatLng? center; //TODO(junwha): change to dynamic location
 
   @override
@@ -52,6 +52,17 @@ class _SelectLocationViewState extends State<SelectLocationView> {
                         center: locationModel.center,
                         markers: locationModel.markers,
                         load: locationModel.mapLoaded,
+                        onCameraMove: (CameraPosition cameraPostion) {
+                          locationModel.updateBearing(cameraPostion.bearing);
+                          locationModel.center = cameraPostion.target;
+                        },
+                        onTap: (LatLng pos) {
+                          if (locationModel.isFocused()) {
+                            locationModel.removeFocus();
+                          } else {
+                            locationModel.findPlace(pos);
+                          }
+                        },
                       ), //TODO(junwha): change to dynamic location
                       //buildSelectButton(maxHeight),
                       buildContentInfo(
@@ -93,14 +104,34 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("컨텐츠"),
+                  Row(
+                    children: [
+                      SizedBox(
+                        width: 16,
+                      ),
+                      Text(
+                        "컨텐츠",
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold),
+                      ),
+                    ],
+                  ),
                   TextButton(
                     style: TextButton.styleFrom(
                       primary: Colors.black,
                     ),
                     child: TextButton(
                       child: Row(
-                        children: [Icon(Icons.article_outlined), Text("선택 완료")],
+                        children: [
+                          Image.asset('assets/icons/check_outlined.png'),
+                          SizedBox(
+                            width: 7,
+                          ),
+                          Text(
+                            "선택 완료",
+                            style: TextStyle(color: Colors.black, fontSize: 15),
+                          )
+                        ],
                       ),
                       onPressed: () {
                         selectLoaction(location);
@@ -119,7 +150,6 @@ class _SelectLocationViewState extends State<SelectLocationView> {
               rating: 1,
               ratingNumbers: 5,
               tags: ["asdf"],
-              clickable: false,
               margin: const EdgeInsets.symmetric(vertical: 0),
             ),
             Container(
