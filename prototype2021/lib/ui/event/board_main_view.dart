@@ -276,7 +276,12 @@ Widget buildCurrentLocation(BuildContext context) {
           IconButton(
             onPressed: () {
               tbShowDialog(
-                  context, TBSimpleDialog(title: "adsf", body: Text("adsf")));
+                context,
+                TBLargeDialog(
+                  title: "asdf",
+                  body: Text("asdf"),
+                ),
+              );
             },
             icon: Image.asset("assets/icons/ic_filter_gray.png"),
           ),
