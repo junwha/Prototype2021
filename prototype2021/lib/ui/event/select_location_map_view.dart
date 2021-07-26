@@ -8,14 +8,14 @@ import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
 import 'package:provider/provider.dart';
 
-class SelectLocationView extends StatefulWidget {
-  const SelectLocationView({Key? key}) : super(key: key);
+class SelectLocationMapView extends StatefulWidget {
+  const SelectLocationMapView({Key? key}) : super(key: key);
 
   @override
-  _SelectLocationViewState createState() => _SelectLocationViewState();
+  _SelectLocationMapViewState createState() => _SelectLocationMapViewState();
 }
 
-class _SelectLocationViewState extends State<SelectLocationView> {
+class _SelectLocationMapViewState extends State<SelectLocationMapView> {
   LatLng? center; //TODO(junwha): change to dynamic location
 
   @override
