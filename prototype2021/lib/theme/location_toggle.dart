@@ -10,9 +10,10 @@ class LocationToggle extends StatefulWidget {
 }
 
 class _LocationToggleState extends State<LocationToggle> {
+  String mainLocation = "서울특별시";
+  String subLocation = "";
   @override
   Widget build(BuildContext context) {
-    String mainLocation = "서울특별시";
     return Row(
       children: [
         Expanded(
@@ -23,7 +24,10 @@ class _LocationToggleState extends State<LocationToggle> {
                       setState(() {
                         mainLocation = data;
                       });
-                    }))
+                    },
+                        data == mainLocation
+                            ? Color(0xffe8e8e8)
+                            : Color(0xffffffff)))
                 .toList(),
           ),
         ),
@@ -31,7 +35,14 @@ class _LocationToggleState extends State<LocationToggle> {
           flex: 10,
           child: ListView(
             children: subLocations[mainLocation]!
-                .map((data) => buildOutlinedButton(data, () {}))
+                .map((data) => buildOutlinedButton(data, () {
+                      setState(() {
+                        subLocation = data;
+                      });
+                    },
+                        data == subLocation
+                            ? Color(0xffe8e8e8)
+                            : Color(0xffffffff)))
                 .toList(),
           ),
         ),
@@ -39,11 +50,12 @@ class _LocationToggleState extends State<LocationToggle> {
     );
   }
 
-  Widget buildOutlinedButton(String text, Function() onTap) {
+  Widget buildOutlinedButton(String text, Function() onTap, Color color) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
+          color: color,
           border: Border.all(
             color: Color(0xffe8e8e8),
             width: 1,
