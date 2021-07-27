@@ -244,6 +244,7 @@ class AppBarTextButton extends StatelessWidget {
 }
 
 Widget buildCurrentLocation(BuildContext context) {
+  Map<String, String> location = {};
   return Container(
     color: Colors.white,
     child: Padding(
@@ -271,11 +272,12 @@ Widget buildCurrentLocation(BuildContext context) {
                 ),
               ],
             ),
-            onPressed: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute<void>(
-                      builder: (context) => SelectLocationToggleView()));
+            onPressed: () async {
+              location = (await Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                          builder: (context) => SelectLocationToggleView())))
+                  as Map<String, String>;
             },
           ),
           IconButton(
