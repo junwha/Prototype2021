@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/location_toggle.dart';
+import 'package:prototype2021/data/location_data.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class SelectLocationToggleView extends StatefulWidget {
   const SelectLocationToggleView({Key? key}) : super(key: key);
@@ -11,12 +13,51 @@ class SelectLocationToggleView extends StatefulWidget {
 }
 
 class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
+  String mainLocation = "서울특별시";
+  String subLocation = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
       backgroundColor: Colors.white,
-      body: LocationToggle(),
+      body: buildSelectLocationSection(),
+    );
+  }
+
+  Row buildSelectLocationSection() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 8,
+          child: ListView(
+            children: mainLocations
+                .map((data) => buildOutlinedButton(data, () {
+                      setState(() {
+                        mainLocation = data;
+                      });
+                    },
+                        data == mainLocation
+                            ? Color(0xffe8e8e8)
+                            : Color(0xffffffff)))
+                .toList(),
+          ),
+        ),
+        Expanded(
+          flex: 10,
+          child: ListView(
+            children: subLocations[mainLocation]!
+                .map((data) => buildOutlinedButton(data, () {
+                      setState(() {
+                        subLocation = data;
+                      });
+                    },
+                        data == subLocation
+                            ? Color(0xffe8e8e8)
+                            : Color(0xffffffff)))
+                .toList(),
+          ),
+        ),
+      ],
     );
   }
 
@@ -28,7 +69,9 @@ class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
       leading: IconButton(
         color: Colors.black,
         icon: Icon(Icons.arrow_back_ios),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       centerTitle: false,
       title: Text(
@@ -62,10 +105,39 @@ class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
                 ),
               ),
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context,
+                  {"mainLocation": mainLocation, "subLocation": subLocation});
+            },
           ),
         )
       ],
+    );
+  }
+
+  Widget buildOutlinedButton(String text, Function() onTap, Color color) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          color: color,
+          border: Border.all(
+            color: Color(0xffe8e8e8),
+            width: 1,
+          ),
+        ),
+        alignment: Alignment.center,
+        height: 50 * pt,
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Color(0xff444444),
+            fontSize: 16,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+      ),
     );
   }
 }

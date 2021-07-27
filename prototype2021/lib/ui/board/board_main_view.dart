@@ -4,6 +4,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 
 class BoardMainView extends StatefulWidget {
@@ -31,7 +32,7 @@ class _BoardMainViewState extends State<BoardMainView> {
             return <Widget>[
               SliverAppBar(
                 backgroundColor: Colors.white,
-                title: buildCurrentLocation(),
+                title: buildCurrentLocation(context),
               ),
               SliverAppBar(
                 elevation: 0,
@@ -242,7 +243,7 @@ class AppBarTextButton extends StatelessWidget {
   }
 }
 
-Widget buildCurrentLocation() {
+Widget buildCurrentLocation(BuildContext context) {
   return Container(
     color: Colors.white,
     child: Padding(
@@ -270,7 +271,12 @@ Widget buildCurrentLocation() {
                 ),
               ],
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute<void>(
+                      builder: (context) => SelectLocationToggleView()));
+            },
           ),
           IconButton(
             onPressed: () {},
