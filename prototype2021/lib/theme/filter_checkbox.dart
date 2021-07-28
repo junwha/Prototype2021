@@ -15,20 +15,19 @@ class _FilterCheckBoxState extends State<FilterCheckBox> {
   Widget build(BuildContext context) {
     return CupertinoButton(
         child: Container(
-          decoration: BoxDecoration(
-              color:
-                  this.widget.isChecked ? Colors.blue : CupertinoColors.white,
-              border: Border.all(
-                  color: CupertinoColors.systemGrey,
-                  style: BorderStyle.solid,
-                  width: 1),
-              borderRadius: BorderRadius.all(Radius.circular(2))),
-          child: Icon(CupertinoIcons.check_mark,
-              size: 20,
-              color: this.widget.isChecked
-                  ? CupertinoColors.white
-                  : CupertinoColors.systemGrey),
-        ),
+            height: 24,
+            width: 24,
+            decoration: BoxDecoration(
+                color:
+                    this.widget.isChecked ? Colors.blue : CupertinoColors.white,
+                border: Border.all(
+                    color: CupertinoColors.systemGrey,
+                    style: BorderStyle.solid,
+                    width: 1),
+                borderRadius: BorderRadius.all(Radius.circular(2))),
+            child: this.widget.isChecked
+                ? Image.asset('assets/icons/ic_filter_check_white.png')
+                : Image.asset('assets/icons/ic_filter_check_gray.png')),
         onPressed: () {
           setState(() {
             this.widget.isChecked = !this.widget.isChecked;
