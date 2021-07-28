@@ -26,6 +26,19 @@ class _FilterViewState extends State<FilterView> {
   bool isChecked14 = false;
   bool isChecked15 = false;
 
+  final _valueList = [
+    '추천순',
+    '별점높은순',
+    '저장많은순',
+    '거리가까운순',
+    '최신순',
+    '여행피로도낮은순',
+    '여행피로도높은순',
+    '여행경비낮은순',
+    '여행경비높은순',
+  ];
+  var _selectedValue;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -135,6 +148,9 @@ class _FilterViewState extends State<FilterView> {
                   ),
                 ],
               ), // 컨텐츠 테마
+              SizedBox(
+                height: 10,
+              ),
               Text("컨텐츠 테마",
                   style: const TextStyle(
                       color: const Color(0xff000000),
@@ -274,6 +290,50 @@ class _FilterViewState extends State<FilterView> {
                     ],
                   ),
                 ],
+              ), // 정렬
+              SizedBox(
+                height: 10,
+              ),
+              Text("정렬",
+                  style: const TextStyle(
+                      color: const Color(0xff000000),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.left),
+              Container(
+                height: 60,
+                width: double.infinity,
+                child: DropdownButton(
+                    underline: Container(
+                      height: 1,
+                      width: double.infinity,
+                      color: const Color(0xffbdbdbd),
+                    ),
+                    icon: Image.asset('assets/icons/ic_arrow_down_unfold.png'),
+                    isExpanded: true,
+                    hint: Text('선택해주세요'),
+                    value: _selectedValue,
+                    items: _valueList.map((value) {
+                      return DropdownMenuItem(
+                          value: value,
+                          child: Row(
+                            children: [
+                              Image.asset('assets/icons/ic_filter_unfold.png'),
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Text(value),
+                            ],
+                          ));
+                    }).toList(),
+                    onChanged: (value) {
+                      print(value);
+                      setState(() {
+                        _selectedValue = value;
+                      });
+                    }),
               ),
             ],
           ),
