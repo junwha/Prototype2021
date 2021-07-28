@@ -5,7 +5,10 @@ import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class SelectLocationToggleView extends StatefulWidget {
-  const SelectLocationToggleView({Key? key}) : super(key: key);
+  String mainLocation;
+  String subLocation;
+  SelectLocationToggleView(
+      {required this.mainLocation, required this.subLocation});
 
   @override
   _SelectLocationToggleViewState createState() =>
@@ -13,8 +16,6 @@ class SelectLocationToggleView extends StatefulWidget {
 }
 
 class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
-  String mainLocation = "서울특별시";
-  String subLocation = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,10 +34,11 @@ class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
             children: mainLocations
                 .map((data) => buildOutlinedButton(data, () {
                       setState(() {
-                        mainLocation = data;
+                        this.widget.mainLocation = data;
+                        this.widget.subLocation = "";
                       });
                     },
-                        data == mainLocation
+                        data == this.widget.mainLocation
                             ? Color(0xffe8e8e8)
                             : Color(0xffffffff)))
                 .toList(),
@@ -45,13 +47,13 @@ class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
         Expanded(
           flex: 10,
           child: ListView(
-            children: subLocations[mainLocation]!
+            children: subLocations[this.widget.mainLocation]!
                 .map((data) => buildOutlinedButton(data, () {
                       setState(() {
-                        subLocation = data;
+                        this.widget.subLocation = data;
                       });
                     },
-                        data == subLocation
+                        data == this.widget.subLocation
                             ? Color(0xffe8e8e8)
                             : Color(0xffffffff)))
                 .toList(),
@@ -106,8 +108,12 @@ class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
               ),
             ),
             onPressed: () {
-              Navigator.pop(context,
-                  {"mainLocation": mainLocation, "subLocation": subLocation});
+              if (this.widget.subLocation != "") {
+                Navigator.pop(context, {
+                  "mainLocation": this.widget.mainLocation,
+                  "subLocation": this.widget.subLocation
+                });
+              }
             },
           ),
         )

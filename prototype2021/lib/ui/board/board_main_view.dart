@@ -241,13 +241,19 @@ class _BoardMainViewState extends State<BoardMainView> {
               ),
               onPressed: () {
                 Navigator.push(
-                        context,
-                        MaterialPageRoute<void>(
-                            builder: (context) => SelectLocationToggleView()))
-                    .then((value) {
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (context) => SelectLocationToggleView(
+                              mainLocation: location["mainLocation"] ?? "",
+                              subLocation: location["subLocation"] ?? "",
+                            ))).then((value) {
                   setState(() {
-                    location = value as Map<String, String>;
-                    print(location);
+                    Map<String, String> _location =
+                        value as Map<String, String>;
+                    if (_location.containsKey("mainLocation") &&
+                        _location.containsKey("subLocation")) {
+                      location = _location;
+                    }
                   });
                 });
               },
