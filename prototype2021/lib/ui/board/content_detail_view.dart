@@ -8,14 +8,14 @@ import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/settings/constants.dart';
 
-class BoardDetailView extends StatefulWidget {
-  const BoardDetailView();
+class ContentDetailView extends StatefulWidget {
+  const ContentDetailView();
 
   @override
-  BoardDetailViewState createState() => BoardDetailViewState();
+  ContentDetailViewState createState() => ContentDetailViewState();
 }
 
-class BoardDetailViewState extends State<BoardDetailView> {
+class ContentDetailViewState extends State<ContentDetailView> {
   double image_index = 0;
   bool isAllList = false;
 
@@ -26,6 +26,7 @@ class BoardDetailViewState extends State<BoardDetailView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: buildAppBar(),
         body: SingleChildScrollView(
             child: ChangeNotifierProvider(
@@ -155,7 +156,9 @@ class BoardDetailViewState extends State<BoardDetailView> {
         centerTitle: false,
         leading: IconButton(
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text("컨텐츠 정보",
             style: TextStyle(

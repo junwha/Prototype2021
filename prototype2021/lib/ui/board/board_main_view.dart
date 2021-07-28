@@ -5,6 +5,7 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 
@@ -27,22 +28,26 @@ class _BoardMainViewState extends State<BoardMainView> {
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: DefaultTabController(
-        initialIndex: 1,
+        initialIndex: 0,
         length: 2,
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                automaticallyImplyLeading: false,
+                centerTitle: false,
                 backgroundColor: Colors.white,
                 title: buildCurrentLocation(),
               ),
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 elevation: 0,
                 pinned: true,
                 backgroundColor: Colors.white,
                 title: buildTabBar(),
               ),
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 shadowColor: Color(0x29000000),
                 forceElevated: true,
                 pinned: true,
@@ -81,21 +86,29 @@ class _BoardMainViewState extends State<BoardMainView> {
               child: Column(
                 children: List.generate(
                   20,
-                  (index) => ContentsCard(
-                    preview: placeHolder,
-                    title: "울산대공원",
-                    place: "대한민국, 울산",
-                    explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
-                    rating: 5,
-                    ratingNumbers: 34,
-                    tags: ["액티비티", "관광명소", "인생사진"],
-                    isHeartSelected: heartSelected,
-                    onHeartPreessed: (bool isSelected) {
-                      setState(() {
-                        this.heartSelected = !isSelected;
-                      });
-                      print(heartSelected);
+                  (index) => GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => ContentDetailView()));
                     },
+                    child: ContentsCard(
+                      preview: placeHolder,
+                      title: "울산대공원",
+                      place: "대한민국, 울산",
+                      explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
+                      rating: 5,
+                      ratingNumbers: 34,
+                      tags: ["액티비티", "관광명소", "인생사진"],
+                      isHeartSelected: heartSelected,
+                      onHeartPreessed: (bool isSelected) {
+                        setState(() {
+                          this.heartSelected = !isSelected;
+                        });
+                        print(heartSelected);
+                      },
+                    ),
                   ),
                 ),
               ),
@@ -192,7 +205,9 @@ class _BoardMainViewState extends State<BoardMainView> {
       leading: IconButton(
         color: Colors.black,
         icon: Image.asset("assets/icons/ic_remove_x.png"),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       toolbarHeight: 60,
       actions: [
@@ -260,7 +275,29 @@ class _BoardMainViewState extends State<BoardMainView> {
               },
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                tbShowDialog(
+                    context,
+                    TBLargeDialog(
+                      title: "",
+                      body: Container(
+                        height: 500,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Develop in progress",
+                                style: TextStyle(
+                                  color: Color(0xff444444),
+                                  fontFamily: 'Roboto',
+                                  fontSize: 20 * pt,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              )
+                            ]),
+                      ),
+                    ));
+              },
               icon: Image.asset("assets/icons/ic_filter_gray.png"),
             ),
           ],
