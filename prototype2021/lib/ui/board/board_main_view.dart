@@ -205,7 +205,9 @@ class _BoardMainViewState extends State<BoardMainView> {
       leading: IconButton(
         color: Colors.black,
         icon: Image.asset("assets/icons/ic_remove_x.png"),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       toolbarHeight: 60,
       actions: [

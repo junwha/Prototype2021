@@ -141,7 +141,9 @@ class _SigninView3State extends State<SigninView3> {
         centerTitle: false,
         leading: IconButton(
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text("회원설정",
             style: const TextStyle(

@@ -256,10 +256,7 @@ class _SigninView4State extends State<SigninView4> {
               ),
               TextButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginView()),
-                    );
+                    Navigator.popUntil(context, ModalRoute.withName("login"));
                   },
                   child: Container(
                       child: Center(
@@ -291,7 +288,9 @@ class _SigninView4State extends State<SigninView4> {
         centerTitle: false,
         leading: IconButton(
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text("회원설정",
             style: const TextStyle(

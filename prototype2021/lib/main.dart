@@ -9,11 +9,15 @@ import 'package:prototype2021/ui/event/select_location_map_view.dart';
 void main() {
   runApp(
     //Don't touch here. route map is in 'main_page.dart'
-    MaterialApp(home: LoginView(), routes: {
-      'editor': (context) => EditorView(),
-      'select_location': (context) => SelectLocationMapView(),
-      'map': (context) => MapView(),
-      //'/main': (context) => MainPage(),
-    }),
+    MaterialApp(
+      routes: {
+        'login': (context) => LoginView(),
+        'editor': (context) => EditorView(),
+        'select_location': (context) => SelectLocationMapView(),
+        'map': (context) => MapView(),
+        //'/main': (context) => MainPage(),
+      },
+      initialRoute: 'login',
+    ),
   );
 }
