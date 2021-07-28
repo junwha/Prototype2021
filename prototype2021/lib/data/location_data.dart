@@ -1,4 +1,5 @@
 List<String> mainLocations = [
+  "국내",
   "서울특별시",
   "부산광역시",
   "경기도",
@@ -18,6 +19,7 @@ List<String> mainLocations = [
   "제주특별자치도"
 ];
 Map<String, List<String>> subLocations = {
+  "국내": ["전체"],
   "서울특별시": [
     "종로구",
     "중구",
