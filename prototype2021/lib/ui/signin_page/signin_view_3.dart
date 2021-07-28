@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_4.dart';
 
 class SigninView3 extends StatefulWidget {
   const SigninView3({Key? key}) : super(key: key);
@@ -104,7 +105,12 @@ class _SigninView3State extends State<SigninView3> {
               height: 40,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninView4()),
+                  );
+                },
                 child: Container(
                     child: Center(
                       child: Text(

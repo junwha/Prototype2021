@@ -6,6 +6,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
 
 class SigninView2 extends StatefulWidget {
   const SigninView2({Key? key}) : super(key: key);
@@ -132,7 +133,12 @@ class _SigninView2State extends State<SigninView2> {
               height: 60,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninView3()),
+                  );
+                },
                 child: Container(
                     child: Center(
                       child: Text(
