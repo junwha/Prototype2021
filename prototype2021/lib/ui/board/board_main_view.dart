@@ -17,6 +17,7 @@ class BoardMainView extends StatefulWidget {
 class _BoardMainViewState extends State<BoardMainView> {
   bool heartSelected = false;
   bool heartSelected2 = false;
+  Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class _BoardMainViewState extends State<BoardMainView> {
             return <Widget>[
               SliverAppBar(
                 backgroundColor: Colors.white,
-                title: buildCurrentLocation(context),
+                title: buildCurrentLocation(),
               ),
               SliverAppBar(
                 elevation: 0,
@@ -209,6 +210,57 @@ class _BoardMainViewState extends State<BoardMainView> {
       ],
     );
   }
+
+  Widget buildCurrentLocation() {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10 * pt, 12 * pt, 15 * pt, 29 * pt),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton(
+              child: Row(
+                children: [
+                  Text(
+                    '${location["mainLocation"]} ${location["subLocation"]}',
+                    style: TextStyle(
+                      color: Color(0xff444444),
+                      fontFamily: 'Roboto',
+                      fontSize: 23 * pt,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(width: 10 * pt),
+                  ImageIcon(
+                    AssetImage("assets/icons/ic_area_arrow_down_unfold.png"),
+                    color: Colors.black,
+                    size: 14 * pt,
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Navigator.push(
+                        context,
+                        MaterialPageRoute<void>(
+                            builder: (context) => SelectLocationToggleView()))
+                    .then((value) {
+                  setState(() {
+                    location = value as Map<String, String>;
+                    print(location);
+                  });
+                });
+              },
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Image.asset("assets/icons/ic_filter_gray.png"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class AppBarTextButton extends StatelessWidget {
@@ -241,51 +293,4 @@ class AppBarTextButton extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget buildCurrentLocation(BuildContext context) {
-  Map<String, String> location = {};
-  return Container(
-    color: Colors.white,
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 29 * pt),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-            child: Row(
-              children: [
-                Text(
-                  '국내 전체',
-                  style: TextStyle(
-                    color: Color(0xff444444),
-                    fontSize: 24 * pt,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(width: 10 * pt),
-                ImageIcon(
-                  AssetImage("assets/icons/ic_area_arrow_down_unfold.png"),
-                  color: Colors.black,
-                  size: 14 * pt,
-                ),
-              ],
-            ),
-            onPressed: () async {
-              location = (await Navigator.push(
-                      context,
-                      MaterialPageRoute<void>(
-                          builder: (context) => SelectLocationToggleView())))
-                  as Map<String, String>;
-            },
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: Image.asset("assets/icons/ic_filter_gray.png"),
-          ),
-        ],
-      ),
-    ),
-  );
 }
