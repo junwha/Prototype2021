@@ -128,3 +128,113 @@ class _TBSimpleDialogState extends State<TBSimpleDialog> {
     );
   }
 }
+
+class TBLargeDialog extends StatefulWidget {
+  String title;
+  Widget body;
+  bool isBackEnabled;
+  String backButtonText;
+  String submitButtonText;
+  Function()? onSubmitPressed;
+  EdgeInsets padding;
+  EdgeInsets insetsPadding;
+
+  TBLargeDialog({
+    required this.title,
+    required this.body,
+    this.isBackEnabled = true,
+    this.backButtonText = "취소",
+    this.submitButtonText = "확인",
+    this.onSubmitPressed,
+    this.padding = const EdgeInsets.all(15),
+    this.insetsPadding = const EdgeInsets.all(35),
+  });
+
+  @override
+  _TBLargeDialogState createState() => _TBLargeDialogState();
+}
+
+class _TBLargeDialogState extends State<TBLargeDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: this.widget.insetsPadding,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Container(
+              padding: this.widget.padding,
+              alignment: Alignment.center,
+              child: this.widget.body,
+            ),
+            Container(
+              color: Colors.grey,
+              child: Row(
+                children: this.widget.isBackEnabled
+                    ? [
+                        buildButton(
+                          this.widget.backButtonText,
+                          Color(0xff5890ff),
+                          () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        buildButton(
+                          this.widget.submitButtonText,
+                          Color(0xff4080ff),
+                          () {
+                            if (this.widget.onSubmitPressed != null) {
+                              this.widget.onSubmitPressed!.call();
+                            }
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ]
+                    : [
+                        buildButton(
+                          this.widget.submitButtonText,
+                          Color(0xff4080ff),
+                          () {
+                            if (this.widget.onSubmitPressed != null) {
+                              this.widget.onSubmitPressed!.call();
+                            }
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded buildButton(String text, Color color, Function() onPressed) {
+    return Expanded(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          fixedSize: Size(double.infinity, 50 * pt),
+          shape: BeveledRectangleBorder(),
+          backgroundColor: color,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onPressed: onPressed,
+      ),
+    );
+  }
+}
