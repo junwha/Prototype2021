@@ -269,7 +269,29 @@ class _BoardMainViewState extends State<BoardMainView> {
               },
             ),
             IconButton(
-              onPressed: () {},
+              onPressed: () {
+                tbShowDialog(
+                    context,
+                    TBLargeDialog(
+                      title: "",
+                      body: Container(
+                        height: 500,
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Develop in progress",
+                                style: TextStyle(
+                                  color: Color(0xff444444),
+                                  fontFamily: 'Roboto',
+                                  fontSize: 20 * pt,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              )
+                            ]),
+                      ),
+                    ));
+              },
               icon: Image.asset("assets/icons/ic_filter_gray.png"),
             ),
           ],
