@@ -5,6 +5,7 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
 
 class BoardMainView extends StatefulWidget {
@@ -17,6 +18,7 @@ class BoardMainView extends StatefulWidget {
 class _BoardMainViewState extends State<BoardMainView> {
   bool heartSelected = false;
   bool heartSelected2 = false;
+  Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +34,7 @@ class _BoardMainViewState extends State<BoardMainView> {
             return <Widget>[
               SliverAppBar(
                 backgroundColor: Colors.white,
-                title: buildCurrentLocation(context),
+                title: buildCurrentLocation(),
               ),
               SliverAppBar(
                 elevation: 0,
@@ -209,6 +211,63 @@ class _BoardMainViewState extends State<BoardMainView> {
       ],
     );
   }
+
+  Widget buildCurrentLocation() {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(10 * pt, 12 * pt, 15 * pt, 29 * pt),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            TextButton(
+              child: Row(
+                children: [
+                  Text(
+                    '${location["mainLocation"]} ${location["subLocation"]}',
+                    style: TextStyle(
+                      color: Color(0xff444444),
+                      fontFamily: 'Roboto',
+                      fontSize: 23 * pt,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  SizedBox(width: 10 * pt),
+                  ImageIcon(
+                    AssetImage("assets/icons/ic_area_arrow_down_unfold.png"),
+                    color: Colors.black,
+                    size: 14 * pt,
+                  ),
+                ],
+              ),
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute<void>(
+                        builder: (context) => SelectLocationToggleView(
+                              mainLocation: location["mainLocation"] ?? "",
+                              subLocation: location["subLocation"] ?? "",
+                            ))).then((value) {
+                  setState(() {
+                    Map<String, String> _location =
+                        value as Map<String, String>;
+                    if (_location.containsKey("mainLocation") &&
+                        _location.containsKey("subLocation")) {
+                      location = _location;
+                    }
+                  });
+                });
+              },
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: Image.asset("assets/icons/ic_filter_gray.png"),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
 
 class AppBarTextButton extends StatelessWidget {
@@ -241,52 +300,4 @@ class AppBarTextButton extends StatelessWidget {
       ),
     );
   }
-}
-
-Widget buildCurrentLocation(BuildContext context) {
-  return Container(
-    color: Colors.white,
-    child: Padding(
-      padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 29 * pt),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          TextButton(
-            child: Row(
-              children: [
-                Text(
-                  '국내 전체',
-                  style: TextStyle(
-                    color: Color(0xff444444),
-                    fontSize: 24 * pt,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(width: 10 * pt),
-                ImageIcon(
-                  AssetImage("assets/icons/ic_area_arrow_down_unfold.png"),
-                  color: Colors.black,
-                  size: 14 * pt,
-                ),
-              ],
-            ),
-            onPressed: () {},
-          ),
-          IconButton(
-            onPressed: () {
-              tbShowDialog(
-                context,
-                TBLargeDialog(
-                  title: "asdf",
-                  body: Text("asdf"),
-                ),
-              );
-            },
-            icon: Image.asset("assets/icons/ic_filter_gray.png"),
-          ),
-        ],
-      ),
-    ),
-  );
 }
