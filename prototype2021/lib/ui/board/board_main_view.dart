@@ -28,22 +28,26 @@ class _BoardMainViewState extends State<BoardMainView> {
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: DefaultTabController(
-        initialIndex: 1,
+        initialIndex: 0,
         length: 2,
         child: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
             return <Widget>[
               SliverAppBar(
+                automaticallyImplyLeading: false,
+                centerTitle: false,
                 backgroundColor: Colors.white,
                 title: buildCurrentLocation(),
               ),
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 elevation: 0,
                 pinned: true,
                 backgroundColor: Colors.white,
                 title: buildTabBar(),
               ),
               SliverAppBar(
+                automaticallyImplyLeading: false,
                 shadowColor: Color(0x29000000),
                 forceElevated: true,
                 pinned: true,
