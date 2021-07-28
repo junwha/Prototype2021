@@ -25,6 +25,7 @@ class _FilterViewState extends State<FilterView> {
   bool isChecked13 = false;
   bool isChecked14 = false;
   bool isChecked15 = false;
+  int selectedRadio = 1;
 
   final _valueList = [
     '추천순',
@@ -73,6 +74,19 @@ class _FilterViewState extends State<FilterView> {
         _counter--;
         minuscolor = true;
       }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    selectedRadio = 0;
+  }
+
+// Changes the selected value on 'onChanged' click on each radio button
+  setSelectedRadio(int val) {
+    setState(() {
+      selectedRadio = val;
     });
   }
 
@@ -430,7 +444,85 @@ class _FilterViewState extends State<FilterView> {
                                     'assets/icons/button_filter_minus_gray.png')),
                       ],
                     ),
-                  ])
+                  ]),
+              SizedBox(
+                height: 15,
+              ),
+              Text("여행 피로도",
+                  style: const TextStyle(
+                      color: const Color(0xff000000),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 16.0),
+                  textAlign: TextAlign.left),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    height: 1,
+                    width: 210,
+                    color: Color(0xffbdbdbd),
+                  ),
+                  ButtonBar(
+                    buttonMinWidth: 300,
+                    mainAxisSize: MainAxisSize.max,
+                    alignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Radio(
+                        focusColor: Colors.white,
+                        hoverColor: Colors.white,
+                        value: 1,
+                        groupValue: selectedRadio,
+                        activeColor: Colors.blue,
+                        onChanged: (int? val) {
+                          print("Radio $val");
+                          setSelectedRadio(val!);
+                        },
+                      ),
+                      Radio(
+                        value: 2,
+                        groupValue: selectedRadio,
+                        activeColor: Colors.blue,
+                        onChanged: (int? val) {
+                          print("Radio $val");
+                          setSelectedRadio(val!);
+                        },
+                      ),
+                      Radio(
+                        value: 3,
+                        groupValue: selectedRadio,
+                        activeColor: Colors.blue,
+                        onChanged: (int? val) {
+                          print("Radio $val");
+                          setSelectedRadio(val!);
+                        },
+                      ),
+                      Radio(
+                        value: 4,
+                        groupValue: selectedRadio,
+                        activeColor: Colors.blue,
+                        onChanged: (int? val) {
+                          print("Radio $val");
+                          setSelectedRadio(val!);
+                        },
+                      ),
+                      Radio(
+                        value: 5,
+                        groupValue: selectedRadio,
+                        activeColor: Colors.blue,
+                        onChanged: (int? val) {
+                          print("Radio $val");
+                          setSelectedRadio(val!);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              )
             ],
           ),
         ));
