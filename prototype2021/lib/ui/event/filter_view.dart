@@ -55,24 +55,28 @@ class _FilterViewState extends State<FilterView> {
 
   void _incrementCounter() {
     setState(() {
-      if (_counter < 7) {
+      if (_counter != 7) {
         _counter++;
-        pluscolor = true;
-      } else {
-        _counter = 7;
-        pluscolor = false;
+        if (_counter == 7) {
+          pluscolor = false;
+        } else {
+          pluscolor = true;
+          minuscolor = true;
+        }
       }
     });
   }
 
   void _decrementCounter() {
     setState(() {
-      if (_counter == 0) {
-        _counter = 0;
-        minuscolor = false;
-      } else {
+      if (_counter != 0) {
         _counter--;
-        minuscolor = true;
+        if (_counter == 0) {
+          minuscolor = false;
+        } else {
+          pluscolor = true;
+          minuscolor = true;
+        }
       }
     });
   }
@@ -111,92 +115,17 @@ class _FilterViewState extends State<FilterView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked1),
-                      Text("전체",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked2),
-                      Text("여행지",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked3),
-                      Text("카페",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
+                  buildCheckRow("전체", isChecked1),
+                  buildCheckRow("여행지", isChecked2),
+                  buildCheckRow("카페", isChecked3),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked4),
-                      Text("음식점",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Positioned(
-                    left: 20,
-                    child: Row(
-                      children: [
-                        FilterCheckBox(isChecked: isChecked5),
-                        Text("숙소",
-                            style: const TextStyle(
-                                color: const Color(0xff707070),
-                                fontWeight: FontWeight.w400,
-                                fontFamily: "Roboto",
-                                fontStyle: FontStyle.normal,
-                                fontSize: 12.0),
-                            textAlign: TextAlign.left)
-                      ],
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked6),
-                      Text("기타",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
+                  buildCheckRow("음식점", isChecked4),
+                  buildCheckRow("숙소", isChecked5),
+                  buildCheckRow("기타", isChecked6),
                 ],
               ), // 컨텐츠 테마
               SizedBox(
@@ -210,136 +139,25 @@ class _FilterViewState extends State<FilterView> {
                       fontStyle: FontStyle.normal,
                       fontSize: 16.0),
                   textAlign: TextAlign.left),
+              Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                buildCheckRow("역사탐방", isChecked7),
+                buildCheckRow("맛집탐방", isChecked8),
+                buildCheckRow("액티비티", isChecked9),
+              ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked7),
-                      Text("역사탐방",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked8),
-                      Text("맛집탐방",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked9),
-                      Text("액티비티",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
+                  buildCheckRow("야경감상", isChecked10),
+                  buildCheckRow("SNS핫플", isChecked11),
+                  buildCheckRow("휴양", isChecked12),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked10),
-                      Text("야경감상",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked11),
-                      Text("SNS핫플",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked12),
-                      Text("휴양",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                ],
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked13),
-                      Text("이색체험",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked14),
-                      Text("인생사진",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      FilterCheckBox(isChecked: isChecked15),
-                      Text("쇼핑메카",
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 12.0),
-                          textAlign: TextAlign.left)
-                    ],
-                  ),
+                  buildCheckRow("이색체험", isChecked13),
+                  buildCheckRow("인생사진", isChecked14),
+                  buildCheckRow("쇼핑메카", isChecked15),
                 ],
               ), // 정렬
               SizedBox(
@@ -411,12 +229,12 @@ class _FilterViewState extends State<FilterView> {
                             mini: true,
                             backgroundColor: Colors.white,
                             elevation: 0,
-                            onPressed: _incrementCounter,
-                            child: this.pluscolor
+                            onPressed: _decrementCounter,
+                            child: this.minuscolor
                                 ? Image.asset(
-                                    'assets/icons/button_filter_plus_black.png')
+                                    'assets/icons/button_filter_minus_black.png')
                                 : Image.asset(
-                                    'assets/icons/button_filter_plus_gray.png')),
+                                    'assets/icons/button_filter_minus_gray.png')),
                         SizedBox(
                           width: 20,
                         ),
@@ -436,12 +254,12 @@ class _FilterViewState extends State<FilterView> {
                             mini: true,
                             backgroundColor: Colors.white,
                             elevation: 0,
-                            onPressed: _decrementCounter,
-                            child: this.minuscolor
+                            onPressed: _incrementCounter,
+                            child: this.pluscolor
                                 ? Image.asset(
-                                    'assets/icons/button_filter_minus_black.png')
+                                    'assets/icons/button_filter_plus_black.png')
                                 : Image.asset(
-                                    'assets/icons/button_filter_minus_gray.png')),
+                                    'assets/icons/button_filter_plus_gray.png')),
                       ],
                     ),
                   ]),
@@ -468,57 +286,14 @@ class _FilterViewState extends State<FilterView> {
                     color: Color(0xffbdbdbd),
                   ),
                   ButtonBar(
-                    buttonMinWidth: 300,
                     mainAxisSize: MainAxisSize.max,
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      Radio(
-                        focusColor: Colors.white,
-                        hoverColor: Colors.white,
-                        value: 1,
-                        groupValue: selectedRadio,
-                        activeColor: Colors.blue,
-                        onChanged: (int? val) {
-                          print("Radio $val");
-                          setSelectedRadio(val!);
-                        },
-                      ),
-                      Radio(
-                        value: 2,
-                        groupValue: selectedRadio,
-                        activeColor: Colors.blue,
-                        onChanged: (int? val) {
-                          print("Radio $val");
-                          setSelectedRadio(val!);
-                        },
-                      ),
-                      Radio(
-                        value: 3,
-                        groupValue: selectedRadio,
-                        activeColor: Colors.blue,
-                        onChanged: (int? val) {
-                          print("Radio $val");
-                          setSelectedRadio(val!);
-                        },
-                      ),
-                      Radio(
-                        value: 4,
-                        groupValue: selectedRadio,
-                        activeColor: Colors.blue,
-                        onChanged: (int? val) {
-                          print("Radio $val");
-                          setSelectedRadio(val!);
-                        },
-                      ),
-                      Radio(
-                        value: 5,
-                        groupValue: selectedRadio,
-                        activeColor: Colors.blue,
-                        onChanged: (int? val) {
-                          print("Radio $val");
-                          setSelectedRadio(val!);
-                        },
-                      ),
+                      buildRadio(context, 1),
+                      buildRadio(context, 2),
+                      buildRadio(context, 3),
+                      buildRadio(context, 4),
+                      buildRadio(context, 5),
                     ],
                   ),
                 ],
@@ -526,6 +301,48 @@ class _FilterViewState extends State<FilterView> {
             ],
           ),
         ));
+  }
+
+  Theme buildRadio(BuildContext context, int value) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        unselectedWidgetColor: Colors.grey,
+        disabledColor: Colors.blue,
+        backgroundColor: Colors.white,
+      ),
+      child: Radio(
+        focusColor: Colors.white,
+        hoverColor: Colors.white,
+        value: value,
+        groupValue: selectedRadio,
+        activeColor: Colors.blue,
+        onChanged: (int? val) {
+          print("Radio $val");
+          setSelectedRadio(val!);
+        },
+      ),
+    );
+  }
+
+  Row buildCheckRow(String text, bool isChecked) {
+    return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+      Row(
+        children: [
+          FilterCheckBox(isChecked: isChecked),
+          Container(
+            width: 50,
+            child: Text(text,
+                style: const TextStyle(
+                    color: const Color(0xff707070),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Roboto",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 12.0),
+                textAlign: TextAlign.left),
+          )
+        ],
+      )
+    ]);
   }
 
   AppBar buildAppBar() {
