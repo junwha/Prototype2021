@@ -238,14 +238,19 @@ class _FilterViewState extends State<FilterView> {
                         SizedBox(
                           width: 20,
                         ),
-                        Text(
-                          planList[_counter],
-                          style: const TextStyle(
-                              color: const Color(0xff707070),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
+                        Container(
+                          width: 65,
+                          child: Center(
+                            child: Text(
+                              planList[_counter],
+                              style: const TextStyle(
+                                  color: const Color(0xff707070),
+                                  fontWeight: FontWeight.w400,
+                                  fontFamily: "Roboto",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 14.0),
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: 20,
@@ -325,6 +330,7 @@ class _FilterViewState extends State<FilterView> {
   }
 
   Row buildCheckRow(String text, bool isChecked) {
+    // text는 6글자 이상 입력시 overflow발생
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Row(
         children: [
