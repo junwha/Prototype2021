@@ -105,6 +105,7 @@ class _FilterViewState extends State<FilterView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: buildAppBar(),
         body: Padding(
           padding: const EdgeInsets.all(28.0),
@@ -255,6 +256,9 @@ class _FilterViewState extends State<FilterView> {
                 height: 15,
               ),
               buildMainText("여행 피로도"),
+              SizedBox(
+                height: 20,
+              ),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -262,13 +266,13 @@ class _FilterViewState extends State<FilterView> {
                     height: 30,
                   ),
                   Container(
-                    height: 1,
-                    width: 210,
+                    height: 2,
+                    width: 300,
                     color: Color(0xffbdbdbd),
                   ),
                   ButtonBar(
                     mainAxisSize: MainAxisSize.max,
-                    alignment: MainAxisAlignment.center,
+                    alignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       buildRadio1(context, 1),
                       buildRadio1(context, 2),
@@ -279,7 +283,13 @@ class _FilterViewState extends State<FilterView> {
                   ),
                 ],
               ),
+              SizedBox(
+                height: 20,
+              ),
               buildMainText('여행 경비'),
+              SizedBox(
+                height: 20,
+              ),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -287,13 +297,13 @@ class _FilterViewState extends State<FilterView> {
                     height: 30,
                   ),
                   Container(
-                    height: 1,
-                    width: 210,
+                    height: 2,
+                    width: 300,
                     color: Color(0xffbdbdbd),
                   ),
                   ButtonBar(
                     mainAxisSize: MainAxisSize.max,
-                    alignment: MainAxisAlignment.center,
+                    alignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       buildRadio2(context, 6),
                       buildRadio2(context, 7),
@@ -309,44 +319,60 @@ class _FilterViewState extends State<FilterView> {
         ));
   }
 
-  Theme buildRadio1(BuildContext context, int value) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        unselectedWidgetColor: Colors.grey,
-        disabledColor: Colors.blue,
-        backgroundColor: Colors.white,
-      ),
-      child: Radio(
-        focusColor: Colors.white,
-        hoverColor: Colors.white,
-        value: value,
-        groupValue: selectedRadio1,
-        activeColor: Colors.blue,
-        onChanged: (int? val) {
-          print("Radio $val");
-          setSelectedRadio1(val!);
-        },
+  Container buildRadio1(BuildContext context, int value) {
+    return Container(
+      width: 30,
+      height: 30,
+      color: Colors.white,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          unselectedWidgetColor: const Color(0xffbdbdbd),
+          disabledColor: Colors.blue,
+          backgroundColor: Colors.white,
+        ),
+        child: Transform.scale(
+          scale: 1.7,
+          child: Radio(
+            focusColor: Colors.white,
+            hoverColor: Colors.white,
+            value: value,
+            groupValue: selectedRadio1,
+            activeColor: Colors.blue,
+            onChanged: (int? val) {
+              print("Radio $val");
+              setSelectedRadio1(val!);
+            },
+          ),
+        ),
       ),
     );
   }
 
-  Theme buildRadio2(BuildContext context, int value) {
-    return Theme(
-      data: Theme.of(context).copyWith(
-        unselectedWidgetColor: Colors.grey,
-        disabledColor: Colors.blue,
-        backgroundColor: Colors.white,
-      ),
-      child: Radio(
-        focusColor: Colors.white,
-        hoverColor: Colors.white,
-        value: value,
-        groupValue: selectedRadio2,
-        activeColor: Colors.blue,
-        onChanged: (int? val) {
-          print("Radio $val");
-          setSelectedRadio2(val!);
-        },
+  Container buildRadio2(BuildContext context, int value) {
+    return Container(
+      width: 30,
+      height: 30,
+      color: Colors.white,
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          unselectedWidgetColor: const Color(0xffbdbdbd),
+          disabledColor: Colors.blue,
+          backgroundColor: Colors.white,
+        ),
+        child: Transform.scale(
+          scale: 1.7,
+          child: Radio(
+            focusColor: Colors.white,
+            hoverColor: Colors.white,
+            value: value,
+            groupValue: selectedRadio2,
+            activeColor: Colors.blue,
+            onChanged: (int? val) {
+              print("Radio $val");
+              setSelectedRadio2(val!);
+            },
+          ),
+        ),
       ),
     );
   }
