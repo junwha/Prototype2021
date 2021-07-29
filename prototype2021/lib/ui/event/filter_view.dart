@@ -25,7 +25,8 @@ class _FilterViewState extends State<FilterView> {
   bool isChecked13 = false;
   bool isChecked14 = false;
   bool isChecked15 = false;
-  int selectedRadio = 1;
+  int selectedRadio1 = 1;
+  int selectedRadio2 = 1;
 
   final _valueList = [
     '추천순',
@@ -84,13 +85,20 @@ class _FilterViewState extends State<FilterView> {
   @override
   void initState() {
     super.initState();
-    selectedRadio = 0;
+    selectedRadio1 = 0;
+    selectedRadio2 = 0;
   }
 
 // Changes the selected value on 'onChanged' click on each radio button
-  setSelectedRadio(int val) {
+  setSelectedRadio1(int val) {
     setState(() {
-      selectedRadio = val;
+      selectedRadio1 = val;
+    });
+  }
+
+  setSelectedRadio2(int val) {
+    setState(() {
+      selectedRadio2 = val;
     });
   }
 
@@ -246,7 +254,7 @@ class _FilterViewState extends State<FilterView> {
               SizedBox(
                 height: 15,
               ),
-              buildMainText("여행피로도"),
+              buildMainText("여행 피로도"),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -262,21 +270,46 @@ class _FilterViewState extends State<FilterView> {
                     mainAxisSize: MainAxisSize.max,
                     alignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      buildRadio(context, 1),
-                      buildRadio(context, 2),
-                      buildRadio(context, 3),
-                      buildRadio(context, 4),
-                      buildRadio(context, 5),
+                      buildRadio1(context, 1),
+                      buildRadio1(context, 2),
+                      buildRadio1(context, 3),
+                      buildRadio1(context, 4),
+                      buildRadio1(context, 5),
                     ],
                   ),
                 ],
-              )
+              ),
+              buildMainText('여행 경비'),
+              Stack(
+                alignment: Alignment.center,
+                children: [
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Container(
+                    height: 1,
+                    width: 210,
+                    color: Color(0xffbdbdbd),
+                  ),
+                  ButtonBar(
+                    mainAxisSize: MainAxisSize.max,
+                    alignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      buildRadio2(context, 6),
+                      buildRadio2(context, 7),
+                      buildRadio2(context, 8),
+                      buildRadio2(context, 9),
+                      buildRadio2(context, 10),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ));
   }
 
-  Theme buildRadio(BuildContext context, int value) {
+  Theme buildRadio1(BuildContext context, int value) {
     return Theme(
       data: Theme.of(context).copyWith(
         unselectedWidgetColor: Colors.grey,
@@ -287,11 +320,32 @@ class _FilterViewState extends State<FilterView> {
         focusColor: Colors.white,
         hoverColor: Colors.white,
         value: value,
-        groupValue: selectedRadio,
+        groupValue: selectedRadio1,
         activeColor: Colors.blue,
         onChanged: (int? val) {
           print("Radio $val");
-          setSelectedRadio(val!);
+          setSelectedRadio1(val!);
+        },
+      ),
+    );
+  }
+
+  Theme buildRadio2(BuildContext context, int value) {
+    return Theme(
+      data: Theme.of(context).copyWith(
+        unselectedWidgetColor: Colors.grey,
+        disabledColor: Colors.blue,
+        backgroundColor: Colors.white,
+      ),
+      child: Radio(
+        focusColor: Colors.white,
+        hoverColor: Colors.white,
+        value: value,
+        groupValue: selectedRadio2,
+        activeColor: Colors.blue,
+        onChanged: (int? val) {
+          print("Radio $val");
+          setSelectedRadio2(val!);
         },
       ),
     );
