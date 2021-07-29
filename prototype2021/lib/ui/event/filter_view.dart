@@ -166,40 +166,7 @@ class _FilterViewState extends State<FilterView> {
                 height: 10,
               ),
               buildMainText("정렬"),
-              Container(
-                height: 60,
-                width: double.infinity,
-                child: DropdownButton(
-                    underline: Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: const Color(0xffbdbdbd),
-                    ),
-                    icon: Image.asset('assets/icons/ic_arrow_down_unfold.png'),
-                    isExpanded: true,
-                    hint: Text('선택해주세요'),
-                    value: _selectedValue,
-                    items: _valueList.map((value) {
-                      return DropdownMenuItem(
-                          value: value,
-                          child: Row(
-                            children: [
-                              Image.asset('assets/icons/ic_filter_unfold.png'),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Text(value),
-                            ],
-                          ));
-                    }).toList(),
-                    onChanged: (value) {
-                      print(value);
-                      setState(() {
-                        _selectedValue = value;
-                      });
-                    }),
-              ),
-
+              buildSortContent(),
               SizedBox(
                 height: 20,
               ),
@@ -207,50 +174,7 @@ class _FilterViewState extends State<FilterView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     buildMainText("기간"),
-                    Row(
-                      children: [
-                        FloatingActionButton(
-                            mini: true,
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            onPressed: _decrementCounter,
-                            child: this.minuscolor
-                                ? Image.asset(
-                                    'assets/icons/button_filter_minus_black.png')
-                                : Image.asset(
-                                    'assets/icons/button_filter_minus_gray.png')),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        Container(
-                          width: 65,
-                          child: Center(
-                            child: Text(
-                              planList[_counter],
-                              style: const TextStyle(
-                                  color: const Color(0xff707070),
-                                  fontWeight: FontWeight.w400,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 14.0),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: 20,
-                        ),
-                        FloatingActionButton(
-                            mini: true,
-                            backgroundColor: Colors.white,
-                            elevation: 0,
-                            onPressed: _incrementCounter,
-                            child: this.pluscolor
-                                ? Image.asset(
-                                    'assets/icons/button_filter_plus_black.png')
-                                : Image.asset(
-                                    'assets/icons/button_filter_plus_gray.png')),
-                      ],
-                    ),
+                    buildPeriodContent(),
                   ]),
               SizedBox(
                 height: 15,
@@ -281,6 +205,30 @@ class _FilterViewState extends State<FilterView> {
                       buildRadio1(context, 5),
                     ],
                   ),
+                ],
+              ),
+              SizedBox(
+                height: 9,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    '여유롭고 \n느긋한 여행',
+                    style: TextStyle(
+                      color: Color(0xff707070),
+                      fontSize: 14,
+                      fontFamily: 'Roboto',
+                    ),
+                  ), // 바쁘더라도 알찬 여행
+                  Text("바쁘더라도\n알찬 여행",
+                      style: const TextStyle(
+                          color: const Color(0xff707070),
+                          fontWeight: FontWeight.w400,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.right)
                 ],
               ),
               SizedBox(
@@ -317,6 +265,85 @@ class _FilterViewState extends State<FilterView> {
             ],
           ),
         ));
+  }
+
+  Container buildSortContent() {
+    return Container(
+      height: 60,
+      width: double.infinity,
+      child: DropdownButton(
+          underline: Container(
+            height: 1,
+            width: double.infinity,
+            color: const Color(0xffbdbdbd),
+          ),
+          icon: Image.asset('assets/icons/ic_arrow_down_unfold.png'),
+          isExpanded: true,
+          hint: Text('선택해주세요'),
+          value: _selectedValue,
+          items: _valueList.map((value) {
+            return DropdownMenuItem(
+                value: value,
+                child: Row(
+                  children: [
+                    Image.asset('assets/icons/ic_filter_unfold.png'),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(value),
+                  ],
+                ));
+          }).toList(),
+          onChanged: (value) {
+            print(value);
+            setState(() {
+              _selectedValue = value;
+            });
+          }),
+    );
+  }
+
+  Row buildPeriodContent() {
+    return Row(
+      children: [
+        FloatingActionButton(
+            mini: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            onPressed: _decrementCounter,
+            child: this.minuscolor
+                ? Image.asset('assets/icons/button_filter_minus_black.png')
+                : Image.asset('assets/icons/button_filter_minus_gray.png')),
+        SizedBox(
+          width: 20,
+        ),
+        Container(
+          width: 65,
+          child: Center(
+            child: Text(
+              planList[_counter],
+              style: const TextStyle(
+                  color: const Color(0xff707070),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+            ),
+          ),
+        ),
+        SizedBox(
+          width: 20,
+        ),
+        FloatingActionButton(
+            mini: true,
+            backgroundColor: Colors.white,
+            elevation: 0,
+            onPressed: _incrementCounter,
+            child: this.pluscolor
+                ? Image.asset('assets/icons/button_filter_plus_black.png')
+                : Image.asset('assets/icons/button_filter_plus_gray.png')),
+      ],
+    );
   }
 
   Container buildRadio1(BuildContext context, int value) {
