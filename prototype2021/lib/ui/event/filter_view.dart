@@ -406,7 +406,7 @@ class _FilterViewState extends State<FilterView> {
             fontWeight: FontWeight.w700,
             fontFamily: "Roboto",
             fontStyle: FontStyle.normal,
-            fontSize: 16.0),
+            fontSize: 18.0),
         textAlign: TextAlign.left);
   }
 
@@ -419,7 +419,7 @@ class _FilterViewState extends State<FilterView> {
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
           onPressed: () {},
         ),
-        title: Text("회원가입",
+        title: Text("필터 화면",
             style: const TextStyle(
                 color: const Color(0xff000000),
                 fontWeight: FontWeight.w400,
