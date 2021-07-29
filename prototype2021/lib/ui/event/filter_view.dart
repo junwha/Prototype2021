@@ -103,15 +103,8 @@ class _FilterViewState extends State<FilterView> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 컨텐츠 종류
-              Text("컨텐츠 종류",
-                  style: const TextStyle(
-                      color: const Color(0xff000000),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
-                  textAlign: TextAlign.left),
+              buildMainText('컨텐츠 종류'),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -163,14 +156,7 @@ class _FilterViewState extends State<FilterView> {
               SizedBox(
                 height: 10,
               ),
-              Text("정렬",
-                  style: const TextStyle(
-                      color: const Color(0xff000000),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
-                  textAlign: TextAlign.left),
+              buildMainText("정렬"),
               Container(
                 height: 60,
                 width: double.infinity,
@@ -204,10 +190,6 @@ class _FilterViewState extends State<FilterView> {
                       });
                     }),
               ),
-              // 기간
-              SizedBox(
-                height: 15,
-              ),
 
               SizedBox(
                 height: 20,
@@ -215,14 +197,7 @@ class _FilterViewState extends State<FilterView> {
               Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
-                    Text("기간",
-                        style: const TextStyle(
-                            color: const Color(0xff000000),
-                            fontWeight: FontWeight.w700,
-                            fontFamily: "Roboto",
-                            fontStyle: FontStyle.normal,
-                            fontSize: 16.0),
-                        textAlign: TextAlign.left),
+                    buildMainText("기간"),
                     Row(
                       children: [
                         FloatingActionButton(
@@ -271,14 +246,7 @@ class _FilterViewState extends State<FilterView> {
               SizedBox(
                 height: 15,
               ),
-              Text("여행 피로도",
-                  style: const TextStyle(
-                      color: const Color(0xff000000),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
-                  textAlign: TextAlign.left),
+              buildMainText("여행피로도"),
               Stack(
                 alignment: Alignment.center,
                 children: [
@@ -349,6 +317,17 @@ class _FilterViewState extends State<FilterView> {
         ],
       )
     ]);
+  }
+
+  Text buildMainText(String text) {
+    return Text(text,
+        style: const TextStyle(
+            color: const Color(0xff000000),
+            fontWeight: FontWeight.w700,
+            fontFamily: "Roboto",
+            fontStyle: FontStyle.normal,
+            fontSize: 16.0),
+        textAlign: TextAlign.left);
   }
 
   AppBar buildAppBar() {
