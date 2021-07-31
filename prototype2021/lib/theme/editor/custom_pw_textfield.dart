@@ -5,6 +5,8 @@ class CustomPWTextField extends StatefulWidget {
   Function(String) onChanged;
   String initialText;
   int maxLine;
+  bool isChecked = true;
+
   CustomPWTextField(
       {required this.hintText,
       required this.onChanged,
@@ -43,18 +45,21 @@ class _CustomPWTextFieldState extends State<CustomPWTextField> {
                 hintText: this.widget.hintText),
             onChanged: this.widget.onChanged,
             maxLines: this.widget.maxLine,
-            obscureText: true,
+            obscureText: this.widget.isChecked,
             keyboardType: TextInputType.multiline,
             enableInteractiveSelection: false,
           ),
         ),
         Positioned(
           child: IconButton(
-            onPressed: () {},
-            icon: Image.asset(
-              'assets/icons/ic_eye_gray.png',
-            ),
-          ),
+              icon: Image.asset(
+                'assets/icons/ic_eye_gray.png',
+              ),
+              onPressed: () {
+                setState(() {
+                  this.widget.isChecked = !this.widget.isChecked;
+                });
+              }),
           right: 10,
           top: 13,
         )
