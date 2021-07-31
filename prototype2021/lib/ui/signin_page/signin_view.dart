@@ -76,27 +76,8 @@ class _SigninViewState extends State<SigninView> {
             SizedBox(
               height: 16,
             ),
-            Container(
-                height: 75,
-                decoration: BoxDecoration(
-                  color: const Color(0xfff2f2f2),
-                ),
-                child: Stack(
-                  children: [
-                    CustomPWTextField(
-                        hintText: "비밀번호를 입력해주세요.", onChanged: (String text) {}),
-                    Positioned(
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: Image.asset(
-                          'assets/icons/ic_eye_gray.png',
-                        ),
-                      ),
-                      right: 10,
-                      top: 13,
-                    )
-                  ],
-                )),
+            CustomPWTextField(
+                hintText: "비밀번호를 입력해주세요.", onChanged: (String text) {}),
             SizedBox(
               height: 8,
             ),
