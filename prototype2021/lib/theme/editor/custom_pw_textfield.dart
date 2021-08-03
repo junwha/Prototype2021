@@ -5,7 +5,8 @@ class CustomPWTextField extends StatefulWidget {
   Function(String) onChanged;
   String initialText;
   int maxLine;
-  bool isChecked = true;
+  bool isChecked1 = true;
+  bool isChecked2 = false;
 
   CustomPWTextField(
       {required this.hintText,
@@ -23,7 +24,7 @@ class _CustomPWTextFieldState extends State<CustomPWTextField> {
   @override
   void initState() {
     super.initState();
-    _controller = new TextEditingController(text: this.widget.initialText);
+    _controller = TextEditingController(text: this.widget.initialText);
   }
 
   @override
@@ -37,7 +38,7 @@ class _CustomPWTextFieldState extends State<CustomPWTextField> {
           ),
           child: TextField(
             controller: _controller,
-            decoration: new InputDecoration(
+            decoration: InputDecoration(
                 border: InputBorder.none,
                 focusedBorder: InputBorder.none,
                 contentPadding:
@@ -45,7 +46,7 @@ class _CustomPWTextFieldState extends State<CustomPWTextField> {
                 hintText: this.widget.hintText),
             onChanged: this.widget.onChanged,
             maxLines: this.widget.maxLine,
-            obscureText: this.widget.isChecked,
+            obscureText: this.widget.isChecked1,
             keyboardType: TextInputType.multiline,
             enableInteractiveSelection: false,
           ),
@@ -57,12 +58,26 @@ class _CustomPWTextFieldState extends State<CustomPWTextField> {
               ),
               onPressed: () {
                 setState(() {
-                  this.widget.isChecked = !this.widget.isChecked;
+                  this.widget.isChecked1 = !this.widget.isChecked1;
+                });
+              }),
+          right: 45,
+          top: 13,
+        ),
+        Positioned(
+          child: IconButton(
+              icon: Image.asset(
+                'assets/icons/ic_search_remove_background.png',
+              ),
+              onPressed: () {
+                setState(() {
+                  this.widget.isChecked2 = !this.widget.isChecked2;
+                  _controller!.clear();
                 });
               }),
           right: 10,
           top: 13,
-        )
+        ),
       ],
     );
   }
