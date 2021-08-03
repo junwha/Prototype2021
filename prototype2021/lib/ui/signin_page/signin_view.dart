@@ -76,8 +76,10 @@ class _SigninViewState extends State<SigninView> {
             SizedBox(
               height: 16,
             ),
-            CustomPWTextField(
-                hintText: "비밀번호를 입력해주세요.", onChanged: (String text) {}),
+            CustomTextField(
+                isPasswordField: true,
+                hintText: "비밀번호를 입력해주세요.",
+                onChanged: (String text) {}),
             SizedBox(
               height: 8,
             ),
@@ -100,8 +102,10 @@ class _SigninViewState extends State<SigninView> {
             SizedBox(
               height: 16,
             ),
-            CustomPWTextField(
-                hintText: "비밀번호를 다시 입력해주세요.", onChanged: (String text) {}),
+            CustomTextField(
+                isPasswordField: true,
+                hintText: "비밀번호를 다시 입력해주세요.",
+                onChanged: (String text) {}),
             SizedBox(
               height: 40,
             ),
