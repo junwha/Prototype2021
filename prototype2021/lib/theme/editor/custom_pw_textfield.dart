@@ -51,32 +51,33 @@ class _CustomPWTextFieldState extends State<CustomPWTextField> {
             enableInteractiveSelection: false,
           ),
         ),
-        Positioned(
-          child: IconButton(
-              icon: Image.asset(
-                'assets/icons/ic_eye_gray.png',
-              ),
-              onPressed: () {
-                setState(() {
-                  this.widget.isChecked1 = !this.widget.isChecked1;
-                });
-              }),
-          right: 45,
-          top: 13,
-        ),
-        Positioned(
-          child: IconButton(
-              icon: Image.asset(
-                'assets/icons/ic_search_remove_background.png',
-              ),
-              onPressed: () {
-                setState(() {
-                  this.widget.isChecked2 = !this.widget.isChecked2;
-                  _controller!.clear();
-                });
-              }),
-          right: 10,
-          top: 13,
+        Container(
+          height: 75,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              IconButton(
+                  icon: Image.asset(
+                    'assets/icons/ic_eye_gray.png',
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      this.widget.isChecked1 = !this.widget.isChecked1;
+                    });
+                  }),
+              IconButton(
+                  icon: Image.asset(
+                    'assets/icons/ic_search_remove_background.png',
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      this.widget.isChecked2 = !this.widget.isChecked2;
+                      _controller!.clear();
+                    });
+                  }),
+            ],
+          ),
         ),
       ],
     );
