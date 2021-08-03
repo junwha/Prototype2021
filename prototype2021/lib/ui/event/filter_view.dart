@@ -10,21 +10,23 @@ class FilterView extends StatefulWidget {
 }
 
 class _FilterViewState extends State<FilterView> {
-  bool isChecked2 = false;
-  bool isChecked1 = false;
-  bool isChecked3 = false;
-  bool isChecked4 = false;
-  bool isChecked5 = false;
-  bool isChecked6 = false;
-  bool isChecked7 = false;
-  bool isChecked8 = false;
-  bool isChecked9 = false;
-  bool isChecked10 = false;
-  bool isChecked11 = false;
-  bool isChecked12 = false;
-  bool isChecked13 = false;
-  bool isChecked14 = false;
-  bool isChecked15 = false;
+  List<bool> isChecked = [
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
   int selectedRadio1 = 1;
   int selectedRadio2 = 1;
 
@@ -117,17 +119,17 @@ class _FilterViewState extends State<FilterView> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildCheckRow("전체", isChecked1),
-                  buildCheckRow("여행지", isChecked2),
-                  buildCheckRow("카페", isChecked3),
+                  buildCheckRow("전체", isChecked[0]),
+                  buildCheckRow("여행지", isChecked[1]),
+                  buildCheckRow("카페", isChecked[2]),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildCheckRow("음식점", isChecked4),
-                  buildCheckRow("숙소", isChecked5),
-                  buildCheckRow("기타", isChecked6),
+                  buildCheckRow("음식점", isChecked[3]),
+                  buildCheckRow("숙소", isChecked[4]),
+                  buildCheckRow("기타", isChecked[5]),
                 ],
               ), // 컨텐츠 테마
               SizedBox(
@@ -142,24 +144,24 @@ class _FilterViewState extends State<FilterView> {
                       fontSize: 16.0),
                   textAlign: TextAlign.left),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                buildCheckRow("역사탐방", isChecked7),
-                buildCheckRow("맛집탐방", isChecked8),
-                buildCheckRow("액티비티", isChecked9),
+                buildCheckRow("역사탐방", isChecked[6]),
+                buildCheckRow("맛집탐방", isChecked[7]),
+                buildCheckRow("액티비티", isChecked[8]),
               ]),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildCheckRow("야경감상", isChecked10),
-                  buildCheckRow("SNS핫플", isChecked11),
-                  buildCheckRow("휴양", isChecked12),
+                  buildCheckRow("야경감상", isChecked[9]),
+                  buildCheckRow("SNS핫플", isChecked[10]),
+                  buildCheckRow("휴양", isChecked[11]),
                 ],
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildCheckRow("이색체험", isChecked13),
-                  buildCheckRow("인생사진", isChecked14),
-                  buildCheckRow("쇼핑메카", isChecked15),
+                  buildCheckRow("이색체험", isChecked[12]),
+                  buildCheckRow("인생사진", isChecked[13]),
+                  buildCheckRow("쇼핑메카", isChecked[14]),
                 ],
               ), // 정렬
               SizedBox(
