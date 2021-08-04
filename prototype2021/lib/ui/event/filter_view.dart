@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/theme/filter_checkbox.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
+import 'package:prototype2021/theme/tb_plus_minus_button.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({Key? key}) : super(key: key);
@@ -43,47 +44,6 @@ class _FilterViewState extends State<FilterView> {
     '여행경비높은순',
   ];
   var _selectedValue;
-  final List<String> planList = [
-    '당일치기',
-    '2일',
-    '3일',
-    '4일',
-    '5일',
-    '6일',
-    '7일~14일',
-    '15일이상'
-  ];
-  int _counter = 0;
-  bool pluscolor = true;
-  bool minuscolor = true;
-
-  void _incrementCounter() {
-    setState(() {
-      if (_counter != 7) {
-        _counter++;
-        if (_counter == 7) {
-          pluscolor = false;
-        } else {
-          pluscolor = true;
-          minuscolor = true;
-        }
-      }
-    });
-  }
-
-  void _decrementCounter() {
-    setState(() {
-      if (_counter != 0) {
-        _counter--;
-        if (_counter == 0) {
-          minuscolor = false;
-        } else {
-          pluscolor = true;
-          minuscolor = true;
-        }
-      }
-    });
-  }
 
   @override
   void initState() {
@@ -163,7 +123,18 @@ class _FilterViewState extends State<FilterView> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     buildMainText("기간"),
-                    buildPeriodContent(),
+                    TBPlusMinusButton(
+                      stringList: [
+                        '당일치기',
+                        '2일',
+                        '3일',
+                        '4일',
+                        '5일',
+                        '6일',
+                        '7일~14일',
+                        '15일이상'
+                      ],
+                    ),
                   ]),
               SizedBox(
                 height: 15,
@@ -284,49 +255,6 @@ class _FilterViewState extends State<FilterView> {
               _selectedValue = value;
             });
           }),
-    );
-  }
-
-  Row buildPeriodContent() {
-    return Row(
-      children: [
-        FloatingActionButton(
-            mini: true,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            onPressed: _decrementCounter,
-            child: this.minuscolor
-                ? Image.asset('assets/icons/button_filter_minus_black.png')
-                : Image.asset('assets/icons/button_filter_minus_gray.png')),
-        SizedBox(
-          width: 20,
-        ),
-        Container(
-          width: 65,
-          child: Center(
-            child: Text(
-              planList[_counter],
-              style: const TextStyle(
-                  color: const Color(0xff707070),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-            ),
-          ),
-        ),
-        SizedBox(
-          width: 20,
-        ),
-        FloatingActionButton(
-            mini: true,
-            backgroundColor: Colors.white,
-            elevation: 0,
-            onPressed: _incrementCounter,
-            child: this.pluscolor
-                ? Image.asset('assets/icons/button_filter_plus_black.png')
-                : Image.asset('assets/icons/button_filter_plus_gray.png')),
-      ],
     );
   }
 
