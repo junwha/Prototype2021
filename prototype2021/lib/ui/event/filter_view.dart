@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/theme/filter_checkbox.dart';
+import 'package:prototype2021/theme/tb_radio_bar.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({Key? key}) : super(key: key);
@@ -89,19 +90,6 @@ class _FilterViewState extends State<FilterView> {
     super.initState();
     selectedRadio1 = 0;
     selectedRadio2 = 0;
-  }
-
-// Changes the selected value on 'onChanged' click on each radio button
-  setSelectedRadio1(int val) {
-    setState(() {
-      selectedRadio1 = val;
-    });
-  }
-
-  setSelectedRadio2(int val) {
-    setState(() {
-      selectedRadio2 = val;
-    });
   }
 
   @override
@@ -195,16 +183,14 @@ class _FilterViewState extends State<FilterView> {
                     width: 300,
                     color: Color(0xffbdbdbd),
                   ),
-                  ButtonBar(
-                    mainAxisSize: MainAxisSize.max,
-                    alignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      buildRadio1(context, 1),
-                      buildRadio1(context, 2),
-                      buildRadio1(context, 3),
-                      buildRadio1(context, 4),
-                      buildRadio1(context, 5),
-                    ],
+                  TBRadioBar(
+                    selectedRadio: selectedRadio1,
+                    onChanged: (int? val) {
+                      // Changes the selected value on 'onChanged' click on each radio button
+                      setState(() {
+                        selectedRadio1 = val!;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -250,16 +236,14 @@ class _FilterViewState extends State<FilterView> {
                     width: 300,
                     color: Color(0xffbdbdbd),
                   ),
-                  ButtonBar(
-                    mainAxisSize: MainAxisSize.max,
-                    alignment: MainAxisAlignment.spaceBetween,
-                    children: <Widget>[
-                      buildRadio2(context, 6),
-                      buildRadio2(context, 7),
-                      buildRadio2(context, 8),
-                      buildRadio2(context, 9),
-                      buildRadio2(context, 10),
-                    ],
+                  TBRadioBar(
+                    selectedRadio: selectedRadio2,
+                    onChanged: (int? val) {
+                      // Changes the selected value on 'onChanged' click on each radio button
+                      setState(() {
+                        selectedRadio2 = val!;
+                      });
+                    },
                   ),
                 ],
               ),
@@ -343,64 +327,6 @@ class _FilterViewState extends State<FilterView> {
                 ? Image.asset('assets/icons/button_filter_plus_black.png')
                 : Image.asset('assets/icons/button_filter_plus_gray.png')),
       ],
-    );
-  }
-
-  Container buildRadio1(BuildContext context, int value) {
-    return Container(
-      width: 30,
-      height: 30,
-      color: Colors.white,
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          unselectedWidgetColor: const Color(0xffbdbdbd),
-          disabledColor: Colors.blue,
-          backgroundColor: Colors.white,
-        ),
-        child: Transform.scale(
-          scale: 1.7,
-          child: Radio(
-            focusColor: Colors.white,
-            hoverColor: Colors.white,
-            value: value,
-            groupValue: selectedRadio1,
-            activeColor: Colors.blue,
-            onChanged: (int? val) {
-              print("Radio $val");
-              setSelectedRadio1(val!);
-            },
-          ),
-        ),
-      ),
-    );
-  }
-
-  Container buildRadio2(BuildContext context, int value) {
-    return Container(
-      width: 30,
-      height: 30,
-      color: Colors.white,
-      child: Theme(
-        data: Theme.of(context).copyWith(
-          unselectedWidgetColor: const Color(0xffbdbdbd),
-          disabledColor: Colors.blue,
-          backgroundColor: Colors.white,
-        ),
-        child: Transform.scale(
-          scale: 1.7,
-          child: Radio(
-            focusColor: Colors.white,
-            hoverColor: Colors.white,
-            value: value,
-            groupValue: selectedRadio2,
-            activeColor: Colors.blue,
-            onChanged: (int? val) {
-              print("Radio $val");
-              setSelectedRadio2(val!);
-            },
-          ),
-        ),
-      ),
     );
   }
 
