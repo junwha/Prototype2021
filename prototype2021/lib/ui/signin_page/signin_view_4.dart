@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/login/login_view.dart';
 
 class SigninView4 extends StatefulWidget {
   const SigninView4({Key? key}) : super(key: key);
@@ -254,7 +255,9 @@ class _SigninView4State extends State<SigninView4> {
                 height: 60,
               ),
               TextButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.popUntil(context, ModalRoute.withName("login"));
+                  },
                   child: Container(
                       child: Center(
                         child: Text(
@@ -285,7 +288,9 @@ class _SigninView4State extends State<SigninView4> {
         centerTitle: false,
         leading: IconButton(
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text("회원설정",
             style: const TextStyle(

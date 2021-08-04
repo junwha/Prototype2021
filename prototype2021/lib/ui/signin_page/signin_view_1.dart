@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_2.dart';
 
 class SigninView1 extends StatefulWidget {
   const SigninView1({Key? key}) : super(key: key);
@@ -200,7 +201,12 @@ class _SigninView1State extends State<SigninView1> {
               height: 100,
             ),
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => SigninView2()),
+                  );
+                },
                 child: Container(
                     child: Center(
                       child: Text(
@@ -231,7 +237,9 @@ class _SigninView1State extends State<SigninView1> {
         centerTitle: false,
         leading: IconButton(
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pop(context);
+          },
         ),
         title: Text("회원가입",
             style: const TextStyle(

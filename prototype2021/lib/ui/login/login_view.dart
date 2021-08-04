@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/model/login_model.dart';
+import 'package:prototype2021/ui/board/board_main_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_1.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -105,7 +108,13 @@ class _LoginViewState extends State<LoginView> {
                       height: 18,
                     ),
                     TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => BoardMainView()),
+                          );
+                        },
                         child: Container(
                             child: Center(
                               child: Text(
@@ -295,7 +304,12 @@ class _LoginViewState extends State<LoginView> {
                 fontSize: 12.0 * pt),
             textAlign: TextAlign.left),
         TextButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SigninView()),
+              );
+            },
             child: Row(
               children: [
                 Text("회원가입",
