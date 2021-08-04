@@ -106,11 +106,10 @@ class _FilterViewState extends State<FilterView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: buildAppBar(),
-        body: Padding(
-          padding: const EdgeInsets.all(28.0),
+    return Container(
+        color: Colors.white,
+        child: Padding(
+          padding: const EdgeInsets.all(5),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -271,7 +270,6 @@ class _FilterViewState extends State<FilterView> {
 
   Container buildSortContent() {
     return Container(
-      height: 60,
       width: double.infinity,
       child: DropdownButton(
           underline: Container(
@@ -437,24 +435,5 @@ class _FilterViewState extends State<FilterView> {
             fontStyle: FontStyle.normal,
             fontSize: 18.0),
         textAlign: TextAlign.left);
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-        backgroundColor: Colors.white,
-        shadowColor: Colors.white,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
-        ),
-        title: Text("필터 화면",
-            style: const TextStyle(
-                color: const Color(0xff000000),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Roboto",
-                fontStyle: FontStyle.normal,
-                fontSize: 16.0),
-            textAlign: TextAlign.left));
   }
 }
