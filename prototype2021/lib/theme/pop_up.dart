@@ -167,12 +167,15 @@ class _TBLargeDialogState extends State<TBLargeDialog> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Container(
-              padding: this.widget.padding,
-              alignment: Alignment.center,
-              child: this.widget.body,
+            Expanded(
+              child: Container(
+                padding: this.widget.padding,
+                alignment: Alignment.center,
+                child: this.widget.body,
+              ),
             ),
             Container(
+              height: 50 * pt,
               color: Colors.grey,
               child: Row(
                 children: this.widget.isBackEnabled
