@@ -281,6 +281,9 @@ class _BoardMainViewState extends State<BoardMainView> {
                     context,
                     TBLargeDialog(
                       title: "",
+                      insetsPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                      padding: EdgeInsets.all(20),
                       body: SingleChildScrollView(child: FilterView()),
                     ));
               },
