@@ -17,7 +17,7 @@ class TBPlusMinusButton extends StatefulWidget {
   ];
   List<String> stringList;
 
-  TBPlusMinusButton({required this.stringList});
+  TBPlusMinusButton({required this.stringList}); // stringList에 포함되는 글자는 최대 5글자.
 
   @override
   _TBPlusMinusButtonState createState() => _TBPlusMinusButtonState();
