@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/theme/filter_checkbox.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
 import 'package:prototype2021/theme/tb_plus_minus_button.dart';
+import 'package:prototype2021/theme/tb_drop_down_button.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({Key? key}) : super(key: key);
@@ -115,7 +116,23 @@ class _FilterViewState extends State<FilterView> {
                 height: 10,
               ),
               buildMainText("정렬"),
-              buildSortContent(),
+              TBDropDownButton(
+                  dropDownList: [
+                    '추천순',
+                    '별점높은순',
+                    '저장많은순',
+                    '거리가까운순',
+                    '최신순',
+                    '여행피로도낮은순',
+                    '여행피로도높은순',
+                    '여행경비낮은순',
+                    '여행경비높은순',
+                  ],
+                  onChanged: (value) {
+                    setState(() {
+                      _selectedValue = value;
+                    });
+                  }),
               SizedBox(
                 height: 20,
               ),
