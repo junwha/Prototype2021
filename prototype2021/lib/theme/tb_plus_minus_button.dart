@@ -1,20 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TBPlusMinusButton extends StatefulWidget {
-  int selectedRadio = 0;
   int _counter = 0;
   bool pluscolor = true;
   bool minuscolor = true;
-  final List<String> planList = [
-    '당일치기',
-    '2일',
-    '3일',
-    '4일',
-    '5일',
-    '6일',
-    '7일~14일',
-    '15일이상'
-  ];
+
   List<String> stringList;
 
   TBPlusMinusButton({required this.stringList}); // stringList에 포함되는 글자는 최대 5글자.
