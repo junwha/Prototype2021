@@ -35,6 +35,10 @@ class GooglePlaceLocation extends Location {
 
 class EventLocation extends Location {
   final DateTimeRange period;
-  const EventLocation(String name, LatLng latLng, String type, this.period)
+  final int id;
+  final int hearts;
+  final int comments;
+  const EventLocation(this.id, String name, this.hearts, this.comments,
+      LatLng latLng, String type, this.period)
       : super(latLng, type, name);
 }
