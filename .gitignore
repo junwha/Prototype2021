@@ -5,3 +5,4 @@ prototype2021/pubspec.lock
 .DS_Store
 prototype2021/pubspec.lock
 prototype2021/ios/Podfile.lock
+*.lock
