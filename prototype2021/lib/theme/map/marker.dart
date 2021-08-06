@@ -94,7 +94,15 @@ class MarkerList {
     markers[location] = marker;
   }
 
-  void removeMarker(int id) {}
+  void removeMarker(Location location) {
+    markers.remove(location);
+  }
+
+  void removeMarkers(List<Location> locations) {
+    for (Location location in locations) {
+      removeMarker(location);
+    }
+  }
 
   void removeAll() {
     markers = <Location, Marker>{};
