@@ -49,21 +49,23 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
                     children: [
                       //initial position
                       BackgroundMap(
-                        center: locationModel.center,
-                        markers: locationModel.markers,
-                        load: locationModel.mapLoaded,
-                        onCameraMove: (CameraPosition cameraPostion) {
-                          locationModel.updateBearing(cameraPostion.bearing);
-                          locationModel.center = cameraPostion.target;
-                        },
-                        onTap: (LatLng pos) {
-                          if (locationModel.isFocused()) {
-                            locationModel.removeFocus();
-                          } else {
-                            locationModel.findPlace(pos);
-                          }
-                        },
-                      ), //TODO(junwha): change to dynamic location
+                          center: locationModel.center,
+                          markers: locationModel.markers,
+                          load: locationModel.mapLoaded,
+                          onCameraMove: (CameraPosition cameraPostion) {
+                            locationModel.updateBearing(cameraPostion.bearing);
+                            locationModel.center = cameraPostion.target;
+                          },
+                          onTap: (LatLng pos) {
+                            if (locationModel.isFocused()) {
+                              locationModel.removeFocus();
+                            } else {
+                              locationModel.findPlace(pos);
+                            }
+                          },
+                          onMapCreated: (GoogleMapController controller) {
+                            locationModel.mapController = controller;
+                          }), //TODO(junwha): change to dynamic location
                       //buildSelectButton(maxHeight),
                       buildContentInfo(
                           locationModel.markerList.focusedLocation),

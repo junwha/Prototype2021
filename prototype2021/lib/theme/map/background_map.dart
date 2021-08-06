@@ -10,10 +10,12 @@ class BackgroundMap extends StatefulWidget {
   Function(LatLng pos)? onTap;
   Set<Marker> markers;
   bool load;
+  Function(GoogleMapController) onMapCreated;
 
   BackgroundMap(
       {required this.center,
       required this.markers,
+      required this.onMapCreated,
       this.load = true,
       this.onCameraMove,
       this.onTap});
@@ -22,23 +24,17 @@ class BackgroundMap extends StatefulWidget {
 }
 
 class _BackgroundMapState extends State<BackgroundMap> {
-  GoogleMapController? mapController;
-
   //Save positions of last tapped and pressed
   // LatLng? _lastTap;
   // LatLng? _lastLongPress;
   // TODO(junwha): after all test, place marks here
-
-  void _onMapCreated(GoogleMapController controller) async {
-    mapController = controller;
-  }
 
   @override
   Widget build(BuildContext context) {
     return !this.widget.load
         ? Text("Loading...")
         : GoogleMap(
-            onMapCreated: _onMapCreated,
+            onMapCreated: this.widget.onMapCreated,
             initialCameraPosition: CameraPosition(
               //Set initial Camera Position
               target: this.widget.center,

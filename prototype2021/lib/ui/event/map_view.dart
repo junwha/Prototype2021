@@ -71,6 +71,9 @@ class _MapViewState extends State<MapView> {
                             locationModel.findPlace(pos);
                           }
                         },
+                        onMapCreated: (GoogleMapController controller) {
+                          locationModel.mapController = controller;
+                        },
                       ), //TODO(junwha): change to dynamic location
                       PlaceInfo(),
                       buildBackButton(context),
