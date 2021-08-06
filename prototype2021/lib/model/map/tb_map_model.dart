@@ -9,7 +9,6 @@ class TBMapModel with ChangeNotifier {
   LatLng center;
 
   MarkerList markerList = MarkerList();
-  Set<Location> locations = {};
   GoogleMapController? mapController;
 
   TBMapModel(this.center) {
@@ -19,6 +18,7 @@ class TBMapModel with ChangeNotifier {
   Set<Marker> get markers =>
       markerList.markerList; //TODO: consider update location with efficiency
 
+  Set<Location> get locations => markerList.markers.keys.toSet();
   void init() async {
     mapLoaded = await markerList.loadImage(); // Load Marker Icons
     notifyListeners();
@@ -36,12 +36,11 @@ class TBMapModel with ChangeNotifier {
    * Clear all markers, locations
    */
   void clearMap() {
-    locations.clear();
-    markerList.removeAll();
+    updateLocations({});
     notifyListeners();
   }
 
-  void updateMarkers() {
+  void _updateMarkers() {
     markerList.removeAll();
     markerList.addMarkers(locations);
     notifyListeners();
@@ -49,22 +48,22 @@ class TBMapModel with ChangeNotifier {
 
   void updateLocations(Iterable<Location> locationIterable) {
     Set<Location> newLocations = locationIterable.toSet();
-    markerList.removeMarkers(locations.difference(newLocations));
-    markerList.addMarkers(newLocations.difference(locations));
-    locations = newLocations;
+    Set<Location> oldLocations = locations;
+    markerList.removeMarkers(oldLocations.difference(newLocations));
+    markerList.addMarkers(newLocations.difference(oldLocations));
     notifyListeners();
   }
 
   void addLocations(Iterable<Location> locationIterable) {
     Set<Location> newLocations = locationIterable.toSet();
-    markerList.addMarkers(newLocations.difference(locations));
+    Set<Location> oldLocations = locations;
+    markerList.addMarkers(newLocations.difference(oldLocations));
     locations.addAll(newLocations);
     notifyListeners();
   }
 
   void removeLocations(Iterable<Location> locationIterable) {
     markerList.removeMarkers(locationIterable);
-    locations.removeAll(locationIterable);
     notifyListeners();
   }
 
@@ -74,8 +73,14 @@ class TBMapModel with ChangeNotifier {
   void updateBearing(double bearing) {
     if (markerList.bearing != bearing) {
       markerList.bearing = bearing;
-      updateMarkers();
+      _updateMarkers();
     }
+    notifyListeners();
+  }
+
+  void changeFocus(Location location) {
+    markerList.changeFocus(location);
+    updateCenter(location.latLng);
     notifyListeners();
   }
 

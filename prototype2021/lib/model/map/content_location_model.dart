@@ -52,8 +52,7 @@ class ContentMapModel extends TBMapModel {
       if (clickedLocation != null) removeLocations({this.clickedLocation!});
       this.clickedLocation = location;
       addLocations([location]);
-      markerList.changeFocus(location);
-      updateCenter(location.latLng);
+      changeFocus(location);
       notifyListeners();
     }
   }
@@ -100,13 +99,11 @@ class ContentMapModel extends TBMapModel {
    */
   void moveToResult(GooglePlaceData data) {
     clearMap();
-    updateCenter(data.location);
     Location location = GooglePlaceLocation(data.placeId, data.photo, data.name,
         data.address, data.location, PlaceType.DEFAULT);
-    locations = {location};
-    updateMarkers();
-    this.markerList.changeFocus(location);
+    updateLocations([location]);
     clearFilters();
+    changeFocus(location);
     notifyListeners();
   }
 }
