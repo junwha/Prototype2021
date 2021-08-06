@@ -2,12 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:prototype2021/model/map/google_place_loader.dart';
+import 'package:prototype2021/model/map/map_controller.dart';
 import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 
 import 'package:prototype2021/theme/map/marker.dart';
 
-class ContentLocationModel with ChangeNotifier {
+class ContentMapModel extends TBMapModel {
   List<Location> locations = [];
   Location? clickedLocation;
 
@@ -17,7 +18,6 @@ class ContentLocationModel with ChangeNotifier {
     PlaceType.SPOT: false,
     PlaceType.CAFFEE: false,
   };
-  MarkerList markerList = MarkerList();
 
   bool mapLoaded = false;
   LatLng center;
@@ -28,7 +28,7 @@ class ContentLocationModel with ChangeNotifier {
 
   bool placeLoaded = true;
 
-  ContentLocationModel({required this.center}) {
+  ContentMapModel({required this.center}) {
     init();
   }
 
