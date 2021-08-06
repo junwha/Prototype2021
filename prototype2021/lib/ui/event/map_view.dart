@@ -50,9 +50,9 @@ class _MapViewState extends State<MapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider.value(
-              value: ContentLocationModel(center: center!),
+              value: ContentMapModel(center: center!),
               child: Consumer(
-                builder: (context, ContentLocationModel locationModel, child) {
+                builder: (context, ContentMapModel locationModel, child) {
                   return Stack(
                     children: [
                       //initial position

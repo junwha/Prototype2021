@@ -15,7 +15,7 @@ class SearchPlaceModel with ChangeNotifier {
   List<GooglePlaceData> searchResult = []; // save search result data
   List<LocationResultCard> resultCards = []; // save resultCards UI's
 
-  ContentLocationModel locationModel;
+  ContentMapModel locationModel;
 
   SearchPlaceModel(this.locationModel);
 

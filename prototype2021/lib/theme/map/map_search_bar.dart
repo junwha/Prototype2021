@@ -8,7 +8,7 @@ import 'package:prototype2021/model/map/google_place_loader.dart';
 import 'package:provider/provider.dart';
 
 class MapSearchBar extends StatefulWidget {
-  ContentLocationModel locationModel;
+  ContentMapModel locationModel;
   bool backButtonEnabled;
   MapSearchBar(this.locationModel, {this.backButtonEnabled = false});
 
@@ -29,7 +29,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     );
   }
 
-  Widget buildChipBar(ContentLocationModel locationModel) {
+  Widget buildChipBar(ContentMapModel locationModel) {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
       child: SizedBox.expand(
@@ -55,8 +55,8 @@ class _MapSearchBarState extends State<MapSearchBar> {
     );
   }
 
-  Widget buildPlaceFilterChip(ContentLocationModel locationModel, String text,
-      String type, Image icon) {
+  Widget buildPlaceFilterChip(
+      ContentMapModel locationModel, String text, String type, Image icon) {
     return PlaceFilterChip(
       leading: icon,
       text: text,
@@ -78,8 +78,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     final controller = FloatingSearchBarController();
     final _applyKey = GlobalKey<FormState>();
     double leftMargin = this.widget.backButtonEnabled ? 50 : 10;
-    return Consumer(
-        builder: (context, ContentLocationModel locationModel, child) {
+    return Consumer(builder: (context, ContentMapModel locationModel, child) {
       return ChangeNotifierProvider(
         create: (context) => SearchPlaceModel(locationModel),
         child: Consumer(
