@@ -9,7 +9,7 @@ class EventPlaceLoader {
       {int radius = 500}) async {
     List<EventLocation> locations = [];
     dynamic response = await safeGET(
-        "http://api.tripbuilder.co.kr/recruitments/events/near/?lat=${pos.latitude}&long=${pos.longitude}&radius=$radius");
+        "http://api.tripbuilder.co.kr/recruitments/events/near/?lat=${pos.latitude.toString().substring(0, 7)}&long=${pos.longitude.toString().substring(0, 7)}&radius=$radius");
     try {
       for (Map<String, dynamic> eventData in response) {
         locations.add(EventLocation.fromData(EventPlaceData(
