@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 class TBDropDownButton extends StatefulWidget {
   Function(Object?) onChanged;
   List<String> dropDownList;
+  var selectedValue;
 
-  TBDropDownButton({required this.dropDownList, required this.onChanged});
+  TBDropDownButton(
+      {required this.dropDownList,
+      required this.onChanged,
+      required this.selectedValue});
 
   @override
   _TBDropDownButtonState createState() => _TBDropDownButtonState();
 }
 
 class _TBDropDownButtonState extends State<TBDropDownButton> {
-  var selectedValue;
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -26,7 +28,7 @@ class _TBDropDownButtonState extends State<TBDropDownButton> {
           icon: Image.asset('assets/icons/ic_arrow_down_unfold.png'),
           isExpanded: true,
           hint: Text('선택해주세요'),
-          value: selectedValue,
+          value: this.widget.selectedValue,
           items: this.widget.dropDownList.map((value) {
             return DropdownMenuItem(
                 value: value,
