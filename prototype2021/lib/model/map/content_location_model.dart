@@ -2,14 +2,13 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:prototype2021/model/map/google_place_loader.dart';
-import 'package:prototype2021/model/map/map_controller.dart';
+import 'package:prototype2021/model/map/tb_map_model.dart';
 import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 
 import 'package:prototype2021/theme/map/marker.dart';
 
 class ContentMapModel extends TBMapModel {
-  List<Location> locations = [];
   Location? clickedLocation;
 
   Map<String, bool> isIncludeType = {
@@ -19,32 +18,18 @@ class ContentMapModel extends TBMapModel {
     PlaceType.CAFFEE: false,
   };
 
-  bool mapLoaded = false;
-  LatLng center;
   late PlaceLoader placeLoader;
-  GoogleMapController? mapController;
 
   int radius = 1500;
 
   bool placeLoaded = true;
 
-  ContentMapModel({required this.center}) {
-    init();
-  }
+  ContentMapModel({required LatLng center}) : super(center);
 
-  void init() async {
-    mapLoaded = await markerList.loadImage(); // Load Marker Icons
+  @override
+  void init() {
     this.placeLoader = PlaceLoader(center: this.center);
-    notifyListeners();
-  }
-
-  /*
-   * Clear all markers, locations
-   */
-  void clearMap() {
-    locations.clear();
-    markerList.removeAll();
-    notifyListeners();
+    super.init();
   }
 
   void clearFilters() {
@@ -110,47 +95,6 @@ class ContentMapModel extends TBMapModel {
     notifyListeners();
   }
 
-  Set<Marker> get markers =>
-      markerList.markerList; //TODO: consider update location with efficiency
-
-  /*
-   * Update bearing and rotate markers
-   */
-  void updateBearing(double bearing) {
-    if (markerList.bearing != bearing) {
-      markerList.bearing = bearing;
-      updateMarkers();
-    }
-    placeLoaded = true;
-    notifyListeners();
-  }
-
-  /*
-   * Update locations field with the locations included in boundary of bounds.
-   */
-  void updateLocations(LatLngBounds bounds) {
-    //TODO(junwha): call this method when map changed action detected.
-    //bounds.southwest; bounds.northeast;
-
-    if (isUpdate(bounds)) {
-      notifyListeners();
-    } else {}
-  }
-
-  void updateMarkers() {
-    markerList.removeAll();
-    markerList.addMarkerList(locations);
-    notifyListeners();
-  }
-
-  void updateCenter(LatLng center) {
-    this.center = center;
-    mapController?.moveCamera(
-      CameraUpdate.newLatLng(center),
-    );
-    notifyListeners();
-  }
-
   /*
    * When user clicked search result, this method would be called.
    */
@@ -164,19 +108,5 @@ class ContentMapModel extends TBMapModel {
     this.markerList.changeFocus(location);
     clearFilters();
     notifyListeners();
-  }
-
-  void removeFocus() {
-    markerList.changeFocus(null);
-    notifyListeners();
-  }
-
-  bool isFocused() {
-    if (markerList.focusedLocation == null) return false;
-    return true;
-  }
-
-  bool isUpdate(LatLngBounds bounds) {
-    return false;
   }
 }
