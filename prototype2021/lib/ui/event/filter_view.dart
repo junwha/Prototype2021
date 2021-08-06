@@ -128,6 +128,7 @@ class _FilterViewState extends State<FilterView> {
                     '여행경비낮은순',
                     '여행경비높은순',
                   ],
+                  selectedValue: _selectedValue,
                   onChanged: (value) {
                     setState(() {
                       _selectedValue = value;
