@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/event_place_loader.dart';
+import 'package:prototype2021/model/map/google_place_loader.dart';
 import 'package:prototype2021/model/map/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -34,11 +36,14 @@ class GooglePlaceLocation extends Location {
 }
 
 class EventLocation extends Location {
-  final DateTimeRange period;
-  final int id;
-  final int hearts;
-  final int comments;
-  const EventLocation(this.id, String name, this.hearts, this.comments,
-      LatLng latLng, String type, this.period)
-      : super(latLng, type, name);
+  final EventPlaceData data;
+  EventLocation.fromData(this.data)
+      : super(data.latLng, PlaceType.EVENT, data.name);
 }
+
+// class MultiEventLocation extends Location {
+//   final List<EventData
+//   const EventLocation(this.id, String name, this.hearts, this.comments,
+//       LatLng latLng, String type, this.period)
+//       : super(latLng, type, name);
+// }

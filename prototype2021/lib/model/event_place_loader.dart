@@ -12,7 +12,7 @@ class EventPlaceLoader {
         "http://api.tripbuilder.co.kr/recruitments/events/near/?lat=${pos.latitude}&long=${pos.longitude}&radius=$radius");
     try {
       for (Map<String, dynamic> eventData in response) {
-        locations.add(EventLocation(
+        locations.add(EventLocation.fromData(EventPlaceData(
             eventData["id"],
             eventData["name"],
             eventData["hearts"],
@@ -21,15 +21,25 @@ class EventPlaceLoader {
               double.parse(eventData["coord"]["lat"]),
               double.parse(eventData["coord"]["long"]),
             ),
-            PlaceType.EVENT,
             DateTimeRange(
               start: DateTime.parse(eventData["period"]["start"]),
               end: DateTime.parse(eventData["period"]["end"]),
-            )));
+            ))));
       }
     } catch (e) {
       print("Unexpected Error");
     }
     return locations;
   }
+}
+
+class EventPlaceData {
+  final DateTimeRange period;
+  final int id;
+  final int hearts;
+  final int comments;
+  final LatLng latLng;
+  final String name;
+  const EventPlaceData(
+      this.id, this.name, this.hearts, this.comments, this.latLng, this.period);
 }
