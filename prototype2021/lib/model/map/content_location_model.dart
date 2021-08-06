@@ -49,10 +49,9 @@ class ContentMapModel extends TBMapModel {
     GooglePlaceData? placeData = await this.placeLoader.getOnePlace(point);
     if (placeData != null) {
       GooglePlaceLocation location = GooglePlaceLocation.fromData(placeData);
-      locations.add(location);
-      locations.remove(this.clickedLocation);
+      if (clickedLocation != null) removeLocations({this.clickedLocation!});
       this.clickedLocation = location;
-      updateMarkers();
+      addLocations([location]);
       markerList.changeFocus(location);
       updateCenter(location.latLng);
       notifyListeners();
@@ -64,7 +63,6 @@ class ContentMapModel extends TBMapModel {
    */
   Future<void> loadPlaces() async {
     placeLoaded = false;
-    clearMap();
     notifyListeners();
 
     this.placeLoader.updateCenter(this.center);
@@ -82,15 +80,17 @@ class ContentMapModel extends TBMapModel {
     placeDataList =
         await placeLoader.getGooglePlaces(types, radius: this.radius);
 
+    List<Location> locationList = [];
     // Find nearby places with specified types
     for (GooglePlaceData placeData in placeDataList) {
       // Add all placeData to location list
-      locations.add(GooglePlaceLocation.fromData(placeData));
+      locationList.add(GooglePlaceLocation.fromData(placeData));
     }
 
     if (types.isNotEmpty) {
-      updateMarkers();
+      updateLocations(locationList);
     }
+
     placeLoaded = true;
     notifyListeners();
   }
@@ -103,7 +103,7 @@ class ContentMapModel extends TBMapModel {
     updateCenter(data.location);
     Location location = GooglePlaceLocation(data.placeId, data.photo, data.name,
         data.address, data.location, PlaceType.DEFAULT);
-    locations = [location];
+    locations = {location};
     updateMarkers();
     this.markerList.changeFocus(location);
     clearFilters();

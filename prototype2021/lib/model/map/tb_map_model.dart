@@ -9,8 +9,7 @@ class TBMapModel with ChangeNotifier {
   LatLng center;
 
   MarkerList markerList = MarkerList();
-  List<Location> locations = [];
-
+  Set<Location> locations = {};
   GoogleMapController? mapController;
 
   TBMapModel(this.center) {
@@ -44,7 +43,28 @@ class TBMapModel with ChangeNotifier {
 
   void updateMarkers() {
     markerList.removeAll();
-    markerList.addMarkerList(locations);
+    markerList.addMarkers(locations);
+    notifyListeners();
+  }
+
+  void updateLocations(Iterable<Location> locationIterable) {
+    Set<Location> newLocations = locationIterable.toSet();
+    markerList.removeMarkers(locations.difference(newLocations));
+    markerList.addMarkers(newLocations.difference(locations));
+    locations = newLocations;
+    notifyListeners();
+  }
+
+  void addLocations(Iterable<Location> locationIterable) {
+    Set<Location> newLocations = locationIterable.toSet();
+    markerList.addMarkers(newLocations.difference(locations));
+    locations.addAll(newLocations);
+    notifyListeners();
+  }
+
+  void removeLocations(Iterable<Location> locationIterable) {
+    markerList.removeMarkers(locationIterable);
+    locations.removeAll(locationIterable);
     notifyListeners();
   }
 
@@ -79,7 +99,7 @@ class TBMapModel with ChangeNotifier {
   /*
    * (Not implemented) Update locations field with the locations included in boundary of bounds.
    */
-  void updateLocations(LatLngBounds bounds) {
+  void updateBound(LatLngBounds bounds) {
     //TODO(junwha): call this method when map changed action detected.
     //bounds.southwest; bounds.northeast;
 

@@ -44,7 +44,7 @@ class MarkerList {
   /*
   * Add markers on the locations in location list
   */
-  void addMarkerList(Iterable<Location> locationList) {
+  void addMarkers(Iterable<Location> locationList) {
     print("Draw marker start");
     // print(markerIcon);
     for (Location location in locationList) {
