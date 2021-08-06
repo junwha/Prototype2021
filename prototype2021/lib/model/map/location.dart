@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/event_place_loader.dart';
@@ -41,9 +43,15 @@ class EventLocation extends Location {
       : super(data.latLng, PlaceType.EVENT, data.name);
 }
 
-// class MultiEventLocation extends Location {
-//   final List<EventData
-//   const EventLocation(this.id, String name, this.hearts, this.comments,
-//       LatLng latLng, String type, this.period)
-//       : super(latLng, type, name);
-// }
+class MultiEventLocation extends Location {
+  List<EventPlaceData> eventPlaceList;
+  MultiEventLocation(LatLng latLng, this.eventPlaceList)
+      : super(
+            latLng,
+            PlaceType.EVENT,
+            eventPlaceList.length > 0
+                ? eventPlaceList[0].name
+                : Random()
+                    .nextInt(100000)
+                    .toString()); // TODO: specify maximum number of markers
+}
