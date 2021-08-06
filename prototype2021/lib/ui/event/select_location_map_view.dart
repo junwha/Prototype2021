@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/model/map/content_location_model.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/background_map.dart';

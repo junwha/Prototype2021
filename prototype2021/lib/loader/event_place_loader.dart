@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/google_place_loader.dart';
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/safe_http.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/loader/safe_http.dart';
 
 class EventPlaceLoader {
   Future<List<EventLocation>> searchEventLocations(LatLng pos,
@@ -14,7 +14,7 @@ class EventPlaceLoader {
       for (Map<String, dynamic> eventData in response) {
         locations.add(EventLocation.fromData(EventPlaceData(
             eventData["id"],
-            eventData["name"],
+            eventData["title"],
             eventData["hearts"],
             eventData["comments"],
             LatLng(
@@ -28,6 +28,7 @@ class EventPlaceLoader {
       }
     } catch (e) {
       print("Unexpected Error");
+      print(e);
     }
     return locations;
   }

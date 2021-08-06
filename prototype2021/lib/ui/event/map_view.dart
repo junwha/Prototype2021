@@ -10,7 +10,7 @@ import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
-import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/model/map/content_location_model.dart';
 
 class MapView extends StatefulWidget {

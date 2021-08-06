@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/theme/map/marker.dart';
 
 class TBMapModel with ChangeNotifier {
@@ -51,6 +51,7 @@ class TBMapModel with ChangeNotifier {
     Set<Location> oldLocations = locations;
     markerList.removeMarkers(oldLocations.difference(newLocations));
     markerList.addMarkers(newLocations.difference(oldLocations));
+
     notifyListeners();
   }
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/map/content_location_model.dart';
-import 'package:prototype2021/model/map/google_place_loader.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 import 'package:prototype2021/model/map/search_place_model.dart';
-import 'package:prototype2021/model/map/google_place_loader.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:provider/provider.dart';
 
 class MapSearchBar extends StatefulWidget {
