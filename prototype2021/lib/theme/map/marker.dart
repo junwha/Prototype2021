@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/google_place_loader.dart';
-import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:flutter/material.dart';
 
 class MarkerList {
@@ -32,7 +32,7 @@ class MarkerList {
           'assets/images/map/caffee_marker.png', 100);
       markerIconMap[PlaceType.RESTAURANT] = await MarkerImage.createIcon(
           'assets/images/map/restaurant_marker.png', 100);
-      markerIconMap['E'] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.EVENT] = await MarkerImage.createIcon(
           'assets/images/map/event_marker.png', 100);
 
       return true;
@@ -49,6 +49,8 @@ class MarkerList {
     // print(markerIcon);
     for (Location location in locationList) {
       if (location is GooglePlaceLocation) {
+        addMarker(location);
+      } else {
         addMarker(location);
       }
     }
@@ -114,6 +116,7 @@ class MarkerList {
   void changeFocus(Location? location) {
     if (location != null) {
       this.focusedLocation = location;
+      print(location.latLng);
     } else {
       this.focusedLocation = null;
     }
