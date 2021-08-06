@@ -44,7 +44,7 @@ class MarkerList {
   /*
   * Add markers on the locations in location list
   */
-  void addMarkerList(List<Location> locationList) {
+  void addMarkerList(Iterable<Location> locationList) {
     print("Draw marker start");
     // print(markerIcon);
     for (Location location in locationList) {
@@ -98,7 +98,7 @@ class MarkerList {
     markers.remove(location);
   }
 
-  void removeMarkers(List<Location> locations) {
+  void removeMarkers(Iterable<Location> locations) {
     for (Location location in locations) {
       removeMarker(location);
     }
