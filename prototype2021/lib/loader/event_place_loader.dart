@@ -5,11 +5,12 @@ import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/loader/safe_http.dart';
 
 class EventPlaceLoader {
-  Future<List<EventLocation>> searchEventLocations(LatLng pos,
+  Future<List<Location>> searchEventLocations(LatLng pos,
       {int radius = 500}) async {
-    List<EventLocation> locations = [];
     dynamic response = await safeGET(
         "http://api.tripbuilder.co.kr/recruitments/events/near/?lat=${pos.latitude.toString().substring(0, 7)}&long=${pos.longitude.toString().substring(0, 7)}&radius=$radius");
+
+    List<EventLocation> locations = [];
     try {
       for (Map<String, dynamic> eventData in response) {
         locations.add(EventLocation.fromData(EventPlaceData(
