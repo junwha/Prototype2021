@@ -5,6 +5,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 import 'package:prototype2021/model/map/search_place_model.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/ui/event/event_map_view.dart';
 import 'package:provider/provider.dart';
 
 class MapSearchBar extends StatefulWidget {
@@ -37,12 +38,15 @@ class _MapSearchBarState extends State<MapSearchBar> {
           direction: Axis.horizontal,
           alignment: WrapAlignment.spaceEvenly,
           children: [
-            buildPlaceFilterChip(
-                locationModel,
-                "호텔",
-                PlaceType.HOTEL,
-                Image.asset(
-                    "assets/icons/event.png")), // TODO: replace to event
+            PlaceFilterChip(
+              leading: Image.asset("assets/icons/event.png"),
+              text: "내 주변 이벤트",
+              onSelected: (bool _isSelected) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => EventMapView()));
+              },
+              isSelected: false,
+            ),
             buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
                 Image.asset("assets/icons/place.png")),
             buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE,
