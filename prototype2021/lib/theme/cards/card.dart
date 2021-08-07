@@ -61,11 +61,14 @@ class _ContentsCardState extends State<ContentsCard> {
                 Text(
                   widget.title,
                   style: TextStyle(
-                    fontSize: 18 * pt,
+                    fontSize: 15 * pt,
                     color: Color(0xff444444),
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w700,
                   ),
+                  textWidthBasis: TextWidthBasis.parent,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
                 ),
                 SizedBox(height: 6),
                 Text(
@@ -232,11 +235,14 @@ class _ProductCardState extends State<ProductCard> {
                     Text(
                       widget.title,
                       style: TextStyle(
-                        fontSize: 18 * pt,
+                        fontSize: 15 * pt,
                         color: Color(0xff444444),
                         fontFamily: 'Roboto',
                         fontWeight: FontWeight.w700,
                       ),
+                      textWidthBasis: TextWidthBasis.parent,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                     ),
                     SizedBox(width: 8 * pt),
                     this.widget.isGuide
