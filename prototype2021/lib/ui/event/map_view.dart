@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
+import 'package:prototype2021/ui/event/event_map_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 
@@ -80,7 +81,22 @@ class _MapViewState extends State<MapView> {
                       buildWriteButton(maxHeight),
                       buildContentInfo(
                           locationModel.markerList.focusedLocation),
-                      MapSearchBar(locationModel, backButtonEnabled: true),
+                      MapSearchBar(
+                        locationModel,
+                        backButtonEnabled: true,
+                        leading: PlaceFilterChip(
+                          leading: Image.asset("assets/icons/event.png"),
+                          text: "내 주변 이벤트",
+                          onSelected: (bool _isSelected) {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => EventMapView(
+                                        center: locationModel.center)));
+                          },
+                          isSelected: false,
+                        ),
+                      ),
                     ],
                   );
                 },

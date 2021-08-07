@@ -12,7 +12,9 @@ import 'package:provider/provider.dart';
 class MapSearchBar extends StatefulWidget {
   ContentMapModel locationModel;
   bool backButtonEnabled;
-  MapSearchBar(this.locationModel, {this.backButtonEnabled = false});
+  Widget? leading;
+  MapSearchBar(this.locationModel,
+      {this.backButtonEnabled = false, this.leading});
 
   @override
   _MapSearchBarState createState() => _MapSearchBarState();
@@ -39,18 +41,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
           direction: Axis.horizontal,
           alignment: WrapAlignment.spaceEvenly,
           children: [
-            PlaceFilterChip(
-              leading: Image.asset("assets/icons/event.png"),
-              text: "내 주변 이벤트",
-              onSelected: (bool _isSelected) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => EventMapView(
-                            center: LatLng(37.33023, -122.02367))));
-              },
-              isSelected: false,
-            ),
+            this.widget.leading ?? SizedBox(),
             buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
                 Image.asset("assets/icons/place.png")),
             buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE,
