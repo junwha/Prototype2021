@@ -32,6 +32,9 @@ class ContentMapModel extends TBMapModel {
     super.init();
   }
 
+  /*
+   * Clear all filters from the plce type list.
+   */
   void clearFilters() {
     isIncludeType = {
       PlaceType.RESTAURANT: false,
