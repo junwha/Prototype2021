@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/content_location_model.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
@@ -42,8 +43,11 @@ class _MapSearchBarState extends State<MapSearchBar> {
               leading: Image.asset("assets/icons/event.png"),
               text: "내 주변 이벤트",
               onSelected: (bool _isSelected) {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => EventMapView()));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => EventMapView(
+                            center: LatLng(37.33023, -122.02367))));
               },
               isSelected: false,
             ),
