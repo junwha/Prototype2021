@@ -12,7 +12,7 @@ import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/model/map/content_location_model.dart';
+import 'package:prototype2021/model/map/content_map_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -53,43 +53,42 @@ class _MapViewState extends State<MapView> {
           : ChangeNotifierProvider.value(
               value: ContentMapModel(center: center!),
               child: Consumer(
-                builder: (context, ContentMapModel locationModel, child) {
+                builder: (context, ContentMapModel mapModel, child) {
                   return Stack(
                     children: [
                       //initial position
                       BackgroundMap(
-                        center: locationModel.center,
-                        markers: locationModel.markers,
-                        load: locationModel.mapLoaded,
+                        center: mapModel.center,
+                        markers: mapModel.markers,
+                        load: mapModel.mapLoaded,
                         onCameraMove: (CameraPosition cameraPostion) {
-                          locationModel.updateBearing(cameraPostion.bearing);
-                          locationModel.center = cameraPostion.target;
+                          mapModel.updateBearing(cameraPostion.bearing);
+                          mapModel.center = cameraPostion.target;
                         },
                         onTap: (LatLng pos) {
-                          if (locationModel.isFocused()) {
-                            locationModel.removeFocus();
+                          if (mapModel.isFocused()) {
+                            mapModel.removeFocus();
                           } else {
-                            locationModel.findPlace(pos);
+                            mapModel.findPlace(pos);
                           }
                         },
                         onMapCreated: (GoogleMapController controller) {
-                          locationModel.mapController = controller;
+                          mapModel.mapController = controller;
                         },
                       ), //TODO(junwha): change to dynamic location
                       PlaceInfo(),
                       buildBackButton(context),
                       buildWriteButton(maxHeight),
-                      buildContentInfo(
-                          locationModel.markerList.focusedLocation),
+                      buildContentInfo(mapModel.markerList.focusedLocation),
                       MapSearchBar(
-                        locationModel,
+                        mapModel,
                         backButtonEnabled: true,
                         leading: PlaceFilterChip(
                           leading: Image.asset("assets/icons/event.png"),
                           text: "내 주변 이벤트",
                           onSelected: (bool _isSelected) {
                             double zoomLevel = 14.0;
-                            locationModel.mapController
+                            mapModel.mapController
                                 ?.getZoomLevel()
                                 .then((value) {
                               zoomLevel = value;
@@ -98,9 +97,9 @@ class _MapViewState extends State<MapView> {
                               context,
                               MaterialPageRoute(
                                 builder: (context) => EventMapView(
-                                  center: locationModel.center,
+                                  center: mapModel.center,
                                   initialCameraPosition: CameraPosition(
-                                    target: locationModel.center,
+                                    target: mapModel.center,
                                     zoom: zoomLevel,
                                   ),
                                 ),
