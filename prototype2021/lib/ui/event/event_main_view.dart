@@ -331,22 +331,17 @@ class _EventMainViewState extends State<EventMainView> {
           },
           icon: Image.asset("assets/icons/search.png"),
         ),
-        SizedBox(
-          width: 20,
-          child: IconButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute<void>(builder: (BuildContext context) {
-                  return MyPage();
-                }),
-              );
-            },
-            padding: EdgeInsets.all(0),
-            icon: Image.asset(
-              "assets/icons/person_icon_2.png",
-              scale: 0.5,
-            ),
+        IconButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(builder: (BuildContext context) {
+                return MyPage();
+              }),
+            );
+          },
+          icon: Image.asset(
+            "assets/icons/person_icon.png",
           ),
         ),
         IconButton(
