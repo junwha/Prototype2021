@@ -30,6 +30,7 @@ class _EventMainViewState extends State<EventMainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: buildAppBar(),
       bottomNavigationBar: buildBottomNavigationBar(),
       body: SingleChildScrollView(
