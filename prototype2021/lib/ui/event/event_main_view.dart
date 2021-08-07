@@ -317,7 +317,9 @@ class _EventMainViewState extends State<EventMainView> {
           Icons.arrow_back,
           color: Colors.black,
         ),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       actions: [
         IconButton(
