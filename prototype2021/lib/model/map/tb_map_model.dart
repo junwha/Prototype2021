@@ -9,6 +9,9 @@ class TBMapModel with ChangeNotifier {
   LatLng center;
 
   MarkerList markerList = MarkerList();
+
+  // Map controller need to be checked whether it is initialized
+  // If you ensure mapController is initialized, you can use this mapController with ! operator.
   GoogleMapController? mapController;
 
   TBMapModel(this.center) {
@@ -18,12 +21,21 @@ class TBMapModel with ChangeNotifier {
   Set<Marker> get markers =>
       markerList.markerList; //TODO: consider update location with efficiency
 
+  // Markerized Location Set
   Set<Location> get locations => markerList.markers.keys.toSet();
+
+  /*
+   * init() function of TBMapModel loads the marker images when this Object is constructed
+   * if you want to override init() function, please call super.init() inside the function.
+   */
   void init() async {
     mapLoaded = await markerList.loadImage(); // Load Marker Icons
     notifyListeners();
   }
 
+  /*
+   * Update center and move the camera to newer center.
+   */
   void updateCenter(LatLng center) {
     this.center = center;
     mapController?.moveCamera(
@@ -33,19 +45,27 @@ class TBMapModel with ChangeNotifier {
   }
 
   /*
-   * Clear all markers, locations
+   * Clear all markers from the map
    */
   void clearMap() {
     updateLocations({});
     notifyListeners();
   }
 
+  /*
+   * Deprecated method
+   */
   void _updateMarkers() {
     markerList.removeAll();
     markerList.addMarkers(locations);
     notifyListeners();
   }
 
+  /*
+   * Remove previous locations and update with new locations.
+   * updateLocations remove all diffrence locations form the marker set,
+   * and add only newer locations to the marker set.
+   */
   void updateLocations(Iterable<Location> locationIterable) {
     Set<Location> newLocations = locationIterable.toSet();
     Set<Location> oldLocations = locations;
@@ -55,6 +75,10 @@ class TBMapModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+   * Add new locations without erase older markers
+   * Only newer locations will be added to the marker set.
+   */
   void addLocations(Iterable<Location> locationIterable) {
     Set<Location> newLocations = locationIterable.toSet();
     Set<Location> oldLocations = locations;
@@ -63,6 +87,9 @@ class TBMapModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+   * Remove specific locations from the marker set.
+   */
   void removeLocations(Iterable<Location> locationIterable) {
     markerList.removeMarkers(locationIterable);
     notifyListeners();
@@ -79,12 +106,19 @@ class TBMapModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /*
+   * Change focus to specific location.
+   * camera will be moved to the target lcation.
+   */
   void changeFocus(Location location) {
     markerList.changeFocus(location);
     updateCenter(location.latLng);
     notifyListeners();
   }
 
+  /*
+   * Remove focus.
+   */
   void removeFocus() {
     markerList.changeFocus(null);
     notifyListeners();
