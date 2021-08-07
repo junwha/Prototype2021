@@ -84,25 +84,25 @@ class _EventMapViewState extends State<EventMapView> {
 
   AppBar buildAppBar() {
     return AppBar(
-      toolbarHeight: 0,
+      // toolbarHeight: 0,
       centerTitle: false,
       backgroundColor: Colors.white,
-      // leading: IconButton(
-      //   color: Colors.white,
-      //   icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
-      //   onPressed: () {
-      //     Navigator.pop(context);
-      //   },
-      // ),
+      leading: IconButton(
+        color: Colors.white,
+        icon: Icon(Icons.arrow_back_ios_sharp, color: Colors.black),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      ),
       titleSpacing: 10,
-      // title: Text(
-      //   '내 주변 이벤트',
-      //   style: TextStyle(
-      //     color: Colors.black,
-      //     fontWeight: FontWeight.w900,
-      //     fontSize: 20,
-      //   ),
-      // ),
+      title: Text(
+        '내 주변 이벤트',
+        style: TextStyle(
+          color: Colors.black,
+          fontWeight: FontWeight.w900,
+          fontSize: 20,
+        ),
+      ),
     );
   }
 }
