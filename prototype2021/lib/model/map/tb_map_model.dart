@@ -10,7 +10,7 @@ class TBMapModel with ChangeNotifier {
 
   MarkerList markerList = MarkerList();
 
-  // Map controller need to be checked whether it is initialized
+  // Map controller must be checked whether it is initialized
   // If you ensure mapController is initialized, you can use this mapController with ! operator.
   GoogleMapController? mapController;
 
