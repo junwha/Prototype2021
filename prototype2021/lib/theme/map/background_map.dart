@@ -11,14 +11,18 @@ class BackgroundMap extends StatefulWidget {
   Set<Marker> markers;
   bool load;
   Function(GoogleMapController) onMapCreated;
+  CameraPosition? initialCameraPosition;
 
-  BackgroundMap(
-      {required this.center,
-      required this.markers,
-      required this.onMapCreated,
-      this.load = true,
-      this.onCameraMove,
-      this.onTap});
+  BackgroundMap({
+    required this.center,
+    required this.markers,
+    required this.onMapCreated,
+    this.load = true,
+    this.onCameraMove,
+    this.onTap,
+    this.initialCameraPosition,
+  });
+
   @override
   _BackgroundMapState createState() => _BackgroundMapState();
 }
@@ -35,11 +39,12 @@ class _BackgroundMapState extends State<BackgroundMap> {
         ? Text("Loading...")
         : GoogleMap(
             onMapCreated: this.widget.onMapCreated,
-            initialCameraPosition: CameraPosition(
-              //Set initial Camera Position
-              target: this.widget.center,
-              zoom: 18.0,
-            ),
+            initialCameraPosition: this.widget.initialCameraPosition ??
+                CameraPosition(
+                  //Set initial Camera Position
+                  target: this.widget.center,
+                  zoom: 18.0,
+                ),
             gestureRecognizers: //Gesture Detectors
                 <Factory<OneSequenceGestureRecognizer>>{
               Factory<OneSequenceGestureRecognizer>(

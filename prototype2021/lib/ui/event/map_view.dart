@@ -88,11 +88,24 @@ class _MapViewState extends State<MapView> {
                           leading: Image.asset("assets/icons/event.png"),
                           text: "내 주변 이벤트",
                           onSelected: (bool _isSelected) {
+                            double zoomLevel = 14.0;
+                            locationModel.mapController
+                                ?.getZoomLevel()
+                                .then((value) {
+                              zoomLevel = value;
+                            });
                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => EventMapView(
-                                        center: locationModel.center)));
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => EventMapView(
+                                  center: locationModel.center,
+                                  initialCameraPosition: CameraPosition(
+                                    target: locationModel.center,
+                                    zoom: zoomLevel,
+                                  ),
+                                ),
+                              ),
+                            );
                           },
                           isSelected: false,
                         ),

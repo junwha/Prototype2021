@@ -6,7 +6,8 @@ import 'package:provider/provider.dart';
 
 class EventMapView extends StatefulWidget {
   LatLng center;
-  EventMapView({required this.center});
+  CameraPosition initialCameraPosition;
+  EventMapView({required this.center, required this.initialCameraPosition});
 
   @override
   _EventMapViewState createState() => _EventMapViewState();
@@ -42,6 +43,7 @@ class _EventMapViewState extends State<EventMapView> {
                   onMapCreated: (GoogleMapController controller) {
                     mapModel.mapController = controller;
                   },
+                  initialCameraPosition: this.widget.initialCameraPosition,
                 ), //TODO(junwha): change to dynamic location
               ],
             );
