@@ -13,7 +13,6 @@ class EventMapModel extends TBMapModel {
   void findPlaces() async {
     List<Location> locations = await placeLoader.searchEventLocations(center);
     updateLocations(locations);
-    print(markerList.markers.length);
     notifyListeners();
   }
 }
