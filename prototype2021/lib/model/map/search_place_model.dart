@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:prototype2021/model/map/content_location_model.dart';
+import 'package:prototype2021/model/map/content_map_model.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/data/place_data.dart';
 
