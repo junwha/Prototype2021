@@ -6,6 +6,7 @@ import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
+import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
 import 'package:prototype2021/ui/event/filter_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
@@ -61,27 +62,34 @@ class _BoardMainViewState extends State<BoardMainView> {
             SingleChildScrollView(
               child: Column(
                   children: List.generate(
-                20,
-                (index) => ProductCard(
-                  preview: placeHolder,
-                  title: "중국 도장깨기",
-                  place: '상하이(중국), 베이징(중국), 광저우(중국)',
-                  period: 3,
-                  costStart: 3,
-                  costEnd: 5,
-                  matchPercent: 34,
-                  tags: ["액티비티", "관광명소", "인생사진"],
-                  tendencies: [],
-                  onHeartPreessed: (bool isSelected) {
-                    setState(() {
-                      this.heartSelected2 = !isSelected;
-                    });
-                    print(heartSelected2);
-                  },
-                  isHeartSelected: this.heartSelected2,
-                  isGuide: index % 2 == 0,
-                ),
-              )),
+                      20,
+                      (index) => GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => PlanMakeView()));
+                            },
+                            child: ProductCard(
+                              preview: placeHolder,
+                              title: "중국 도장깨기",
+                              place: '상하이(중국), 베이징(중국), 광저우(중국)',
+                              period: 3,
+                              costStart: 3,
+                              costEnd: 5,
+                              matchPercent: 34,
+                              tags: ["액티비티", "관광명소", "인생사진"],
+                              tendencies: [],
+                              onHeartPreessed: (bool isSelected) {
+                                setState(() {
+                                  this.heartSelected2 = !isSelected;
+                                });
+                                print(heartSelected2);
+                              },
+                              isHeartSelected: this.heartSelected2,
+                              isGuide: index % 2 == 0,
+                            ),
+                          ))),
             ),
             SingleChildScrollView(
               child: Column(
