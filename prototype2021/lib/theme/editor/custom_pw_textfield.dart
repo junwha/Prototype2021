@@ -1,32 +1,30 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatefulWidget {
+class CustomPWTextField extends StatefulWidget {
   String hintText;
   Function(String) onChanged;
   String initialText;
   int maxLine;
-  bool isObscure = true;
+  bool isChecked1 = true;
   bool isChecked2 = false;
-  bool isPasswordField;
 
-  CustomTextField(
+  CustomPWTextField(
       {required this.hintText,
       required this.onChanged,
       this.initialText = '',
-      this.maxLine = 1,
-      this.isPasswordField = false});
+      this.maxLine = 1});
 
   @override
-  _CustomTextFieldState createState() => _CustomTextFieldState();
+  _CustomPWTextFieldState createState() => _CustomPWTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomPWTextFieldState extends State<CustomPWTextField> {
   TextEditingController? _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = new TextEditingController(text: this.widget.initialText);
+    _controller = TextEditingController(text: this.widget.initialText);
   }
 
   @override
@@ -48,8 +46,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 hintText: this.widget.hintText),
             onChanged: this.widget.onChanged,
             maxLines: this.widget.maxLine,
-            obscureText:
-                this.widget.isPasswordField ? this.widget.isObscure : false,
+            obscureText: this.widget.isChecked1,
             keyboardType: TextInputType.multiline,
             enableInteractiveSelection: false,
           ),
@@ -60,17 +57,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              this.widget.isPasswordField
-                  ? IconButton(
-                      icon: Image.asset(
-                        'assets/icons/ic_eye_gray.png',
-                      ),
-                      onPressed: () {
-                        setState(() {
-                          this.widget.isObscure = !this.widget.isObscure;
-                        });
-                      })
-                  : SizedBox(),
+              IconButton(
+                  icon: Image.asset(
+                    'assets/icons/ic_eye_gray.png',
+                  ),
+                  onPressed: () {
+                    setState(() {
+                      this.widget.isChecked1 = !this.widget.isChecked1;
+                    });
+                  }),
               IconButton(
                   icon: Image.asset(
                     'assets/icons/ic_search_remove_background.png',
@@ -83,7 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   }),
             ],
           ),
-        )
+        ),
       ],
     );
   }

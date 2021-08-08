@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/editor/custom_pw_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
+
 import 'package:prototype2021/ui/signin_page/signin_view_1.dart';
 
 class SigninView extends StatefulWidget {
@@ -74,13 +76,10 @@ class _SigninViewState extends State<SigninView> {
             SizedBox(
               height: 16,
             ),
-            Container(
-                height: 75,
-                decoration: BoxDecoration(
-                  color: const Color(0xfff2f2f2),
-                ),
-                child: CustomTextField(
-                    hintText: "비밀번호를 입력해주세요.", onChanged: (String text) {})),
+            CustomTextField(
+                isPasswordField: true,
+                hintText: "비밀번호를 입력해주세요.",
+                onChanged: (String text) {}),
             SizedBox(
               height: 8,
             ),
@@ -103,13 +102,10 @@ class _SigninViewState extends State<SigninView> {
             SizedBox(
               height: 16,
             ),
-            Container(
-                height: 75,
-                decoration: BoxDecoration(
-                  color: const Color(0xfff2f2f2),
-                ),
-                child: CustomTextField(
-                    hintText: "비밀번호를 다시 입력해주세요.", onChanged: (String text) {})),
+            CustomTextField(
+                isPasswordField: true,
+                hintText: "비밀번호를 다시 입력해주세요.",
+                onChanged: (String text) {}),
             SizedBox(
               height: 40,
             ),
