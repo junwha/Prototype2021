@@ -56,19 +56,22 @@ android {
     //         signingConfig signingConfigs.debug
     //     }
     // }
-    signingConfigs {
-       release {
-           keyAlias keystoreProperties['keyAlias']
-           keyPassword keystoreProperties['keyPassword']
-           storeFile file(keystoreProperties['storeFile'])
-           storePassword keystoreProperties['storePassword']
-       }
-   }
-   buildTypes {
-       release {
-           signingConfig signingConfigs.release
-       }
-   }
+
+    // We need to uncomment the codelines below when we are about to deployment
+    
+    //     signingConfigs {
+    //        release {
+    //            keyAlias keystoreProperties['keyAlias']
+    //            keyPassword keystoreProperties['keyPassword']
+    //            storeFile file(keystoreProperties['storeFile'])
+    //            storePassword keystoreProperties['storePassword']
+    //        }
+    //    }
+    //    buildTypes {
+    //        release {
+    //            signingConfig signingConfigs.release
+    //        }
+    //    }
 
 }
 
