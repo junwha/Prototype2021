@@ -1,28 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/calendar/calendar.dart';
-import 'package:prototype2021/theme/calendar/calendar_handler.dart';
-import 'package:prototype2021/ui/board/board_main_view.dart';
+import 'package:prototype2021/theme/calendar/bottom_calendar_button.dart';
+import 'package:prototype2021/theme/calendar/plan_make_calendar.dart';
+import 'package:prototype2021/theme/calendar/plan_make_calendar_handler.dart';
 import 'package:provider/provider.dart';
 
-class PlanMakeView extends StatefulWidget {
-  const PlanMakeView();
-
-  @override
-  _PlanMakeViewState createState() => _PlanMakeViewState();
-}
-
-class _PlanMakeViewState extends State<PlanMakeView> {
+class PlanMakeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    DateTime now = new DateTime.now();
+    return ChangeNotifierProvider(
+      create: (_) => PlanMakeCalendarHandler(now: now),
+      child: Scaffold(
         backgroundColor: const Color(0xfff6f6f6),
-        appBar: buildAppBar(),
-        body: Container(
-          child: Calendar(),
-        ));
+        appBar: buildAppBar(context),
+        body: PlanMakeCalendar(),
+        bottomNavigationBar: BottomCalendarButton(),
+      ),
+    );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: const Color(0xfff6f6f6),
