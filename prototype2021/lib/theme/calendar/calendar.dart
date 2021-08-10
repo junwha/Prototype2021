@@ -1,6 +1,4 @@
 class Calendar {
-  Calendar() : super();
-
   /// 7개 열을 가진 그리드로 바로 변환될 수 있는, DateTime과 null로 이루어진 날짜 리스트를 반환합니다
   ///
   /// 일요일을 한 주의 시작으로 봅니다
@@ -18,8 +16,8 @@ class Calendar {
     int numPlaceholderAtEnd = (7 - (monthEndWeekday % 7 + 1));
     List<DateTime?> calendar = [
       List.generate(numPlaceholderAtStart, (_) => null),
-      List.generate(
-          monthEndDay, (index) => new DateTime(year, month, index + 1)),
+      List.generate(monthEndDay,
+          (index) => new DateTime(year, month, index + 1, 23, 59, 59)),
       List.generate(numPlaceholderAtEnd, (_) => null)
     ].expand((element) => element).toList();
     return calendar;

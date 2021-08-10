@@ -11,7 +11,7 @@ class PlanMakeView extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => PlanMakeCalendarHandler(now: now),
       child: Scaffold(
-        backgroundColor: const Color(0xfff6f6f6),
+        backgroundColor: Colors.white,
         appBar: buildAppBar(context),
         body: PlanMakeCalendar(),
         bottomNavigationBar: BottomCalendarButton(),

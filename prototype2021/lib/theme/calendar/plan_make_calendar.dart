@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/calendar/calendar.dart';
+import 'package:prototype2021/theme/calendar/plan_make_calendar_handler.dart';
+import 'package:provider/provider.dart';
 
 const double CalendarHorizontalPadding = 10;
 
 class PlanMakeCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     DateTime _now = new DateTime.now();
     return Container(
       child: Column(
@@ -13,7 +17,7 @@ class PlanMakeCalendar extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           _buildWeekdayBar(),
-          _buildCalendars(_now.year, _now.month),
+          _buildCalendars(calendarHandler, _now.year, _now.month),
         ],
       ),
     );
@@ -49,19 +53,23 @@ class PlanMakeCalendar extends StatelessWidget {
     );
   }
 
-  Widget _buildCalendars(int year, int month) {
+  Widget _buildCalendars(
+      PlanMakeCalendarHandler calendarHandler, int year, int month) {
     List<int> months = List.generate(3, (index) => month + index);
     return Expanded(
       child: ListView(
-        children:
-            months.map((month) => _buildMonthlyCalendar(year, month)).toList(),
+        children: months
+            .map((month) => _buildMonthlyCalendar(calendarHandler, year, month))
+            .toList(),
         shrinkWrap: true,
       ),
     );
   }
 
-  Container _buildMonthlyCalendar(int year, int month) {
+  Container _buildMonthlyCalendar(
+      PlanMakeCalendarHandler calendarHandler, int year, int month) {
     List<DateTime?> _calendar = Calendar().generateCalendar(year, month);
+    bool _reverseAlign = _calendar[2] == null;
 
     return Container(
       child: Column(
@@ -90,22 +98,24 @@ class PlanMakeCalendar extends StatelessWidget {
                         fontSize: 22.0),
                     textAlign: TextAlign.center)
               ],
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              mainAxisAlignment: _reverseAlign
+                  ? MainAxisAlignment.end
+                  : MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
             ),
             padding: EdgeInsets.symmetric(
                 vertical: 10, horizontal: CalendarHorizontalPadding),
+            alignment: Alignment.bottomCenter,
           ),
           Container(
             child: GridView.count(
               crossAxisCount: 7,
-              children:
-                  List.of(_calendar.map((nullableDate) => nullableDate == null
-                      ? SizedBox(
-                          width: 1,
-                          height: 1,
-                        )
-                      : buildCalendarDate(nullableDate))),
+              mainAxisSpacing: 0,
+              crossAxisSpacing: 0,
+              children: List.of(_calendar.map((nullableDate) =>
+                  nullableDate == null
+                      ? buildPlaceholder(calendarHandler, year, month)
+                      : buildCalendarDate(calendarHandler, nullableDate))),
               physics: const NeverScrollableScrollPhysics(),
             ),
             width: double.infinity,
@@ -120,17 +130,82 @@ class PlanMakeCalendar extends StatelessWidget {
     );
   }
 
-  TextButton buildCalendarDate(DateTime date) {
+  Container buildPlaceholder(
+      PlanMakeCalendarHandler calendarHandler, int year, int month) {
+    Color backgroundColor;
+
+    return Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: BoxDecoration());
+  }
+
+  TextButton buildCalendarDate(
+      PlanMakeCalendarHandler calendarHandler, DateTime date) {
+    TextDecoration textDecoration;
+    Color textColor;
+    bool disabled;
+    Color backgroundColor;
+    BorderRadius buttonBorderRadius = BorderRadius.zero;
+
+    if (date.isBefore(calendarHandler.now)) {
+      textDecoration = TextDecoration.lineThrough;
+      textColor = const Color(0xff9dbeff);
+      disabled = true;
+      backgroundColor = Colors.white;
+    } else {
+      disabled = false;
+      textDecoration = TextDecoration.none;
+      if ((calendarHandler.phase == CalendarTouchPhase.RANGE &&
+              ((date.isAtSameMomentAs(calendarHandler.datePoints[0]!) ||
+                      date.isAfter(calendarHandler.datePoints[0]!)) &&
+                  (date.isBefore(calendarHandler.datePoints[1]!) ||
+                      date.isAtSameMomentAs(
+                          calendarHandler.datePoints[1]!)))) ||
+          (calendarHandler.phase == CalendarTouchPhase.POINT &&
+              date.isAtSameMomentAs(calendarHandler.datePoints[0]!))) {
+        textColor = const Color(0xfff6f6f6);
+        backgroundColor = const Color(0xff4080ff);
+      } else {
+        textColor = const Color(0xff0055ff);
+        backgroundColor = Colors.white;
+      }
+    }
+
+    if (calendarHandler.phase == CalendarTouchPhase.POINT) {
+      buttonBorderRadius = BorderRadius.circular(10);
+    }
+
+    if (calendarHandler.phase != CalendarTouchPhase.POINT &&
+        calendarHandler.datePoints[0] != null &&
+        date.isAtSameMomentAs(calendarHandler.datePoints[0]!)) {
+      buttonBorderRadius = BorderRadius.only(
+          topLeft: Radius.circular(10), bottomLeft: Radius.circular(10));
+    }
+
+    if (calendarHandler.phase != CalendarTouchPhase.POINT &&
+        calendarHandler.datePoints[1] != null &&
+        date.isAtSameMomentAs(calendarHandler.datePoints[1]!)) {
+      buttonBorderRadius = BorderRadius.only(
+          topRight: Radius.circular(10), bottomRight: Radius.circular(10));
+    }
+
     return TextButton(
-      child: Text(date.day.toString(),
-          style: const TextStyle(
-              color: const Color(0xff0055ff),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Roboto",
-              fontStyle: FontStyle.normal,
-              fontSize: 16.0),
-          textAlign: TextAlign.center),
-      onPressed: () {},
-    );
+        child: Text(date.day.toString(),
+            style: TextStyle(
+                color: textColor,
+                fontWeight: FontWeight.w400,
+                fontFamily: "Roboto",
+                fontStyle: FontStyle.normal,
+                fontSize: 16.0,
+                decoration: textDecoration),
+            textAlign: TextAlign.center),
+        onPressed: disabled ? null : () => calendarHandler.handleTap(date),
+        style: ButtonStyle(
+            backgroundColor: MaterialStateProperty.all(backgroundColor),
+            shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+              RoundedRectangleBorder(
+                  borderRadius: buttonBorderRadius, side: BorderSide.none),
+            )));
   }
 }

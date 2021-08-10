@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 class BottomCalendarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler = Provider.of(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     return Container(
       child: SafeArea(child: buildButton(calendarHandler)),
       width: double.infinity,
@@ -21,12 +22,27 @@ class BottomCalendarButton extends StatelessWidget {
   }
 
   TextButton buildButton(PlanMakeCalendarHandler calendarHandler) {
+    String buttonText;
+    Color buttonColor;
+    Color textColor;
+    bool disabled;
+    if (calendarHandler.phase == CalendarTouchPhase.PENDING) {
+      buttonText = "여행 일자를 선택하세요";
+      buttonColor = Colors.grey.shade300;
+      textColor = const Color(0xff484848);
+      disabled = true;
+    } else {
+      buttonText = "${calendarHandler.dateDifference}일 선택완료";
+      buttonColor = const Color(0xff4080ff);
+      textColor = const Color(0xfff6f6f6);
+      disabled = false;
+    }
     return TextButton(
         child: Container(
           child: Center(
-            child: Text("여행 일자를 선택하세요.",
-                style: const TextStyle(
-                    color: const Color(0xff484848),
+            child: Text(buttonText,
+                style: TextStyle(
+                    color: textColor,
                     fontWeight: FontWeight.w700,
                     fontFamily: "Roboto",
                     fontStyle: FontStyle.normal,
@@ -36,10 +52,10 @@ class BottomCalendarButton extends StatelessWidget {
           height: 35,
           width: double.infinity,
         ),
-        onPressed: () {},
+        onPressed: disabled ? null : () {},
         style: ButtonStyle(
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(11.0))),
-            backgroundColor: MaterialStateProperty.all(Colors.grey.shade300)));
+            backgroundColor: MaterialStateProperty.all(buttonColor)));
   }
 }
