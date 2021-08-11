@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/calendar/plan_make_calendar_handler.dart';
+import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:provider/provider.dart';
 
 class BottomCalendarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
     return Container(
       child: SafeArea(child: _buildButton(calendarHandler)),
       width: double.infinity,
@@ -21,7 +21,7 @@ class BottomCalendarButton extends StatelessWidget {
     );
   }
 
-  TextButton _buildButton(PlanMakeCalendarHandler calendarHandler) {
+  TextButton _buildButton(PlanMakeCalendarModel calendarHandler) {
     String buttonText;
     Color buttonColor;
     Color textColor;

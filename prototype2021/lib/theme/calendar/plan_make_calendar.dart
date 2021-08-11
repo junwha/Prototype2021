@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/calendar/calendar.dart';
-import 'package:prototype2021/theme/calendar/plan_make_calendar_handler.dart';
+import 'package:prototype2021/model/calendar.dart';
+import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:provider/provider.dart';
 
 const double CalendarHorizontalPadding = 10;
@@ -8,8 +8,8 @@ const double CalendarHorizontalPadding = 10;
 class PlanMakeCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
     DateTime _now = new DateTime.now();
     return Container(
       child: Column(
@@ -54,7 +54,7 @@ class PlanMakeCalendar extends StatelessWidget {
   }
 
   Widget _buildCalendars(
-      PlanMakeCalendarHandler calendarHandler, int year, int month) {
+      PlanMakeCalendarModel calendarHandler, int year, int month) {
     List<int> months = List.generate(3, (index) => month + index);
     return Expanded(
       child: ListView(
@@ -67,7 +67,7 @@ class PlanMakeCalendar extends StatelessWidget {
   }
 
   Container _buildMonthlyCalendar(
-      PlanMakeCalendarHandler calendarHandler, int year, int month) {
+      PlanMakeCalendarModel calendarHandler, int year, int month) {
     DateTime _convertedDateTime = new DateTime(year, month);
     List<DateTime?> _calendar = Calendar()
         .generateCalendar(_convertedDateTime.year, _convertedDateTime.month);
@@ -138,7 +138,7 @@ class PlanMakeCalendar extends StatelessWidget {
     );
   }
 
-  Container _buildPlaceholder(PlanMakeCalendarHandler calendarHandler,
+  Container _buildPlaceholder(PlanMakeCalendarModel calendarHandler,
       int dateIndex, int year, int month) {
     Color _backgroundColor = Colors.white;
     if (calendarHandler.phase == CalendarTouchPhase.RANGE) {
@@ -165,7 +165,7 @@ class PlanMakeCalendar extends StatelessWidget {
   }
 
   TextButton _buildCalendarDate(
-      PlanMakeCalendarHandler calendarHandler, DateTime date) {
+      PlanMakeCalendarModel calendarHandler, DateTime date) {
     TextDecoration textDecoration;
     Color textColor;
     bool disabled;

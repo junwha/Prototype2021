@@ -1,13 +1,12 @@
 class Calendar {
-  /// 7개 열을 가진 그리드로 바로 변환될 수 있는, DateTime과 null로 이루어진 날짜 리스트를 반환합니다
-  ///
-  /// 일요일을 한 주의 시작으로 봅니다
-  ///
-  /// 예를 들어 어느 달의 시작이 목요일이라면, 목요일 전에 있는 weekdays만큼,
-  /// 즉 4만큼의 null이 리스트의 시작에 삽입됩니다.
-  ///
-  /// 또한 어느 달의 끝이 수요일이라면, 수요일 후에 있는 weekdays만큼,
-  /// 즉 3만큼의 null이 리스트의 끝에 삽입됩니다.
+  /* 
+  * 7개 열을 가진 그리드로 바로 변환될 수 있는, DateTime과 null로 이루어진 날짜 리스트를 반환합니다
+  *
+  * 일요일을 한 주의 시작으로 봅니다 예를 들어 어느 달의 시작이 목요일이라면, 
+  * 목요일 전에 있는 weekdays만큼, 즉 4만큼의 null이 리스트의 시작에 삽입됩니다. 
+  * 또한 어느 달의 끝이 수요일이라면, 수요일 후에 있는 weekdays만큼,
+  * 즉 3만큼의 null이 리스트의 끝에 삽입됩니다. 
+  */
   List<DateTime?> generateCalendar(int year, int month) {
     int monthStartWeekday = getMonthStartWeekday(year, month);
     int monthEndWeekday = getMonthEndWeekDay(year, month);
@@ -23,11 +22,16 @@ class Calendar {
     return calendar;
   }
 
+  /* 주어진 연, 월의 1일이 어떤 요일인지를 반환합니다. 월요일이 1, 일요일이 7입니다 */
   int getMonthStartWeekday(int year, int month) {
     DateTime monthStartDate = new DateTime(year, month, 1);
     return monthStartDate.weekday;
   }
 
+  /* 
+  * 주어진 연, 월의 말일이 며칠일지를 반환합니다. 
+  * 예를들어 2021, 1을 넣으면 31이 결과값으로 나옵니다 
+  */
   int getMonthEndDay(int year, int month) {
     DateTime monthEndDate = month == 2
         ? new DateTime(year, month, 29)
@@ -39,12 +43,14 @@ class Calendar {
     }
   }
 
+  /* 주어진 연, 월의 말일이 어떤 요일인지를 반환합니다. 월요일이 1, 일요일이 7입니다 */
   int getMonthEndWeekDay(int year, int month) {
     int monthEndDay = getMonthEndDay(year, month);
     DateTime monthEndDate = new DateTime(year, month, monthEndDay);
     return monthEndDate.weekday;
   }
 
+  /* 현재 시간이 속해있는 달에 대한 generateCalendar 메서드의 결과값을 반환합니다 */
   List<DateTime?> now() {
     DateTime now = new DateTime.now();
     return generateCalendar(now.year, now.month);
