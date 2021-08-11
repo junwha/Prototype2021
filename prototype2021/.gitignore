@@ -42,3 +42,6 @@ app.*.map.json
 
 # Lab (This folder is for experimental purpose)
 lab/
+
+# utils/private (This folder is for private commands)
+utils/private/

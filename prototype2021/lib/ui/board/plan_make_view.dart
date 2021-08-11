@@ -12,14 +12,14 @@ class PlanMakeView extends StatelessWidget {
       create: (_) => PlanMakeCalendarHandler(now: now),
       child: Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildAppBar(context),
+        appBar: _buildAppBar(context),
         body: PlanMakeCalendar(),
         bottomNavigationBar: BottomCalendarButton(),
       ),
     );
   }
 
-  AppBar buildAppBar(BuildContext context) {
+  AppBar _buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: const Color(0xfff6f6f6),

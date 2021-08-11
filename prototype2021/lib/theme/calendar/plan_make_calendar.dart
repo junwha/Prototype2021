@@ -68,7 +68,9 @@ class PlanMakeCalendar extends StatelessWidget {
 
   Container _buildMonthlyCalendar(
       PlanMakeCalendarHandler calendarHandler, int year, int month) {
-    List<DateTime?> _calendar = Calendar().generateCalendar(year, month);
+    DateTime _convertedDateTime = new DateTime(year, month);
+    List<DateTime?> _calendar = Calendar()
+        .generateCalendar(_convertedDateTime.year, _convertedDateTime.month);
     bool _reverseAlign = _calendar[2] == null;
 
     return Container(
@@ -77,7 +79,7 @@ class PlanMakeCalendar extends StatelessWidget {
           Container(
             child: Row(
               children: [
-                Text(year.toString(),
+                Text(_convertedDateTime.year.toString(),
                     style: const TextStyle(
                         color: const Color(0xff9dbeff),
                         fontWeight: FontWeight.w400,
@@ -89,7 +91,7 @@ class PlanMakeCalendar extends StatelessWidget {
                   width: 10,
                   height: 1,
                 ),
-                Text("$month월",
+                Text("${_convertedDateTime.month.toString()}월",
                     style: const TextStyle(
                         color: const Color(0xff4080ff),
                         fontWeight: FontWeight.w700,
@@ -112,10 +114,16 @@ class PlanMakeCalendar extends StatelessWidget {
               crossAxisCount: 7,
               mainAxisSpacing: 0,
               crossAxisSpacing: 0,
-              children: List.of(_calendar.map((nullableDate) =>
-                  nullableDate == null
-                      ? buildPlaceholder(calendarHandler, year, month)
-                      : buildCalendarDate(calendarHandler, nullableDate))),
+              children: _calendar
+                  .asMap()
+                  .map<int, Widget>((index, nullableDate) => MapEntry(
+                      index,
+                      nullableDate == null
+                          ? _buildPlaceholder(
+                              calendarHandler, index, year, month)
+                          : _buildCalendarDate(calendarHandler, nullableDate)))
+                  .values
+                  .toList(),
               physics: const NeverScrollableScrollPhysics(),
             ),
             width: double.infinity,
@@ -130,17 +138,33 @@ class PlanMakeCalendar extends StatelessWidget {
     );
   }
 
-  Container buildPlaceholder(
-      PlanMakeCalendarHandler calendarHandler, int year, int month) {
-    Color backgroundColor;
+  Container _buildPlaceholder(PlanMakeCalendarHandler calendarHandler,
+      int dateIndex, int year, int month) {
+    Color _backgroundColor = Colors.white;
+    if (calendarHandler.phase == CalendarTouchPhase.RANGE) {
+      List<DateTime?> _datePoints = calendarHandler.datePoints;
+      List<int> _convertedMonths = _datePoints
+          .map((datePoint) =>
+              datePoint!.month + (datePoint.year - _datePoints[0]!.year) * 12)
+          .toList();
+      if (dateIndex < 7) {
+        if (_convertedMonths[0] < month && _convertedMonths[1] >= month) {
+          _backgroundColor = const Color(0xff4080ff);
+        }
+      } else {
+        if (_convertedMonths[1] > month && _convertedMonths[0] <= month) {
+          _backgroundColor = const Color(0xff4080ff);
+        }
+      }
+    }
 
     return Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: BoxDecoration());
+        decoration: BoxDecoration(color: _backgroundColor));
   }
 
-  TextButton buildCalendarDate(
+  TextButton _buildCalendarDate(
       PlanMakeCalendarHandler calendarHandler, DateTime date) {
     TextDecoration textDecoration;
     Color textColor;
@@ -174,20 +198,18 @@ class PlanMakeCalendar extends StatelessWidget {
 
     if (calendarHandler.phase == CalendarTouchPhase.POINT) {
       buttonBorderRadius = BorderRadius.circular(10);
-    }
+    } else {
+      if (calendarHandler.datePoints[0] != null &&
+          date.isAtSameMomentAs(calendarHandler.datePoints[0]!)) {
+        buttonBorderRadius = BorderRadius.only(
+            topLeft: Radius.circular(10), bottomLeft: Radius.circular(10));
+      }
 
-    if (calendarHandler.phase != CalendarTouchPhase.POINT &&
-        calendarHandler.datePoints[0] != null &&
-        date.isAtSameMomentAs(calendarHandler.datePoints[0]!)) {
-      buttonBorderRadius = BorderRadius.only(
-          topLeft: Radius.circular(10), bottomLeft: Radius.circular(10));
-    }
-
-    if (calendarHandler.phase != CalendarTouchPhase.POINT &&
-        calendarHandler.datePoints[1] != null &&
-        date.isAtSameMomentAs(calendarHandler.datePoints[1]!)) {
-      buttonBorderRadius = BorderRadius.only(
-          topRight: Radius.circular(10), bottomRight: Radius.circular(10));
+      if (calendarHandler.datePoints[1] != null &&
+          date.isAtSameMomentAs(calendarHandler.datePoints[1]!)) {
+        buttonBorderRadius = BorderRadius.only(
+            topRight: Radius.circular(10), bottomRight: Radius.circular(10));
+      }
     }
 
     return TextButton(
