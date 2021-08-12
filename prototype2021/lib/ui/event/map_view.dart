@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
+import 'package:prototype2021/ui/event/event_map_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 
@@ -10,8 +11,8 @@ import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/map/content_location_model.dart';
+import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/model/map/content_map_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -50,39 +51,77 @@ class _MapViewState extends State<MapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider.value(
-              value: ContentLocationModel(center: center!),
+              value: ContentMapModel(center: center!),
               child: Consumer(
-                builder: (context, ContentLocationModel locationModel, child) {
+                builder: (context, ContentMapModel mapModel, child) {
                   return Stack(
                     children: [
                       //initial position
-                      BackgroundMap(
-                        center: locationModel.center,
-                        markers: locationModel.markers,
-                        load: locationModel.mapLoaded,
-                        onCameraMove: (CameraPosition cameraPostion) {
-                          locationModel.updateBearing(cameraPostion.bearing);
-                          locationModel.center = cameraPostion.target;
-                        },
-                        onTap: (LatLng pos) {
-                          if (locationModel.isFocused()) {
-                            locationModel.removeFocus();
-                          } else {
-                            locationModel.findPlace(pos);
-                          }
-                        },
-                      ), //TODO(junwha): change to dynamic location
+                      buildBackgroundMap(
+                          mapModel), //TODO(junwha): change to dynamic location
                       PlaceInfo(),
                       buildBackButton(context),
                       buildWriteButton(maxHeight),
-                      buildContentInfo(
-                          locationModel.markerList.focusedLocation),
-                      MapSearchBar(locationModel, backButtonEnabled: true),
+                      buildContentInfo(mapModel.markerList.focusedLocation),
+                      buildMapSearchBar(mapModel, context),
                     ],
                   );
                 },
               ),
             ),
+    );
+  }
+
+  MapSearchBar buildMapSearchBar(
+      ContentMapModel mapModel, BuildContext context) {
+    return MapSearchBar(
+      mapModel,
+      backButtonEnabled: true,
+      leading: PlaceFilterChip(
+        leading: Image.asset("assets/icons/event.png"),
+        text: "내 주변 이벤트",
+        onSelected: (bool _isSelected) {
+          double zoomLevel = 14.0;
+          mapModel.mapController?.getZoomLevel().then((value) {
+            zoomLevel = value;
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EventMapView(
+                center: mapModel.center,
+                initialCameraPosition: CameraPosition(
+                  target: mapModel.center,
+                  zoom: zoomLevel,
+                ),
+              ),
+            ),
+          );
+        },
+        isSelected: false,
+      ),
+    );
+  }
+
+  BackgroundMap buildBackgroundMap(ContentMapModel mapModel) {
+    return BackgroundMap(
+      center: mapModel.center,
+      markers: mapModel.markers,
+      load: mapModel.mapLoaded,
+      onCameraMove: (CameraPosition cameraPostion) {
+        mapModel.updateBearing(cameraPostion.bearing);
+        mapModel.center = cameraPostion.target;
+      },
+      onTap: (LatLng pos) {
+        if (mapModel.isFocused()) {
+          mapModel.removeFocus();
+        } else {
+          mapModel.findPlace(pos);
+        }
+      },
+      onMapCreated: (GoogleMapController controller) {
+        mapModel.mapController = controller;
+      },
     );
   }
 

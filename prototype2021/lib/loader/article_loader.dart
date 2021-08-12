@@ -86,6 +86,7 @@ class ArticleLoader {
       return parseEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
+      print(e);
       print("check internet");
     }
 
@@ -174,6 +175,7 @@ class ArticleLoader {
       }
     } catch (e) {
       print("check internet");
+      print(e);
     }
 
     return null;

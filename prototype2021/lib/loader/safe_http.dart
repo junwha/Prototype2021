@@ -38,13 +38,12 @@ Future<bool> safePUT(String url, Map? bodyMap) async {
   return false;
 }
 
-Future<bool> safeGET(String url) async {
+Future<dynamic> safeGET(String url) async {
   try {
     var response = await http.get(Uri.parse(url));
-    print(response.body);
-    if (response.statusCode == 200) return true;
+    if (response.statusCode == 200) return jsonDecode(response.body);
   } catch (e) {
     print("Unexpected Error occurred");
   }
-  return false;
+  return null;
 }

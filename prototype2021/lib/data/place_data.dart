@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/google_place_loader.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 /* 
@@ -38,3 +38,17 @@ class GooglePlaceData {
 
 //   String get address => addressMeta["formatted_address"];
 // }
+
+/*
+ * DTO object from TB Event Place Response
+ */
+class EventPlaceData {
+  final DateTimeRange period;
+  final int id;
+  final int hearts;
+  final int comments;
+  final LatLng latLng;
+  final String name;
+  const EventPlaceData(
+      this.id, this.name, this.hearts, this.comments, this.latLng, this.period);
+}

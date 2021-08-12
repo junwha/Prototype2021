@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/map/content_location_model.dart';
+import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/model/map/content_map_model.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
@@ -41,29 +41,31 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider(
-              create: (context) => ContentLocationModel(
+              create: (context) => ContentMapModel(
                   center: center!), // TODO(junwha): remove center
               child: Consumer(
-                builder: (context, ContentLocationModel locationModel, child) {
+                builder: (context, ContentMapModel locationModel, child) {
                   return Stack(
                     children: [
                       //initial position
                       BackgroundMap(
-                        center: locationModel.center,
-                        markers: locationModel.markers,
-                        load: locationModel.mapLoaded,
-                        onCameraMove: (CameraPosition cameraPostion) {
-                          locationModel.updateBearing(cameraPostion.bearing);
-                          locationModel.center = cameraPostion.target;
-                        },
-                        onTap: (LatLng pos) {
-                          if (locationModel.isFocused()) {
-                            locationModel.removeFocus();
-                          } else {
-                            locationModel.findPlace(pos);
-                          }
-                        },
-                      ), //TODO(junwha): change to dynamic location
+                          center: locationModel.center,
+                          markers: locationModel.markers,
+                          load: locationModel.mapLoaded,
+                          onCameraMove: (CameraPosition cameraPostion) {
+                            locationModel.updateBearing(cameraPostion.bearing);
+                            locationModel.center = cameraPostion.target;
+                          },
+                          onTap: (LatLng pos) {
+                            if (locationModel.isFocused()) {
+                              locationModel.removeFocus();
+                            } else {
+                              locationModel.findPlace(pos);
+                            }
+                          },
+                          onMapCreated: (GoogleMapController controller) {
+                            locationModel.mapController = controller;
+                          }), //TODO(junwha): change to dynamic location
                       //buildSelectButton(maxHeight),
                       buildContentInfo(
                           locationModel.markerList.focusedLocation),

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:prototype2021/model/article_loader.dart';
+import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
-import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';

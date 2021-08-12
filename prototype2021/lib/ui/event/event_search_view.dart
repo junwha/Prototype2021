@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:prototype2021/model/article_loader.dart';
+import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/search_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/recruit_card.dart';

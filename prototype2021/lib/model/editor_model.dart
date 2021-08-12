@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/article_loader.dart';
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/map/google_place_loader.dart';
-import 'package:prototype2021/model/safe_http.dart';
+import 'package:prototype2021/loader/article_loader.dart';
+import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/loader/safe_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
 
@@ -148,8 +148,8 @@ class EditorModel with ChangeNotifier {
   Future<bool> writeEventArticle(Map<String, dynamic> originData) async {
     if (location == null) return false;
     originData["coord"] = {
-      "lat": this.location!.latLng.latitude.toString().substring(0, 9),
-      "long": this.location!.latLng.longitude.toString().substring(0, 9)
+      "lat": this.location!.latLng.latitude.toStringAsFixed(6),
+      "long": this.location!.latLng.longitude.toStringAsFixed(6),
     };
 
     originData["cid"] = this.cid;
