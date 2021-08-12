@@ -134,8 +134,7 @@ class TBMapModel with ChangeNotifier {
   }
 
   bool isFocused() {
-    if (markerList.focusedLocation == null) return false;
-    return true;
+    return markerList.focusedLocation != null;
   }
 
   /*
