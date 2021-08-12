@@ -8,7 +8,7 @@ class BottomCalendarButton extends StatelessWidget {
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
     return Container(
-      child: SafeArea(child: _buildButton(calendarHandler)),
+      child: SafeArea(child: buildButton(calendarHandler)),
       width: double.infinity,
       decoration:
           BoxDecoration(color: const Color(0xfff6f6f6), boxShadow: <BoxShadow>[
@@ -21,7 +21,7 @@ class BottomCalendarButton extends StatelessWidget {
     );
   }
 
-  TextButton _buildButton(PlanMakeCalendarModel calendarHandler) {
+  TextButton buildButton(PlanMakeCalendarModel calendarHandler) {
     String buttonText;
     Color buttonColor;
     Color textColor;

@@ -16,14 +16,14 @@ class PlanMakeCalendar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          _buildWeekdayBar(),
-          _buildCalendars(calendarHandler, _now.year, _now.month),
+          buildWeekdayBar(),
+          buildCalendars(calendarHandler, _now.year, _now.month),
         ],
       ),
     );
   }
 
-  Container _buildWeekdayBar() {
+  Container buildWeekdayBar() {
     List<String> _weekdays = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
     return Container(
       child: GridView.count(
@@ -53,20 +53,20 @@ class PlanMakeCalendar extends StatelessWidget {
     );
   }
 
-  Widget _buildCalendars(
+  Widget buildCalendars(
       PlanMakeCalendarModel calendarHandler, int year, int month) {
     List<int> months = List.generate(3, (index) => month + index);
     return Expanded(
       child: ListView(
         children: months
-            .map((month) => _buildMonthlyCalendar(calendarHandler, year, month))
+            .map((month) => buildMonthlyCalendar(calendarHandler, year, month))
             .toList(),
         shrinkWrap: true,
       ),
     );
   }
 
-  Container _buildMonthlyCalendar(
+  Container buildMonthlyCalendar(
       PlanMakeCalendarModel calendarHandler, int year, int month) {
     DateTime _convertedDateTime = new DateTime(year, month);
     List<DateTime?> _calendar = Calendar()
@@ -119,9 +119,9 @@ class PlanMakeCalendar extends StatelessWidget {
                   .map<int, Widget>((index, nullableDate) => MapEntry(
                       index,
                       nullableDate == null
-                          ? _buildPlaceholder(
+                          ? buildPlaceholder(
                               calendarHandler, index, year, month)
-                          : _buildCalendarDate(calendarHandler, nullableDate)))
+                          : buildCalendarDate(calendarHandler, nullableDate)))
                   .values
                   .toList(),
               physics: const NeverScrollableScrollPhysics(),
@@ -138,7 +138,7 @@ class PlanMakeCalendar extends StatelessWidget {
     );
   }
 
-  Container _buildPlaceholder(PlanMakeCalendarModel calendarHandler,
+  Container buildPlaceholder(PlanMakeCalendarModel calendarHandler,
       int dateIndex, int year, int month) {
     Color _backgroundColor = Colors.white;
     if (calendarHandler.phase == CalendarTouchPhase.RANGE) {
@@ -164,7 +164,7 @@ class PlanMakeCalendar extends StatelessWidget {
         decoration: BoxDecoration(color: _backgroundColor));
   }
 
-  TextButton _buildCalendarDate(
+  TextButton buildCalendarDate(
       PlanMakeCalendarModel calendarHandler, DateTime date) {
     TextDecoration textDecoration;
     Color textColor;
