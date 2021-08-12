@@ -38,3 +38,17 @@ class GooglePlaceData {
 
 //   String get address => addressMeta["formatted_address"];
 // }
+
+/*
+ * DTO object from TB Event Place Response
+ */
+class EventPlaceData {
+  final DateTimeRange period;
+  final int id;
+  final int hearts;
+  final int comments;
+  final LatLng latLng;
+  final String name;
+  const EventPlaceData(
+      this.id, this.name, this.hearts, this.comments, this.latLng, this.period);
+}
