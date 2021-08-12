@@ -48,7 +48,7 @@ class TBMapModel with ChangeNotifier {
    * Clear all markers from the map
    */
   void clearMap() {
-    updateLocations({});
+    markerList.removeAll();
     notifyListeners();
   }
 
@@ -101,9 +101,18 @@ class TBMapModel with ChangeNotifier {
   void updateBearing(double bearing) {
     if (markerList.bearing != bearing) {
       markerList.bearing = bearing;
-      _updateMarkers();
+      redrawMap();
     }
     notifyListeners();
+  }
+
+  /*
+   * Redraw all markers
+   */
+  void redrawMap() {
+    Iterable<Location> locationTemp = locations;
+    clearMap();
+    updateLocations(locationTemp);
   }
 
   /*
