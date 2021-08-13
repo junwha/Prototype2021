@@ -20,6 +20,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
         backgroundColor: Color(0xfff6f6f6),
         appBar: buildAppBar(),
         body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
               height: 130,
@@ -113,23 +114,29 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                   fontsize: 14,
                                   onChanged: (String text) {}),
 
-                              Wrap(children: [
-                                Row(
-                                  children: [
-                                    TBContentTag(contentTitle: '액티비티'),
-                                    TBContentTag(contentTitle: 'SNS핫플'),
-                                    TBContentTag(contentTitle: '맛집탐'),
-                                    IconButton(
-                                      icon: Image.asset(
-                                          "assets/icons/ic_save_edit.png"),
-                                      onPressed: () {},
-                                    ),
-                                  ],
-                                ),
-                              ])
+                              Row(
+                                children: [
+                                  TBContentTag(contentTitle: '액티비티'),
+                                  TBContentTag(contentTitle: 'SNS핫플'),
+                                  TBContentTag(contentTitle: '휴양지'),
+                                  IconButton(
+                                    icon: Image.asset(
+                                        "assets/icons/ic_save_edit.png"),
+                                    onPressed: () {},
+                                  ),
+                                ],
+                              )
                             ],
                           ), // 상하이, 베이징, 광저우
                         ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Container(
+                        width: double.infinity,
+                        height: 1,
+                        color: Color(0xffbdbdbd),
                       ),
                     ],
                   ),
