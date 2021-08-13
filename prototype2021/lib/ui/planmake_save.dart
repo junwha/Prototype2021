@@ -217,7 +217,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       children: [
                         Image.asset('assets/icons/img_check_green.png'),
                         Text(
-                          '여행 피로도',
+                          '여행 경비',
                           style: TextStyle(
                             color: Color(0xff555555),
                             fontSize: 16,
