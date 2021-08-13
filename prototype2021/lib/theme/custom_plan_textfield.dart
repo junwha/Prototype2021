@@ -8,12 +8,14 @@ class CustomPlanTextField extends StatefulWidget {
   bool isChecked1 = true;
   double height;
   double width;
+  double fontsize;
 
   CustomPlanTextField(
       {required this.hintText,
       required this.onChanged,
-      this.height = 50,
+      this.height = 45,
       this.width = 260,
+      this.fontsize = 16,
       this.initialText = '',
       this.maxLine = 1});
 
@@ -46,11 +48,11 @@ class _CustomPlanTextFieldState extends State<CustomPlanTextField> {
                 ),
               ),
               contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 11, top: 10, right: 15),
+                  EdgeInsets.only(left: 15, bottom: 0, top: 10, right: 15),
               hintText: this.widget.hintText,
               hintStyle: TextStyle(
                 color: Color(0xffbdbdbd),
-                fontSize: 16,
+                fontSize: this.widget.fontsize,
                 fontFamily: 'Roboto',
               ),
             ),
@@ -71,11 +73,7 @@ class _CustomPlanTextFieldState extends State<CustomPlanTextField> {
                   icon: Image.asset(
                     'assets/icons/ic_save_edit.png',
                   ),
-                  onPressed: () {
-                    setState(() {
-                      this.widget.isChecked1 = !this.widget.isChecked1;
-                    });
-                  }),
+                  onPressed: () {}),
             ],
           ),
         ),
