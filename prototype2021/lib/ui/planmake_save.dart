@@ -25,7 +25,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
         appBar: buildAppBar(),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
-            height: 130,
+            height: 100,
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
@@ -35,7 +35,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                   '여행',
                   style: TextStyle(
                     color: Color(0xff4080ff),
-                    fontSize: 22,
+                    fontSize: 25,
                     fontFamily: 'Roboto',
                     fontWeight: FontWeight.w700,
                   ),
@@ -47,7 +47,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                   '저장하기',
                   style: TextStyle(
                     color: Color(0xff9dbeff),
-                    fontSize: 16,
+                    fontSize: 19,
                     fontFamily: 'Roboto',
                   ),
                 ),
