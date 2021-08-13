@@ -64,20 +64,19 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
 
   AppBar buildAppBar() {
     return AppBar(
-        backgroundColor: Colors.white,
-        shadowColor: Colors.white,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
-        ),
-        title: Text("여행저장하기",
-            style: const TextStyle(
-                color: const Color(0xff000000),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Roboto",
-                fontStyle: FontStyle.normal,
-                fontSize: 16.0 * pt),
-            textAlign: TextAlign.left));
+      backgroundColor: Color(0xfff6f6f6),
+      shadowColor: Color(0xfff6f6f6),
+      elevation: 0,
+      centerTitle: false,
+      leading: IconButton(
+        icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
+        onPressed: () {},
+      ),
+      actions: [
+        IconButton(
+            onPressed: () {},
+            icon: Image.asset('assets/icons/ic_hamburger_menu.png')),
+      ],
+    );
   }
 }
