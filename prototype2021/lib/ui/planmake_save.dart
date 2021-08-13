@@ -56,6 +56,29 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                         topLeft: Radius.circular(40),
                         topRight: Radius.circular(40)) // POINT
                     ),
+                child: Padding(
+                  padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                              height: 140,
+                              width: 120,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(25)),
+                                  image: new DecorationImage(
+                                    image: new AssetImage(
+                                        'assets/icons/planmakeimage.png'),
+                                    fit: BoxFit.fill,
+                                  ))),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ],
