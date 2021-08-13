@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/custom_plan_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_pw_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
+import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/theme/tb_contenttag.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
   const PlanmakeSaveView({Key? key}) : super(key: key);
@@ -64,7 +67,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       Row(
                         children: [
                           Container(
-                              height: 140,
+                              height: 150,
                               width: 120,
                               decoration: BoxDecoration(
                                   borderRadius:
@@ -74,6 +77,58 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                         'assets/icons/planmakeimage.png'),
                                     fit: BoxFit.fill,
                                   ))),
+                          SizedBox(
+                            width: 10,
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomPlanTextField(
+                                  hintText: '여행 이름을 입력해주세요.',
+                                  onChanged: (String text) {}),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text("상하이, 베이징, 광저우",
+                                  style: const TextStyle(
+                                      color: const Color(0xff555555),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Roboto",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 11.0),
+                                  textAlign: TextAlign.left),
+                              SizedBox(
+                                height: 10,
+                              ), // 기간 : 4일(1월 1일~4일)
+                              Text("기간 : 4일(1월 1일~4일)",
+                                  style: const TextStyle(
+                                      color: const Color(0xff555555),
+                                      fontWeight: FontWeight.w400,
+                                      fontFamily: "Roboto",
+                                      fontStyle: FontStyle.normal,
+                                      fontSize: 14.0),
+                                  textAlign: TextAlign.left),
+                              CustomPlanTextField(
+                                  hintText: '예산을 입력해주세요.',
+                                  fontsize: 14,
+                                  onChanged: (String text) {}),
+
+                              Wrap(children: [
+                                Row(
+                                  children: [
+                                    TBContentTag(contentTitle: '액티비티'),
+                                    TBContentTag(contentTitle: 'SNS핫플'),
+                                    TBContentTag(contentTitle: '맛집탐'),
+                                    IconButton(
+                                      icon: Image.asset(
+                                          "assets/icons/ic_save_edit.png"),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                ),
+                              ])
+                            ],
+                          ), // 상하이, 베이징, 광저우
                         ],
                       ),
                     ],
