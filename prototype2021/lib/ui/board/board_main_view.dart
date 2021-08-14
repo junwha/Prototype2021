@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/card.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/theme/cards/contents_card_base.dart';
+import 'package:prototype2021/theme/cards/product_card.dart';
+import 'package:prototype2021/theme/cards/product_card_base.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
@@ -64,6 +67,7 @@ class _BoardMainViewState extends State<BoardMainView> {
                   children: List.generate(
                       20,
                       (index) => ProductCard(
+                              props: new ProductCardBaseProps(
                             preview: placeHolder,
                             title: "중국 도장깨기",
                             place: '상하이(중국), 베이징(중국), 광저우(중국)',
@@ -81,7 +85,7 @@ class _BoardMainViewState extends State<BoardMainView> {
                             },
                             isHeartSelected: this.heartSelected2,
                             isGuide: index % 2 == 0,
-                          ))),
+                          )))),
             ),
             SingleChildScrollView(
               child: Column(
@@ -95,20 +99,23 @@ class _BoardMainViewState extends State<BoardMainView> {
                               builder: (context) => ContentDetailView()));
                     },
                     child: ContentsCard(
-                      preview: placeHolder,
-                      title: "울산대공원",
-                      place: "대한민국, 울산",
-                      explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
-                      rating: 5,
-                      ratingNumbers: 34,
-                      tags: ["액티비티", "관광명소", "인생사진"],
-                      isHeartSelected: heartSelected,
-                      onHeartPreessed: (bool isSelected) {
-                        setState(() {
-                          this.heartSelected = !isSelected;
-                        });
-                        print(heartSelected);
-                      },
+                      props: new ContentsCardBaseProps(
+                        backgroundColor: Colors.white,
+                        preview: placeHolder,
+                        title: "울산대공원",
+                        place: "대한민국, 울산",
+                        explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
+                        rating: 5,
+                        ratingNumbers: 34,
+                        tags: ["액티비티", "관광명소", "인생사진"],
+                        isHeartSelected: heartSelected,
+                        onHeartPreessed: (bool isSelected) {
+                          setState(() {
+                            this.heartSelected = !isSelected;
+                          });
+                          print(heartSelected);
+                        },
+                      ),
                     ),
                   ),
                 ),

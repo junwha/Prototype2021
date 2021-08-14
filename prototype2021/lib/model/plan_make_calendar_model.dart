@@ -14,6 +14,15 @@ enum CalendarTouchPhase {
   RANGE,
 }
 
+enum PlanMakeRoute {
+  CALENDAR,
+  HOME,
+  SEARCH,
+  SAVED_LIST,
+  PLAN_INFO,
+  CONTENTS_INFO
+}
+
 class PlanMakeCalendarModel with ChangeNotifier {
   CalendarTouchPhase _phase = CalendarTouchPhase.PENDING;
   DateTime _now;

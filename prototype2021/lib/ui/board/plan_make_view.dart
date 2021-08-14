@@ -30,11 +30,11 @@ class PlanMakeView extends StatelessWidget {
           },
           icon: Image.asset('assets/icons/ic_arrow_left_back.png')),
       toolbarHeight: 60,
-      actions: [
-        IconButton(
-            onPressed: () {},
-            icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
-      ],
+      // actions: [
+      //   IconButton(
+      //       onPressed: () {},
+      //       icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
+      // ],
     );
   }
 }
