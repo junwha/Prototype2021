@@ -7,17 +7,21 @@ class ContentsCardBaseProps extends CardBaseProps {
   final int ratingNumbers;
   final String explanation;
   final Color backgroundColor;
+  final EdgeInsets margin;
+  final int heartCount;
 
   ContentsCardBaseProps(
       {required this.rating,
       required this.ratingNumbers,
-      required this.backgroundColor,
+      this.backgroundColor = Colors.white,
       required this.explanation,
+      this.heartCount = 3,
+      this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       required String preview,
       required String title,
       required String place,
       required List<String> tags,
-      required bool isHeartSelected,
+      bool isHeartSelected = false,
       Function(bool)? onHeartPreessed})
       : super(
           preview: preview,
