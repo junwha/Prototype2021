@@ -64,6 +64,9 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  SizedBox(
+                    height: 40,
+                  ),
                   Text.rich(
                     TextSpan(
                       children: [
@@ -71,7 +74,7 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                           text: '저장한 플랜은 ',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontFamily: 'Roboto',
                           ),
                         ),
@@ -79,7 +82,7 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                           text: '마이 플랜',
                           style: TextStyle(
                             color: Color(0xff0055ff),
-                            fontSize: 15,
+                            fontSize: 20,
                             fontFamily: 'Roboto',
                             fontWeight: FontWeight.w700,
                           ),
@@ -88,27 +91,28 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                           text: '에서 확인할 수 있어요.',
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15,
+                            fontSize: 20,
                             fontFamily: 'Roboto',
                           ),
                         ),
                       ],
                     ),
-                    style: TextStyle(
-                      color: Color(0xff0055ff),
-                      fontSize: 15,
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.w700,
-                    ),
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 40,
                   ),
                   Text(
                     '다른 여행자들이 참고할 수 있도록 제작한 플랜을\n플랜게시판에 공유해주세요!',
                     style: TextStyle(
+                      fontSize: 16,
                       color: Colors.black,
                       fontFamily: 'Roboto',
                     ),
                     textAlign: TextAlign.center,
+                  ),
+                  SizedBox(
+                    height: 40,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -146,7 +150,7 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                                       '플랜게시판에\n공유하기',
                                       style: TextStyle(
                                         color: Colors.white,
-                                        fontSize: 15,
+                                        fontSize: 17,
                                         fontFamily: 'Roboto',
                                         fontWeight: FontWeight.w700,
                                       ),
