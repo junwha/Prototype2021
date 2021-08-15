@@ -25,7 +25,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
         appBar: buildAppBar(),
         body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           SizedBox(
-            height: 100,
+            height: 80,
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
@@ -276,7 +276,42 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                       fontSize: 14.0),
                                   textAlign: TextAlign.right)
                             ],
-                          )
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TextButton(
+                                onPressed: () {},
+                                child: Container(
+                                  height: 40,
+                                  width: 140,
+                                  child: Center(
+                                    child: Text(
+                                      '저장하기',
+                                      style: TextStyle(
+                                        color: Color(0xff555555),
+                                        fontSize: 17,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                    ),
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: Color(0xfff6f6f6),
+                                    borderRadius: BorderRadius.circular(11),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Color(0x29000000),
+                                        offset: Offset(3, 3),
+                                        blurRadius: 3,
+                                        spreadRadius: 0,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
