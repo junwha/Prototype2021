@@ -110,6 +110,57 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                     ),
                     textAlign: TextAlign.center,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      TextButton(
+                        onPressed: () {},
+                        child: Container(
+                          child: Center(
+                            child: Text(
+                              '마이 플랜',
+                              style: TextStyle(
+                                color: Color(0xff707070),
+                                fontSize: 17,
+                                fontFamily: 'Roboto',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                          height: 60,
+                          width: 130,
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(
+                                color: Color(0xffbdbdbd), width: 1.5),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      TextButton(
+                          onPressed: () {},
+                          child: // 사각형 1598
+                              Container(
+                                  child: Center(
+                                    child: Text(
+                                      '플랜게시판에\n공유하기',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontFamily: 'Roboto',
+                                        fontWeight: FontWeight.w700,
+                                      ),
+                                      textAlign: TextAlign.center,
+                                    ),
+                                  ),
+                                  width: 130,
+                                  height: 60,
+                                  decoration: BoxDecoration(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(10)),
+                                      color: const Color(0xff4080ff))))
+                    ],
+                  )
                 ],
               ),
               color: Colors.white,
