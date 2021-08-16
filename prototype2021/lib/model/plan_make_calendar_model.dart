@@ -29,7 +29,7 @@ class PlanMakeCalendarModel with ChangeNotifier {
   List<DateTime?> _datePoints = [null, null];
   int? _dateDifference;
 
-  PlanMakeCalendarModel({required DateTime now}) : _now = now;
+  PlanMakeCalendarModel({DateTime? now}) : _now = now ?? new DateTime.now();
 
   /* 
   * 캘린더의 터치 상태인 enum CalenderTouchPhase를 가져옵니다. 
@@ -99,5 +99,9 @@ class PlanMakeCalendarModel with ChangeNotifier {
     _datePoints[1] = tappedDate;
     _dateDifference = tappedDate.difference(_datePoints[0]!).inDays + 1;
     notifyListeners();
+  }
+
+  PlanMakeCalendarModel inherit() {
+    return this;
   }
 }

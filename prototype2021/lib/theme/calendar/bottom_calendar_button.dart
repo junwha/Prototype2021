@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:provider/provider.dart';
 
 class BottomCalendarButton extends StatelessWidget {
@@ -8,7 +9,7 @@ class BottomCalendarButton extends StatelessWidget {
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
     return Container(
-      child: SafeArea(child: buildButton(calendarHandler)),
+      child: SafeArea(child: buildButton(context, calendarHandler)),
       width: double.infinity,
       decoration:
           BoxDecoration(color: const Color(0xfff6f6f6), boxShadow: <BoxShadow>[
@@ -21,7 +22,8 @@ class BottomCalendarButton extends StatelessWidget {
     );
   }
 
-  TextButton buildButton(PlanMakeCalendarModel calendarHandler) {
+  TextButton buildButton(
+      BuildContext context, PlanMakeCalendarModel calendarHandler) {
     String buttonText;
     Color buttonColor;
     Color textColor;
@@ -52,7 +54,17 @@ class BottomCalendarButton extends StatelessWidget {
           height: 35,
           width: double.infinity,
         ),
-        onPressed: disabled ? null : () {},
+        onPressed: disabled
+            ? null
+            : () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (BuildContext context) {
+                  return ChangeNotifierProvider(
+                    create: (_) => calendarHandler.inherit(),
+                    child: PlanMakeHome(),
+                  );
+                }));
+              },
         style: ButtonStyle(
             shape: MaterialStateProperty.all(RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(11.0))),
