@@ -30,10 +30,11 @@ class PseudoPlaceData {
   String name;
   String businessStatus;
   String userRatingsTotal;
-  String types;
+  String types; // attraction, accomodations, restaurant, cafe, memo
   String? photo;
   String placeId;
   String? address;
+  String memo; // Just For Memo
 
   PseudoPlaceData({
     required this.location,
@@ -44,6 +45,7 @@ class PseudoPlaceData {
     this.userRatingsTotal = "",
     this.placeId = "pseudo-place-id",
     this.photo = "",
+    this.memo = "",
   });
 }
 

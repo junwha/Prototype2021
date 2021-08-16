@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/pseudo_place_data.dart';
 
 /* 
 * 캘린더의 터치 상태를 표현하는 enum입니다. 
@@ -28,6 +29,7 @@ class PlanMakeCalendarModel with ChangeNotifier {
   DateTime _now;
   List<DateTime?> _datePoints = [null, null];
   int? _dateDifference;
+  List<List<PseudoPlaceData>>? _planListItems;
 
   PlanMakeCalendarModel({DateTime? now}) : _now = now ?? new DateTime.now();
 
@@ -52,10 +54,14 @@ class PlanMakeCalendarModel with ChangeNotifier {
   * 하나의 날짜만 선택되었을 시에는 1을 반환합니다.
   */
   int? get dateDifference => _dateDifference;
+  /* 
+   * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
+  */
+  List<List<PseudoPlaceData>>? get planListItems => _planListItems;
 
   /* 
-  * 캘린더의 터치를 핸들링하는 메소드입니다. 
-  * 캘린더의 상태를 관리하는 핵심적인 함수로, 사용하지 않는것을 권장합니다
+   * 캘린더의 터치를 핸들링하는 메소드입니다. 
+   * 캘린더의 상태를 관리하는 핵심적인 함수로, 사용하지 않는것을 권장합니다
   */
   void handleTap(DateTime tappedDate) {
     switch (_phase) {
@@ -103,5 +109,10 @@ class PlanMakeCalendarModel with ChangeNotifier {
 
   PlanMakeCalendarModel inherit() {
     return this;
+  }
+
+  void generatePlanListItems() {
+    _planListItems = List.generate(dateDifference!, (_) => []);
+    notifyListeners();
   }
 }

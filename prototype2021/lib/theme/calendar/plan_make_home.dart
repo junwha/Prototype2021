@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_make_calendar.dart';
 import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
@@ -154,16 +155,24 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
   Container buildMain(BuildContext context) {
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
-    print(calendarHandler.datePoints);
-    print(calendarHandler.dateDifference);
+    List<Widget> widgets =
+        List.generate(calendarHandler.dateDifference!, (index) {
+      return PlanListItem(dateIndex: index);
+    });
+    widgets.insert(
+        0,
+        SizedBox(
+          height: 40,
+        ));
     return Container(
-      child: Column(),
+      child: Column(children: widgets),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40)),
           color: Colors.white),
       width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height,
+      constraints:
+          BoxConstraints(minHeight: MediaQuery.of(context).size.height),
     );
   }
 }
