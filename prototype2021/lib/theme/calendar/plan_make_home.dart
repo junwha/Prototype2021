@@ -13,7 +13,7 @@ class PlanMakeHome extends StatefulWidget {
 }
 
 class _PlanMakeHomeState extends State<PlanMakeHome>
-    with PlanMakeViewBase, TickerProviderStateMixin {
+    with PlanMakeViewBase, TickerProviderStateMixin, ChangeNotifier {
   bool _onTop = true;
   void Function(bool)? _setOnTop(bool isOnTop) {
     setState(() {
@@ -21,33 +21,82 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     });
   }
 
-  late AnimationController _controller;
-  late Animation _colorAnimation;
+  ValueNotifier _openedCountNotifier = ValueNotifier<int>(0);
+  void _incrementOpenedCount() {
+    _openedCountNotifier.value = _openedCountNotifier.value + 1;
+    _openedCountNotifier.notifyListeners();
+  }
+
+  void _decrementOpenedCount() {
+    _openedCountNotifier.value = _openedCountNotifier.value - 1;
+    _openedCountNotifier.notifyListeners();
+  }
+
+  bool _expanded = false;
+  void _setExpanded(bool expanded) {
+    setState(() {
+      _expanded = expanded;
+    });
+  }
+
+  late AnimationController _scrollController;
+  late AnimationController _sizeController;
+  late Animation _appBarColorAnimation;
+  late Animation _shadowColorAnimation;
+  late Animation _borderColorAnimation;
+  late Animation<double> _sizeAnimation;
   Color _appBarColor = Colors.transparent;
+  Color _shadowColor = Colors.white;
+  Color _borderColor = const Color(0xff707070).withOpacity(0.52);
   double _appBarElevation = 0;
 
   _PlanMakeHomeState() {
-    _controller =
+    _scrollController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
-    _colorAnimation =
+    _sizeController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 400));
+    _appBarColorAnimation =
         ColorTween(begin: const Color(0xfff6f6f6), end: Colors.white)
-            .animate(_controller);
+            .animate(_scrollController);
+    _shadowColorAnimation = ColorTween(
+            begin: Colors.white.withOpacity(0.1),
+            end: const Color(0x29000000).withOpacity(0.1))
+        .animate(_scrollController);
+    _borderColorAnimation = ColorTween(
+            begin: const Color(0xff707070).withOpacity(0.52), end: Colors.white)
+        .animate(_scrollController);
+    _sizeAnimation = Tween<double>(begin: 0, end: 1).animate(_sizeController);
   }
 
   @override
   void initState() {
     super.initState();
-    _controller.addListener(() {
+    _scrollController.addListener(() {
       setState(() {
-        _appBarColor = _colorAnimation.value;
+        _appBarColor = _appBarColorAnimation.value;
+        _shadowColor = _shadowColorAnimation.value;
+        _borderColor = _borderColorAnimation.value;
       });
+    });
+    _openedCountNotifier.addListener(() {
+      if (_openedCountNotifier.value == 0) {
+        if (_expanded) {
+          _setExpanded(false);
+          _sizeController.reverse();
+        }
+      } else {
+        if (!_expanded) {
+          _setExpanded(true);
+          _sizeController.forward();
+        }
+      }
     });
   }
 
   @override
   void dispose() {
     super.dispose();
-    _controller.dispose();
+    _scrollController.dispose();
   }
 
   @override
@@ -55,7 +104,12 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     return Scaffold(
       backgroundColor: const Color(0xfff6f6f6),
       appBar: buildAppBar(context, _appBarColor, _appBarElevation),
-      body: buildBody(context),
+      body: ValueListenableBuilder(
+        valueListenable: _openedCountNotifier,
+        builder: (BuildContext context, _, __) {
+          return buildBody(context);
+        },
+      ),
     );
   }
 
@@ -66,7 +120,7 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
             // When screen is on top
             if (!_onTop) {
               _setOnTop(true);
-              _controller.reverse();
+              _scrollController.reverse();
               setState(() {
                 _appBarElevation = 0;
               });
@@ -75,7 +129,7 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
             // When screen is not on top
             if (_onTop) {
               _setOnTop(false);
-              _controller.forward().whenCompleteOrCancel(() {
+              _scrollController.forward().whenCompleteOrCancel(() {
                 setState(() {
                   _appBarElevation = 3;
                 });
@@ -165,17 +219,22 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
   Container buildMain(BuildContext context) {
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
-    List<Widget> widgets =
+    List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
-      return PlanListItem(dateIndex: index);
+      return PlanListItem(
+        dateIndex: index,
+        incrementOpenedCount: _incrementOpenedCount,
+        decrementOpenedCount: _decrementOpenedCount,
+      );
     });
-    widgets.insert(
-        0,
-        SizedBox(
-          height: 40,
-        ));
+    planListItemWidgets.insertAll(0, [
+      SizedBox(
+        height: 50,
+      ),
+      buildPlanListItemsHeader(),
+    ]);
     return Container(
-      child: Column(children: widgets),
+      child: Column(children: planListItemWidgets),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40)),
@@ -183,6 +242,80 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
       width: MediaQuery.of(context).size.width,
       constraints:
           BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+    );
+  }
+
+  Container buildPlanListItemsHeader() {
+    return Container(
+      child: SizeTransition(
+        sizeFactor: _sizeAnimation,
+        axisAlignment: 1.0,
+        child: Container(
+          child: Container(
+            child: Row(
+              children: [
+                Text("일정",
+                    style: const TextStyle(
+                        color: const Color(0xff000000),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 14.0),
+                    textAlign: TextAlign.left),
+                GestureDetector(
+                  onTap: () {},
+                  child: Opacity(
+                    opacity: 0.2,
+                    child: Container(
+                        child: Center(
+                          child: Text("편집",
+                              style: const TextStyle(
+                                  color: const Color(0x99707070),
+                                  fontWeight: FontWeight.w700,
+                                  fontFamily: "Roboto",
+                                  fontStyle: FontStyle.normal,
+                                  fontSize: 11.0),
+                              textAlign: TextAlign.left),
+                        ),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(6)),
+                            border: Border.all(
+                                color: const Color(0xff707070), width: 1),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: const Color(0x29000000),
+                                  offset: Offset(2, 2),
+                                  blurRadius: 2,
+                                  spreadRadius: 0)
+                            ],
+                            color: const Color(0xffffffff)),
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                        alignment: Alignment.topCenter),
+                  ),
+                )
+              ],
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            ),
+            padding: EdgeInsets.only(right: 10, left: 13, bottom: 14, top: 14),
+            decoration: BoxDecoration(
+                border: Border(
+                    bottom: BorderSide(color: _borderColor, width: 0.5))),
+          ),
+          padding: EdgeInsets.symmetric(horizontal: PlanListItemPadding),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                  color: _shadowColor,
+                  offset: Offset(0, 10),
+                  blurRadius: 6.0,
+                  spreadRadius: 0)
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

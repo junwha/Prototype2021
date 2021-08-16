@@ -8,24 +8,38 @@ import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/schedule_card.dart';
 import 'package:provider/provider.dart';
 
+const double PlanListItemPadding = 28;
+
 class PlanListItem extends StatefulWidget {
   final int dateIndex;
-  PlanListItem({required this.dateIndex});
+  final void Function() incrementOpenedCount;
+  final void Function() decrementOpenedCount;
+  PlanListItem(
+      {required this.dateIndex,
+      required this.incrementOpenedCount,
+      required this.decrementOpenedCount});
 
   @override
-  _PlanListItemState createState() => _PlanListItemState(dateIndex: dateIndex);
+  _PlanListItemState createState() => _PlanListItemState(
+      dateIndex: dateIndex,
+      incrementOpenedCount: incrementOpenedCount,
+      decrementOpenedCount: decrementOpenedCount);
 }
 
 class _PlanListItemState extends State<PlanListItem>
     with SingleTickerProviderStateMixin, PlaceListItemHelper {
   List<PseudoPlaceData> data = [];
   final int dateIndex;
+  final void Function() incrementOpenedCount;
+  final void Function() decrementOpenedCount;
 
   bool _expanded = false;
   void _setExpanded(bool expanded) {
     if (expanded) {
+      incrementOpenedCount();
       _expandController.forward();
     } else {
+      decrementOpenedCount();
       _expandController.reverse();
     }
     setState(() {
@@ -63,7 +77,10 @@ class _PlanListItemState extends State<PlanListItem>
   late Animation<double> _expandAnimation;
   double _axisAlignment = 1.0;
 
-  _PlanListItemState({required this.dateIndex}) {
+  _PlanListItemState(
+      {required this.dateIndex,
+      required this.incrementOpenedCount,
+      required this.decrementOpenedCount}) {
     _expandController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _expandAnimation =
@@ -137,7 +154,7 @@ class _PlanListItemState extends State<PlanListItem>
                   bottom: BorderSide(
                       color: const Color(0xff707070).withOpacity(0.52),
                       width: 0.5)))),
-      padding: EdgeInsets.symmetric(horizontal: 28),
+      padding: EdgeInsets.symmetric(horizontal: PlanListItemPadding),
     );
   }
 
@@ -210,9 +227,11 @@ class _PlanListItemState extends State<PlanListItem>
                     ),
                   ),
                   IconButton(
-                      onPressed: () {
-                        _toggleExpanded();
-                      },
+                      onPressed: data.length == 0
+                          ? null
+                          : () {
+                              _toggleExpanded();
+                            },
                       icon: _expanded
                           ? Image.asset(
                               'assets/icons/ic_calender_arrow_up_fold.png')
