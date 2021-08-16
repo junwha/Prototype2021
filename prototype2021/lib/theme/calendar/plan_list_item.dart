@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geodesy/geodesy.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/model/calendar.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
@@ -55,6 +55,8 @@ class _PlanListItemState extends State<PlanListItem>
     });
   }
 
+  final Geodesy _geodesy = Geodesy();
+
   TextEditingController _textEditingController = TextEditingController();
 
   late AnimationController _expandController;
@@ -71,24 +73,38 @@ class _PlanListItemState extends State<PlanListItem>
   @override
   Widget build(BuildContext context) {
     /* 
-     * Returns a list of widgets from a list of placeData and null
+     * Returns a list of widgets from a list of placeData, num, and null
      * which appear in the list alternatively. For example:
-     * [null, plaeData1, null, placeData2, ..., placeDataN, null]
+     * [null, plaeData1, distanceBetween1N2, placeData2, ..., placeDataN, null]
     */
     List<Widget> scheduleCardWidgets = data
-        .fold<List<PseudoPlaceData?>>([], (acc, cur) {
-          acc.addAll([cur, null]);
+        .fold<List<dynamic>>([], (acc, cur) {
+          int dataIdx = acc.length ~/ 2;
+          num? distanceBetweenCurAndNext;
+          for (var i = dataIdx + 1; i < data.length; i++) {
+            PseudoPlaceData nextData = data[i];
+            if (nextData.types != "memo") {
+              distanceBetweenCurAndNext = _geodesy.distanceBetweenTwoGeoPoints(
+                  cur.location, nextData.location);
+              break;
+            }
+          }
+          acc.addAll(
+              [cur, cur.types == "memo" ? null : distanceBetweenCurAndNext]);
           return acc;
         })
         .asMap()
-        .map((index, placeData) => MapEntry(
+        .map((index, placeDataOrDistance) => MapEntry(
             index,
             Container(
-              child: placeData != null
-                  ? ScheduleCard(data: placeData, order: (index + 2) ~/ 2)
-                  : Center(
-                      child: SizedBox(height: 27),
-                    ),
+              child: placeDataOrDistance is PseudoPlaceData
+                  ? ScheduleCard(
+                      data: placeDataOrDistance, order: (index + 2) ~/ 2)
+                  : placeDataOrDistance is num
+                      ? buildDistanceIcon(placeDataOrDistance)
+                      : Center(
+                          child: SizedBox(height: 27),
+                        ),
             )))
         .values
         .toList();
@@ -116,6 +132,36 @@ class _PlanListItemState extends State<PlanListItem>
                       color: const Color(0xff707070).withOpacity(0.52),
                       width: 0.5)))),
       padding: EdgeInsets.symmetric(horizontal: 28),
+    );
+  }
+
+  Stack buildDistanceIcon(num distance) {
+    return Stack(
+      children: [
+        Container(
+          child: Positioned(
+              child: Container(
+                child: Text(distanceWithUnit(distance),
+                    style: const TextStyle(
+                        color: const Color(0xff4080ff),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 11.0),
+                    textAlign: TextAlign.center),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(7)),
+                    border:
+                        Border.all(color: const Color(0xffbbd2ff), width: 1),
+                    color: const Color(0xffffffff)),
+                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+              ),
+              top: -10),
+          alignment: Alignment.center,
+          height: 27,
+          constraints: BoxConstraints(minWidth: double.infinity),
+        )
+      ],
     );
   }
 
@@ -243,5 +289,14 @@ mixin PlaceListItemHelper {
             ],
           );
         });
+  }
+
+  String distanceWithUnit(num distance) {
+    if (distance < 1000) {
+      return "${distance.toStringAsFixed(0)}m";
+    } else {
+      String distanceInKm = (distance / 1000).toStringAsFixed(1);
+      return "${distanceInKm}km";
+    }
   }
 }

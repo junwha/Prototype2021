@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:geodesy/geodesy.dart';
 
 // class GooglePlaceData {
 //   Map<String, dynamic>

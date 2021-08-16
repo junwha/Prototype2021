@@ -32,12 +32,22 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     _colorAnimation =
         ColorTween(begin: const Color(0xfff6f6f6), end: Colors.white)
             .animate(_controller);
+  }
 
+  @override
+  void initState() {
+    super.initState();
     _controller.addListener(() {
       setState(() {
         _appBarColor = _colorAnimation.value;
       });
     });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
   }
 
   @override
