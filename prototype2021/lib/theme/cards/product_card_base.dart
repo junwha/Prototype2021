@@ -22,7 +22,7 @@ class ProductCardBaseProps extends CardBaseProps {
       required String title,
       required String place,
       required List<String> tags,
-      required bool isHeartSelected,
+      bool isHeartSelected = false,
       Function(bool)? onHeartPreessed})
       : super(
           preview: preview,

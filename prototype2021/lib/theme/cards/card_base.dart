@@ -14,7 +14,7 @@ class CardBaseProps {
       required this.title,
       required this.place,
       required this.tags,
-      required this.isHeartSelected,
+      this.isHeartSelected = false,
       this.onHeartPreessed});
 }
 
