@@ -71,6 +71,12 @@ class _PlanListItemState extends State<PlanListItem>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _expandController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     /* 
      * Returns a list of widgets from a list of placeData, num, and null
@@ -135,33 +141,32 @@ class _PlanListItemState extends State<PlanListItem>
     );
   }
 
-  Stack buildDistanceIcon(num distance) {
-    return Stack(
-      children: [
-        Container(
-          child: Positioned(
-              child: Container(
-                child: Text(distanceWithUnit(distance),
-                    style: const TextStyle(
-                        color: const Color(0xff4080ff),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 11.0),
-                    textAlign: TextAlign.center),
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(7)),
-                    border:
-                        Border.all(color: const Color(0xffbbd2ff), width: 1),
-                    color: const Color(0xffffffff)),
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-              ),
-              top: -10),
-          alignment: Alignment.center,
-          height: 27,
-          constraints: BoxConstraints(minWidth: double.infinity),
+  Widget buildDistanceIcon(num distance) {
+    return SizedBox(
+      height: 27,
+      child: Stack(children: [
+        Positioned.fill(
+          child: Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+              child: Text(distanceWithUnit(distance),
+                  style: const TextStyle(
+                      color: const Color(0xff4080ff),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 11.0),
+                  textAlign: TextAlign.center),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(7)),
+                  border: Border.all(color: const Color(0xffbbd2ff), width: 1),
+                  color: const Color(0xffffffff)),
+              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+            ),
+          ),
+          top: -5,
         )
-      ],
+      ], clipBehavior: Clip.none),
     );
   }
 

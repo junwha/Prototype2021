@@ -11,37 +11,40 @@ class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Row(
-          children: [
-            Container(
-              child: Row(
-                children: [
-                  buildLeading(),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  buildInfo()
-                ],
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
+      child: Container(
+          child: Row(
+            children: [
+              Container(
+                child: Row(
+                  children: [
+                    buildLeading(),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    buildInfo()
+                  ],
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                ),
               ),
-            ),
-            buildActions(),
-          ],
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-        ),
-        padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
-            boxShadow: [
-              BoxShadow(
-                  color: const Color(0x29000000),
-                  offset: Offset(3, 3),
-                  blurRadius: 3,
-                  spreadRadius: 0)
+              buildActions(),
             ],
-            color: const Color(0xffffffff)));
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+          padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(8)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x29000000),
+                    offset: Offset(3, 3),
+                    blurRadius: 3,
+                    spreadRadius: 0)
+              ],
+              color: const Color(0xffffffff))),
+      padding: EdgeInsets.only(right: 4),
+    );
   }
 
   CircularWrapper buildLeading() {
