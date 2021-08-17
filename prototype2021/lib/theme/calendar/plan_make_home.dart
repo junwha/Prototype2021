@@ -42,13 +42,15 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
   late AnimationController _scrollController;
   late AnimationController _sizeController;
   late Animation _appBarColorAnimation;
-  late Animation _shadowColorAnimation;
   late Animation _borderColorAnimation;
   late Animation<double> _sizeAnimation;
+  late Animation<double> _appBarShadowAnimation;
+  late Animation<double> _planListItemsHeaderShadowAnimation;
   Color _appBarColor = Colors.transparent;
-  Color _shadowColor = Colors.white;
   Color _borderColor = const Color(0xff707070).withOpacity(0.52);
   double _appBarElevation = 0;
+  double _planListItemsHeaderElevation = 0;
+  Color _blindContainerColor = Colors.transparent;
 
   _PlanMakeHomeState() {
     _scrollController =
@@ -58,14 +60,14 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     _appBarColorAnimation =
         ColorTween(begin: const Color(0xfff6f6f6), end: Colors.white)
             .animate(_scrollController);
-    _shadowColorAnimation = ColorTween(
-            begin: Colors.white.withOpacity(0.1),
-            end: const Color(0x29000000).withOpacity(0.1))
-        .animate(_scrollController);
     _borderColorAnimation = ColorTween(
             begin: const Color(0xff707070).withOpacity(0.52), end: Colors.white)
         .animate(_scrollController);
     _sizeAnimation = Tween<double>(begin: 0, end: 1).animate(_sizeController);
+    _appBarShadowAnimation =
+        Tween<double>(begin: 0, end: 3).animate(_scrollController);
+    _planListItemsHeaderShadowAnimation =
+        Tween<double>(begin: 0, end: 8).animate(_scrollController);
   }
 
   @override
@@ -74,8 +76,10 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     _scrollController.addListener(() {
       setState(() {
         _appBarColor = _appBarColorAnimation.value;
-        _shadowColor = _shadowColorAnimation.value;
         _borderColor = _borderColorAnimation.value;
+        _appBarElevation = _appBarShadowAnimation.value;
+        _planListItemsHeaderElevation =
+            _planListItemsHeaderShadowAnimation.value;
       });
     });
     _openedCountNotifier.addListener(() {
@@ -83,11 +87,18 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
         if (_expanded) {
           _setExpanded(false);
           _sizeController.reverse();
+          setState(() {
+            _blindContainerColor = Colors.transparent;
+          });
         }
       } else {
         if (!_expanded) {
           _setExpanded(true);
-          _sizeController.forward();
+          _sizeController.forward().whenCompleteOrCancel(() {
+            setState(() {
+              _blindContainerColor = Colors.white;
+            });
+          });
         }
       }
     });
@@ -121,19 +132,12 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
             if (!_onTop) {
               _setOnTop(true);
               _scrollController.reverse();
-              setState(() {
-                _appBarElevation = 0;
-              });
             }
           } else {
             // When screen is not on top
             if (_onTop) {
               _setOnTop(false);
-              _scrollController.forward().whenCompleteOrCancel(() {
-                setState(() {
-                  _appBarElevation = 3;
-                });
-              });
+              _scrollController.forward();
             }
           }
           return false;
@@ -228,10 +232,11 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
       );
     });
     planListItemWidgets.insertAll(0, [
-      SizedBox(
+      Container(
         height: 50,
       ),
       buildPlanListItemsHeader(),
+      buildBlindContainer(),
     ]);
     return Container(
       child: Column(children: planListItemWidgets),
@@ -245,74 +250,91 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     );
   }
 
+  Container buildBlindContainer() {
+    return Container(
+      child: Stack(children: [
+        Positioned.fill(
+          child: Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                height: 10,
+                decoration: BoxDecoration(color: _blindContainerColor),
+              )),
+          top: -60, // Blind Container height + planListItemsHeaderHeight
+        )
+      ], clipBehavior: Clip.none),
+      height: 10,
+    );
+  }
+
   Container buildPlanListItemsHeader() {
     return Container(
-      child: SizeTransition(
-        sizeFactor: _sizeAnimation,
-        axisAlignment: 1.0,
-        child: Container(
+      child: PhysicalModel(
+        color: const Color(0x29000000).withOpacity(0.1),
+        elevation: _planListItemsHeaderElevation,
+        child: SizeTransition(
+          sizeFactor: _sizeAnimation,
+          axisAlignment: 1.0,
           child: Container(
-            child: Row(
-              children: [
-                Text("일정",
-                    style: const TextStyle(
-                        color: const Color(0xff000000),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 14.0),
-                    textAlign: TextAlign.left),
-                GestureDetector(
-                  onTap: () {},
-                  child: Opacity(
-                    opacity: 0.2,
-                    child: Container(
-                        child: Center(
-                          child: Text("편집",
-                              style: const TextStyle(
-                                  color: const Color(0x99707070),
-                                  fontWeight: FontWeight.w700,
-                                  fontFamily: "Roboto",
-                                  fontStyle: FontStyle.normal,
-                                  fontSize: 11.0),
-                              textAlign: TextAlign.left),
-                        ),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(6)),
-                            border: Border.all(
-                                color: const Color(0xff707070), width: 1),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: const Color(0x29000000),
-                                  offset: Offset(2, 2),
-                                  blurRadius: 2,
-                                  spreadRadius: 0)
-                            ],
-                            color: const Color(0xffffffff)),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 9, vertical: 4),
-                        alignment: Alignment.topCenter),
-                  ),
-                )
-              ],
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
+            child: Container(
+              child: Row(
+                children: [
+                  Text("일정",
+                      style: const TextStyle(
+                          color: const Color(0xff000000),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 14.0),
+                      textAlign: TextAlign.left),
+                  GestureDetector(
+                    onTap: () {},
+                    child: Opacity(
+                      opacity: 0.2,
+                      child: Container(
+                          child: Center(
+                            child: Text("편집",
+                                style: const TextStyle(
+                                    color: const Color(0x99707070),
+                                    fontWeight: FontWeight.w700,
+                                    fontFamily: "Roboto",
+                                    fontStyle: FontStyle.normal,
+                                    fontSize: 11.0),
+                                textAlign: TextAlign.left),
+                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(6)),
+                              border: Border.all(
+                                  color: const Color(0xff707070), width: 1),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: const Color(0x29000000),
+                                    offset: Offset(2, 2),
+                                    blurRadius: 2,
+                                    spreadRadius: 0)
+                              ],
+                              color: const Color(0xffffffff)),
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+                          alignment: Alignment.topCenter),
+                    ),
+                  )
+                ],
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+              ),
+              padding:
+                  EdgeInsets.only(right: 10, left: 13, bottom: 14, top: 14),
+              decoration: BoxDecoration(
+                  border: Border(
+                      bottom: BorderSide(color: _borderColor, width: 0.5))),
             ),
-            padding: EdgeInsets.only(right: 10, left: 13, bottom: 14, top: 14),
+            padding: EdgeInsets.symmetric(horizontal: PlanListItemPadding),
             decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(color: _borderColor, width: 0.5))),
-          ),
-          padding: EdgeInsets.symmetric(horizontal: PlanListItemPadding),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            boxShadow: [
-              BoxShadow(
-                  color: _shadowColor,
-                  offset: Offset(0, 10),
-                  blurRadius: 6.0,
-                  spreadRadius: 0)
-            ],
+              color: Colors.white,
+            ),
+            height: 50,
           ),
         ),
       ),
