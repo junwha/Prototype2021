@@ -5,7 +5,10 @@ import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_make_calendar.dart';
 import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
+import 'package:prototype2021/theme/pop_up.dart';
 import 'package:provider/provider.dart';
+
+enum PlanMakeMode { add, edit, delete }
 
 class PlanMakeHome extends StatefulWidget {
   @override
@@ -37,6 +40,12 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     setState(() {
       _expanded = expanded;
     });
+  }
+
+  ValueNotifier _modeNotifier = ValueNotifier<PlanMakeMode>(PlanMakeMode.add);
+  void _setMode(PlanMakeMode mode) {
+    _modeNotifier.value = mode;
+    _modeNotifier.notifyListeners();
   }
 
   late AnimationController _scrollController;
@@ -116,11 +125,12 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
       backgroundColor: const Color(0xfff6f6f6),
       appBar: buildAppBar(context, _appBarColor, _appBarElevation),
       body: ValueListenableBuilder(
-        valueListenable: _openedCountNotifier,
-        builder: (BuildContext context, _, __) {
-          return buildBody(context);
-        },
+        valueListenable: _modeNotifier,
+        builder: (context, _, __) => ValueListenableBuilder(
+            valueListenable: _openedCountNotifier,
+            builder: (context, _, __) => buildBody(context)),
       ),
+      bottomNavigationBar: buildBottomAppBar(),
     );
   }
 
@@ -226,10 +236,10 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
       return PlanListItem(
-        dateIndex: index,
-        incrementOpenedCount: _incrementOpenedCount,
-        decrementOpenedCount: _decrementOpenedCount,
-      );
+          dateIndex: index,
+          incrementOpenedCount: _incrementOpenedCount,
+          decrementOpenedCount: _decrementOpenedCount,
+          mode: _modeNotifier.value);
     });
     planListItemWidgets.insertAll(0, [
       Container(
@@ -288,12 +298,30 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
                           fontSize: 14.0),
                       textAlign: TextAlign.left),
                   GestureDetector(
-                    onTap: () {},
+                    onTap: () {
+                      switch (_modeNotifier.value) {
+                        case PlanMakeMode.add:
+                          _setMode(PlanMakeMode.edit);
+                          break;
+                        case PlanMakeMode.edit:
+                          _setMode(PlanMakeMode.delete);
+                          break;
+                        case PlanMakeMode.delete:
+                          _setMode(PlanMakeMode.edit);
+                          break;
+                        default:
+                          _setMode(PlanMakeMode.add);
+                          break;
+                      }
+                    },
                     child: Opacity(
-                      opacity: 0.2,
+                      opacity: 0.4,
                       child: Container(
                           child: Center(
-                            child: Text("편집",
+                            child: Text(
+                                _modeNotifier.value == PlanMakeMode.edit
+                                    ? "삭제"
+                                    : "편집",
                                 style: const TextStyle(
                                     color: const Color(0x99707070),
                                     fontWeight: FontWeight.w700,
@@ -337,6 +365,148 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
             height: 50,
           ),
         ),
+      ),
+    );
+  }
+
+  Container buildBottomAppBar() {
+    return Container(
+      child: SafeArea(
+          child: Container(
+        child: Row(
+          children: [
+            Expanded(
+                flex: _modeNotifier.value == PlanMakeMode.add ? 6 : 4,
+                child: buildBottomRoundedButton([
+                  Image.asset(
+                    'assets/icons/img_ai_big.png',
+                    fit: BoxFit.contain,
+                  ),
+                  SizedBox(
+                    width: 26,
+                  ),
+                  Text("AI 추천",
+                      style: const TextStyle(
+                          color: const Color(0xff555555),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 17.0),
+                      textAlign: TextAlign.center)
+                ], () {
+                  showDialog(
+                      context: context,
+                      builder: (context) => buildAIDialog(context));
+                })),
+            Expanded(
+                flex: _modeNotifier.value == PlanMakeMode.add ? 4 : 6,
+                child: buildBottomRoundedButton([
+                  Text("저장하기",
+                      style: const TextStyle(
+                          color: const Color(0xff555555),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 17.0),
+                      textAlign: TextAlign.center)
+                ])),
+          ],
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+        ),
+        padding: EdgeInsets.only(bottom: 30),
+      )),
+      decoration: BoxDecoration(color: Colors.white),
+    );
+  }
+
+  Container buildBottomRoundedButton(List<Widget> children,
+      [void Function()? onTap]) {
+    return Container(
+      child: InkWell(
+        onTap: onTap,
+        child: Container(
+          child: Row(
+            children: children,
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(11)),
+              boxShadow: [
+                BoxShadow(
+                    color: const Color(0x29000000),
+                    offset: Offset(3, 3),
+                    blurRadius: 3,
+                    spreadRadius: 0)
+              ],
+              color: const Color(0xfff6f6f6)),
+          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          height: 50,
+        ),
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 20),
+    );
+  }
+
+  TBLargeDialog buildAIDialog(BuildContext context) {
+    return TBLargeDialog(
+        title: "AI 추천",
+        body: Center(
+          child: Column(
+            children: [
+              buildAIDialogButton("자동 플랜 설계", true, () {}),
+              buildAIDialogButton("일정 순서 조정", true, () {}),
+              buildAIDialogButton("다음 여행지 추천", false, () {}),
+            ],
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+          ),
+        ));
+  }
+
+  InkWell buildAIDialogButton(
+      String dialog, bool isPaid, void Function()? onTap) {
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        child: Container(
+          child: Stack(
+            children: [
+              Positioned.fill(
+                  child: Align(
+                      child: Text(dialog,
+                          style: const TextStyle(
+                              color: const Color(0xff707070),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 20.0),
+                          textAlign: TextAlign.center),
+                      alignment: Alignment.center)),
+              Positioned.fill(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: isPaid
+                        ? Image.asset('assets/icons/ic_calender_star_paid.png')
+                        : SizedBox(),
+                  ),
+                  top: -20,
+                  right:
+                      -120) // This should be fixed in near future, to have a position relative to the text above
+            ],
+          ),
+          height: 80,
+          alignment: Alignment.center,
+          clipBehavior: Clip.none,
+        ),
+        alignment: Alignment.center,
+        // padding: EdgeInsets.symmetric(vertical: 27),
+        decoration: BoxDecoration(
+            border: Border(
+                bottom: BorderSide(width: 1.0, color: const Color(0xffe6e6e6))),
+            color: Colors.white),
+        clipBehavior: Clip.none,
       ),
     );
   }

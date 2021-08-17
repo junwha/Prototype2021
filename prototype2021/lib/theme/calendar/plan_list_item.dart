@@ -2,33 +2,39 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:geodesy/geodesy.dart';
+import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/model/calendar.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/calendar/schedule_card.dart';
 import 'package:provider/provider.dart';
 
 const double PlanListItemPadding = 28;
 
 class PlanListItem extends StatefulWidget {
+  final PlanMakeMode mode;
   final int dateIndex;
   final void Function() incrementOpenedCount;
   final void Function() decrementOpenedCount;
   PlanListItem(
       {required this.dateIndex,
       required this.incrementOpenedCount,
-      required this.decrementOpenedCount});
+      required this.decrementOpenedCount,
+      required this.mode});
 
   @override
   _PlanListItemState createState() => _PlanListItemState(
       dateIndex: dateIndex,
       incrementOpenedCount: incrementOpenedCount,
-      decrementOpenedCount: decrementOpenedCount);
+      decrementOpenedCount: decrementOpenedCount,
+      mode: mode);
 }
 
 class _PlanListItemState extends State<PlanListItem>
     with SingleTickerProviderStateMixin, PlaceListItemHelper {
-  List<PseudoPlaceData> data = [];
+  List<PlaceDataProps> data = [];
+  final PlanMakeMode mode;
   final int dateIndex;
   final void Function() incrementOpenedCount;
   final void Function() decrementOpenedCount;
@@ -60,12 +66,8 @@ class _PlanListItemState extends State<PlanListItem>
 
   void _createMemo() {
     setState(() {
-      data.add(new PseudoPlaceData(
-          location: LatLng(0, 0),
-          name: "",
-          types: "memo",
-          address: null,
-          memo: _memo));
+      // This should be changed with real data in future
+      data.add(new MemoData(memo: _memo));
     });
   }
 
@@ -80,7 +82,8 @@ class _PlanListItemState extends State<PlanListItem>
   _PlanListItemState(
       {required this.dateIndex,
       required this.incrementOpenedCount,
-      required this.decrementOpenedCount}) {
+      required this.decrementOpenedCount,
+      required this.mode}) {
     _expandController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _expandAnimation =
@@ -96,16 +99,19 @@ class _PlanListItemState extends State<PlanListItem>
   @override
   Widget build(BuildContext context) {
     /* 
-     * Returns a list of widgets from a list of placeData, num, and null
-     * which appear in the list alternatively. For example:
+     * This variable is a list of widgets from a list of placeData, num, and null
+     * which appear in the list in turn. For example:
      * [null, plaeData1, distanceBetween1N2, placeData2, ..., placeDataN, null]
+     * null will be rendered as placeholder, placeData as schedule card, 
+     * num as distance icon which indicates distance between 
+     * former place and latter place
     */
     List<Widget> scheduleCardWidgets = data
         .fold<List<dynamic>>([], (acc, cur) {
           int dataIdx = acc.length ~/ 2;
           num? distanceBetweenCurAndNext;
           for (var i = dataIdx + 1; i < data.length; i++) {
-            PseudoPlaceData nextData = data[i];
+            PlaceDataProps nextData = data[i];
             if (nextData.types != "memo") {
               distanceBetweenCurAndNext = _geodesy.distanceBetweenTwoGeoPoints(
                   cur.location, nextData.location);
@@ -120,11 +126,14 @@ class _PlanListItemState extends State<PlanListItem>
         .map((index, placeDataOrDistance) => MapEntry(
             index,
             Container(
-              child: placeDataOrDistance is PseudoPlaceData
+              child: placeDataOrDistance is PlaceDataProps
                   ? ScheduleCard(
-                      data: placeDataOrDistance, order: (index + 2) ~/ 2)
+                      data: placeDataOrDistance,
+                      order: (index + 2) ~/ 2,
+                      mode: mode,
+                    )
                   : placeDataOrDistance is num
-                      ? buildDistanceIcon(placeDataOrDistance)
+                      ? buildMiddleDivider(placeDataOrDistance, mode)
                       : Center(
                           child: SizedBox(height: 27),
                         ),
@@ -158,7 +167,29 @@ class _PlanListItemState extends State<PlanListItem>
     );
   }
 
-  Widget buildDistanceIcon(num distance) {
+  SizedBox buildMiddleDivider(num distance, PlanMakeMode mode) {
+    if (mode == PlanMakeMode.delete) {
+      return SizedBox(
+        height: 27,
+      );
+    }
+
+    if (mode == PlanMakeMode.edit) {
+      return SizedBox(
+        height: 27,
+        child: Center(
+          child: Text("붙여넣기",
+              style: const TextStyle(
+                  color: const Color(0xff707070),
+                  fontWeight: FontWeight.w700,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 9.0),
+              textAlign: TextAlign.center),
+        ),
+      );
+    }
+
     return SizedBox(
       height: 27,
       child: Stack(children: [
@@ -275,7 +306,7 @@ class _PlanListItemState extends State<PlanListItem>
 }
 
 mixin PlaceListItemHelper {
-  PseudoPlaceData randomPlaceData() {
+  PlaceDataProps randomPlaceData() {
     return pseudoPlaceData[Random().nextInt(pseudoPlaceData.length)];
   }
 

@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/pseudo_place_data.dart';
+import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
 
 class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
-  final PseudoPlaceData data;
+  final PlaceDataProps data;
   final int order;
+  final PlanMakeMode mode;
 
-  ScheduleCard({required this.data, required this.order});
+  ScheduleCard({required this.data, required this.order, required this.mode});
 
   @override
   Widget build(BuildContext context) {
@@ -108,8 +110,41 @@ class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
   }
 
   Container buildActions() {
+    if (mode == PlanMakeMode.edit) {
+      return Container(child: buildEditActions());
+    }
+
+    if (mode == PlanMakeMode.delete) {
+      return Container(
+        child: IconButton(
+          onPressed: () {},
+          icon: Image.asset('assets/icons/ic_delete.png'),
+        ),
+      );
+    }
+
     return Container(
       child: data.types == "memo" ? SizedBox() : placeIconByType(data.types),
+    );
+  }
+
+  Row buildEditActions() {
+    return Row(
+      children: [
+        TextButton(
+            onPressed: () {},
+            child: Text("복사",
+                style: const TextStyle(
+                    color: const Color(0xff707070),
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "Roboto",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 9.0),
+                textAlign: TextAlign.left)),
+        IconButton(
+            onPressed: () {},
+            icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
+      ],
     );
   }
 }

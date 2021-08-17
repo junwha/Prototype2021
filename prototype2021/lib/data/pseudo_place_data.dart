@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:geodesy/geodesy.dart';
+import 'package:prototype2021/data/place_data_props.dart';
 
 // class GooglePlaceData {
 //   Map<String, dynamic>
@@ -25,7 +26,7 @@ import 'package:geodesy/geodesy.dart';
 //       : null;
 // }
 
-class PseudoPlaceData {
+class PseudoPlaceData implements PlaceDataProps {
   LatLng location;
   String name;
   String businessStatus;
