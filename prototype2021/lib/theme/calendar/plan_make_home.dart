@@ -82,6 +82,13 @@ class PlanMakeHomeState extends State<PlanMakeHome>
     });
   }
 
+  bool onDrag = false;
+  void setOnDrag(bool isOnDrag) {
+    setState(() {
+      onDrag = isOnDrag;
+    });
+  }
+
   late AnimationController _scrollController;
   late AnimationController _sizeController;
   late Animation _appBarColorAnimation;

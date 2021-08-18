@@ -18,13 +18,15 @@ mixin ScheduleCardActionsMixin on StatelessWidget {
     );
   }
 
-  Container buildEditActions(BuildContext context,
-      [void Function()? onPressed]) {
+  Container buildEditActions(
+      BuildContext context, int order, void Function(bool)? setOnDrag,
+      [void Function()? onCopyButtonPressed]) {
+    int index = (order - 1) * 2;
     return Container(
       child: Row(
         children: [
           TextButton(
-              onPressed: onPressed,
+              onPressed: onCopyButtonPressed,
               child: Text("복사",
                   style: const TextStyle(
                       color: const Color(0xff707070),
@@ -33,9 +35,14 @@ mixin ScheduleCardActionsMixin on StatelessWidget {
                       fontStyle: FontStyle.normal,
                       fontSize: 9.0),
                   textAlign: TextAlign.left)),
-          IconButton(
-              onPressed: () {},
-              icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
+          ReorderableDragStartListener(
+              child: GestureDetector(
+                onTapDown: (_) {
+                  if (setOnDrag != null) setOnDrag(true);
+                },
+                child: Image.asset('assets/icons/ic_hamburger_menu.png'),
+              ),
+              index: index)
         ],
       ),
     );

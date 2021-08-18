@@ -3,13 +3,15 @@ import 'package:geodesy/geodesy.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/middle_divider.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/placeholder.dart';
 import 'package:prototype2021/theme/calendar/schedule_card.dart';
 
 mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
   final Geodesy _geodesy = new Geodesy();
 
-  List<Widget> placeDataToWidgets(List<PlaceDataProps> data, int dateIndex) {
+  int toWidgetIndex(int index) => (index + 2) ~/ 2;
+
+  List<Widget> placeDataToWidgets(List<PlaceDataProps> data, int dateIndex,
+      void Function() Function(int) deleteSelfFactory) {
     /* 
      * This returns a list of widgets from a list of placeData, num, and null
      * which appear in the list in turn. For example:
@@ -38,16 +40,15 @@ mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
         .map((index, placeDataOrDistance) => MapEntry(
             index,
             Container(
-              child: placeDataOrDistance is PlaceDataProps
-                  ? ScheduleCard(
-                      data: placeDataOrDistance,
-                      order: (index + 2) ~/ 2,
-                      dateIndex: dateIndex,
-                    )
-                  : placeDataOrDistance is num
-                      ? PlanListMiddleDivider(distance: placeDataOrDistance)
-                      : PlanListPlaceHolder(),
-            )))
+                key: ValueKey("$dateIndex-$index"),
+                child: placeDataOrDistance is PlaceDataProps
+                    ? ScheduleCard(
+                        data: placeDataOrDistance,
+                        order: toWidgetIndex(index),
+                        dateIndex: dateIndex,
+                        deleteSelf: deleteSelfFactory(toWidgetIndex(index)),
+                      )
+                    : PlanListMiddleDivider(distance: placeDataOrDistance))))
         .values
         .toList();
   }

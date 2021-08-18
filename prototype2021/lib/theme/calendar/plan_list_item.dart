@@ -6,7 +6,9 @@ import 'package:prototype2021/theme/calendar/plan_list_item/data_handler.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/memo_dialog.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/schedule_cards_header.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:provider/provider.dart';
+import 'dart:core';
 
 class PlanListItem extends StatefulWidget {
   final int dateIndex;
@@ -62,6 +64,29 @@ class PlanListItemState extends State<PlanListItem>
     setExpanded(!expanded);
   }
 
+  void Function() Function(int) deleteSelfFuncFactory(
+      PlanMakeCalendarModel calendarHandler) {
+    return (int order) {
+      return () {
+        calendarHandler.deletePlaceData(dateIndex, order);
+      };
+    };
+  }
+
+  List<int> _convertIndexes(int oldIndex, int newIndex) {
+    if (oldIndex < newIndex) {
+      return [1];
+    }
+    return [0];
+  }
+
+  int _toDataIndex(int widgetIndex) {
+    if (widgetIndex % 2 == 1) {
+      widgetIndex += 1;
+    }
+    return ((widgetIndex / 2) - 1).toInt();
+  }
+
   late AnimationController _expandController;
   late Animation<double> _expandAnimation;
   double _axisAlignment = 1.0;
@@ -93,10 +118,19 @@ class PlanListItemState extends State<PlanListItem>
 
   @override
   Widget build(BuildContext context) {
+    PlanMakeHomeState? parent =
+        context.findAncestorStateOfType<PlanMakeHomeState>();
+
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
     List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
+    void _onReorder(int oldIndex, int newIndex) {
+      parent?.setOnDrag(false);
+      calendarHandler.swapPlaceData(
+          dateIndex, _toDataIndex(oldIndex), _toDataIndex(newIndex));
+    }
+
     WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
       if (expanded && !hasItem) {
         setExpanded(false);
@@ -112,10 +146,15 @@ class PlanListItemState extends State<PlanListItem>
               SizeTransition(
                   sizeFactor: _expandAnimation,
                   axisAlignment: _axisAlignment,
-                  child: Column(
-                    children: placeDataToWidgets(data, dateIndex),
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                  child: Container(
+                    child: ReorderableListView(
+                      onReorder: _onReorder,
+                      buildDefaultDragHandles: false,
+                      children: placeDataToWidgets(data, dateIndex,
+                          deleteSelfFuncFactory(calendarHandler)),
+                      shrinkWrap: true,
+                      physics: new NeverScrollableScrollPhysics(),
+                    ),
                   ))
             ],
             mainAxisAlignment: MainAxisAlignment.start,

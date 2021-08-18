@@ -20,19 +20,19 @@ class ScheduleCard extends StatelessWidget
   final PlaceDataProps data;
   final int dateIndex;
   final int order;
-
-  void Function() deleteSelfFuncFactory(PlanMakeCalendarModel calendarHandler) {
-    return () {
-      calendarHandler.deletePlaceData(dateIndex, order);
-    };
-  }
+  final Key? key;
+  final void Function() deleteSelf;
 
   /* =================================/================================= */
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
   ScheduleCard(
-      {required this.data, required this.dateIndex, required this.order});
+      {required this.data,
+      required this.dateIndex,
+      required this.order,
+      required this.deleteSelf,
+      this.key});
 
   /* =================================/================================= */
   /* ==============================WIDGETS============================== */
@@ -42,6 +42,7 @@ class ScheduleCard extends StatelessWidget
   Widget build(BuildContext context) {
     String types = data.types;
     return Container(
+      key: key,
       child: Container(
           child: Row(
             children: [
@@ -79,17 +80,14 @@ class ScheduleCard extends StatelessWidget
   }
 
   Container buildActions(BuildContext context, String types, Widget icon) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
     PlanMakeHomeState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
     switch (mode) {
       case PlanMakeMode.edit:
-        return buildEditActions(context);
+        return buildEditActions(context, order, grandParent?.setOnDrag);
       case PlanMakeMode.delete:
-        return buildDeleteActions(
-            context, deleteSelfFuncFactory(calendarHandler));
+        return buildDeleteActions(context, deleteSelf);
       default:
         return buildDefaultActions(context, types, icon);
     }

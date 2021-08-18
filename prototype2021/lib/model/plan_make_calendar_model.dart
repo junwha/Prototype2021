@@ -125,4 +125,18 @@ class PlanMakeCalendarModel with ChangeNotifier {
     _planListItems![index].removeAt(order - 1);
     notifyListeners();
   }
+
+  void swapPlaceData(int index, int oldIndex, int newIndex) {
+    int validNewIndex;
+    if (newIndex < 0) {
+      validNewIndex = 0;
+    } else if (newIndex >= 0 && newIndex < _planListItems![index].length) {
+      validNewIndex = newIndex;
+    } else {
+      validNewIndex = _planListItems![index].length - 1;
+    }
+    final PlaceDataProps temp = _planListItems![index].removeAt(oldIndex);
+    _planListItems![index].insert(validNewIndex, temp);
+    notifyListeners();
+  }
 }
