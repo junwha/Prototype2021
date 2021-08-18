@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
 
 class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
