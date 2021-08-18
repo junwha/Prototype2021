@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 
-mixin PlanMakeHomeMainMixin {
+mixin PlanMakeHomeMainMixin on State<PlanMakeHome> {
   Container buildTopShadowHidingContainer(Color blindContainerColor) {
     return Container(
       child: Stack(children: [
@@ -21,7 +22,7 @@ mixin PlanMakeHomeMainMixin {
   }
 
   Container buildPlanListItemsHeader(
-      ValueNotifier modeNotifier,
+      PlanMakeMode mode,
       void Function(PlanMakeMode) setMode,
       double elevation,
       Animation<double> sizeAnimation,
@@ -38,7 +39,7 @@ mixin PlanMakeHomeMainMixin {
               child: Row(
                 children: [
                   buildPlanListItemsHeaderLeading(),
-                  buildPlanListItemsHeaderActions(modeNotifier, setMode)
+                  buildPlanListItemsHeaderActions(mode, setMode)
                 ],
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -72,9 +73,9 @@ mixin PlanMakeHomeMainMixin {
   }
 
   GestureDetector buildPlanListItemsHeaderActions(
-      ValueNotifier modeNotifier, void Function(PlanMakeMode) setMode) {
+      PlanMakeMode mode, void Function(PlanMakeMode) setMode) {
     void _onTap() {
-      switch (modeNotifier.value) {
+      switch (mode) {
         case PlanMakeMode.add:
           setMode(PlanMakeMode.edit);
           break;
@@ -96,7 +97,7 @@ mixin PlanMakeHomeMainMixin {
         opacity: 0.4,
         child: Container(
             child: Center(
-              child: Text(modeNotifier.value == PlanMakeMode.edit ? "삭제" : "편집",
+              child: Text(mode == PlanMakeMode.edit ? "삭제" : "편집",
                   style: const TextStyle(
                       color: const Color(0x99707070),
                       fontWeight: FontWeight.w700,

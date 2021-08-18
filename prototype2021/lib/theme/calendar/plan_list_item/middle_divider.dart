@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 
 class PlanListMiddleDivider extends StatelessWidget with PlanListItemHelper {
-  final PlanMakeMode mode;
   final num distance;
 
-  PlanListMiddleDivider({required this.mode, required this.distance});
+  PlanListMiddleDivider({required this.distance});
 
   @override
   Widget build(BuildContext context) {
+    PlanMakeHomeState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeState>();
+    PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
     switch (mode) {
       case PlanMakeMode.add:
         return buildDistanceIcon();

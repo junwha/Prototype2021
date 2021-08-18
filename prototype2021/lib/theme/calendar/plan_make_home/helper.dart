@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 
-mixin PlanMakeHomeHelper {
+mixin PlanMakeHomeHelper on State<PlanMakeHome> {
   bool onScrollNotificationHandler(
       ScrollNotification scrollNotification,
       AnimationController scrollController,

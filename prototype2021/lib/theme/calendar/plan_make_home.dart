@@ -12,10 +12,10 @@ import 'package:provider/provider.dart';
 
 class PlanMakeHome extends StatefulWidget {
   @override
-  _PlanMakeHomeState createState() => _PlanMakeHomeState();
+  PlanMakeHomeState createState() => PlanMakeHomeState();
 }
 
-class _PlanMakeHomeState extends State<PlanMakeHome>
+class PlanMakeHomeState extends State<PlanMakeHome>
     with
         PlanMakeViewBase,
         TickerProviderStateMixin,
@@ -40,15 +40,32 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     });
   }
 
-  ValueNotifier _openedCountNotifier = ValueNotifier<int>(0);
+  int openedCount = 0;
   void _incrementOpenedCount() {
-    _openedCountNotifier.value = _openedCountNotifier.value + 1;
-    _openedCountNotifier.notifyListeners();
+    setState(() {
+      openedCount = openedCount + 1;
+    });
+    if (!_expanded) {
+      _setExpanded(true);
+      _sizeController.forward().whenCompleteOrCancel(() {
+        setState(() {
+          _blindContainerColor = Colors.white;
+        });
+      });
+    }
   }
 
   void _decrementOpenedCount() {
-    _openedCountNotifier.value = _openedCountNotifier.value - 1;
-    _openedCountNotifier.notifyListeners();
+    setState(() {
+      openedCount = openedCount - 1;
+    });
+    if (openedCount == 0 && _expanded) {
+      _setExpanded(false);
+      _sizeController.reverse();
+      setState(() {
+        _blindContainerColor = Colors.transparent;
+      });
+    }
   }
 
   bool _expanded = false;
@@ -58,10 +75,11 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     });
   }
 
-  ValueNotifier _modeNotifier = ValueNotifier<PlanMakeMode>(PlanMakeMode.add);
-  void _setMode(PlanMakeMode mode) {
-    _modeNotifier.value = mode;
-    _modeNotifier.notifyListeners();
+  PlanMakeMode mode = PlanMakeMode.add;
+  void _setMode(PlanMakeMode planMakeMode) {
+    setState(() {
+      mode = planMakeMode;
+    });
   }
 
   late AnimationController _scrollController;
@@ -81,7 +99,7 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  _PlanMakeHomeState() {
+  PlanMakeHomeState() {
     _scrollController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _sizeController =
@@ -111,26 +129,6 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
             _planListItemsHeaderShadowAnimation.value;
       });
     });
-    _openedCountNotifier.addListener(() {
-      if (_openedCountNotifier.value == 0) {
-        if (_expanded) {
-          _setExpanded(false);
-          _sizeController.reverse();
-          setState(() {
-            _blindContainerColor = Colors.transparent;
-          });
-        }
-      } else {
-        if (!_expanded) {
-          _setExpanded(true);
-          _sizeController.forward().whenCompleteOrCancel(() {
-            setState(() {
-              _blindContainerColor = Colors.white;
-            });
-          });
-        }
-      }
-    });
   }
 
   @override
@@ -148,12 +146,7 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     return Scaffold(
       backgroundColor: const Color(0xfff6f6f6),
       appBar: buildAppBar(context, _appBarColor, _appBarElevation),
-      body: ValueListenableBuilder(
-        valueListenable: _modeNotifier,
-        builder: (context, _, __) => ValueListenableBuilder(
-            valueListenable: _openedCountNotifier,
-            builder: (context, _, __) => buildBody(context)),
-      ),
+      body: buildBody(context),
       bottomNavigationBar: buildBottomAppBar(context),
     );
   }
@@ -177,17 +170,19 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
       return PlanListItem(
-          dateIndex: index,
-          incrementOpenedCount: _incrementOpenedCount,
-          decrementOpenedCount: _decrementOpenedCount,
-          mode: _modeNotifier.value);
+        dateIndex: index,
+        incrementOpenedCount: _incrementOpenedCount,
+        decrementOpenedCount: _decrementOpenedCount,
+      );
     });
     planListItemWidgets.insertAll(0, [
       Container(
         height: 50,
       ),
-      buildPlanListItemsHeader(_modeNotifier, _setMode,
-          _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
+      /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
+      PseudoMap(),
+      buildPlanListItemsHeader(mode, _setMode, _planListItemsHeaderElevation,
+          _sizeAnimation, _borderColor),
       buildTopShadowHidingContainer(_blindContainerColor),
     ]);
     return Container(
@@ -203,24 +198,49 @@ class _PlanMakeHomeState extends State<PlanMakeHome>
   }
 
   Container buildBottomAppBar(BuildContext context) {
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
+    bool onModeAdd = mode == PlanMakeMode.add;
+    void onEditDoneButtonTap() => _setMode(PlanMakeMode.add);
+    void onResetButtonTap() {
+      calendarHandler.resetPlanListItems();
+      _setMode(PlanMakeMode.add);
+      _sizeController.reverse();
+      setState(() {
+        openedCount = 0;
+        _expanded = false;
+        _blindContainerColor = Colors.transparent;
+      });
+    }
+
     return Container(
-      child: SafeArea(
-          child: Container(
+      child: Container(
         child: Row(
           children: [
             Expanded(
-                flex: _modeNotifier.value == PlanMakeMode.add ? 6 : 4,
-                child: buildAIButton(context, buildAIDialog(context))),
+                flex: onModeAdd ? 6 : 4,
+                child: onModeAdd
+                    ? buildAIButton(context, buildAIDialog(context))
+                    : buildResetButton(onResetButtonTap)),
             Expanded(
-                flex: _modeNotifier.value == PlanMakeMode.add ? 4 : 6,
-                child: buildSaveButton()),
+                flex: onModeAdd ? 4 : 6,
+                child: onModeAdd
+                    ? buildSaveButton()
+                    : buildEditDoneButton(onEditDoneButtonTap)),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
         ),
-        padding: EdgeInsets.only(bottom: 30),
-      )),
+        constraints: BoxConstraints(maxHeight: 150),
+      ),
       decoration: BoxDecoration(color: Colors.white),
     );
+  }
+}
+
+class PseudoMap extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container();
   }
 }

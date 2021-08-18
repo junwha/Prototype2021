@@ -1,17 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/plan_make_calendar_model.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
-import 'package:prototype2021/theme/circular_wrapper.dart';
+import 'package:prototype2021/theme/calendar/schedule_card/actions.dart';
+import 'package:prototype2021/theme/calendar/schedule_card/helper.dart';
+import 'package:prototype2021/theme/calendar/schedule_card/leading.dart';
+import 'package:provider/provider.dart';
 
-class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
+class ScheduleCard extends StatelessWidget
+    with
+        ScheduleCardLeadingMixin,
+        ScheduleCardActionsMixin,
+        ScheduleCardHelpers {
+  /* =================================/================================= */
+  /* =========================STATES & METHODS========================= */
+  /* =================================/================================= */
+
   final PlaceDataProps data;
+  final int dateIndex;
   final int order;
-  final PlanMakeMode mode;
 
-  ScheduleCard({required this.data, required this.order, required this.mode});
+  void Function() deleteSelfFuncFactory(PlanMakeCalendarModel calendarHandler) {
+    return () {
+      calendarHandler.deletePlaceData(dateIndex, order);
+    };
+  }
+
+  /* =================================/================================= */
+  /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
+  /* =================================/================================= */
+
+  ScheduleCard(
+      {required this.data, required this.dateIndex, required this.order});
+
+  /* =================================/================================= */
+  /* ==============================WIDGETS============================== */
+  /* =================================/================================= */
 
   @override
   Widget build(BuildContext context) {
+    String types = data.types;
     return Container(
       child: Container(
           child: Row(
@@ -19,17 +48,17 @@ class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
               Container(
                 child: Row(
                   children: [
-                    buildLeading(),
+                    buildLeading(types, order, placeColorByType(types)),
                     SizedBox(
                       width: 10,
                     ),
-                    buildInfo()
+                    buildInfo(data)
                   ],
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                 ),
               ),
-              buildActions(),
+              buildActions(context, types, placeIconByType(types)),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -49,136 +78,20 @@ class ScheduleCard extends StatelessWidget with ScheduleCardHelpers {
     );
   }
 
-  CircularWrapper buildLeading() {
-    return CircularWrapper(
-      size: 26,
-      icon: data.types == 'memo'
-          ? Image.asset('assets/icons/ic_calender_memo_white.png')
-          : Text(order.toString(),
-              style: const TextStyle(
-                  color: const Color(0xffffffff),
-                  fontWeight: FontWeight.w700,
-                  fontFamily: "Roboto",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.left),
-      backgroundColor: placeColorByType(data.types),
-    );
-  }
-
-  Container buildInfo() {
-    List<Widget> infoWidgets = data.types == "memo"
-        ? [
-            Text(data.memo,
-                style: const TextStyle(
-                    color: const Color(0xff707070),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 15.0),
-                textAlign: TextAlign.left)
-          ]
-        : [
-            Text(data.name,
-                style: const TextStyle(
-                    color: const Color(0xff707070),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 15.0),
-                textAlign: TextAlign.left),
-            SizedBox(
-              height: 2,
-            ),
-            Text(data.address ?? "",
-                style: const TextStyle(
-                    color: const Color(0xff707070),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 9.0),
-                textAlign: TextAlign.left)
-          ];
-
-    return Container(
-      child: Column(
-        children: infoWidgets,
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.start,
-      ),
-    );
-  }
-
-  Container buildActions() {
-    if (mode == PlanMakeMode.edit) {
-      return Container(child: buildEditActions());
-    }
-
-    if (mode == PlanMakeMode.delete) {
-      return Container(
-        child: IconButton(
-          onPressed: () {},
-          icon: Image.asset('assets/icons/ic_delete.png'),
-        ),
-      );
-    }
-
-    return Container(
-      child: data.types == "memo" ? SizedBox() : placeIconByType(data.types),
-    );
-  }
-
-  Row buildEditActions() {
-    return Row(
-      children: [
-        TextButton(
-            onPressed: () {},
-            child: Text("복사",
-                style: const TextStyle(
-                    color: const Color(0xff707070),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 9.0),
-                textAlign: TextAlign.left)),
-        IconButton(
-            onPressed: () {},
-            icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
-      ],
-    );
-  }
-}
-
-mixin ScheduleCardHelpers {
-  Color placeColorByType(String type) {
-    switch (type) {
-      case "attraction":
-        return const Color(0xff4080ff);
-      case "cafe":
-        return const Color(0xffff6e00);
-      case "restaurant":
-        return const Color(0xffff6e00);
-      case "accomodations":
-        return const Color(0xff6be6a7);
+  Container buildActions(BuildContext context, String types, Widget icon) {
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeHomeState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeState>();
+    PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
+    switch (mode) {
+      case PlanMakeMode.edit:
+        return buildEditActions(context);
+      case PlanMakeMode.delete:
+        return buildDeleteActions(
+            context, deleteSelfFuncFactory(calendarHandler));
       default:
-        return const Color(0xffaaaaaa);
-    }
-  }
-
-  Image placeIconByType(String type) {
-    switch (type) {
-      case "attraction":
-        return Image.asset('assets/icons/ic_calender_destination.png');
-      case "cafe":
-        return Image.asset('assets/icons/ic_calender_food.png');
-      case "restaurant":
-        return Image.asset('assets/icons/ic_calender_food.png');
-      case "accomodations":
-        return Image.asset('assets/icons/ic_calender_room.png');
-      case "memo":
-        return Image.asset('assets/icons/ic_calender_memo_white.png');
-      default:
-        return Image.asset('assets/icons/ic_calender_destination.png');
+        return buildDefaultActions(context, types, icon);
     }
   }
 }

@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:geodesy/geodesy.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/middle_divider.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/placeholder.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:prototype2021/theme/calendar/schedule_card.dart';
 
-mixin PlanListItemDataHandlerMixin {
+mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
   final Geodesy _geodesy = new Geodesy();
 
-  List<Widget> placeDataToWidgets(
-      List<PlaceDataProps> data, PlanMakeMode mode) {
+  List<Widget> placeDataToWidgets(List<PlaceDataProps> data, int dateIndex) {
     /* 
      * This returns a list of widgets from a list of placeData, num, and null
      * which appear in the list in turn. For example:
@@ -43,11 +42,10 @@ mixin PlanListItemDataHandlerMixin {
                   ? ScheduleCard(
                       data: placeDataOrDistance,
                       order: (index + 2) ~/ 2,
-                      mode: mode,
+                      dateIndex: dateIndex,
                     )
                   : placeDataOrDistance is num
-                      ? PlanListMiddleDivider(
-                          mode: mode, distance: placeDataOrDistance)
+                      ? PlanListMiddleDivider(distance: placeDataOrDistance)
                       : PlanListPlaceHolder(),
             )))
         .values

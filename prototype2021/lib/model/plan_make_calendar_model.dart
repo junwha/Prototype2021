@@ -1,7 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/pseudo_place_data.dart';
+import 'package:prototype2021/data/place_data_props.dart';
 
 /* 
 * 캘린더의 터치 상태를 표현하는 enum입니다. 
@@ -29,7 +27,7 @@ class PlanMakeCalendarModel with ChangeNotifier {
   DateTime _now;
   List<DateTime?> _datePoints = [null, null];
   int? _dateDifference;
-  List<List<PseudoPlaceData>>? _planListItems;
+  List<List<PlaceDataProps>>? _planListItems;
 
   PlanMakeCalendarModel({DateTime? now}) : _now = now ?? new DateTime.now();
 
@@ -57,7 +55,7 @@ class PlanMakeCalendarModel with ChangeNotifier {
   /* 
    * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
   */
-  List<List<PseudoPlaceData>>? get planListItems => _planListItems;
+  List<List<PlaceDataProps>>? get planListItems => _planListItems;
 
   /* 
    * 캘린더의 터치를 핸들링하는 메소드입니다. 
@@ -113,6 +111,18 @@ class PlanMakeCalendarModel with ChangeNotifier {
 
   void generatePlanListItems() {
     _planListItems = List.generate(dateDifference!, (_) => []);
+    notifyListeners();
+  }
+
+  void resetPlanListItems() => generatePlanListItems();
+
+  void addPlaceData(int index, PlaceDataProps data) {
+    _planListItems![index].add(data);
+    notifyListeners();
+  }
+
+  void deletePlaceData(int index, int order) {
+    _planListItems![index].removeAt(order - 1);
     notifyListeners();
   }
 }

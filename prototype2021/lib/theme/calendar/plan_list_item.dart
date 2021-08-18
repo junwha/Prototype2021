@@ -1,32 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/data_handler.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/memo_dialog.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/schedule_cards_header.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
+import 'package:provider/provider.dart';
 
 class PlanListItem extends StatefulWidget {
-  final PlanMakeMode mode;
   final int dateIndex;
-  final void Function() incrementOpenedCount;
-  final void Function() decrementOpenedCount;
-  PlanListItem(
-      {required this.dateIndex,
-      required this.incrementOpenedCount,
-      required this.decrementOpenedCount,
-      required this.mode});
+  final Function() incrementOpenedCount;
+  final Function() decrementOpenedCount;
+  PlanListItem({
+    required this.dateIndex,
+    required this.incrementOpenedCount,
+    required this.decrementOpenedCount,
+  });
 
   @override
-  _PlanListItemState createState() => _PlanListItemState(
-      dateIndex: dateIndex,
-      incrementOpenedCount: incrementOpenedCount,
-      decrementOpenedCount: decrementOpenedCount,
-      mode: mode);
+  PlanListItemState createState() => PlanListItemState(
+        dateIndex: dateIndex,
+        incrementOpenedCount: incrementOpenedCount,
+        decrementOpenedCount: decrementOpenedCount,
+      );
 }
 
-class _PlanListItemState extends State<PlanListItem>
+class PlanListItemState extends State<PlanListItem>
     with
         SingleTickerProviderStateMixin,
         /* 
@@ -39,21 +39,14 @@ class _PlanListItemState extends State<PlanListItem>
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
-  List<PlaceDataProps> data = [];
-  void _addPlaceData(PlaceDataProps placeData) {
-    setState(() {
-      data.add(placeData);
-    });
-  }
 
-  final PlanMakeMode mode;
   final int dateIndex;
-  final void Function() incrementOpenedCount;
-  final void Function() decrementOpenedCount;
+  final Function() incrementOpenedCount;
+  final Function() decrementOpenedCount;
 
-  bool _expanded = false;
-  void _setExpanded(bool expanded) {
-    if (expanded) {
+  bool expanded = false;
+  void setExpanded(bool isExpanded) {
+    if (isExpanded) {
       incrementOpenedCount();
       _expandController.forward();
     } else {
@@ -61,12 +54,12 @@ class _PlanListItemState extends State<PlanListItem>
       _expandController.reverse();
     }
     setState(() {
-      _expanded = expanded;
+      expanded = isExpanded;
     });
   }
 
-  void _toggleExpanded() {
-    _setExpanded(!_expanded);
+  void toggleExpanded() {
+    setExpanded(!expanded);
   }
 
   late AnimationController _expandController;
@@ -77,11 +70,11 @@ class _PlanListItemState extends State<PlanListItem>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  _PlanListItemState(
-      {required this.dateIndex,
-      required this.incrementOpenedCount,
-      required this.decrementOpenedCount,
-      required this.mode}) {
+  PlanListItemState({
+    required this.dateIndex,
+    required this.incrementOpenedCount,
+    required this.decrementOpenedCount,
+  }) {
     _expandController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _expandAnimation =
@@ -100,22 +93,27 @@ class _PlanListItemState extends State<PlanListItem>
 
   @override
   Widget build(BuildContext context) {
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
+    List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
+    bool hasItem = data.length != 0;
+    WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+      if (expanded && !hasItem) {
+        setExpanded(false);
+      }
+    });
     return Container(
       child: Container(
           child: Column(
             children: [
               ScheduleCardsHeader(
-                  dateIndex: dateIndex,
-                  listHasItem: data.length == 0,
-                  toggleExpanded: _toggleExpanded,
-                  expanded: _expanded,
-                  setExpanded: _setExpanded,
-                  addPlaceData: _addPlaceData),
+                dateIndex: dateIndex,
+              ),
               SizeTransition(
                   sizeFactor: _expandAnimation,
                   axisAlignment: _axisAlignment,
                   child: Column(
-                    children: placeDataToWidgets(data, mode),
+                    children: placeDataToWidgets(data, dateIndex),
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.center,
                   ))

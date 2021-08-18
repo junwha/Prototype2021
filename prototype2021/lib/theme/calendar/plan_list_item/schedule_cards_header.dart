@@ -2,34 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/calendar.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
+import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/memo_dialog.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleCardsHeader extends StatefulWidget {
   final int dateIndex;
-  final bool listHasItem;
-  final void Function() toggleExpanded;
-  final bool expanded;
-  final void Function(bool) setExpanded;
-  final void Function(PlaceDataProps) addPlaceData;
 
-  ScheduleCardsHeader(
-      {required this.dateIndex,
-      required this.listHasItem,
-      required this.toggleExpanded,
-      required this.expanded,
-      required this.setExpanded,
-      required this.addPlaceData});
+  ScheduleCardsHeader({required this.dateIndex});
 
   @override
-  _ScheduleCardsHeaderState createState() => _ScheduleCardsHeaderState(
-      dateIndex: dateIndex,
-      listHasItem: listHasItem,
-      toggleExpanded: toggleExpanded,
-      expanded: expanded,
-      setExpanded: setExpanded,
-      addPlaceData: addPlaceData);
+  _ScheduleCardsHeaderState createState() =>
+      _ScheduleCardsHeaderState(dateIndex: dateIndex);
 }
 
 class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
@@ -39,11 +26,6 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   /* =================================/================================= */
 
   final int dateIndex;
-  final bool listHasItem;
-  final void Function() toggleExpanded;
-  final bool expanded;
-  final void Function(bool) setExpanded;
-  final void Function(PlaceDataProps) addPlaceData;
 
   String _memo = "";
   void _setMemo(String memo) {
@@ -52,23 +34,13 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
     });
   }
 
-  void _createMemo() {
-    addPlaceData(new MemoData(memo: _memo));
-  }
-
   TextEditingController _textEditingController = TextEditingController();
 
   /* =================================/================================= */
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  _ScheduleCardsHeaderState(
-      {required this.dateIndex,
-      required this.listHasItem,
-      required this.toggleExpanded,
-      required this.expanded,
-      required this.setExpanded,
-      required this.addPlaceData});
+  _ScheduleCardsHeaderState({required this.dateIndex});
 
   /* =================================/================================= */
   /* ==============================WIDGETS============================== */
@@ -82,14 +54,21 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
         calendarHandler.datePoints[0]!.add(Duration(days: dateIndex));
     return Container(
       child: Row(
-        children: [buildLeading(date), buildActions()],
+        children: [buildLeading(context, date), buildActions(context)],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
     );
   }
 
-  Container buildLeading(DateTime date) {
+  Container buildLeading(BuildContext context, DateTime date) {
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
+    List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
+    bool hasItem = data.length != 0;
+    PlanListItemState? parent =
+        context.findAncestorStateOfType<PlanListItemState>();
+    bool expanded = parent?.expanded ?? false;
     return Container(
         child: Row(
           children: [
@@ -122,11 +101,7 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
               ),
             ),
             IconButton(
-                onPressed: listHasItem
-                    ? null
-                    : () {
-                        toggleExpanded();
-                      },
+                onPressed: hasItem ? parent?.toggleExpanded : null,
                 icon: expanded
                     ? Image.asset('assets/icons/ic_calender_arrow_up_fold.png')
                     : Image.asset(
@@ -138,24 +113,41 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
         constraints: BoxConstraints(minWidth: 150));
   }
 
-  Container buildActions() {
+  Container buildActions(BuildContext context) {
+    PlanMakeCalendarModel calendarHandler =
+        Provider.of<PlanMakeCalendarModel>(context);
+    void _createMemo() =>
+        calendarHandler.addPlaceData(dateIndex, new MemoData(memo: _memo));
+    PlanListItemState? parent =
+        context.findAncestorStateOfType<PlanListItemState>();
+    PlanMakeHomeState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeState>();
+    PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
     return Container(
       child: Row(
-        children: [
-          IconButton(
-              onPressed: () async {
-                await displayMemoInputDialog(
-                    context, _textEditingController, _setMemo, _createMemo);
-                setExpanded(true);
-              },
-              icon: Image.asset('assets/icons/ic_calender_memo_gray.png')),
-          IconButton(
-              onPressed: () {
-                addPlaceData(randomPlaceData());
-                setExpanded(true);
-              },
-              icon: Image.asset('assets/icons/ic_calender_plus.png')),
-        ],
+        children: mode == PlanMakeMode.add
+            ? [
+                IconButton(
+                    onPressed: () async {
+                      await displayMemoInputDialog(context,
+                          _textEditingController, _setMemo, _createMemo);
+                      if (parent?.expanded != null && !parent!.expanded) {
+                        parent.setExpanded(true);
+                      }
+                    },
+                    icon:
+                        Image.asset('assets/icons/ic_calender_memo_gray.png')),
+                IconButton(
+                    onPressed: () {
+                      calendarHandler.addPlaceData(
+                          dateIndex, randomPlaceData());
+                      if (parent?.expanded != null && !parent!.expanded) {
+                        parent.setExpanded(true);
+                      }
+                    },
+                    icon: Image.asset('assets/icons/ic_calender_plus.png')),
+              ]
+            : [],
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
