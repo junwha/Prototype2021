@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/ai_dialog.dart';
@@ -87,6 +88,20 @@ class PlanMakeHomeState extends State<PlanMakeHome>
     setState(() {
       onDrag = isOnDrag;
     });
+  }
+
+  String? copiedDataId;
+  PlaceDataProps? copiedData;
+  void setCopiedData(String? dataId, PlaceDataProps? data) {
+    setState(() {
+      copiedDataId = dataId;
+      copiedData = data;
+    });
+  }
+
+  void insertCopiedData(PlanMakeCalendarModel calendarHandler, int dateIndex,
+      PlaceDataProps data, int indexToInsert) {
+    calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
 
   late AnimationController _scrollController;
@@ -208,11 +223,16 @@ class PlanMakeHomeState extends State<PlanMakeHome>
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
     bool onModeAdd = mode == PlanMakeMode.add;
-    void onEditDoneButtonTap() => _setMode(PlanMakeMode.add);
+    void onEditDoneButtonTap() {
+      _setMode(PlanMakeMode.add);
+      setCopiedData(null, null);
+    }
+
     void onResetButtonTap() {
       calendarHandler.resetPlanListItems();
       _setMode(PlanMakeMode.add);
       _sizeController.reverse();
+      setCopiedData(null, null);
       setState(() {
         openedCount = 0;
         _expanded = false;

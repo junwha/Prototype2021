@@ -1,12 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:prototype2021/theme/calendar/schedule_card/actions.dart';
 import 'package:prototype2021/theme/calendar/schedule_card/helper.dart';
 import 'package:prototype2021/theme/calendar/schedule_card/leading.dart';
-import 'package:provider/provider.dart';
+
+// class ScheduleCard extends StatefulWidget {
+//   final PlaceDataProps data;
+//   final int dateIndex;
+//   final int order;
+//   final Key? key;
+//   final void Function() deleteSelf;
+
+//   ScheduleCard(
+//       {required this.data,
+//       required this.dateIndex,
+//       required this.order,
+//       required this.deleteSelf,
+//       this.key});
+
+//   @override
+//   _ScheduleCardState createState() => _ScheduleCardState(
+//       data: data,
+//       dateIndex: dateIndex,
+//       order: order,
+//       deleteSelf: deleteSelf,
+//       key: key);
+// }
 
 class ScheduleCard extends StatelessWidget
     with
@@ -22,6 +43,7 @@ class ScheduleCard extends StatelessWidget
   final int order;
   final Key? key;
   final void Function() deleteSelf;
+  final String dataId; // Recommend to change with real dataId soon
 
   /* =================================/================================= */
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
@@ -32,7 +54,8 @@ class ScheduleCard extends StatelessWidget
       required this.dateIndex,
       required this.order,
       required this.deleteSelf,
-      this.key});
+      this.key})
+      : dataId = "$dateIndex-${order - 1}";
 
   /* =================================/================================= */
   /* ==============================WIDGETS============================== */
@@ -40,6 +63,8 @@ class ScheduleCard extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
+    PlanMakeHomeState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeState>();
     String types = data.types;
     return Container(
       key: key,
@@ -74,7 +99,9 @@ class ScheduleCard extends StatelessWidget
                     blurRadius: 3,
                     spreadRadius: 0)
               ],
-              color: const Color(0xffffffff))),
+              color: grandParent?.copiedDataId == dataId
+                  ? const Color(0xffe8e8e8)
+                  : const Color(0xffffffff))),
       padding: EdgeInsets.only(right: 4),
     );
   }
@@ -83,9 +110,14 @@ class ScheduleCard extends StatelessWidget
     PlanMakeHomeState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
+    void onCopyButtonPressed() {
+      grandParent?.setCopiedData(dataId, data);
+    }
+
     switch (mode) {
       case PlanMakeMode.edit:
-        return buildEditActions(context, order, grandParent?.setOnDrag);
+        return buildEditActions(
+            context, order, grandParent?.setOnDrag, onCopyButtonPressed);
       case PlanMakeMode.delete:
         return buildDeleteActions(context, deleteSelf);
       default:

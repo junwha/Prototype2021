@@ -48,7 +48,11 @@ mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
                         dateIndex: dateIndex,
                         deleteSelf: deleteSelfFactory(toWidgetIndex(index)),
                       )
-                    : PlanListMiddleDivider(distance: placeDataOrDistance))))
+                    : PlanListMiddleDivider(
+                        distance: placeDataOrDistance,
+                        index: index,
+                        dateIndex: dateIndex,
+                      ))))
         .values
         .toList();
   }

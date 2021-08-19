@@ -13,15 +13,6 @@ enum CalendarTouchPhase {
   RANGE,
 }
 
-enum PlanMakeRoute {
-  CALENDAR,
-  HOME,
-  SEARCH,
-  SAVED_LIST,
-  PLAN_INFO,
-  CONTENTS_INFO
-}
-
 class PlanMakeCalendarModel with ChangeNotifier {
   CalendarTouchPhase _phase = CalendarTouchPhase.PENDING;
   DateTime _now;
@@ -126,17 +117,27 @@ class PlanMakeCalendarModel with ChangeNotifier {
     notifyListeners();
   }
 
-  void swapPlaceData(int index, int oldIndex, int newIndex) {
-    int validNewIndex;
-    if (newIndex < 0) {
-      validNewIndex = 0;
-    } else if (newIndex >= 0 && newIndex < _planListItems![index].length) {
-      validNewIndex = newIndex;
+  int _validateIndex(int index, int indexToValidate) {
+    int validIndex;
+    if (indexToValidate <= 0) {
+      validIndex = 0;
+    } else if (indexToValidate > 0 && index < _planListItems![index].length) {
+      validIndex = indexToValidate;
     } else {
-      validNewIndex = _planListItems![index].length - 1;
+      validIndex = _planListItems![index].length - 1;
     }
+    return validIndex;
+  }
+
+  void swapPlaceData(int index, int oldIndex, int newIndex) {
+    int validNewIndex = _validateIndex(index, newIndex);
     final PlaceDataProps temp = _planListItems![index].removeAt(oldIndex);
     _planListItems![index].insert(validNewIndex, temp);
     notifyListeners();
+  }
+
+  void insertPlaceData(int index, PlaceDataProps data, int indexToInsert) {
+    int validIndexToInsert = _validateIndex(index, indexToInsert);
+    _planListItems![index].insert(validIndexToInsert, data);
   }
 }
