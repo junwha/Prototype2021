@@ -112,7 +112,7 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                     textAlign: TextAlign.center,
                   ),
                   SizedBox(
-                    height: 40,
+                    height: 60,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -143,26 +143,25 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                       ),
                       TextButton(
                           onPressed: () {},
-                          child: // 사각형 1598
-                              Container(
-                                  child: Center(
-                                    child: Text(
-                                      '플랜게시판에\n공유하기',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 17,
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                      textAlign: TextAlign.center,
-                                    ),
+                          child: Container(
+                              child: Center(
+                                child: Text(
+                                  '플랜게시판에\n공유하기',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 17,
+                                    fontFamily: 'Roboto',
+                                    fontWeight: FontWeight.w700,
                                   ),
-                                  width: 130,
-                                  height: 60,
-                                  decoration: BoxDecoration(
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(10)),
-                                      color: const Color(0xff4080ff))))
+                                  textAlign: TextAlign.center,
+                                ),
+                              ),
+                              width: 130,
+                              height: 60,
+                              decoration: BoxDecoration(
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(10)),
+                                  color: const Color(0xff4080ff))))
                     ],
                   )
                 ],
