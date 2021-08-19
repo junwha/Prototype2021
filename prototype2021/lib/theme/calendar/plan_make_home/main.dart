@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
+import 'dart:io' show Platform;
 
 mixin PlanMakeHomeMainMixin on State<PlanMakeHome> {
   Container buildTopShadowHidingContainer(Color blindContainerColor) {
@@ -117,7 +118,8 @@ mixin PlanMakeHomeMainMixin on State<PlanMakeHome> {
                       spreadRadius: 0)
                 ],
                 color: const Color(0xffffffff)),
-            padding: EdgeInsets.symmetric(horizontal: 9, vertical: 4),
+            padding: EdgeInsets.symmetric(
+                horizontal: 9, vertical: Platform.isAndroid ? 0 : 4),
             alignment: Alignment.topCenter),
       ),
     );

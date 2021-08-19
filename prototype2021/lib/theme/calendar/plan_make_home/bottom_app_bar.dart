@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home.dart';
 import 'package:prototype2021/theme/pop_up.dart';
+import 'dart:io' show Platform;
 
 mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHome> {
   Container buildSaveButton() {
@@ -91,7 +92,8 @@ mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHome> {
                       spreadRadius: 0)
                 ],
                 color: const Color(0xfff6f6f6)),
-            padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+            padding: EdgeInsets.symmetric(
+                horizontal: Platform.isAndroid ? 25 : 30, vertical: 10),
             height: 50,
           ),
         ),
