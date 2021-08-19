@@ -6,6 +6,7 @@ import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
+import 'package:prototype2021/theme/tb_save_button.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
   const PlanmakeSaveView({Key? key}) : super(key: key);
@@ -228,35 +229,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                           ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                onPressed: () {},
-                                child: Container(
-                                  height: 40,
-                                  width: 140,
-                                  child: Center(
-                                    child: Text('저장하기',
-                                        style: builidTextStyle(
-                                          17,
-                                          Color(0xff555555),
-                                          FontWeight.w700,
-                                        )),
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: Color(0xfff6f6f6),
-                                    borderRadius: BorderRadius.circular(11),
-                                    boxShadow: [
-                                      BoxShadow(
-                                        color: Color(0x29000000),
-                                        offset: Offset(3, 3),
-                                        blurRadius: 3,
-                                        spreadRadius: 0,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ),
-                            ],
+                            children: [TBSaveButton(buttonTitle: '저장하기')],
                           ),
                         ],
                       ),
