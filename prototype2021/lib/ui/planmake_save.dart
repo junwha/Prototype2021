@@ -27,33 +27,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
           SizedBox(
             height: 80,
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
-            child: Row(
-              children: [
-                Text(
-                  '여행',
-                  style: TextStyle(
-                    color: Color(0xff4080ff),
-                    fontSize: 25,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-                SizedBox(
-                  width: 6,
-                ),
-                Text(
-                  '저장하기',
-                  style: TextStyle(
-                    color: Color(0xff9dbeff),
-                    fontSize: 19,
-                    fontFamily: 'Roboto',
-                  ),
-                ),
-              ],
-            ),
-          ),
+          buildContentTitle(),
           Expanded(
             child: Container(
               decoration: BoxDecoration(
@@ -93,29 +67,20 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                               height: 5,
                             ),
                             Text("상하이, 베이징, 광저우",
-                                style: const TextStyle(
-                                    color: const Color(0xff555555),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 11.0),
+                                style: builidTextStyle(
+                                    11, Color(0xff707070), FontWeight.w400),
                                 textAlign: TextAlign.left),
                             SizedBox(
                               height: 10,
-                            ), // 기간 : 4일(1월 1일~4일)
+                            ),
                             Text("기간 : 4일(1월 1일~4일)",
-                                style: const TextStyle(
-                                    color: const Color(0xff555555),
-                                    fontWeight: FontWeight.w400,
-                                    fontFamily: "Roboto",
-                                    fontStyle: FontStyle.normal,
-                                    fontSize: 14.0),
+                                style: builidTextStyle(
+                                    14, Color(0xff707070), FontWeight.w400),
                                 textAlign: TextAlign.left),
                             CustomPlanTextField(
                                 hintText: '예산을 입력해주세요.',
                                 fontsize: 14,
                                 onChanged: (String text) {}),
-
                             Row(
                               children: [
                                 TBContentTag(contentTitle: '액티비티'),
@@ -146,15 +111,9 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                     Row(
                       children: [
                         Image.asset('assets/icons/img_check_green.png'),
-                        Text(
-                          '여행 피로도',
-                          style: TextStyle(
-                            color: Color(0xff555555),
-                            fontSize: 16,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        Text('여행 피로도',
+                            style: builidTextStyle(
+                                16, Color(0xff555555), FontWeight.w700)),
                       ],
                     ),
                     Padding(
@@ -189,21 +148,15 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                '여유롭고 \n느긋한 여행',
-                                style: TextStyle(
-                                  color: Color(0xff707070),
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
-                                ),
-                              ), // 바쁘더라도 알찬 여행
+                              Text('여유롭고 \n느긋한 여행',
+                                  style: builidTextStyle(
+                                      14, Color(0xff707070), FontWeight.w400)),
                               Text("바쁘더라도\n알찬 여행",
-                                  style: const TextStyle(
-                                      color: const Color(0xff707070),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                  style: builidTextStyle(
+                                    14,
+                                    Color(0xff707070),
+                                    FontWeight.w400,
+                                  ),
                                   textAlign: TextAlign.right)
                             ],
                           ),
@@ -216,15 +169,9 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                     Row(
                       children: [
                         Image.asset('assets/icons/img_check_green.png'),
-                        Text(
-                          '여행 경비',
-                          style: TextStyle(
-                            color: Color(0xff555555),
-                            fontSize: 16,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
+                        Text('여행 경비',
+                            style: builidTextStyle(
+                                16, Color(0xff555555), FontWeight.w700)),
                       ],
                     ),
                     Padding(
@@ -261,19 +208,18 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                             children: [
                               Text(
                                 '불편해도 \n저렴하게',
-                                style: TextStyle(
-                                  color: Color(0xff707070),
-                                  fontSize: 14,
-                                  fontFamily: 'Roboto',
+                                style: builidTextStyle(
+                                  14,
+                                  Color(0xff707070),
+                                  FontWeight.w400,
                                 ),
                               ), // 바쁘더라도 알찬 여행
                               Text("비싸더라도\n편안하게",
-                                  style: const TextStyle(
-                                      color: const Color(0xff707070),
-                                      fontWeight: FontWeight.w400,
-                                      fontFamily: "Roboto",
-                                      fontStyle: FontStyle.normal,
-                                      fontSize: 14.0),
+                                  style: builidTextStyle(
+                                    14,
+                                    Color(0xff707070),
+                                    FontWeight.w400,
+                                  ),
                                   textAlign: TextAlign.right)
                             ],
                           ),
@@ -289,15 +235,12 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                   height: 40,
                                   width: 140,
                                   child: Center(
-                                    child: Text(
-                                      '저장하기',
-                                      style: TextStyle(
-                                        color: Color(0xff555555),
-                                        fontSize: 17,
-                                        fontFamily: 'Roboto',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
+                                    child: Text('저장하기',
+                                        style: builidTextStyle(
+                                          17,
+                                          Color(0xff555555),
+                                          FontWeight.w700,
+                                        )),
                                   ),
                                   decoration: BoxDecoration(
                                     color: Color(0xfff6f6f6),
@@ -341,6 +284,38 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             onPressed: () {},
             icon: Image.asset('assets/icons/ic_hamburger_menu.png')),
       ],
+    );
+  }
+
+  Padding buildContentTitle() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 0, 0, 10),
+      child: Row(
+        children: [
+          Text('여행',
+              style: builidTextStyle(
+                25,
+                Color(0xff4080ff),
+                FontWeight.w700,
+              )),
+          SizedBox(
+            width: 6,
+          ),
+          Text('저장하기',
+              style: builidTextStyle(19, Color(0xff9dbeff), FontWeight.w500)),
+        ],
+      ),
+    );
+  }
+
+  TextStyle builidTextStyle(
+      double size, Color textcolor, FontWeight textweight) {
+    return TextStyle(
+      color: textcolor,
+      fontSize: size,
+      fontFamily: 'Roboto',
+      fontWeight: textweight,
+      fontStyle: FontStyle.normal,
     );
   }
 }
