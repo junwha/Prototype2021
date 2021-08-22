@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/theme/pop_up.dart';
 
 mixin PlanListItemMemoDialogMixin {
   Future<void> displayMemoInputDialog(
@@ -9,30 +10,22 @@ mixin PlanListItemMemoDialogMixin {
     return showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text('메모 만들기'),
-            content: TextField(
+          return TBSimpleDialog(
+            title: '메모 만들기',
+            body: TextField(
               onChanged: setText,
               controller: controller,
               decoration: InputDecoration(hintText: "메모를 작성해주세요!"),
             ),
-            actions: <Widget>[
-              ElevatedButton(
-                child: Text('취소'),
-                onPressed: () {
-                  setText("");
-                  Navigator.pop(context);
-                },
-              ),
-              ElevatedButton(
-                child: Text('만들기'),
-                onPressed: () {
-                  createMemo();
-                  setText("");
-                  Navigator.pop(context);
-                },
-              ),
-            ],
+            onBackPressed: () {
+              setText("");
+              Navigator.pop(context);
+            },
+            onSubmitPressed: () {
+              createMemo();
+              setText("");
+              Navigator.pop(context);
+            },
           );
         });
   }
