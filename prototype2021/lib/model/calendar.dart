@@ -55,4 +55,29 @@ class Calendar {
     DateTime now = new DateTime.now();
     return generateCalendar(now.year, now.month);
   }
+
+  /* DateTime 객체의 weekday 프로퍼티를 인자로 받으며, 
+   * 받은 weekday에 맞는 한글 요일의 String을 반환합니다. 
+   * 1-7 이외의 정수를 넣을 경우 빈 문자열을 반환합니다 
+  */
+  String getWeekdayInKorean(int weekday) {
+    switch (weekday) {
+      case 1:
+        return '월';
+      case 2:
+        return "화";
+      case 3:
+        return "수";
+      case 4:
+        return "목";
+      case 5:
+        return "금";
+      case 6:
+        return "토";
+      case 7:
+        return "일";
+      default:
+        return "";
+    }
+  }
 }

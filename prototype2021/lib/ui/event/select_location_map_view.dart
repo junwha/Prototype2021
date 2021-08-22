@@ -3,7 +3,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/model/map/content_map_model.dart';
-import 'package:prototype2021/theme/cards/card.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
 import 'package:provider/provider.dart';
@@ -145,6 +146,7 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
               ),
             ),
             ContentsCard(
+                props: new ContentsCardBaseProps(
               preview: location.preview,
               title: location.name,
               place: "TEMP",
@@ -153,7 +155,7 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
               ratingNumbers: 5,
               tags: ["asdf"],
               margin: const EdgeInsets.symmetric(vertical: 0),
-            ),
+            )),
             Container(
               color: Colors.white,
               height: 30,

@@ -3,7 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/theme/cards/card.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -420,6 +421,7 @@ class _EditorViewState extends State<EditorView> {
     if (targetLocation is GooglePlaceLocation) {
       GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
       return ContentsCard(
+          props: new ContentsCardBaseProps(
         preview: location.preview,
         title: location.name,
         place: "TEMP",
@@ -428,7 +430,7 @@ class _EditorViewState extends State<EditorView> {
         ratingNumbers: 5,
         tags: ["asdf"],
         margin: const EdgeInsets.symmetric(vertical: 0),
-      );
+      ));
     }
     return SizedBox();
   }
