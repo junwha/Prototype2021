@@ -82,16 +82,20 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                 hintText: '예산을 입력해주세요.',
                                 fontsize: 14,
                                 onChanged: (String text) {}),
-                            Row(
+                            Wrap(
                               children: [
-                                TBContentTag(contentTitle: '액티비티'),
-                                TBContentTag(contentTitle: 'SNS핫플'),
-                                TBContentTag(contentTitle: '휴양지'),
-                                IconButton(
-                                  icon: Image.asset(
-                                      "assets/icons/ic_save_edit.png"),
-                                  onPressed: () {},
-                                ),
+                                Row(
+                                  children: [
+                                    TBContentTag(contentTitle: '액티비티'),
+                                    TBContentTag(contentTitle: 'SNS핫플'),
+                                    TBContentTag(contentTitle: '휴양지'),
+                                    IconButton(
+                                      icon: Image.asset(
+                                          "assets/icons/ic_save_edit.png"),
+                                      onPressed: () {},
+                                    ),
+                                  ],
+                                )
                               ],
                             )
                           ],
@@ -121,46 +125,20 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Container(
-                                height: 2,
-                                width: 300,
-                                color: Color(0xffbdbdbd),
-                              ),
-                              TBRadioBar(
-                                selectedRadio: selectedRadio1,
-                                onChanged: (int? val) {
-                                  // Changes the selected value on 'onChanged' click on each radio button
-                                  setState(() {
-                                    selectedRadio1 = val!;
-                                  });
-                                },
-                              ),
-                            ],
+                          buildRadioButton(
+                            selectedRadio1,
+                            (int? val) {
+                              // Changes the selected value on 'onChanged' click on each radio button
+                              setState(() {
+                                selectedRadio1 = val!;
+                              });
+                            },
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('여유롭고 \n느긋한 여행',
-                                  style: builidTextStyle(
-                                      14, Color(0xff707070), FontWeight.w400)),
-                              Text("바쁘더라도\n알찬 여행",
-                                  style: builidTextStyle(
-                                    14,
-                                    Color(0xff707070),
-                                    FontWeight.w400,
-                                  ),
-                                  textAlign: TextAlign.right)
-                            ],
-                          ),
+                          buildRadioButtonTextArea(
+                              '여유롭고 \n느긋한 여행', "바쁘더라도\n알찬 여행")
                         ],
                       ),
                     ),
@@ -179,50 +157,20 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
                         children: [
-                          Stack(
-                            alignment: Alignment.center,
-                            children: [
-                              SizedBox(
-                                height: 30,
-                              ),
-                              Container(
-                                height: 2,
-                                width: 300,
-                                color: Color(0xffbdbdbd),
-                              ),
-                              TBRadioBar(
-                                selectedRadio: selectedRadio2,
-                                onChanged: (int? val) {
-                                  // Changes the selected value on 'onChanged' click on each radio button
-                                  setState(() {
-                                    selectedRadio2 = val!;
-                                  });
-                                },
-                              ),
-                            ],
+                          buildRadioButton(
+                            selectedRadio2,
+                            (int? val) {
+                              setState(() {
+                                selectedRadio2 = val!;
+                              });
+                            },
                           ),
                           SizedBox(
                             height: 10,
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                '불편해도 \n저렴하게',
-                                style: builidTextStyle(
-                                  14,
-                                  Color(0xff707070),
-                                  FontWeight.w400,
-                                ),
-                              ), // 바쁘더라도 알찬 여행
-                              Text("비싸더라도\n편안하게",
-                                  style: builidTextStyle(
-                                    14,
-                                    Color(0xff707070),
-                                    FontWeight.w400,
-                                  ),
-                                  textAlign: TextAlign.right)
-                            ],
+                          buildRadioButtonTextArea(
+                            '불편해도 \n저렴하게',
+                            "비싸더라도\n편안하게",
                           ),
                           SizedBox(
                             height: 10,
@@ -289,6 +237,40 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
       fontFamily: 'Roboto',
       fontWeight: textweight,
       fontStyle: FontStyle.normal,
+    );
+  }
+
+  Stack buildRadioButton(int selectedRadio, Function(int?) onChanged) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        SizedBox(
+          height: 30,
+        ),
+        Container(
+          height: 2,
+          width: 300,
+          color: Color(0xffbdbdbd),
+        ),
+        TBRadioBar(selectedRadio: selectedRadio, onChanged: onChanged),
+      ],
+    );
+  }
+
+  Row buildRadioButtonTextArea(String Text1, String Text2) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(Text1,
+            style: builidTextStyle(14, Color(0xff707070), FontWeight.w400)),
+        Text(Text2,
+            style: builidTextStyle(
+              14,
+              Color(0xff707070),
+              FontWeight.w400,
+            ),
+            textAlign: TextAlign.right)
+      ],
     );
   }
 }
