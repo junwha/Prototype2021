@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
 import 'package:prototype2021/ui/event/event_map_view.dart';
 import 'package:provider/provider.dart';
@@ -7,7 +9,6 @@ import 'package:flutter/rendering.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
@@ -213,14 +214,16 @@ class _MapViewState extends State<MapView> {
             Container(
               color: Color(0xFFF3F3F3),
               child: ContentsCard(
-                preview: location.preview,
-                title: location.name,
-                place: "TEMP",
-                explanation: "TEMP",
-                rating: 1,
-                ratingNumbers: 5,
-                tags: ["액티비티", "인생사진", "sns핫플"],
-                margin: const EdgeInsets.symmetric(vertical: 0),
+                props: new ContentsCardBaseProps(
+                  preview: location.preview,
+                  title: location.name,
+                  place: "TEMP",
+                  explanation: "TEMP",
+                  rating: 1,
+                  ratingNumbers: 5,
+                  tags: ["액티비티", "인생사진", "sns핫플"],
+                  margin: const EdgeInsets.symmetric(vertical: 0),
+                ),
               ),
             ),
             Container(

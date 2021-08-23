@@ -1,6 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/place_data_props.dart';
 
 /* 
 * 캘린더의 터치 상태를 표현하는 enum입니다. 
@@ -19,8 +18,9 @@ class PlanMakeCalendarModel with ChangeNotifier {
   DateTime _now;
   List<DateTime?> _datePoints = [null, null];
   int? _dateDifference;
+  List<List<PlaceDataProps>>? _planListItems;
 
-  PlanMakeCalendarModel({required DateTime now}) : _now = now;
+  PlanMakeCalendarModel({DateTime? now}) : _now = now ?? new DateTime.now();
 
   /* 
   * 캘린더의 터치 상태인 enum CalenderTouchPhase를 가져옵니다. 
@@ -43,10 +43,14 @@ class PlanMakeCalendarModel with ChangeNotifier {
   * 하나의 날짜만 선택되었을 시에는 1을 반환합니다.
   */
   int? get dateDifference => _dateDifference;
+  /* 
+   * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
+  */
+  List<List<PlaceDataProps>>? get planListItems => _planListItems;
 
   /* 
-  * 캘린더의 터치를 핸들링하는 메소드입니다. 
-  * 캘린더의 상태를 관리하는 핵심적인 함수로, 사용하지 않는것을 권장합니다
+   * 캘린더의 터치를 핸들링하는 메소드입니다. 
+   * 캘린더의 상태를 관리하는 핵심적인 함수로, 사용하지 않는것을 권장합니다
   */
   void handleTap(DateTime tappedDate) {
     switch (_phase) {
@@ -90,5 +94,50 @@ class PlanMakeCalendarModel with ChangeNotifier {
     _datePoints[1] = tappedDate;
     _dateDifference = tappedDate.difference(_datePoints[0]!).inDays + 1;
     notifyListeners();
+  }
+
+  PlanMakeCalendarModel inherit() {
+    return this;
+  }
+
+  void generatePlanListItems() {
+    _planListItems = List.generate(dateDifference!, (_) => []);
+    notifyListeners();
+  }
+
+  void resetPlanListItems() => generatePlanListItems();
+
+  void addPlaceData(int index, PlaceDataProps data) {
+    _planListItems![index].add(data);
+    notifyListeners();
+  }
+
+  void deletePlaceData(int index, int order) {
+    _planListItems![index].removeAt(order - 1);
+    notifyListeners();
+  }
+
+  int _validateIndex(int index, int indexToValidate) {
+    int validIndex;
+    if (indexToValidate <= 0) {
+      validIndex = 0;
+    } else if (indexToValidate > 0 && index < _planListItems![index].length) {
+      validIndex = indexToValidate;
+    } else {
+      validIndex = _planListItems![index].length - 1;
+    }
+    return validIndex;
+  }
+
+  void swapPlaceData(int index, int oldIndex, int newIndex) {
+    int validNewIndex = _validateIndex(index, newIndex);
+    final PlaceDataProps temp = _planListItems![index].removeAt(oldIndex);
+    _planListItems![index].insert(validNewIndex, temp);
+    notifyListeners();
+  }
+
+  void insertPlaceData(int index, PlaceDataProps data, int indexToInsert) {
+    int validIndexToInsert = _validateIndex(index, indexToInsert);
+    _planListItems![index].insert(validIndexToInsert, data);
   }
 }

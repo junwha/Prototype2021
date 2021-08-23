@@ -17,15 +17,16 @@ class TBSimpleDialog extends StatefulWidget {
   String backButtonText;
   String submitButtonText;
   Function()? onSubmitPressed;
+  Function()? onBackPressed;
 
-  TBSimpleDialog({
-    required this.title,
-    required this.body,
-    this.isBackEnabled = true,
-    this.backButtonText = "취소",
-    this.submitButtonText = "확인",
-    this.onSubmitPressed,
-  });
+  TBSimpleDialog(
+      {required this.title,
+      required this.body,
+      this.isBackEnabled = true,
+      this.backButtonText = "취소",
+      this.submitButtonText = "확인",
+      this.onSubmitPressed,
+      this.onBackPressed});
 
   @override
   _TBSimpleDialogState createState() => _TBSimpleDialogState();
@@ -87,6 +88,9 @@ class _TBSimpleDialogState extends State<TBSimpleDialog> {
                         ),
                       ),
                       onPressed: () {
+                        if (this.widget.onBackPressed != null) {
+                          this.widget.onBackPressed!.call();
+                        }
                         Navigator.pop(context);
                       },
                     ),
