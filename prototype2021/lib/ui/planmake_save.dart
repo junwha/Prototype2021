@@ -1,8 +1,10 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/custom_plan_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_pw_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
+import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
@@ -18,6 +20,15 @@ class PlanmakeSaveView extends StatefulWidget {
 class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
   int selectedRadio1 = 1;
   int selectedRadio2 = 1;
+  int _selectedValue = 0;
+  List<String> priceList = [
+    '0원~10만원',
+    '10만원~30만원',
+    '30만원~50만원',
+    '50만원~70만원',
+    '70만원~100만원',
+    '100만원 이상'
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +89,127 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                 style: builidTextStyle(
                                     14, Color(0xff707070), FontWeight.w400),
                                 textAlign: TextAlign.left),
-                            CustomPlanTextField(
-                                hintText: '예산을 입력해주세요.',
-                                fontsize: 14,
-                                onChanged: (String text) {}),
+                            Container(
+                              width: 260,
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Row(
+                                    children: [
+                                      Text(
+                                        "예산:",
+                                        style: TextStyle(
+                                          color: Color(0xff707070),
+                                          fontFamily: 'Roboto',
+                                        ),
+                                      ),
+                                      SizedBox(
+                                        width: 4,
+                                      ),
+                                      Text(
+                                        priceList[_selectedValue],
+                                        style: TextStyle(
+                                          color: Color(0xff707070),
+                                          fontFamily: 'Roboto',
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  IconButton(
+                                      icon: Image.asset(
+                                          "assets/icons/ic_save_edit.png"),
+                                      onPressed: () {
+                                        showDialog(
+                                            context: context,
+                                            builder: (BuildContext context) =>
+                                                TBSimpleDialog(
+                                                  title: '예산설정',
+                                                  body: Container(
+                                                    height: 230,
+                                                    child: CupertinoPicker(
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      itemExtent: 45,
+                                                      scrollController:
+                                                          FixedExtentScrollController(
+                                                              initialItem: 1),
+                                                      children: [
+                                                        Text(
+                                                          '0원~10만원',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff707070),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '10만원~30만원',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff707070),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '30만원~50만원',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff707070),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '50만원~70만원',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff707070),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '70만원~100만원',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff707070),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ),
+                                                        ),
+                                                        Text(
+                                                          '100만원 이상',
+                                                          style: TextStyle(
+                                                            color: Color(
+                                                                0xff707070),
+                                                            fontFamily:
+                                                                'Roboto',
+                                                          ),
+                                                        ),
+                                                      ],
+                                                      onSelectedItemChanged:
+                                                          (value) {
+                                                        setState(() {
+                                                          _selectedValue =
+                                                              value;
+                                                        });
+                                                      },
+                                                    ),
+                                                  ),
+                                                ));
+                                      }),
+                                ],
+                              ),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  bottom: BorderSide(
+                                      width: 1.0, color: Color(0xff707070)),
+                                ),
+                              ),
+                            ),
                             Wrap(
                               children: [
                                 Row(
@@ -92,7 +220,8 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                     IconButton(
                                       icon: Image.asset(
                                           "assets/icons/ic_save_edit.png"),
-                                      onPressed: () {},
+                                      onPressed: () => TBSimpleDialog(
+                                          title: 'title', body: Text('d')),
                                     ),
                                   ],
                                 )
