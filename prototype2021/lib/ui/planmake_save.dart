@@ -29,7 +29,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     '70만원~100만원',
     '100만원 이상'
   ];
-
+  bool _selected = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -218,11 +218,52 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                     TBContentTag(contentTitle: 'SNS핫플'),
                                     TBContentTag(contentTitle: '휴양지'),
                                     IconButton(
-                                      icon: Image.asset(
-                                          "assets/icons/ic_save_edit.png"),
-                                      onPressed: () => TBSimpleDialog(
-                                          title: 'title', body: Text('d')),
-                                    ),
+                                        icon: Image.asset(
+                                            "assets/icons/ic_save_edit.png"),
+                                        onPressed: () => {
+                                                                                    bool _selected = false;
+
+                                              showDialog(
+                                                context: context,
+                                                builder: (BuildContext
+                                                        context) =>
+                                                    TBSimpleDialog(
+                                                        title: '태그 수정',
+                                                        body: Column(
+                                                          children: [
+                                                            // 사각형 1720
+                                                            Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                height: 81,
+                                                                decoration: BoxDecoration(
+                                                                    color: const Color(
+                                                                        0xfff6f6f6))),
+                                                            FilterChip(
+                                                                showCheckmark:
+                                                                    false,
+                                                                selectedColor:
+                                                                    Colors.grey,
+                                                                disabledColor:
+                                                                    Colors
+                                                                        .white,
+                                                                selected:
+                                                                    _selected,
+                                                                label: Text(
+                                                                    'Woolha'),
+                                                                onSelected: (bool
+                                                                    selected) {
+                                                                  setState(() {
+                                                                    print(
+                                                                        selected);
+                                                                    _selected =
+                                                                        !_selected;
+                                                                  });
+                                                                }),
+                                                          ],
+                                                        )),
+                                              )
+                                            }),
                                   ],
                                 )
                               ],
