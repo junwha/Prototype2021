@@ -221,8 +221,6 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                         icon: Image.asset(
                                             "assets/icons/ic_save_edit.png"),
                                         onPressed: () => {
-                                                                                    bool _selected = false;
-
                                               showDialog(
                                                 context: context,
                                                 builder: (BuildContext
