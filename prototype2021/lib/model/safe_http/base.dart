@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:prototype2021/model/safe_http/output_dto_factory.dart';
+
 const Map<String, String> defaultHeaders = {
   "accept": "application/json",
   "Content-Type": "application/json",
@@ -27,7 +29,7 @@ abstract class SafeHttpDataInput {
   Map<String, dynamic> toJson();
 }
 
-abstract class SafeHttpDataOutput {
+class SafeHttpDataOutput {
   /* 
    * Dart does not support constructor inheritance!! 
    * The code below is just for you to understand 
@@ -66,7 +68,7 @@ class SafeHttpInput {
     return copyOfHeaders;
   }
 
-  Uri getParsedUrl() => Uri.parse(url);
+  Uri getUrl() => Uri.parse(url);
 }
 
 class SafeHttpOutput<T extends SafeHttpDataOutput> {
@@ -74,7 +76,8 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
   final T? data;
   final SafeHttpError? error;
 
-  SafeHttpOutput({required this.success, this.error, this.data});
+  SafeHttpOutput({required this.success, this.error, String? rawData})
+      : data = rawData == null ? null : generateOutput<T>(rawData);
 }
 
 // post, put, patch ...
@@ -93,8 +96,9 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
 
 class SafeMutationOutput<T extends SafeHttpDataOutput>
     extends SafeHttpOutput<T> {
-  SafeMutationOutput({required bool success, T? data, SafeHttpError? error})
-      : super(data: data, success: success, error: error);
+  SafeMutationOutput(
+      {required bool success, String? data, SafeHttpError? error})
+      : super(success: success, error: error, rawData: data);
 }
 
 // get, option, delete ...
@@ -108,18 +112,18 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       this.params})
       : super(url: url, headers: headers, httpMethod: httpMethod);
 
-  String getUrlWithQueryStrings() {
+  Uri getUrlWithQueryStrings() {
     String queryString = "";
-    if (params == null) return url;
+    if (params == null) return Uri.parse(url);
     params!.toJson().forEach((key, value) {
       queryString += "$key=$value&";
     });
     queryString = queryString.substring(0, queryString.length - 1);
-    return "$url?$queryString";
+    return Uri.parse("$url?$queryString");
   }
 }
 
 class SafeQueryOutput<T extends SafeHttpDataOutput> extends SafeHttpOutput<T> {
-  SafeQueryOutput({required bool success, T? data, SafeHttpError? error})
-      : super(data: data, success: success, error: error);
+  SafeQueryOutput({required bool success, String? data, SafeHttpError? error})
+      : super(success: success, error: error, rawData: data);
 }
