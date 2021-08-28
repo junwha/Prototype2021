@@ -83,11 +83,16 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
 // post, put, patch ...
 class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T data;
+  // If null and useMappedData is true, then falls back to data
+  final Map<String, dynamic>? mappedData;
+  final bool useMappedData;
 
   SafeMutationInput(
       {required this.data,
       required String url,
       required SafeHttpVerb httpMethod,
+      this.mappedData,
+      this.useMappedData = true,
       Map<String, String>? headers})
       : super(headers: headers, url: url, httpMethod: httpMethod);
 
