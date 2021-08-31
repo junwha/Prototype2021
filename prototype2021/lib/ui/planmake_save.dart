@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/tbdialog_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/custom_plan_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_pw_textfield.dart';
@@ -172,34 +171,23 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     return showDialog(
         context: context,
         builder: (BuildContext context) {
-          List<bool> _isTagsSelected = isTagsSelected;
+          List<bool> _isTagsSelected = List.from(isTagsSelected);
           return StatefulBuilder(builder: (context, setState) {
             return TBSimpleDialog(
               title: '태그 수정',
-              body: Wrap(
-                children:
-                    // 사각형 1720
-                    // Container(
-                    //     width: double
-                    //         .infinity,
-                    //     height: 81,
-                    //     decoration: BoxDecoration(
-                    //         color: const Color(
-                    //             0xfff6f6f6))),
-                    List.generate(
-                  _isTagsSelected.length,
-                  (index) => FilterChip(
-                      showCheckmark: false,
-                      selectedColor: Colors.grey,
-                      disabledColor: Colors.white,
-                      selected: _isTagsSelected[index],
-                      label: Text(tags[index]),
-                      onSelected: (bool selected) {
-                        setState(() {
-                          _isTagsSelected[index] = !_isTagsSelected[index];
-                        });
-                      }),
-                ),
+              body: Column(
+                children: [
+                  // 사각형 1720
+                  Container(
+                    width: double.infinity,
+                    height: 81,
+                    decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
+                    child: buildTagFIlterChipRow(_isTagsSelected, setState, 0),
+                  ),
+
+                  buildTagFIlterChipRow(_isTagsSelected, setState, 3),
+                  buildTagFIlterChipRow(_isTagsSelected, setState, 6),
+                ],
               ),
               onSubmitPressed: () {
                 if (_isTagsSelected
@@ -210,13 +198,35 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                   print("6 초과"); // TODO(mina): 토스트 메시지 추가
                 } else {
                   setState(() {
-                    isTagsSelected = _isTagsSelected;
+                    isTagsSelected = List.from(_isTagsSelected);
                   });
                 }
               },
             );
           });
         });
+  }
+
+  Row buildTagFIlterChipRow(
+      List<bool> _isTagsSelected, StateSetter setState, int offset) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: List.generate(
+        3,
+        (index) => FilterChip(
+            showCheckmark: false,
+            selectedColor: Colors.grey,
+            disabledColor: Colors.white,
+            selected: _isTagsSelected[index + offset],
+            label: Text(tags[index + offset]),
+            onSelected: (bool selected) {
+              setState(() {
+                _isTagsSelected[index + offset] =
+                    !_isTagsSelected[index + offset];
+              });
+            }),
+      ),
+    );
   }
 
   Column buildRadioArea(
