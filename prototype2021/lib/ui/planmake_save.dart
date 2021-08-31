@@ -55,147 +55,91 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                   children: [
                     Row(
                       children: [
-                        Container(
-                            height: 150,
-                            width: 120,
-                            decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
-                                image: new DecorationImage(
-                                  image: new AssetImage(
-                                      'assets/icons/planmakeimage.png'),
-                                  fit: BoxFit.fill,
-                                ))),
+                        buildPreview(),
                         SizedBox(
                           width: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CustomPlanTextField(
-                                hintText: '여행 이름을 입력해주세요.',
-                                onChanged: (String text) {}),
-                            SizedBox(
-                              height: 5,
-                            ),
-                            Text("상하이, 베이징, 광저우",
-                                style: builidTextStyle(
-                                    11, Color(0xff707070), FontWeight.w400),
-                                textAlign: TextAlign.left),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Text("기간 : 4일(1월 1일~4일)",
-                                style: builidTextStyle(
-                                    14, Color(0xff707070), FontWeight.w400),
-                                textAlign: TextAlign.left),
-                            Container(
-                              width: 260,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CustomPlanTextField(
+                                  width: double.infinity,
+                                  hintText: '여행 이름을 입력해주세요.',
+                                  onChanged: (String text) {}),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text("상하이, 베이징, 광저우",
+                                  style: builidTextStyle(
+                                      11, Color(0xff707070), FontWeight.w400),
+                                  textAlign: TextAlign.left),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              Text("기간 : 4일(1월 1일~4일)",
+                                  style: builidTextStyle(
+                                      14, Color(0xff707070), FontWeight.w400),
+                                  textAlign: TextAlign.left),
+                              buildBudget(context),
+                              Row(
                                 children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        "예산:",
-                                        style: TextStyle(
-                                          color: Color(0xff707070),
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: 4,
-                                      ),
-                                      Text(
-                                        priceList[_selectedValue],
-                                        style: TextStyle(
-                                          color: Color(0xff707070),
-                                          fontFamily: 'Roboto',
-                                        ),
-                                      )
-                                    ],
+                                  Expanded(
+                                    child: Wrap(
+                                      children: [
+                                        TBContentTag(contentTitle: '액티비티'),
+                                        TBContentTag(contentTitle: 'SNS핫플'),
+                                        TBContentTag(contentTitle: '휴양지'),
+                                        TBContentTag(contentTitle: '휴양지'),
+                                        TBContentTag(contentTitle: '휴양지'),
+                                      ],
+                                    ),
                                   ),
                                   IconButton(
                                       icon: Image.asset(
                                           "assets/icons/ic_save_edit.png"),
-                                      onPressed: () {
-                                        showDialog(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                TBSimpleDialog(
-                                                  title: '예산설정',
-                                                  body: Container(
-                                                      height: 230,
-                                                      child: buildCupertino()),
-                                                ));
-                                      }),
+                                      onPressed: () => {
+                                            showDialog(
+                                              context: context,
+                                              builder: (BuildContext context) {
+                                                return TBSimpleDialog(
+                                                  title: '태그 수정',
+                                                  body: Column(
+                                                    children: [
+                                                      // 사각형 1720
+                                                      Container(
+                                                          width:
+                                                              double.infinity,
+                                                          height: 81,
+                                                          decoration: BoxDecoration(
+                                                              color: const Color(
+                                                                  0xfff6f6f6))),
+                                                      FilterChip(
+                                                          showCheckmark: false,
+                                                          selectedColor:
+                                                              Colors.grey,
+                                                          disabledColor:
+                                                              Colors.white,
+                                                          selected: _selected,
+                                                          label: Text('Woolha'),
+                                                          onSelected:
+                                                              (bool selected) {
+                                                            setState(() {
+                                                              print(selected);
+                                                              _selected =
+                                                                  !_selected;
+                                                            });
+                                                          }),
+                                                    ],
+                                                  ),
+                                                );
+                                              },
+                                            )
+                                          }),
                                 ],
                               ),
-                              decoration: BoxDecoration(
-                                border: Border(
-                                  bottom: BorderSide(
-                                      width: 1.0, color: Color(0xff707070)),
-                                ),
-                              ),
-                            ),
-                            Wrap(
-                              children: [
-                                Row(
-                                  children: [
-                                    TBContentTag(contentTitle: '액티비티'),
-                                    TBContentTag(contentTitle: 'SNS핫플'),
-                                    TBContentTag(contentTitle: '휴양지'),
-                                    IconButton(
-                                        icon: Image.asset(
-                                            "assets/icons/ic_save_edit.png"),
-                                        onPressed: () => {
-                                              showDialog(
-                                                context: context,
-                                                builder: (BuildContext
-                                                        context) =>
-                                                    TBSimpleDialog(
-                                                        title: '태그 수정',
-                                                        body: Column(
-                                                          children: [
-                                                            // 사각형 1720
-                                                            Container(
-                                                                width: double
-                                                                    .infinity,
-                                                                height: 81,
-                                                                decoration: BoxDecoration(
-                                                                    color: const Color(
-                                                                        0xfff6f6f6))),
-                                                            FilterChip(
-                                                                showCheckmark:
-                                                                    false,
-                                                                selectedColor:
-                                                                    Colors.grey,
-                                                                disabledColor:
-                                                                    Colors
-                                                                        .white,
-                                                                selected:
-                                                                    _selected,
-                                                                label: Text(
-                                                                    'Woolha'),
-                                                                onSelected: (bool
-                                                                    selected) {
-                                                                  setState(() {
-                                                                    print(
-                                                                        selected);
-                                                                    _selected =
-                                                                        !_selected;
-                                                                  });
-                                                                }),
-                                                          ],
-                                                        )),
-                                              )
-                                            }),
-                                  ],
-                                )
-                              ],
-                            )
-                          ],
+                            ],
+                          ),
                         ), // 상하이, 베이징, 광저우
                       ],
                     ),
@@ -210,74 +154,19 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                     SizedBox(
                       height: 30,
                     ),
-                    Row(
-                      children: [
-                        Image.asset('assets/icons/img_check_green.png'),
-                        Text('여행 피로도',
-                            style: builidTextStyle(
-                                16, Color(0xff555555), FontWeight.w700)),
-                      ],
+                    buildRadioArea("여행 피로도", selectedRadio1, "여유롭고\n느긋한여행",
+                        "바쁘더라도\n알찬 여행"),
+                    SizedBox(
+                      height: 10,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          buildRadioButton(
-                            selectedRadio1,
-                            (int? val) {
-                              // Changes the selected value on 'onChanged' click on each radio button
-                              setState(() {
-                                selectedRadio1 = val!;
-                              });
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          buildRadioButtonTextArea(
-                              '여유롭고 \n느긋한 여행', "바쁘더라도\n알찬 여행")
-                        ],
-                      ),
-                    ),
+                    buildRadioArea(
+                        '여행 경비', selectedRadio2, '불편해도 \n저렴하게', "비싸더라도\n편안하게"),
                     SizedBox(
                       height: 10,
                     ),
                     Row(
-                      children: [
-                        Image.asset('assets/icons/img_check_green.png'),
-                        Text('여행 경비',
-                            style: builidTextStyle(
-                                16, Color(0xff555555), FontWeight.w700)),
-                      ],
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(15.0),
-                      child: Column(
-                        children: [
-                          buildRadioButton(
-                            selectedRadio2,
-                            (int? val) {
-                              setState(() {
-                                selectedRadio2 = val!;
-                              });
-                            },
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          buildRadioButtonTextArea(
-                            '불편해도 \n저렴하게',
-                            "비싸더라도\n편안하게",
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [TBSaveButton(buttonTitle: '저장하기')],
-                          ),
-                        ],
-                      ),
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [TBSaveButton(buttonTitle: '저장하기')],
                     ),
                   ],
                 ),
@@ -285,6 +174,99 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             ),
           ),
         ]));
+  }
+
+  Column buildRadioArea(
+      String title, int selectedRadio, String minimumText, String maximumText) {
+    return Column(
+      children: [
+        Row(
+          children: [
+            Image.asset('assets/icons/img_check_green.png'),
+            Text(title,
+                style: builidTextStyle(16, Color(0xff555555), FontWeight.w700)),
+          ],
+        ),
+        Padding(
+          padding: const EdgeInsets.all(15.0),
+          child: Column(
+            children: [
+              buildRadioButton(
+                selectedRadio,
+                (int? val) {
+                  // Changes the selected value on 'onChanged' click on each radio button
+                  setState(() {
+                    selectedRadio = val!;
+                  });
+                },
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              buildRadioButtonTextArea(minimumText, maximumText)
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Container buildBudget(BuildContext context) {
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Text(
+                "예산:",
+                style: TextStyle(
+                  color: Color(0xff707070),
+                  fontFamily: 'Roboto',
+                ),
+              ),
+              SizedBox(
+                width: 4,
+              ),
+              Text(
+                priceList[_selectedValue],
+                style: TextStyle(
+                  color: Color(0xff707070),
+                  fontFamily: 'Roboto',
+                ),
+              )
+            ],
+          ),
+          IconButton(
+              icon: Image.asset("assets/icons/ic_save_edit.png"),
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) => TBSimpleDialog(
+                          title: '예산설정',
+                          body: Container(height: 230, child: buildCupertino()),
+                        ));
+              }),
+        ],
+      ),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(width: 1.0, color: Color(0xff707070)),
+        ),
+      ),
+    );
+  }
+
+  Container buildPreview() {
+    return Container(
+        height: 150,
+        width: 120,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(25)),
+            image: new DecorationImage(
+              image: new AssetImage('assets/icons/planmakeimage.png'),
+              fit: BoxFit.fill,
+            )));
   }
 
   AppBar buildAppBar() {
@@ -376,50 +358,17 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
       backgroundColor: Colors.white,
       itemExtent: 45,
       scrollController: FixedExtentScrollController(initialItem: 1),
-      children: [
-        Text(
-          '0원~10만원',
-          style: TextStyle(
-            color: Color(0xff707070),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        Text(
-          '10만원~30만원',
-          style: TextStyle(
-            color: Color(0xff707070),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        Text(
-          '30만원~50만원',
-          style: TextStyle(
-            color: Color(0xff707070),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        Text(
-          '50만원~70만원',
-          style: TextStyle(
-            color: Color(0xff707070),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        Text(
-          '70만원~100만원',
-          style: TextStyle(
-            color: Color(0xff707070),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        Text(
-          '100만원 이상',
-          style: TextStyle(
-            color: Color(0xff707070),
-            fontFamily: 'Roboto',
-          ),
-        ),
-      ],
+      children: priceList
+          .map(
+            (text) => Text(
+              text,
+              style: TextStyle(
+                color: Color(0xff707070),
+                fontFamily: 'Roboto',
+              ),
+            ),
+          )
+          .toList(),
       onSelectedItemChanged: (value) {
         setState(() {
           _selectedValue = value;
