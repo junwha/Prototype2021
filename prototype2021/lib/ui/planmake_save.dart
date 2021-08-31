@@ -182,11 +182,11 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                     width: double.infinity,
                     height: 81,
                     decoration: BoxDecoration(color: const Color(0xfff6f6f6)),
-                    child: buildTagFIlterChipRow(_isTagsSelected, setState, 0),
+                    child: buildTagFilterChipRow(_isTagsSelected, setState, 0),
                   ),
 
-                  buildTagFIlterChipRow(_isTagsSelected, setState, 3),
-                  buildTagFIlterChipRow(_isTagsSelected, setState, 6),
+                  buildTagFilterChipRow(_isTagsSelected, setState, 3),
+                  buildTagFilterChipRow(_isTagsSelected, setState, 6),
                 ],
               ),
               onSubmitPressed: () {
@@ -207,7 +207,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
         });
   }
 
-  Row buildTagFIlterChipRow(
+  Row buildTagFilterChipRow(
       List<bool> _isTagsSelected, StateSetter setState, int offset) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
