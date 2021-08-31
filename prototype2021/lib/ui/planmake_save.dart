@@ -126,79 +126,8 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                                 TBSimpleDialog(
                                                   title: '예산설정',
                                                   body: Container(
-                                                    height: 230,
-                                                    child: CupertinoPicker(
-                                                      backgroundColor:
-                                                          Colors.white,
-                                                      itemExtent: 45,
-                                                      scrollController:
-                                                          FixedExtentScrollController(
-                                                              initialItem: 1),
-                                                      children: [
-                                                        Text(
-                                                          '0원~10만원',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xff707070),
-                                                            fontFamily:
-                                                                'Roboto',
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '10만원~30만원',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xff707070),
-                                                            fontFamily:
-                                                                'Roboto',
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '30만원~50만원',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xff707070),
-                                                            fontFamily:
-                                                                'Roboto',
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '50만원~70만원',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xff707070),
-                                                            fontFamily:
-                                                                'Roboto',
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '70만원~100만원',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xff707070),
-                                                            fontFamily:
-                                                                'Roboto',
-                                                          ),
-                                                        ),
-                                                        Text(
-                                                          '100만원 이상',
-                                                          style: TextStyle(
-                                                            color: Color(
-                                                                0xff707070),
-                                                            fontFamily:
-                                                                'Roboto',
-                                                          ),
-                                                        ),
-                                                      ],
-                                                      onSelectedItemChanged:
-                                                          (value) {
-                                                        setState(() {
-                                                          _selectedValue =
-                                                              value;
-                                                        });
-                                                      },
-                                                    ),
-                                                  ),
+                                                      height: 230,
+                                                      child: buildCupertino()),
                                                 ));
                                       }),
                                 ],
@@ -439,6 +368,63 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             ),
             textAlign: TextAlign.right)
       ],
+    );
+  }
+
+  CupertinoPicker buildCupertino() {
+    return CupertinoPicker(
+      backgroundColor: Colors.white,
+      itemExtent: 45,
+      scrollController: FixedExtentScrollController(initialItem: 1),
+      children: [
+        Text(
+          '0원~10만원',
+          style: TextStyle(
+            color: Color(0xff707070),
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Text(
+          '10만원~30만원',
+          style: TextStyle(
+            color: Color(0xff707070),
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Text(
+          '30만원~50만원',
+          style: TextStyle(
+            color: Color(0xff707070),
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Text(
+          '50만원~70만원',
+          style: TextStyle(
+            color: Color(0xff707070),
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Text(
+          '70만원~100만원',
+          style: TextStyle(
+            color: Color(0xff707070),
+            fontFamily: 'Roboto',
+          ),
+        ),
+        Text(
+          '100만원 이상',
+          style: TextStyle(
+            color: Color(0xff707070),
+            fontFamily: 'Roboto',
+          ),
+        ),
+      ],
+      onSelectedItemChanged: (value) {
+        setState(() {
+          _selectedValue = value;
+        });
+      },
     );
   }
 }
