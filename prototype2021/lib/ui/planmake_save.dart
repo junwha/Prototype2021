@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/tbdialog_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/custom_plan_textfield.dart';
 import 'package:prototype2021/theme/editor/custom_pw_textfield.dart';
@@ -9,6 +10,7 @@ import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
 import 'package:prototype2021/theme/tb_save_button.dart';
+import 'package:provider/provider.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
   const PlanmakeSaveView({Key? key}) : super(key: key);
@@ -30,6 +32,8 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     '100만원 이상'
   ];
   bool _selected = false;
+  TBDialogModel<List<bool>> dialogModel = TBDialogModel<List<bool>>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -114,6 +118,23 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                                           decoration: BoxDecoration(
                                                               color: const Color(
                                                                   0xfff6f6f6))),
+                                                      ChangeNotifierProvider
+                                                          .value(
+                                                        value: dialogModel,
+                                                        child: Consumer(
+                                                          builder: (BuildContext
+                                                                  context,
+                                                              TBDialogModel<
+                                                                      List<
+                                                                          bool>>
+                                                                  model,
+                                                              child) {
+                                                            return Column(
+                                                              children: [],
+                                                            );
+                                                          },
+                                                        ),
+                                                      ),
                                                       FilterChip(
                                                           showCheckmark: false,
                                                           selectedColor:
