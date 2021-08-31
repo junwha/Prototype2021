@@ -9,18 +9,6 @@ const Map<String, String> defaultHeaders = {
       "ZrWI7Mf1KMz2WYJjQqo3H30l25UdY4bPcP3RthSlRMoUj7hGxz5Vp6fBWKS0n235"
 };
 
-enum SafeHttpVerb {
-  GET,
-  HEAD,
-  POST,
-  PUT,
-  DELETE,
-  CONNECT,
-  OPTIONS,
-  TRACE,
-  PATCH
-}
-
 /*
  * Use the method below as a dto for params at get, options, delete, etc...
  * and for fetchnig data at post, put, patch, etc...
@@ -51,6 +39,9 @@ class SafeHttpInput {
   final Map<String, String>? headers;
   final String? token;
 
+  /*
+   * 만약 토큰이 주어지면 헤더에 토큰을 넣습니다
+  */
   SafeHttpInput({required this.url, headers, this.token})
       : headers = headers ?? defaultHeaders;
 
@@ -78,24 +69,28 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
       : data = rawData == null ? null : generateOutput<T>(rawData);
 }
 
-// post, put, patch ...
+/* 
+ * post, put, patch 등 
+ * post 메소드와 같은 방법으로 데이터를 실어 보내는 http method에 쓰이는 인풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T data;
-  // If null and useMappedData is true, then falls back to data
-  final Map<String, dynamic>? mappedData;
-  final bool useMappedData;
 
   SafeMutationInput(
-      {required this.data,
-      required String url,
-      this.mappedData,
-      this.useMappedData = true,
-      Map<String, String>? headers})
+      {required this.data, required String url, Map<String, String>? headers})
       : super(headers: headers, url: url);
 
   String getJsonString() => jsonEncode(data.toJson());
 }
 
+/* 
+ * post, put, patch 등 
+ * post 메소드와 같은 방법으로 데이터를 실어 보내는 http method에 쓰이는 아웃풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeMutationOutput<T extends SafeHttpDataOutput>
     extends SafeHttpOutput<T> {
   SafeMutationOutput(
@@ -103,7 +98,12 @@ class SafeMutationOutput<T extends SafeHttpDataOutput>
       : super(success: success, error: error, rawData: data);
 }
 
-// get, option, delete ...
+/* 
+ * get, option, delete 등 
+ * get과 같은 방식으로 데이터를 실어보내는 http method에 쓰이는 인풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
 
@@ -122,6 +122,12 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   }
 }
 
+/* 
+ * get, option, delete 등 
+ * get과 같은 방식으로 데이터를 실어보내는 http method에 쓰이는 인풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeQueryOutput<T extends SafeHttpDataOutput> extends SafeHttpOutput<T> {
   SafeQueryOutput({required bool success, String? data, SafeHttpError? error})
       : super(success: success, error: error, rawData: data);

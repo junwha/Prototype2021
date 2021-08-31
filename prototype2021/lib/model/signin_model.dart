@@ -13,5 +13,10 @@ class SignInModel with ChangeNotifier {
     notifyListeners();
   }
 
+  /* 
+   * This method is just for readability purpose
+   * Use this when you need to pass the change notifier model
+   * to next page route
+  */
   SignInModel inherit() => this;
 }
