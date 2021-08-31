@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/model/login_model.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
@@ -307,7 +308,11 @@ class _LoginViewState extends State<LoginView> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => SigninView()),
+                MaterialPageRoute(
+                    builder: (context) => ChangeNotifierProvider(
+                          create: (_) => SignInModel(),
+                          child: SigninView(),
+                        )),
               );
             },
             child: Row(

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show Response;
-import 'package:prototype2021/model/safe_http/base.dart';
+import 'package:prototype2021/model/safe_http_dto/base.dart';
 
 Future<SafeMutationOutput<O>>
     safePOST<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(

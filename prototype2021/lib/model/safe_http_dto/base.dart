@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:prototype2021/model/safe_http/output_dto_factory.dart';
+import 'package:prototype2021/model/safe_http_dto/output_dto_factory.dart';
 
 const Map<String, String> defaultHeaders = {
   "accept": "application/json",
@@ -49,11 +49,9 @@ class SafeHttpError {
 class SafeHttpInput {
   final String url;
   final Map<String, String>? headers;
-  final SafeHttpVerb httpMethod;
   final String? token;
 
-  SafeHttpInput(
-      {required this.url, required this.httpMethod, headers, this.token})
+  SafeHttpInput({required this.url, headers, this.token})
       : headers = headers ?? defaultHeaders;
 
   /*
@@ -90,11 +88,10 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   SafeMutationInput(
       {required this.data,
       required String url,
-      required SafeHttpVerb httpMethod,
       this.mappedData,
       this.useMappedData = true,
       Map<String, String>? headers})
-      : super(headers: headers, url: url, httpMethod: httpMethod);
+      : super(headers: headers, url: url);
 
   String getJsonString() => jsonEncode(data.toJson());
 }
@@ -111,11 +108,8 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
 
   SafeQueryInput(
-      {required String url,
-      required SafeHttpVerb httpMethod,
-      Map<String, String>? headers,
-      this.params})
-      : super(url: url, headers: headers, httpMethod: httpMethod);
+      {required String url, Map<String, String>? headers, this.params})
+      : super(url: url, headers: headers);
 
   Uri getUrlWithQueryStrings() {
     String queryString = "";

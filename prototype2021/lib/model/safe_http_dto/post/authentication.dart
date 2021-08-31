@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/safe_http/base.dart';
+import 'package:prototype2021/model/safe_http_dto/base.dart';
 
 class PhoneAuthInput implements SafeHttpDataInput {
   final String phoneNumber;
