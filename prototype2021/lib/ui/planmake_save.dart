@@ -32,8 +32,30 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     '100만원 이상'
   ];
   bool _selected = false;
-  TBDialogModel<List<bool>> dialogModel = TBDialogModel<List<bool>>();
-
+  List<bool> isTagsSelected = [
+    true,
+    true,
+    true,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false,
+    false
+  ];
+  List<String> tags = [
+    "액티비티",
+    "관광명소",
+    "인생사진",
+    "역사탐방",
+    "맛집탐방",
+    "야경감상",
+    "SNS핫플",
+    "휴양",
+    "이색체험",
+    "쇼핑메카"
+  ];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,73 +112,22 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                 children: [
                                   Expanded(
                                     child: Wrap(
-                                      children: [
-                                        TBContentTag(contentTitle: '액티비티'),
-                                        TBContentTag(contentTitle: 'SNS핫플'),
-                                        TBContentTag(contentTitle: '휴양지'),
-                                        TBContentTag(contentTitle: '휴양지'),
-                                        TBContentTag(contentTitle: '휴양지'),
-                                      ],
-                                    ),
+                                        children: List.generate(
+                                            tags.length,
+                                            (index) => isTagsSelected[index]
+                                                ? TBContentTag(
+                                                    contentTitle: tags[index])
+                                                : SizedBox())),
                                   ),
                                   IconButton(
                                       icon: Image.asset(
                                           "assets/icons/ic_save_edit.png"),
-                                      onPressed: () => {
-                                            showDialog(
-                                              context: context,
-                                              builder: (BuildContext context) {
-                                                return TBSimpleDialog(
-                                                  title: '태그 수정',
-                                                  body: Column(
-                                                    children: [
-                                                      // 사각형 1720
-                                                      Container(
-                                                          width:
-                                                              double.infinity,
-                                                          height: 81,
-                                                          decoration: BoxDecoration(
-                                                              color: const Color(
-                                                                  0xfff6f6f6))),
-                                                      ChangeNotifierProvider
-                                                          .value(
-                                                        value: dialogModel,
-                                                        child: Consumer(
-                                                          builder: (BuildContext
-                                                                  context,
-                                                              TBDialogModel<
-                                                                      List<
-                                                                          bool>>
-                                                                  model,
-                                                              child) {
-                                                            return Column(
-                                                              children: [],
-                                                            );
-                                                          },
-                                                        ),
-                                                      ),
-                                                      FilterChip(
-                                                          showCheckmark: false,
-                                                          selectedColor:
-                                                              Colors.grey,
-                                                          disabledColor:
-                                                              Colors.white,
-                                                          selected: _selected,
-                                                          label: Text('Woolha'),
-                                                          onSelected:
-                                                              (bool selected) {
-                                                            setState(() {
-                                                              print(selected);
-                                                              _selected =
-                                                                  !_selected;
-                                                            });
-                                                          }),
-                                                    ],
-                                                  ),
-                                                );
-                                              },
-                                            )
-                                          }),
+                                      onPressed: () {
+                                        showTagsDialog(context)
+                                            .then((value) => setState(() {}));
+
+                                        print(isTagsSelected[0]);
+                                      }),
                                 ],
                               ),
                             ],
@@ -195,6 +166,57 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             ),
           ),
         ]));
+  }
+
+  Future<dynamic> showTagsDialog(BuildContext context) {
+    return showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          List<bool> _isTagsSelected = isTagsSelected;
+          return StatefulBuilder(builder: (context, setState) {
+            return TBSimpleDialog(
+              title: '태그 수정',
+              body: Wrap(
+                children:
+                    // 사각형 1720
+                    // Container(
+                    //     width: double
+                    //         .infinity,
+                    //     height: 81,
+                    //     decoration: BoxDecoration(
+                    //         color: const Color(
+                    //             0xfff6f6f6))),
+                    List.generate(
+                  _isTagsSelected.length,
+                  (index) => FilterChip(
+                      showCheckmark: false,
+                      selectedColor: Colors.grey,
+                      disabledColor: Colors.white,
+                      selected: _isTagsSelected[index],
+                      label: Text(tags[index]),
+                      onSelected: (bool selected) {
+                        setState(() {
+                          _isTagsSelected[index] = !_isTagsSelected[index];
+                        });
+                      }),
+                ),
+              ),
+              onSubmitPressed: () {
+                if (_isTagsSelected
+                        .where((element) => element)
+                        .toList()
+                        .length >
+                    6) {
+                  print("6 초과"); // TODO(mina): 토스트 메시지 추가
+                } else {
+                  setState(() {
+                    isTagsSelected = _isTagsSelected;
+                  });
+                }
+              },
+            );
+          });
+        });
   }
 
   Column buildRadioArea(
