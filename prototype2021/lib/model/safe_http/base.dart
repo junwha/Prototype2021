@@ -60,11 +60,11 @@ class SafeHttpInput {
    * This method does not mutates header
    */
   Map<String, String>? getHeaders() {
-    if (token == null) {
+    if (token == null || headers?['Authorization'] != null) {
       return headers;
     }
     Map<String, String> copyOfHeaders = headers!;
-    copyOfHeaders['Authorization'] = 'Bearer $token';
+    copyOfHeaders['Authorization'] = 'jwt $token';
     return copyOfHeaders;
   }
 
