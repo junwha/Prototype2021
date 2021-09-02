@@ -10,6 +10,7 @@ import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
 import 'package:prototype2021/theme/tb_save_button.dart';
 import 'package:provider/provider.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
   const PlanmakeSaveView({Key? key}) : super(key: key);
@@ -195,7 +196,14 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                         .toList()
                         .length >
                     6) {
-                  print("6 초과"); // TODO(mina): 토스트 메시지 추가
+                  Fluttertoast.showToast(
+                      msg: "태그는 6개 이하 선택 가능합니다.",
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.black,
+                      textColor: Colors.white,
+                      fontSize: 16.0); // TODO(mina): 토스트 메시지 추가
                 } else {
                   setState(() {
                     isTagsSelected = List.from(_isTagsSelected);
