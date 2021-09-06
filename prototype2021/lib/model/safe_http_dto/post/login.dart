@@ -10,6 +10,8 @@ class LoginInput implements SafeHttpDataInput {
         "username": username,
         "password": password,
       };
+
+  Map<String, String>? getUrlParams() => null;
 }
 
 class LoginOutput implements SafeHttpDataOutput {

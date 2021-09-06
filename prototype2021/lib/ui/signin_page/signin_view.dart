@@ -73,6 +73,7 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
           checkedDuplicate = true;
         });
       } catch (e) {
+        _showDialog("예상치 못한 오류가 발생했습니다: ${e.toString().substring(0, 50)}...");
         print(e);
       }
     }

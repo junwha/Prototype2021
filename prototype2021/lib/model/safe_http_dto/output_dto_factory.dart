@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/get/signup.dart';
+import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
 import 'package:prototype2021/model/safe_http_dto/post/authentication.dart';
 import 'package:prototype2021/model/safe_http_dto/post/login.dart';

@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/get/signup.dart';
+import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
 import 'package:prototype2021/model/safe_http_dto/post/authentication.dart';
 import 'package:prototype2021/model/safe_http_dto/post/login.dart';
@@ -16,7 +16,6 @@ class SigninLoader {
     SafeQueryInput<IdVerificationInput> dto =
         new SafeQueryInput(url: idVerificationUrl, params: params);
     SafeQueryOutput<IdVerificationOutput> result = await idVerification(dto);
-    print(result.error?.message);
     if (result.success && result.data?.exists != null)
       return result.data!.exists;
     throw HttpException(result.error?.message ?? "Unexpected error");
@@ -50,10 +49,11 @@ class SigninLoader {
 
   // Endpoints
 
-  String loginUrl = "$apiBaseUrl/login";
-  String signUpUrl = "$apiBaseUrl/signup";
-  String idVerificationUrl = "$apiBaseUrl/signup/id/verification";
-  String phoneAuthUrl = "$apiBaseUrl/signup/authentication/phone";
-  String emailAuthUrl = "$apiBaseUrl/signup/authentication/email";
-  String authVerificationUrl = "$apiBaseUrl/signup/authentication/verification";
+  String loginUrl = "$apiBaseUrl/user/login";
+  String signUpUrl = "$apiBaseUrl/user/signup";
+  String idVerificationUrl = "$apiBaseUrl/user/signup/:username/verification";
+  String phoneAuthUrl = "$apiBaseUrl/user/signup/authentication/phone";
+  String emailAuthUrl = "$apiBaseUrl/user/signup/authentication/email";
+  String authVerificationUrl =
+      "$apiBaseUrl/user/signup/authentication/verification";
 }

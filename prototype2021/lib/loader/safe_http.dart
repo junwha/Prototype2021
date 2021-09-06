@@ -12,7 +12,7 @@ Future<SafeMutationOutput<O>>
     safePOST<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
         SafeMutationInput<I> dto) async {
   try {
-    Response res = await http.post(dto.getUrl(),
+    Response res = await http.post(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
     if (res.statusCode == 201)
       return new SafeMutationOutput<O>(success: true, data: res.body);
@@ -31,7 +31,7 @@ Future<SafeMutationOutput<O>>
     safePUT<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
         SafeMutationInput<I> dto) async {
   try {
-    Response res = await http.put(dto.getUrl(),
+    Response res = await http.put(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
     if (res.statusCode == 200)
       return new SafeMutationOutput<O>(success: true, data: res.body);
@@ -50,8 +50,9 @@ Future<SafeQueryOutput<O>>
     safeGET<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
         SafeQueryInput<I> dto) async {
   try {
+    print(dto.getUrlWithParams());
     Response res =
-        await http.get(dto.getUrlWithQueryStrings(), headers: dto.getHeaders());
+        await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
     if (res.statusCode == 200)
       return new SafeQueryOutput<O>(success: true, data: res.body);
     throw new HttpException("[${res.statusCode} : ${res.body.toString()}]");

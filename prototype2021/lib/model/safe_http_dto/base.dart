@@ -14,7 +14,8 @@ const Map<String, String> defaultHeaders = {
  * and for fetchnig data at post, put, patch, etc...
  */
 abstract class SafeHttpDataInput {
-  Map<String, dynamic> toJson();
+  Map<String, dynamic>? toJson();
+  Map<String, String>? getUrlParams();
 }
 
 class SafeHttpDataOutput {
@@ -83,6 +84,17 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       : super(headers: headers, url: url);
 
   String getJsonString() => jsonEncode(data.toJson());
+
+  Uri getUrlWithParams() {
+    String urlWithUrlParams = url;
+    if (data.getUrlParams() != null) {
+      data.getUrlParams()!.entries.forEach((element) {
+        urlWithUrlParams =
+            urlWithUrlParams.replaceAll(RegExp(element.key), element.value);
+      });
+    }
+    return Uri.parse(urlWithUrlParams);
+  }
 }
 
 /* 
@@ -111,14 +123,23 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       {required String url, Map<String, String>? headers, this.params})
       : super(url: url, headers: headers);
 
-  Uri getUrlWithQueryStrings() {
-    String queryString = "";
-    if (params == null) return Uri.parse(url);
-    params!.toJson().forEach((key, value) {
-      queryString += "$key=$value&";
-    });
+  Uri getUrlWithParams() {
+    String queryString = "?";
+    if (params?.toJson() != null) {
+      params!.toJson()!.forEach((key, value) {
+        queryString += "$key=$value&";
+      });
+    }
     queryString = queryString.substring(0, queryString.length - 1);
-    return Uri.parse("$url?$queryString");
+    String urlWithUrlParams = url;
+    if (params?.getUrlParams() != null) {
+      params!.getUrlParams()!.entries.forEach((element) {
+        urlWithUrlParams =
+            urlWithUrlParams.replaceAll(RegExp(element.key), element.value);
+      });
+    }
+    print(urlWithUrlParams);
+    return Uri.parse("$urlWithUrlParams$queryString");
   }
 }
 

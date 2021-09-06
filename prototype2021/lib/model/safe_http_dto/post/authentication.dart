@@ -8,6 +8,8 @@ class PhoneAuthInput implements SafeHttpDataInput {
   Map<String, dynamic> toJson() => {
         "phone_number": phoneNumber,
       };
+
+  Map<String, String>? getUrlParams() => null;
 }
 
 class EmailAuthInput implements SafeHttpDataInput {
@@ -16,6 +18,8 @@ class EmailAuthInput implements SafeHttpDataInput {
   EmailAuthInput({required this.email});
 
   Map<String, dynamic> toJson() => {"email": email};
+
+  Map<String, String>? getUrlParams() => null;
 }
 
 class AuthOutput implements SafeHttpDataOutput {
