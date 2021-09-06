@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
-import 'package:prototype2021/loader/safe_http.dart';
+import 'package:prototype2021/loader/legacy_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
 
@@ -132,15 +132,14 @@ class EditorModel with ChangeNotifier {
   Future<bool> writeCompanionArticle(Map<String, dynamic> originData) async {
     originData["pid"] = this.pid;
     var url;
-
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_COMPANION_API;
-      return await safePOST(url, originData);
+      return await legacyPOST(url, originData);
     } else if (this.writeType == WriteType.PUT) {
       if (articleId == null) return false;
       url =
           "http://api.tripbuilder.co.kr/recruitments/companions/${articleId!}/";
-      return await safePUT(url, originData);
+      return await legacyPUT(url, originData);
     }
     return false;
   }
@@ -158,11 +157,11 @@ class EditorModel with ChangeNotifier {
 
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_EVENT_API;
-      return await safePOST(url, originData);
+      return await legacyPOST(url, originData);
     } else if (this.writeType == WriteType.PUT) {
       if (articleId == null) return false;
       url = "http://api.tripbuilder.co.kr/recruitments/events/${articleId!}/";
-      return await safePUT(url, originData);
+      return await legacyPUT(url, originData);
     }
     return false;
   }

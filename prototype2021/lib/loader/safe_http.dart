@@ -1,49 +1,53 @@
-import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
+import 'package:http/http.dart' show Response;
+import 'package:prototype2021/model/safe_http/base.dart';
 
-Future<bool> safePOST(String url, Map? bodyMap) async {
+Future<SafeMutationOutput<O>>
+    safePOST<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
+        SafeMutationInput<I> dto,
+        [int expectedCode = 201]) async {
   try {
-    var response = await http.post(Uri.parse(url),
-        headers: {
-          "accept": "application/json",
-          "Content-Type": "application/json",
-          "X-CSRFToken":
-              "ZrWI7Mf1KMz2WYJjQqo3H30l25UdY4bPcP3RthSlRMoUj7hGxz5Vp6fBWKS0n235"
-        },
-        body: jsonEncode(bodyMap));
-    print(response.body);
-    if (response.statusCode == 201) return true;
-  } catch (e) {
-    print("Unexpected Error occurred");
+    Response res = await http.post(dto.getUrl(),
+        headers: dto.getHeaders(), body: dto.getJsonString());
+    if (res.statusCode == expectedCode)
+      return new SafeMutationOutput<O>(success: true, data: res.body);
+    throw new HttpException("[${res.statusCode}] : ${res.body.toString()}");
+  } catch (error) {
+    return new SafeMutationOutput<O>(
+        success: false, error: new SafeHttpError(message: error.toString()));
   }
-  return false;
 }
 
-Future<bool> safePUT(String url, Map? bodyMap) async {
+Future<SafeMutationOutput<O>>
+    safePUT<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
+        SafeMutationInput<I> dto,
+        [int expectedCode = 200]) async {
   try {
-    var response = await http.put(Uri.parse(url),
-        headers: {
-          "accept": "application/json",
-          "Content-Type": "application/json",
-          "X-CSRFToken":
-              "ZrWI7Mf1KMz2WYJjQqo3H30l25UdY4bPcP3RthSlRMoUj7hGxz5Vp6fBWKS0n235"
-        },
-        body: jsonEncode(bodyMap));
-    print(response.body);
-    if (response.statusCode == 200) return true;
-  } catch (e) {
-    print("Unexpected Error occurred");
+    Response res = await http.put(dto.getUrl(),
+        headers: dto.getHeaders(), body: dto.getJsonString());
+    if (res.statusCode == expectedCode)
+      return new SafeMutationOutput<O>(success: true, data: res.body);
+    throw new HttpException("[${res.statusCode}] : ${res.body.toString()}");
+  } catch (error) {
+    return new SafeMutationOutput<O>(
+        success: false, error: new SafeHttpError(message: error.toString()));
   }
-  return false;
 }
 
-Future<dynamic> safeGET(String url) async {
+Future<SafeQueryOutput<O>>
+    safeGET<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
+        SafeQueryInput<I> dto,
+        [int expectedCode = 200]) async {
   try {
-    var response = await http.get(Uri.parse(url));
-    if (response.statusCode == 200) return jsonDecode(response.body);
-  } catch (e) {
-    print("Unexpected Error occurred");
+    Response res =
+        await http.get(dto.getUrlWithQueryStrings(), headers: dto.getHeaders());
+    if (res.statusCode == expectedCode)
+      return new SafeQueryOutput<O>(success: true, data: res.body);
+    throw new HttpException("[${res.statusCode} : ${res.body.toString()}]");
+  } catch (error) {
+    return new SafeQueryOutput<O>(
+        success: false, error: new SafeHttpError(message: error.toString()));
   }
-  return null;
 }

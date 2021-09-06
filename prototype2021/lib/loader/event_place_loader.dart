@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data.dart';
-import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/loader/safe_http.dart';
+import 'package:prototype2021/loader/legacy_http.dart';
 
 class EventPlaceLoader {
   Future<List<Location>> searchEventLocations(LatLng pos,
       {int radius = 500}) async {
-    dynamic response = await safeGET(
+    dynamic response = await legacyGET(
         "http://api.tripbuilder.co.kr/recruitments/events/near/?lat=${pos.latitude.toStringAsFixed(6)}&long=${pos.longitude.toStringAsFixed(6)}&radius=$radius");
     List<EventLocation> locations = [];
     try {
