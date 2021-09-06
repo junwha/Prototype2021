@@ -43,6 +43,7 @@ class SafeHttpInput {
   /*
    * 만약 토큰이 주어지면 헤더에 토큰을 넣습니다
   */
+
   SafeHttpInput({required this.url, headers, this.token})
       : headers = headers ?? defaultHeaders;
 
