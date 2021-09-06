@@ -125,13 +125,14 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       : super(url: url, headers: headers);
 
   Uri getUrlWithParams() {
-    String queryString = "?";
+    String queryString = "";
     if (params?.toJson() != null) {
+      queryString += "?";
       params!.toJson()!.forEach((key, value) {
         queryString += "$key=$value&";
       });
+      queryString = queryString.substring(0, queryString.length - 1);
     }
-    queryString = queryString.substring(0, queryString.length - 1);
     String urlWithUrlParams = url;
     if (params?.getUrlParams() != null) {
       params!.getUrlParams()!.entries.forEach((element) {
@@ -139,7 +140,6 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
             urlWithUrlParams.replaceAll(RegExp(element.key), element.value);
       });
     }
-    print(urlWithUrlParams);
     return Uri.parse("$urlWithUrlParams$queryString");
   }
 }
