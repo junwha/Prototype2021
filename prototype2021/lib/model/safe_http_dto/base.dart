@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:prototype2021/model/safe_http/output_dto_factory.dart';
+import 'package:prototype2021/model/safe_http_dto/output_dto_factory.dart';
 
 const Map<String, String> defaultHeaders = {
   "accept": "application/json",
@@ -14,7 +14,8 @@ const Map<String, String> defaultHeaders = {
  * and for fetchnig data at post, put, patch, etc...
  */
 abstract class SafeHttpDataInput {
-  Map<String, dynamic> toJson();
+  Map<String, dynamic>? toJson();
+  Map<String, String>? getUrlParams();
 }
 
 class SafeHttpDataOutput {
@@ -38,6 +39,10 @@ class SafeHttpInput {
   final String url;
   final Map<String, String>? headers;
   final String? token;
+
+  /*
+   * 만약 토큰이 주어지면 헤더에 토큰을 넣습니다
+  */
 
   SafeHttpInput({required this.url, headers, this.token})
       : headers = headers ?? defaultHeaders;
@@ -66,7 +71,12 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
       : data = rawData == null ? null : generateOutput<T>(rawData);
 }
 
-// post, put, patch ...
+/* 
+ * post, put, patch 등 
+ * post 메소드와 같은 방법으로 데이터를 실어 보내는 http method에 쓰이는 인풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T data;
 
@@ -75,8 +85,25 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       : super(headers: headers, url: url);
 
   String getJsonString() => jsonEncode(data.toJson());
+
+  Uri getUrlWithParams() {
+    String urlWithUrlParams = url;
+    if (data.getUrlParams() != null) {
+      data.getUrlParams()!.entries.forEach((element) {
+        urlWithUrlParams =
+            urlWithUrlParams.replaceAll(RegExp(element.key), element.value);
+      });
+    }
+    return Uri.parse(urlWithUrlParams);
+  }
 }
 
+/* 
+ * post, put, patch 등 
+ * post 메소드와 같은 방법으로 데이터를 실어 보내는 http method에 쓰이는 아웃풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeMutationOutput<T extends SafeHttpDataOutput>
     extends SafeHttpOutput<T> {
   SafeMutationOutput(
@@ -84,7 +111,12 @@ class SafeMutationOutput<T extends SafeHttpDataOutput>
       : super(success: success, error: error, rawData: data);
 }
 
-// get, option, delete ...
+/* 
+ * get, option, delete 등 
+ * get과 같은 방식으로 데이터를 실어보내는 http method에 쓰이는 인풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
 
@@ -92,17 +124,32 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       {required String url, Map<String, String>? headers, this.params})
       : super(url: url, headers: headers);
 
-  Uri getUrlWithQueryStrings() {
+  Uri getUrlWithParams() {
     String queryString = "";
-    if (params == null) return Uri.parse(url);
-    params!.toJson().forEach((key, value) {
-      queryString += "$key=$value&";
-    });
-    queryString = queryString.substring(0, queryString.length - 1);
-    return Uri.parse("$url?$queryString");
+    if (params?.toJson() != null) {
+      queryString += "?";
+      params!.toJson()!.forEach((key, value) {
+        queryString += "$key=$value&";
+      });
+      queryString = queryString.substring(0, queryString.length - 1);
+    }
+    String urlWithUrlParams = url;
+    if (params?.getUrlParams() != null) {
+      params!.getUrlParams()!.entries.forEach((element) {
+        urlWithUrlParams =
+            urlWithUrlParams.replaceAll(RegExp(element.key), element.value);
+      });
+    }
+    return Uri.parse("$urlWithUrlParams$queryString");
   }
 }
 
+/* 
+ * get, option, delete 등 
+ * get과 같은 방식으로 데이터를 실어보내는 http method에 쓰이는 인풋 클래스입니다
+ * 이를 직접적으로 쓸 경우는 드물 것이고, 제너릭 타입으로 들어가는 T에 들어갈
+ * 클래스를 만들어서 이 클래스와 같이 쓰는 방식입니다
+*/
 class SafeQueryOutput<T extends SafeHttpDataOutput> extends SafeHttpOutput<T> {
   SafeQueryOutput({required bool success, String? data, SafeHttpError? error})
       : super(success: success, error: error, rawData: data);
