@@ -146,13 +146,34 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                     SizedBox(
                       height: 30,
                     ),
-                    buildRadioArea("여행 피로도", selectedRadio1, "여유롭고\n느긋한여행",
-                        "바쁘더라도\n알찬 여행"),
+                    buildRadioArea(
+                      "여행 피로도",
+                      selectedRadio1,
+                      "여유롭고\n느긋한여행",
+                      "바쁘더라도\n알찬 여행",
+                      (int? val) {
+                        print(val);
+                        // Changes the selected value on 'onChanged' click on each radio button
+                        setState(() {
+                          selectedRadio1 = val!;
+                        });
+                      },
+                    ),
                     SizedBox(
                       height: 10,
                     ),
                     buildRadioArea(
-                        '여행 경비', selectedRadio2, '불편해도 \n저렴하게', "비싸더라도\n편안하게"),
+                      '여행 경비',
+                      selectedRadio2,
+                      '불편해도 \n저렴하게',
+                      "비싸더라도\n편안하게",
+                      (int? val) {
+                        // Changes the selected value on 'onChanged' click on each radio button
+                        setState(() {
+                          selectedRadio2 = val!;
+                        });
+                      },
+                    ),
                     SizedBox(
                       height: 10,
                     ),
@@ -237,8 +258,8 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     );
   }
 
-  Column buildRadioArea(
-      String title, int selectedRadio, String minimumText, String maximumText) {
+  Column buildRadioArea(String title, int selectedRadio, String minimumText,
+      String maximumText, Function(int?) onChanged) {
     return Column(
       children: [
         Row(
@@ -254,12 +275,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             children: [
               buildRadioButton(
                 selectedRadio,
-                (int? val) {
-                  // Changes the selected value on 'onChanged' click on each radio button
-                  setState(() {
-                    selectedRadio = val!;
-                  });
-                },
+                onChanged,
               ),
               SizedBox(
                 height: 10,
