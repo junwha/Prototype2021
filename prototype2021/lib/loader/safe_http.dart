@@ -55,7 +55,7 @@ Future<SafeQueryOutput<O>>
   try {
     print(dto.getUrlWithParams());
     Response res =
-        await http.get(dto.getUrlWithQueryStrings(), headers: dto.getHeaders());
+        await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
     if (res.statusCode == expectedCode)
       return new SafeQueryOutput<O>(success: true, data: res.body);
     throw new HttpException("[${res.statusCode} : ${res.body.toString()}]");
