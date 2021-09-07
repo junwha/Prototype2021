@@ -10,5 +10,3 @@ const String POST_RECRUITMENTS_EVENT_API =
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 const String placeHolder =
     "https://www.orcajourney.com/wp-content/uploads/2020/08/placeholder.png";
-
-const String apiBaseUrl = 'http://api.tripbuilder.co.kr';

@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/model/safe_http/base.dart';
 
 class AuthVerificationInput extends SafeHttpDataInput {
   final int verificationCode;
@@ -8,8 +8,6 @@ class AuthVerificationInput extends SafeHttpDataInput {
   Map<String, dynamic> toJson() => {
         "verification_code": verificationCode,
       };
-
-  Map<String, String>? getUrlParams() => null;
 }
 
 class AuthVerificationOutput extends SafeHttpDataOutput {
@@ -27,10 +25,8 @@ class IdVerificationInput extends SafeHttpDataInput {
   final String id;
 
   IdVerificationInput({required this.id});
-  Map<String, dynamic>? toJson() => null;
-
-  Map<String, String> getUrlParams() => {
-        ":username": id,
+  Map<String, dynamic> toJson() => {
+        "id": id,
       };
 }
 

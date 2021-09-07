@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/model/safe_http/base.dart';
 
 class LoginInput implements SafeHttpDataInput {
   final String username;
@@ -10,8 +10,6 @@ class LoginInput implements SafeHttpDataInput {
         "username": username,
         "password": password,
       };
-
-  Map<String, String>? getUrlParams() => null;
 }
 
 class LoginOutput implements SafeHttpDataOutput {

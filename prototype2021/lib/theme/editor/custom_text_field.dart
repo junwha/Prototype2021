@@ -1,29 +1,26 @@
 import 'package:flutter/material.dart';
 
 class CustomTextField extends StatefulWidget {
-  final String hintText;
-  final Function(String) onChanged;
-  final String initialText;
-  final int maxLine;
-  final bool isPasswordField;
-  final bool onError;
+  String hintText;
+  Function(String) onChanged;
+  String initialText;
+  int maxLine;
+  bool isObscure = true;
+  bool isChecked2 = false;
+  bool isPasswordField;
 
-  CustomTextField({
-    required this.hintText,
-    required this.onChanged,
-    this.initialText = '',
-    this.maxLine = 1,
-    this.isPasswordField = false,
-    this.onError = false,
-  });
+  CustomTextField(
+      {required this.hintText,
+      required this.onChanged,
+      this.initialText = '',
+      this.maxLine = 1,
+      this.isPasswordField = false});
 
   @override
   _CustomTextFieldState createState() => _CustomTextFieldState();
 }
 
 class _CustomTextFieldState extends State<CustomTextField> {
-  bool isObscure = true;
-  bool isChecked2 = false;
   TextEditingController? _controller;
 
   @override
@@ -33,25 +30,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
   }
 
   @override
-  void dispose() {
-    super.dispose();
-    _controller?.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
         Container(
           height: 75,
           decoration: BoxDecoration(
-              color: const Color(0xfff2f2f2),
-              border: Border(
-                  bottom: BorderSide(
-                      color: this.widget.onError
-                          ? const Color(0xffff3120)
-                          : Colors.transparent,
-                      width: 1))),
+            color: const Color(0xfff2f2f2),
+          ),
           child: TextField(
             controller: _controller,
             decoration: InputDecoration(
@@ -62,7 +48,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 hintText: this.widget.hintText),
             onChanged: this.widget.onChanged,
             maxLines: this.widget.maxLine,
-            obscureText: this.widget.isPasswordField ? this.isObscure : false,
+            obscureText:
+                this.widget.isPasswordField ? this.widget.isObscure : false,
             keyboardType: TextInputType.multiline,
             enableInteractiveSelection: false,
           ),
@@ -80,7 +67,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       ),
                       onPressed: () {
                         setState(() {
-                          this.isObscure = !this.isObscure;
+                          this.widget.isObscure = !this.widget.isObscure;
                         });
                       })
                   : SizedBox(),
@@ -90,7 +77,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                   ),
                   onPressed: () {
                     setState(() {
-                      this.isChecked2 = !this.isChecked2;
+                      this.widget.isChecked2 = !this.widget.isChecked2;
                       _controller!.clear();
                     });
                   }),

@@ -1,14 +1,8 @@
 import 'dart:io';
 
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/model/safe_http/base.dart';
 
 enum Gender { M, F, None }
-
-const GenderStringMapping = <Gender, String>{
-  Gender.M: 'M',
-  Gender.F: 'F',
-  Gender.None: 'None'
-};
 
 class SignupInput extends SafeHttpDataInput {
   final String username;
@@ -39,7 +33,7 @@ class SignupInput extends SafeHttpDataInput {
         "username": username,
         "password": password,
         "photo": photo,
-        "gender": GenderStringMapping[gender],
+        "gender": gender,
         "birth": birth,
         "phoneNumber": phoneNumber,
         "email": email,
@@ -47,8 +41,6 @@ class SignupInput extends SafeHttpDataInput {
         "agreeRequiredTerms": agreeRequiredTerms,
         "agreeMarketingTerms": agreeMarketingTerms,
       };
-
-  Map<String, String>? getUrlParams() => null;
 }
 
 class SignupOutput extends SafeHttpDataOutput {
