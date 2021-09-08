@@ -25,6 +25,32 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
   bool hasDuplicate = false;
   bool checkedDuplicate = false;
 
+  void setId(String id) => setState(() {
+        username = id;
+      });
+  void setPassword(String pw) => setState(() {
+        password = pw;
+      });
+  void setPasswordConfirm(String pwConfirm) => setState(() {
+        passwordConfirm = pwConfirm;
+      });
+  void _showDialog(String content) {
+    tbShowDialog(
+        context,
+        TBSimpleDialog(
+          title: "알림",
+          body: Text(content,
+              style: const TextStyle(
+                  color: const Color(0xbf707070),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 14.0),
+              textAlign: TextAlign.center),
+          isBackEnabled: false,
+        ));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,30 +80,6 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
   }
 
   Column buildIdInput() {
-    void setId(String id) {
-      setState(() {
-        username = id;
-      });
-    }
-
-    Future<void> checkDuplicacy() async {
-      try {
-        bool _hasDuplicate = await checkIfIdHasDuplicate(username);
-        if (_hasDuplicate) {
-          _showDialog("ID가 중복되어 사용할 수 없습니다");
-        } else {
-          _showDialog("사용할 수 있는 아이디입니다");
-        }
-        setState(() {
-          hasDuplicate = _hasDuplicate;
-          checkedDuplicate = true;
-        });
-      } catch (e) {
-        _showDialog("예상치 못한 오류가 발생했습니다: ${e.toString().substring(0, 50)}...");
-        print(e);
-      }
-    }
-
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         children: [
@@ -140,12 +142,6 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
   }
 
   Column buildPasswordInput() {
-    void setPassword(String pw) {
-      setState(() {
-        password = pw;
-      });
-    }
-
     return Column(
       children: [
         CustomTextField(
@@ -180,12 +176,6 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
   }
 
   Column buildPasswordConfirmInput() {
-    void setPasswordConfirm(String pwConfirm) {
-      setState(() {
-        passwordConfirm = pwConfirm;
-      });
-    }
-
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       CustomTextField(
         isPasswordField: true,
@@ -218,55 +208,6 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
   }
 
   TextButton buildSigninButton(BuildContext context) {
-    bool validate() {
-      RegExp numericExp = RegExp(r'[0-9]+');
-      RegExp alphabetExp = RegExp(r'[a-zA-Z]');
-      RegExp specialCharExp = RegExp(r'[^a-zA-Z0-9]');
-      if (numericExp.hasMatch(username) &&
-          alphabetExp.hasMatch(username) &&
-          username.length >= 6) {
-        setState(() {
-          invalidUsername = false;
-        });
-      } else {
-        setState(() {
-          invalidUsername = true;
-        });
-      }
-      if (numericExp.hasMatch(password) &&
-          alphabetExp.hasMatch(password) &&
-          specialCharExp.hasMatch(password) &&
-          password.length >= 8) {
-        setState(() {
-          invalidPassword = false;
-        });
-      } else {
-        setState(() {
-          invalidPassword = true;
-        });
-      }
-      if (password == passwordConfirm) {
-        setState(() {
-          invalidPasswordConfirm = false;
-        });
-      } else {
-        setState(() {
-          invalidPasswordConfirm = true;
-        });
-      }
-      if (!invalidUsername && !invalidPassword && !invalidPasswordConfirm) {
-        return true; // valid form submission
-      }
-      if (!checkedDuplicate) {
-        _showDialog("ID 중복 확인을 해주세요");
-        return false;
-      }
-      if (hasDuplicate) {
-        _showDialog("중복되지 않는 ID로 변경해주세요");
-      }
-      return false; // not valid form submission
-    }
-
     SignInModel signinHandler = Provider.of<SignInModel>(context);
 
     return TextButton(
@@ -302,23 +243,6 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
             )));
   }
 
-  void _showDialog(String content) {
-    tbShowDialog(
-        context,
-        TBSimpleDialog(
-          title: "알림",
-          body: Text(content,
-              style: const TextStyle(
-                  color: const Color(0xbf707070),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 14.0),
-              textAlign: TextAlign.center),
-          isBackEnabled: false,
-        ));
-  }
-
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
         backgroundColor: Colors.white,
@@ -338,5 +262,72 @@ class _SigninViewState extends State<SigninView> with SigninLoader {
                 fontStyle: FontStyle.normal,
                 fontSize: 16.0 * pt),
             textAlign: TextAlign.left));
+  }
+
+  Future<void> checkDuplicacy() async {
+    try {
+      bool _hasDuplicate = await checkIfIdHasDuplicate(username);
+      if (_hasDuplicate) {
+        _showDialog("ID가 중복되어 사용할 수 없습니다");
+      } else {
+        _showDialog("사용할 수 있는 아이디입니다");
+      }
+      setState(() {
+        hasDuplicate = _hasDuplicate;
+        checkedDuplicate = true;
+      });
+    } catch (e) {
+      _showDialog("예상치 못한 오류가 발생했습니다: ${e.toString().substring(0, 50)}...");
+      print(e);
+    }
+  }
+
+  bool validate() {
+    RegExp numericExp = RegExp(r'[0-9]+');
+    RegExp alphabetExp = RegExp(r'[a-zA-Z]');
+    RegExp specialCharExp = RegExp(r'[^a-zA-Z0-9]');
+    if (!checkedDuplicate) {
+      _showDialog("ID 중복 확인을 해주세요");
+      return false;
+    }
+    if (numericExp.hasMatch(username) &&
+        alphabetExp.hasMatch(username) &&
+        username.length >= 6) {
+      setState(() {
+        invalidUsername = false;
+      });
+    } else {
+      setState(() {
+        invalidUsername = true;
+      });
+    }
+    if (numericExp.hasMatch(password) &&
+        alphabetExp.hasMatch(password) &&
+        specialCharExp.hasMatch(password) &&
+        password.length >= 8) {
+      setState(() {
+        invalidPassword = false;
+      });
+    } else {
+      setState(() {
+        invalidPassword = true;
+      });
+    }
+    if (password == passwordConfirm) {
+      setState(() {
+        invalidPasswordConfirm = false;
+      });
+    } else {
+      setState(() {
+        invalidPasswordConfirm = true;
+      });
+    }
+    if (!invalidUsername && !invalidPassword && !invalidPasswordConfirm) {
+      return true; // valid form submission
+    }
+    if (hasDuplicate) {
+      _showDialog("중복되지 않는 ID로 변경해주세요");
+    }
+    return false; // not valid form submission
   }
 }

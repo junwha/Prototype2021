@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/editor/custom_text_field.dart';
-import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_4.dart';
 
 class SigninView3 extends StatefulWidget {
@@ -11,14 +10,12 @@ class SigninView3 extends StatefulWidget {
   _SigninView3State createState() => _SigninView3State();
 }
 
-enum Gender { MALE, FEMALE, OTHER }
-
 class _SigninView3State extends State<SigninView3> {
   List<bool> isChecked = [false, true];
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool isChecked3 = false;
-  Gender _genderValue = Gender.MALE;
+  Gender _genderValue = Gender.M;
 
   void _changeisChecked1(bool value) => setState(() => isChecked1 = value);
   @override
@@ -56,7 +53,7 @@ class _SigninView3State extends State<SigninView3> {
                           fontSize: 18),
                     ),
                     controlAffinity: ListTileControlAffinity.trailing,
-                    value: Gender.MALE,
+                    value: Gender.M,
                     groupValue: _genderValue,
                     onChanged: (Gender? value) {
                       setState(() {
@@ -73,7 +70,7 @@ class _SigninView3State extends State<SigninView3> {
                           fontSize: 18),
                     ),
                     controlAffinity: ListTileControlAffinity.trailing,
-                    value: Gender.FEMALE,
+                    value: Gender.F,
                     groupValue: _genderValue,
                     onChanged: (Gender? value) {
                       setState(() {
@@ -90,7 +87,7 @@ class _SigninView3State extends State<SigninView3> {
                           fontSize: 18),
                     ),
                     controlAffinity: ListTileControlAffinity.trailing,
-                    value: Gender.OTHER,
+                    value: Gender.None,
                     groupValue: _genderValue,
                     onChanged: (Gender? value) {
                       setState(() {

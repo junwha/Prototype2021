@@ -1,17 +1,57 @@
-import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
+import 'package:prototype2021/model/state_manager.dart';
 
-class SignInModel with ChangeNotifier {
+class SignInModel extends StateManager {
   String _username = "";
   String _password = "";
+  PickedFile? _photo;
+  String _nickname = "";
+  Gender _gender = Gender.M;
+  DateTime _birth = DateTime(1999, 1, 1);
+  // email or phone number
+  String _verifier = "";
+  bool _agreeRequiredTerms = false;
+  bool _agreeMarketingTerms = false;
 
   String get username => _username;
   String get password => _password;
+  PickedFile? get photo => _photo;
+  String get nickname => _nickname;
+  Gender get gender => _gender;
+  DateTime get birth => _birth;
+  String get verifier => _verifier;
+  bool get agreeRequiredTerms => _agreeRequiredTerms;
+  bool get agreeMarketingTerms => _agreeMarketingTerms;
 
-  void setCredentials(String username, String password) {
-    _username = username;
-    _password = password;
-    notifyListeners();
-  }
+  void setCredentials(String username, String password) => setState(() {
+        _username = username;
+        _password = password;
+      });
+
+  void setPhoto(PickedFile photo) => setState(() {
+        _photo = photo;
+      });
+
+  void setNickname(String nickname) => setState(() {
+        _nickname = nickname;
+      });
+
+  void setGender(Gender gender) => setState(() {
+        _gender = gender;
+      });
+
+  void setBirth(DateTime birth) => setState(() {
+        _birth = birth;
+      });
+
+  void setAgreeRequiredTerms(bool agreeRequiredTerms) => setState(() {
+        _agreeRequiredTerms = agreeRequiredTerms;
+      });
+
+  void setAgreeMarketingTerms(bool agreeMarketingTerms) => setState(() {
+        _agreeMarketingTerms = agreeMarketingTerms;
+      });
 
   /* 
    * This method is just for readability purpose
