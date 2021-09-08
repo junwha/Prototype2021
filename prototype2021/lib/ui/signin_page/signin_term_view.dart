@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/theme/signin/widgets.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_2.dart';
+import 'package:provider/provider.dart';
 
-class SigninView1 extends StatefulWidget {
-  const SigninView1({Key? key}) : super(key: key);
+class SigninTermView extends StatefulWidget {
+  const SigninTermView({Key? key}) : super(key: key);
 
   @override
-  _SigninView1State createState() => _SigninView1State();
+  _SigninTermViewState createState() => _SigninTermViewState();
 }
 
 enum VerificationMethod { Phone, Email }
 
-class _SigninView1State extends State<SigninView1> {
+class _SigninTermViewState extends State<SigninTermView>
+    with SignInViewWidgets {
   VerificationMethod verificationMethod = VerificationMethod.Phone;
   bool firstTermChecked = false;
   bool secondTermChecked = false;
@@ -80,7 +85,7 @@ class _SigninView1State extends State<SigninView1> {
   Widget build(BuildContext context) {
     return Scaffold(
       drawerScrimColor: Colors.white,
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0 * pt, 36 * pt, 15 * pt, 0),
         child: Column(
@@ -123,40 +128,30 @@ class _SigninView1State extends State<SigninView1> {
             SizedBox(
               height: 100,
             ),
-            buildNextButton(),
+            buildNextButton(context),
           ],
         ),
       ),
     );
   }
 
-  TextButton buildNextButton() {
+  TextButton buildNextButton(BuildContext context) {
     String methodToString =
         verificationMethod == VerificationMethod.Email ? "이메일" : "휴대폰";
-    return TextButton(
-        onPressed: () {
-          Navigator.push(
+    SignInModel signInModel = Provider.of<SignInModel>(context);
+    void onPressed() {
+      if (processToNext()) {
+        Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => SigninView2()),
-          );
-        },
-        child: Container(
-            child: Center(
-              child: Text(
-                "$methodToString 인증",
-                style: const TextStyle(
-                    color: const Color(0xffffffff),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
-              ),
-            ),
-            width: 400,
-            height: 67,
-            decoration: BoxDecoration(
-              color: const Color(0xff4080ff),
-            )));
+            MaterialPageRoute(
+                builder: (_) => ChangeNotifierProvider(
+                    create: (_) => signInModel.inherit(),
+                    child: SigninView2())));
+      }
+    }
+
+    return buildSigninButton(context,
+        onPressed: onPressed, text: "$methodToString 인증");
   }
 
   OutlinedButton buildMethodTabButton(
@@ -193,24 +188,18 @@ class _SigninView1State extends State<SigninView1> {
     );
   }
 
-  AppBar buildAppBar() {
-    return AppBar(
-        backgroundColor: Colors.white,
-        shadowColor: Colors.white,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text("회원가입",
-            style: const TextStyle(
-                color: const Color(0xff000000),
-                fontWeight: FontWeight.w400,
-                fontFamily: "Roboto",
-                fontStyle: FontStyle.normal,
-                fontSize: 16.0 * pt),
-            textAlign: TextAlign.left));
+  bool processToNext() {
+    SignInModel signInModel = Provider.of<SignInModel>(context);
+    signInModel.setMethod(verificationMethod);
+    if (firstTermChecked && secondTermChecked) {
+      signInModel.setAgreeRequiredTerms(true);
+    } else {
+      tbShowTextDialog(context, "회원가입을 하려면 필수 약관에 동의하셔야 합니다");
+      return false;
+    }
+    if (thirdTermChecked) {
+      signInModel.setAgreeMarketingTerms(true);
+    }
+    return true;
   }
 }

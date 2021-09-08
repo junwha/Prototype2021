@@ -1,6 +1,7 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/model/state_manager.dart';
+import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
 
 class SignInModel extends StateManager {
   String _username = "";
@@ -13,6 +14,7 @@ class SignInModel extends StateManager {
   String _verifier = "";
   bool _agreeRequiredTerms = false;
   bool _agreeMarketingTerms = false;
+  VerificationMethod _method = VerificationMethod.Phone;
 
   String get username => _username;
   String get password => _password;
@@ -23,6 +25,7 @@ class SignInModel extends StateManager {
   String get verifier => _verifier;
   bool get agreeRequiredTerms => _agreeRequiredTerms;
   bool get agreeMarketingTerms => _agreeMarketingTerms;
+  VerificationMethod get method => _method;
 
   void setCredentials(String username, String password) => setState(() {
         _username = username;
@@ -51,6 +54,10 @@ class SignInModel extends StateManager {
 
   void setAgreeMarketingTerms(bool agreeMarketingTerms) => setState(() {
         _agreeMarketingTerms = agreeMarketingTerms;
+      });
+
+  void setMethod(VerificationMethod method) => setState(() {
+        _method = method;
       });
 
   /* 
