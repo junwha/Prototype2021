@@ -3,7 +3,7 @@ import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_2.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
 import 'package:provider/provider.dart';
 
 class SigninTermView extends StatefulWidget {
@@ -146,7 +146,7 @@ class _SigninTermViewState extends State<SigninTermView>
             MaterialPageRoute(
                 builder: (_) => ChangeNotifierProvider(
                     create: (_) => signInModel.inherit(),
-                    child: SigninView2())));
+                    child: SigninViewProfileMain())));
       }
     }
 

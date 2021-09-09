@@ -24,17 +24,23 @@ mixin SignInViewWidgets {
             textAlign: TextAlign.left));
   }
 
-  Column buildSignInInput(BuildContext context,
-      {required String hintText,
-      required void Function(String) onTextChange,
-      required bool onError,
-      bool hasActionButton = false,
-      String actionButtonText = "",
-      bool showUnderText = false,
-      bool isPasswordField = false,
-      String? underText,
-      String? extraUnderText,
-      void Function()? onActionButtonPressed}) {
+  Column buildSignInInput(
+    BuildContext context, {
+    required String hintText,
+    required void Function(String) onTextChange,
+    required bool onError,
+    bool hasActionButton = false,
+    String actionButtonText = "",
+    bool showUnderText = false,
+    bool isPasswordField = false,
+    bool underline = false,
+    bool disabled = false,
+    String? underText,
+    String? extraUnderText,
+    void Function()? onActionButtonPressed,
+    void Function()? onUnderTextPressed,
+    Widget? extraInputWidget,
+  }) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Row(
         children: [
@@ -50,6 +56,8 @@ mixin SignInViewWidgets {
                   hintText: hintText,
                   onChanged: onTextChange,
                   onError: onError,
+                  extraActionsWidget: extraInputWidget,
+                  disabled: disabled,
                 )),
             flex: hasActionButton ? 5 : 1,
           ),
@@ -85,11 +93,15 @@ mixin SignInViewWidgets {
           buildUnderTextSection(
               underText: underText,
               onError: onError,
-              showUnderText: showUnderText),
+              showUnderText: showUnderText,
+              underline: underline,
+              onPressed: onUnderTextPressed),
           buildUnderTextSection(
               underText: extraUnderText,
               onError: onError,
-              showUnderText: showUnderText)
+              showUnderText: showUnderText,
+              underline: underline,
+              onPressed: onUnderTextPressed)
         ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -97,35 +109,42 @@ mixin SignInViewWidgets {
     ]);
   }
 
-  Widget buildUnderTextSection(
-      {required String? underText,
-      bool onError = false,
-      bool showUnderText = true}) {
+  Widget buildUnderTextSection({
+    required String? underText,
+    bool onError = false,
+    bool showUnderText = true,
+    bool underline = false,
+    void Function()? onPressed,
+  }) {
     if (underText != null) {
       if (showUnderText || onError) {
-        return buildUnderText(underText, onError);
+        return buildUnderText(underText, onError, underline, onPressed);
       }
     }
     return SizedBox();
   }
 
-  Text buildUnderText(String underText, bool onError) {
-    return Text(
-      underText,
-      style: TextStyle(
-        color: onError ? const Color(0xffff3120) : Color(0xff999999),
-        fontSize: 10 * pt,
-        fontFamily: 'Roboto',
-        shadows: [
-          BoxShadow(
-            color: Color(0x29000000),
-            offset: Offset(0, 0),
-            blurRadius: 1,
-            spreadRadius: 0,
-          ),
-        ],
-      ),
-    );
+  TextButton buildUnderText(String underText, bool onError, bool underline,
+      void Function()? onPressed) {
+    return TextButton(
+        onPressed: onPressed,
+        child: Text(
+          underText,
+          style: TextStyle(
+              color: onError ? const Color(0xffff3120) : Color(0xff999999),
+              fontSize: 10 * pt,
+              fontFamily: 'Roboto',
+              shadows: [
+                BoxShadow(
+                  color: Color(0x29000000),
+                  offset: Offset(0, 0),
+                  blurRadius: 1,
+                  spreadRadius: 0,
+                ),
+              ],
+              decoration:
+                  underline ? TextDecoration.underline : TextDecoration.none),
+        ));
   }
 
   TextButton buildSigninButton(

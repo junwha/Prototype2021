@@ -6,14 +6,14 @@ import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
 
-class SigninView2 extends StatefulWidget {
-  const SigninView2({Key? key}) : super(key: key);
+class SigninViewProfileMain extends StatefulWidget {
+  const SigninViewProfileMain({Key? key}) : super(key: key);
 
   @override
-  _SigninView2State createState() => _SigninView2State();
+  _SigninViewProfileMainState createState() => _SigninViewProfileMainState();
 }
 
-class _SigninView2State extends State<SigninView2> {
+class _SigninViewProfileMainState extends State<SigninViewProfileMain> {
   PickedFile? _image;
   List<bool> isChecked = [false, true];
   bool isChecked1 = false;

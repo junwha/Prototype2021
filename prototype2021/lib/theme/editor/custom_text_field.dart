@@ -8,6 +8,7 @@ class CustomTextField extends StatefulWidget {
   final bool isPasswordField;
   final bool onError;
   final Widget? extraActionsWidget;
+  final bool disabled;
 
   CustomTextField({
     required this.hintText,
@@ -17,6 +18,7 @@ class CustomTextField extends StatefulWidget {
     this.isPasswordField = false,
     this.onError = false,
     this.extraActionsWidget,
+    this.disabled = false,
   });
 
   @override
@@ -67,6 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             obscureText: this.widget.isPasswordField ? this.isObscure : false,
             keyboardType: TextInputType.multiline,
             enableInteractiveSelection: false,
+            readOnly: this.widget.disabled,
           ),
         ),
         Container(

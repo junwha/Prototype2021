@@ -12,6 +12,7 @@ class SignInModel extends StateManager {
   DateTime _birth = DateTime(1999, 1, 1);
   // email or phone number
   String _verifier = "";
+  String _signinToken = "";
   bool _agreeRequiredTerms = false;
   bool _agreeMarketingTerms = false;
   VerificationMethod _method = VerificationMethod.Phone;
@@ -23,6 +24,7 @@ class SignInModel extends StateManager {
   Gender get gender => _gender;
   DateTime get birth => _birth;
   String get verifier => _verifier;
+  String get signinToken => _signinToken;
   bool get agreeRequiredTerms => _agreeRequiredTerms;
   bool get agreeMarketingTerms => _agreeMarketingTerms;
   VerificationMethod get method => _method;
@@ -46,6 +48,14 @@ class SignInModel extends StateManager {
 
   void setBirth(DateTime birth) => setState(() {
         _birth = birth;
+      });
+
+  void setVerifier(String verifier) => setState(() {
+        _verifier = verifier;
+      });
+
+  void setSigninToken(String signinToken) => setState(() {
+        _signinToken = signinToken;
       });
 
   void setAgreeRequiredTerms(bool agreeRequiredTerms) => setState(() {
