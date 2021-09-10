@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
+import 'package:prototype2021/ui/signin_page/signin_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_verification.dart';
 import 'package:provider/provider.dart';
 
 class SigninTermView extends StatefulWidget {
@@ -16,7 +18,7 @@ class SigninTermView extends StatefulWidget {
 enum VerificationMethod { Phone, Email }
 
 class _SigninTermViewState extends State<SigninTermView>
-    with SignInViewWidgets {
+    with SignInViewWidgets, SigninViewHelper {
   VerificationMethod verificationMethod = VerificationMethod.Phone;
   bool firstTermChecked = false;
   bool secondTermChecked = false;
@@ -47,45 +49,11 @@ class _SigninTermViewState extends State<SigninTermView>
     }
   }
 
-  Row buildTermCheckbox(
-      {required bool isChecked,
-      required String text,
-      required void Function(bool?)? onCheckboxTap,
-      required void Function()? onDetailTap}) {
-    return Row(
-      children: [
-        Checkbox(
-          value: isChecked,
-          onChanged: onCheckboxTap,
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            color: Color(0xff444444),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        SizedBox(
-          width: 93,
-        ),
-        TextButton(
-            onPressed: onDetailTap,
-            child: Text("전체보기",
-                style: TextStyle(
-                  color: Color(0xff555555),
-                  fontSize: 12,
-                  fontFamily: 'Roboto',
-                  decoration: TextDecoration.underline,
-                )))
-      ],
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawerScrimColor: Colors.white,
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, shouldPopTo: SigninView),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0 * pt, 36 * pt, 15 * pt, 0),
         child: Column(
@@ -135,18 +103,53 @@ class _SigninTermViewState extends State<SigninTermView>
     );
   }
 
+  Row buildTermCheckbox(
+      {required bool isChecked,
+      required String text,
+      required void Function(bool?)? onCheckboxTap,
+      required void Function()? onDetailTap}) {
+    return Row(
+      children: [
+        Row(
+          children: [
+            Checkbox(
+              value: isChecked,
+              onChanged: onCheckboxTap,
+            ),
+            Text(
+              text,
+              style: TextStyle(
+                color: Color(0xff444444),
+                fontFamily: 'Roboto',
+              ),
+            ),
+          ],
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
+        ),
+        TextButton(
+            onPressed: onDetailTap,
+            child: Text("전체보기",
+                style: TextStyle(
+                  color: Color(0xff555555),
+                  fontSize: 12,
+                  fontFamily: 'Roboto',
+                  decoration: TextDecoration.underline,
+                )))
+      ],
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
+    );
+  }
+
   TextButton buildNextButton(BuildContext context) {
     String methodToString =
         verificationMethod == VerificationMethod.Email ? "이메일" : "휴대폰";
     SignInModel signInModel = Provider.of<SignInModel>(context);
     void onPressed() {
-      if (processToNext()) {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (_) => ChangeNotifierProvider(
-                    create: (_) => signInModel.inherit(),
-                    child: SigninViewProfileMain())));
+      if (processToNext(signInModel)) {
+        navigateToNext(context,
+            model: signInModel, child: SignInViewVerification());
       }
     }
 
@@ -188,8 +191,7 @@ class _SigninTermViewState extends State<SigninTermView>
     );
   }
 
-  bool processToNext() {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+  bool processToNext(SignInModel signInModel) {
     signInModel.setMethod(verificationMethod);
     if (firstTermChecked && secondTermChecked) {
       signInModel.setAgreeRequiredTerms(true);

@@ -5,8 +5,10 @@ import 'package:prototype2021/loader/signin_loader.dart';
 import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
 import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
 import 'package:provider/provider.dart';
 
 class SignInViewVerification extends StatefulWidget {
@@ -17,7 +19,7 @@ class SignInViewVerification extends StatefulWidget {
 }
 
 class _SignInViewVerificationState extends State<SignInViewVerification>
-    with SignInViewWidgets, SigninLoader {
+    with SignInViewWidgets, SigninViewHelper, SigninLoader {
   Timer? timer;
   int remain = 60 * 5;
 
@@ -56,24 +58,29 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
         credential = _credential;
       });
   void setVerificationCode(String _verificationCode) => setState(() {
-        verificationCode = _verificationCode as int;
+        verificationCode = int.parse(_verificationCode);
       });
   void setVerificationToken(String _verificationToken) => setState(() {
         verificationToken = _verificationToken;
       });
 
   Future<void> Function() requestVerificationFactory(
-          VerificationMethod method) =>
-      () async {
-        try {
-          String _verificationToken = await requestAuth(credential, method);
-          setVerificationToken(_verificationToken);
-          startTimer();
-        } catch (error) {
-          tbShowTextDialog(context,
-              "예기치 못한 에러가 발생했습니다: ${error.toString().substring(0, 30)}...");
-        }
-      };
+      VerificationMethod method) {
+    String modeToString = method == VerificationMethod.Email ? "이메일을" : "메시지를";
+    String alertMessage = "인증번호가 발송되었습니다. $modeToString 확인해주세요";
+    return () async {
+      try {
+        // String _verificationToken = await requestAuth(credential, method);
+        // setVerificationToken(_verificationToken);
+        setCodeSended(true);
+        startTimer();
+        tbShowTextDialog(context, alertMessage);
+      } catch (error) {
+        tbShowTextDialog(context,
+            "예기치 못한 에러가 발생했습니다: ${error.toString().substring(0, 30)}...");
+      }
+    };
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +88,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
     String modeToString =
         signInModel.method == VerificationMethod.Email ? "이메일을" : "전화번호를";
     return Scaffold(
-        appBar: buildAppBar(context),
+        appBar: buildAppBar(context, shouldPopTo: SigninTermView),
         body: Padding(
             padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
             child: Column(
@@ -125,7 +132,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
     return Container(
         alignment: Alignment.center,
         height: 75,
-        width: 100,
+        padding: EdgeInsets.only(right: 20),
         child: Text(timeFormatter(remain),
             style: const TextStyle(
                 color: const Color(0xffff3120),
@@ -141,8 +148,11 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
     return Container(
       width: 410,
       height: 70,
+      margin: EdgeInsets.only(top: 80),
       alignment: Alignment.center,
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           buildSigninButton(context,
               onPressed: () => setCodeSended(false),
@@ -153,10 +163,12 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
               half: true),
           buildSigninButton(context, onPressed: () async {
             try {
-              String _signinToken = await requestCodeVerification(
-                  verificationToken, verificationCode);
-              signInModel.setSigninToken(_signinToken);
-              signInModel.setVerifier(credential);
+              // String _signinToken = await requestCodeVerification(
+              //     verificationToken, verificationCode);
+              // signInModel.setSigninToken(_signinToken);
+              // signInModel.setVerifier(credential);
+              navigateToNext(context,
+                  model: signInModel, child: SigninViewProfileMain());
             } catch (error) {
               tbShowTextDialog(context,
                   "예기치 못한 에러가 발생했습니다: ${error.toString().substring(0, 30)}...");
@@ -169,7 +181,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
 
   String timeFormatter(int timeInSec) {
     int minute = (timeInSec / 60).floor();
-    int second = remain - timeInSec * 60;
+    int second = remain - minute * 60;
     String formatter(int intToFormat) => intToFormat.toString().length == 1
         ? "0${intToFormat.toString()}"
         : intToFormat.toString();

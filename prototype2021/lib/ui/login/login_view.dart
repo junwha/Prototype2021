@@ -21,7 +21,7 @@ class _LoginViewState extends State<LoginView> {
     return Scaffold(
         appBar: buildAppBar(),
         body: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             child: ChangeNotifierProvider(
               create: (context) => LoginModel(),
               child: Consumer(builder: (context, LoginModel loginModel, child) {
@@ -134,7 +134,7 @@ class _LoginViewState extends State<LoginView> {
                             ))),
                     buildSocialLoginButtons(),
                     SizedBox(
-                      height: 60,
+                      height: 40,
                     ),
                     buildFindIDPW(),
                     buildSignin(),

@@ -1,9 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
+import 'package:prototype2021/ui/login/login_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_birth.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_gender.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_verification.dart';
+import 'package:provider/provider.dart';
+
+final _shouldPopTo = <Type, Widget Function()>{
+  LoginView: () => LoginView(),
+  SigninView: () => SigninView(),
+  SigninTermView: () => SigninTermView(),
+  SignInViewVerification: () => SignInViewVerification(),
+  SigninViewProfileMain: () => SigninViewProfileMain(),
+  SigninViewGender: () => SigninViewGender(),
+  SigninViewBirth: () => SigninViewBirth(),
+};
 
 mixin SignInViewWidgets {
-  AppBar buildAppBar(BuildContext context) {
+  AppBar buildAppBar(BuildContext context, {required Type shouldPopTo}) {
+    SignInModel signInModel = Provider.of<SignInModel>(context);
     return AppBar(
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
@@ -11,7 +31,12 @@ mixin SignInViewWidgets {
         leading: IconButton(
           icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (_) => ChangeNotifierProvider(
+                        create: (_) => signInModel.inherit(),
+                        child: _shouldPopTo[shouldPopTo]!())));
           },
         ),
         title: Text("회원가입",
@@ -60,6 +85,7 @@ mixin SignInViewWidgets {
                   disabled: disabled,
                 )),
             flex: hasActionButton ? 5 : 1,
+            fit: hasActionButton ? FlexFit.loose : FlexFit.tight,
           ),
           hasActionButton
               ? Flexible(
@@ -104,7 +130,7 @@ mixin SignInViewWidgets {
               onPressed: onUnderTextPressed)
         ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
       )
     ]);
   }
@@ -124,27 +150,28 @@ mixin SignInViewWidgets {
     return SizedBox();
   }
 
-  TextButton buildUnderText(String underText, bool onError, bool underline,
+  GestureDetector buildUnderText(String underText, bool onError, bool underline,
       void Function()? onPressed) {
-    return TextButton(
-        onPressed: onPressed,
-        child: Text(
-          underText,
-          style: TextStyle(
-              color: onError ? const Color(0xffff3120) : Color(0xff999999),
-              fontSize: 10 * pt,
-              fontFamily: 'Roboto',
-              shadows: [
-                BoxShadow(
-                  color: Color(0x29000000),
-                  offset: Offset(0, 0),
-                  blurRadius: 1,
-                  spreadRadius: 0,
-                ),
-              ],
-              decoration:
-                  underline ? TextDecoration.underline : TextDecoration.none),
-        ));
+    return GestureDetector(
+      onTap: onPressed,
+      child: Text(
+        underText,
+        style: TextStyle(
+            color: onError ? const Color(0xffff3120) : Color(0xff999999),
+            fontSize: 10 * pt,
+            fontFamily: 'Roboto',
+            shadows: [
+              BoxShadow(
+                color: Color(0x29000000),
+                offset: Offset(0, 0),
+                blurRadius: 1,
+                spreadRadius: 0,
+              ),
+            ],
+            decoration:
+                underline ? TextDecoration.underline : TextDecoration.none),
+      ),
+    );
   }
 
   TextButton buildSigninButton(
@@ -152,7 +179,7 @@ mixin SignInViewWidgets {
     required void Function()? onPressed,
     required String text,
     bool half = false,
-    double gap = 5,
+    double gap = 1,
     Color? backgroundColor,
     Color? textColor,
     Color? borderColor,
@@ -171,7 +198,7 @@ mixin SignInViewWidgets {
                     fontSize: 20.0),
               ),
             ),
-            width: half ? 200 - gap : 400,
+            width: half ? 160 : 400,
             height: 67,
             margin:
                 half ? EdgeInsets.symmetric(horizontal: gap) : EdgeInsets.zero,

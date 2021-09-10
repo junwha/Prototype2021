@@ -3,7 +3,9 @@ import 'package:prototype2021/loader/signin_loader.dart';
 import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
+import 'package:prototype2021/ui/login/login_view.dart';
 
 import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +18,7 @@ class SigninView extends StatefulWidget {
 }
 
 class _SigninViewState extends State<SigninView>
-    with SigninLoader, SignInViewWidgets {
+    with SigninLoader, SignInViewWidgets, SigninViewHelper {
   String username = "";
   String password = "";
   String passwordConfirm = "";
@@ -39,7 +41,7 @@ class _SigninViewState extends State<SigninView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context, shouldPopTo: LoginView),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
         child: Column(
@@ -86,18 +88,12 @@ class _SigninViewState extends State<SigninView>
   }
 
   TextButton buildNextButton(BuildContext context) {
-    SignInModel signinHandler = Provider.of<SignInModel>(context);
+    SignInModel signinModel = Provider.of<SignInModel>(context);
     void onPressed() {
       bool isValid = validate();
       if (isValid) {
-        signinHandler.setCredentials(username, password);
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => ChangeNotifierProvider(
-                  create: (_) => signinHandler.inherit(),
-                  child: SigninTermView())),
-        );
+        signinModel.setCredentials(username, password);
+        navigateToNext(context, model: signinModel, child: SigninTermView());
       }
     }
 

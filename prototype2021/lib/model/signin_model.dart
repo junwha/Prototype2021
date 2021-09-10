@@ -6,7 +6,7 @@ import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
 class SignInModel extends StateManager {
   String _username = "";
   String _password = "";
-  PickedFile? _photo;
+  XFile? _photo;
   String _nickname = "";
   Gender _gender = Gender.M;
   DateTime _birth = DateTime(1999, 1, 1);
@@ -19,7 +19,7 @@ class SignInModel extends StateManager {
 
   String get username => _username;
   String get password => _password;
-  PickedFile? get photo => _photo;
+  XFile? get photo => _photo;
   String get nickname => _nickname;
   Gender get gender => _gender;
   DateTime get birth => _birth;
@@ -34,7 +34,7 @@ class SignInModel extends StateManager {
         _password = password;
       });
 
-  void setPhoto(PickedFile photo) => setState(() {
+  void setPhoto(XFile photo) => setState(() {
         _photo = photo;
       });
 
