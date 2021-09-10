@@ -5,11 +5,10 @@ class AuthVerificationInput extends SafeHttpDataInput {
 
   AuthVerificationInput({required this.verificationCode});
 
+  @override
   Map<String, dynamic> toJson() => {
         "verification_code": verificationCode,
       };
-
-  Map<String, String>? getUrlParams() => null;
 }
 
 class AuthVerificationOutput extends SafeHttpDataOutput {
@@ -27,8 +26,8 @@ class IdVerificationInput extends SafeHttpDataInput {
   final String id;
 
   IdVerificationInput({required this.id});
-  Map<String, dynamic>? toJson() => null;
 
+  @override
   Map<String, String> getUrlParams() => {
         ":username": id,
       };

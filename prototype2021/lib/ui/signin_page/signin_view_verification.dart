@@ -70,14 +70,18 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
     String alertMessage = "인증번호가 발송되었습니다. $modeToString 확인해주세요";
     return () async {
       try {
+        if (!validate(method)) {
+          tbShowTextDialog(context,
+              "올바르지 않은 ${modeToString.substring(0, modeToString.length - 1)}}입니다");
+          return;
+        }
         // String _verificationToken = await requestAuth(credential, method);
         // setVerificationToken(_verificationToken);
         setCodeSended(true);
         startTimer();
         tbShowTextDialog(context, alertMessage);
       } catch (error) {
-        tbShowTextDialog(context,
-            "예기치 못한 에러가 발생했습니다: ${error.toString().substring(0, 30)}...");
+        tbShowTextDialog(context, generateErrorText(error));
       }
     };
   }
@@ -93,9 +97,10 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
             padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
             child: Column(
               children: [
-                buildSignInInput(context,
-                    hintText: "$modeToString 입력해주세요",
-                    onTextChange: setCredential,
+                buildSignInInput(context, hintText: "$modeToString 입력해주세요",
+                    onTextChange: (String text) {
+                  setCredential(text);
+                },
                     onError: false,
                     showUnderText: false,
                     underText: "올바른 $modeToString 입력해주세요",
@@ -170,13 +175,39 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
               navigateToNext(context,
                   model: signInModel, child: SigninViewProfileMain());
             } catch (error) {
-              tbShowTextDialog(context,
-                  "예기치 못한 에러가 발생했습니다: ${error.toString().substring(0, 30)}...");
+              tbShowTextDialog(context, generateErrorText(error));
             }
           }, text: "확인", half: true)
         ],
       ),
     );
+  }
+
+  bool validate(VerificationMethod method) {
+    if (method == VerificationMethod.Email && validateEmail(credential)) {
+      return true;
+    }
+    if (method == VerificationMethod.Phone && validatePhoneNumber(credential)) {
+      return true;
+    }
+    return false;
+  }
+
+  bool validateEmail(String rawEmail) {
+    String pattern =
+        r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
+        r"{0,253}[a-zA-Z0-9])?)*$";
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(rawEmail)) return false;
+    return true;
+  }
+
+  bool validatePhoneNumber(String rawPhoneNumber) {
+    String pattern = r"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
+    RegExp regex = new RegExp(pattern);
+    if (!regex.hasMatch(rawPhoneNumber)) return false;
+    return true;
   }
 
   String timeFormatter(int timeInSec) {

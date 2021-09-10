@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/model/safe_http_dto/output_dto_factory.dart';
 
 const Map<String, String> defaultHeaders = {
@@ -13,9 +15,10 @@ const Map<String, String> defaultHeaders = {
  * Use the method below as a dto for params at get, options, delete, etc...
  * and for fetchnig data at post, put, patch, etc...
  */
-abstract class SafeHttpDataInput {
-  Map<String, dynamic>? toJson();
-  Map<String, String>? getUrlParams();
+class SafeHttpDataInput {
+  Map<String, dynamic>? toJson() => null;
+  Map<String, String>? getUrlParams() => null;
+  Map<String, dynamic>? getFiles() => null;
 }
 
 class SafeHttpDataOutput {
@@ -87,7 +90,9 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
       String? token})
       : super(headers: headers, url: url, token: token);
 
-  String getJsonString() => jsonEncode(data.toJson());
+  Map<String, dynamic>? getJson() => data.toJson();
+  Map<String, dynamic>? getFiles() => data.getFiles();
+  String getJsonString() => jsonEncode(getJson());
 
   Uri getUrlWithParams() {
     String urlWithUrlParams = url;

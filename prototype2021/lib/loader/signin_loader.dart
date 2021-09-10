@@ -6,6 +6,7 @@ import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
 import 'package:prototype2021/model/safe_http_dto/post/authentication.dart';
 import 'package:prototype2021/model/safe_http_dto/post/login.dart';
+import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
 
@@ -59,6 +60,22 @@ class SigninLoader {
     throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 
+  Future<int> requestSignup(SignInModel signInModel) async {
+    SignupInput data = new SignupInput(
+        username: signInModel.username,
+        password: signInModel.password,
+        gender: signInModel.gender,
+        birth: signInModel.birth,
+        name: signInModel.nickname,
+        agreeMarketingTerms: signInModel.agreeMarketingTerms,
+        agreeRequiredTerms: signInModel.agreeRequiredTerms);
+    SafeMutationInput<SignupInput> dto =
+        new SafeMutationInput(data: data, url: signUpUrl);
+    SafeMutationOutput<SignupOutput> result = await signup(dto);
+    if (result.success && result.data?.id != null) return result.data!.id;
+    throw HttpException(result.error?.message ?? defaultErrorMessage);
+  }
+
   // Fetching Functions
 
   Future<SafeQueryOutput<IdVerificationOutput>> idVerification(
@@ -75,11 +92,11 @@ class SigninLoader {
 
   Future<SafeQueryOutput<AuthVerificationOutput>> authVerification(
           SafeQueryInput<AuthVerificationInput> dto) async =>
-      safeGET<AuthVerificationInput, AuthVerificationOutput>(dto);
+      await safeGET<AuthVerificationInput, AuthVerificationOutput>(dto);
 
   Future<SafeMutationOutput<SignupOutput>> signup(
           SafeMutationInput<SignupInput> dto) async =>
-      safePOST(dto);
+      await safeMultipartPost(dto);
 
   // Endpoints
 

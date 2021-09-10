@@ -1,5 +1,4 @@
-import 'dart:io';
-
+import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 
 enum Gender { M, F, None }
@@ -13,7 +12,7 @@ const GenderStringMapping = <Gender, String>{
 class SignupInput extends SafeHttpDataInput {
   final String username;
   final String password;
-  final File? photo;
+  final XFile? photo;
   final Gender gender;
   final DateTime birth;
   final String? phoneNumber;
@@ -35,20 +34,41 @@ class SignupInput extends SafeHttpDataInput {
     this.phoneNumber,
   });
 
-  Map<String, dynamic> toJson() => {
-        "username": username,
-        "password": password,
-        "photo": photo,
-        "gender": GenderStringMapping[gender],
-        "birth": birth,
-        "phoneNumber": phoneNumber,
-        "email": email,
-        "name": name,
-        "agreeRequiredTerms": agreeRequiredTerms,
-        "agreeMarketingTerms": agreeMarketingTerms,
-      };
+  @override
+  Map<String, String> toJson() {
+    Map<String, String> baseMap = {
+      "username": username,
+      "password": password,
+      "gender": GenderStringMapping[gender]!,
+      "birth": _formatDateTime(birth),
+      "name": name,
+      "agreeRequiredTerms": agreeRequiredTerms.toString(),
+      "agreeMarketingTerms": agreeMarketingTerms.toString(),
+    };
+    if (phoneNumber != null) {
+      baseMap.addAll({"phoneNumber": phoneNumber!});
+    }
+    if (email != null) {
+      baseMap.addAll({"email": email!});
+    }
+    return baseMap;
+  }
 
-  Map<String, String>? getUrlParams() => null;
+  @override
+  Map<String, XFile>? getFiles() => photo != null
+      ? {
+          "photo": photo!,
+        }
+      : null;
+
+  String _formatDateTime(DateTime dateTime) {
+    String year = dateTime.year.toString();
+    String month =
+        dateTime.month < 10 ? "0${dateTime.month}" : dateTime.month.toString();
+    String day =
+        dateTime.day < 10 ? "0${dateTime.day}" : dateTime.day.toString();
+    return "$year-$month-$day";
+  }
 }
 
 class SignupOutput extends SafeHttpDataOutput {

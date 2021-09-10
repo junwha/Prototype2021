@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/loader/signin_loader.dart';
 import 'package:prototype2021/model/signin_model.dart';
-import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_gender.dart';
 import 'package:provider/provider.dart';
@@ -13,7 +15,7 @@ class SigninViewBirth extends StatefulWidget {
 }
 
 class _SigninViewBirthState extends State<SigninViewBirth>
-    with SignInViewWidgets {
+    with SignInViewWidgets, SigninLoader, SigninViewHelper {
   final List<int> dayList = List.generate(31, (index) => index + 1);
   final List<String> monthList =
       List.generate(12, (index) => "${(index + 1).toString()}월");
@@ -76,9 +78,14 @@ class _SigninViewBirthState extends State<SigninViewBirth>
                 height: 60,
               ),
               buildSigninButton(context, onPressed: () async {
-                signInModel.setBirth(
-                    new DateTime(year, interpolateMonthToInt(month), day));
-                Navigator.popUntil(context, ModalRoute.withName("login"));
+                try {
+                  signInModel.setBirth(
+                      new DateTime(year, interpolateMonthToInt(month), day));
+                  int userUid = await requestSignup(signInModel);
+                  Navigator.popUntil(context, ModalRoute.withName("login"));
+                } catch (error) {
+                  tbShowTextDialog(context, generateErrorText(error));
+                }
               }, text: "시작하기")
             ],
           ),
