@@ -61,10 +61,6 @@ class SigninLoader {
 
   // Fetching Functions
 
-  Future<SafeMutationOutput<LoginOutput>> login(
-          SafeMutationInput<LoginInput> dto) async =>
-      await safePOST<LoginInput, LoginOutput>(dto);
-
   Future<SafeQueryOutput<IdVerificationOutput>> idVerification(
           SafeQueryInput<IdVerificationInput> dto) async =>
       await safeGET<IdVerificationInput, IdVerificationOutput>(dto);
@@ -87,7 +83,6 @@ class SigninLoader {
 
   // Endpoints
 
-  String loginUrl = "$apiBaseUrl/user/login";
   String signUpUrl = "$apiBaseUrl/user/signup";
   String idVerificationUrl = "$apiBaseUrl/user/signup/:username/verification";
   String phoneAuthUrl = "$apiBaseUrl/user/signup/authentication/phone";
