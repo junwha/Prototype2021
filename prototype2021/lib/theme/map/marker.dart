@@ -37,6 +37,7 @@ class MarkerList {
 
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
@@ -128,8 +129,13 @@ class MarkerImage {
   * Return marker icon from asset path
   */
   static Future<BitmapDescriptor> createIcon(String path, int size) async {
-    Uint8List bytes = await getBytesFromAsset(path, size);
-    return BitmapDescriptor.fromBytes(bytes);
+    try {
+      Uint8List bytes = await getBytesFromAsset(path, size);
+      return BitmapDescriptor.fromBytes(bytes);
+    } catch (e) {
+      // print(e);
+      return BitmapDescriptor.defaultMarker;
+    }
   }
 
   /*
