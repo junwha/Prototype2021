@@ -104,6 +104,13 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
 
+  bool isMapEnabled = false;
+  void toggleMap() {
+    setState(() {
+      isMapEnabled = !isMapEnabled;
+    });
+  }
+
   late AnimationController _scrollController;
   late AnimationController _sizeController;
   late Animation _appBarColorAnimation;

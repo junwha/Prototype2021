@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/calendar/plan_make_calendar.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
 import 'package:provider/provider.dart';
 
-mixin PlanMakeHomeHeaderMixin on State<PlanMakeHome> {
+mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
   Container buildHeader(BuildContext context) {
     return Container(
       child: Row(
