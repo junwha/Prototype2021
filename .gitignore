@@ -2,4 +2,5 @@
 *.lock
 prototype2021/lib/model/[IGNORE]place_marker.dart
 .DS_Store
-
+*.lock
+*.xcconfig
