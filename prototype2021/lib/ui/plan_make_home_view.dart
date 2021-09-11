@@ -11,12 +11,12 @@ import 'package:prototype2021/theme/calendar/plan_make_home/main.dart';
 import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
 import 'package:provider/provider.dart';
 
-class PlanMakeHome extends StatefulWidget {
+class PlanMakeHomeView extends StatefulWidget {
   @override
-  PlanMakeHomeState createState() => PlanMakeHomeState();
+  PlanMakeHomeViewState createState() => PlanMakeHomeViewState();
 }
 
-class PlanMakeHomeState extends State<PlanMakeHome>
+class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     with
         PlanMakeViewBase,
         TickerProviderStateMixin,
@@ -121,7 +121,7 @@ class PlanMakeHomeState extends State<PlanMakeHome>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  PlanMakeHomeState() {
+  PlanMakeHomeViewState() {
     _scrollController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _sizeController =
