@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/location.dart';
@@ -36,10 +38,13 @@ void testTBMapModel() {
     final model = TBMapModel(LatLng(0, 0));
     await model.markerList.loadImage();
 
+    // initial length check
     expect(model.locations.length, 0);
     model.addLocations(locationsAC);
+    // 3 are added
     expect(model.locations.length, 3);
     model.addLocations(locationsAD);
+    // A of newer is same as A of old one.
     expect(model.locations.length, 4);
   });
 
@@ -47,10 +52,13 @@ void testTBMapModel() {
     final model = TBMapModel(LatLng(0, 0));
     await model.markerList.loadImage();
 
+    // initial length check
     expect(model.locations.length, 0);
     model.updateLocations(locationsAC);
+    // 3 are added
     expect(model.locations.length, 3);
     model.updateLocations(locationsAD);
+    // no matter what exists before, only A and D had to be added.
     expect(model.locations.length, 2);
   });
 
@@ -59,14 +67,89 @@ void testTBMapModel() {
     await model.markerList.loadImage();
 
     model.addLocations(locationsAC);
+    // general remove
     expect(model.locations.length, 3);
     model.removeLocations(locationsAC);
     expect(model.locations.length, 0);
+
+    // try to remove the locations which not exist
     model.addLocations(locationsAC);
     expect(model.locations.length, 3);
     model.removeLocations(locationsE);
     expect(model.locations.length, 3);
+
+    // try to remove with heterogeneous list
     model.removeLocations(locationsAD);
     expect(model.locations.length, 2);
+  });
+
+  test('clear map', () async {
+    final model = TBMapModel(LatLng(0, 0));
+    await model.markerList.loadImage();
+
+    model.addLocations(locationsAC);
+    expect(model.locations.length != 0, true);
+    model.clearMap();
+    expect(model.locations.length, 0);
+  });
+
+  test('update bearing', () async {
+    final model = TBMapModel(LatLng(0, 0));
+    await model.markerList.loadImage();
+
+    final initialBearing = model.markerList.bearing;
+
+    model.updateBearing(23.2);
+    expect(model.markerList.bearing != initialBearing, true);
+
+    model.addLocations(locationsAC);
+    model.updateBearing(35.0);
+    expect(model.markerList.bearing, 35.0);
+    // check if the rotations of markers are all changed
+    for (Marker marker in model.markerList.markers.values) {
+      expect(marker.rotation, 35.0);
+    }
+  });
+
+  test('redraw map', () async {
+    final model = TBMapModel(LatLng(0, 0));
+    await model.markerList.loadImage();
+
+    model.addLocations(locationsAC);
+    int initialLength = model.locations.length;
+
+    model.redrawMap();
+    expect(model.locations.length, initialLength);
+  });
+
+  test('focus', () async {
+    final model = TBMapModel(LatLng(0, 0));
+    await model.markerList.loadImage();
+    Location newLocation = Location(LatLng(0, 0), PlaceType.DEFAULT, "new");
+
+    // inital focused location
+    model.addLocations(locationsAC);
+    expect(model.markerList.focusedLocation, null);
+    expect(model.isFocused(), false);
+
+    // new focused location
+    model.changeFocus(A);
+    expect(model.markerList.focusedLocation, A);
+    expect(model.isFocused(), true);
+
+    // if the location which is not exist has tried to be focus, maintain old one
+    model.changeFocus(newLocation);
+    expect(model.markerList.focusedLocation, A);
+    expect(model.isFocused(), true);
+
+    // change with newely added location
+    model.addLocations([newLocation]);
+    model.changeFocus(newLocation);
+    expect(model.markerList.focusedLocation, newLocation);
+    expect(model.isFocused(), true);
+
+    model.removeFocus();
+    expect(model.markerList.focusedLocation, null);
+    expect(model.isFocused(), false);
   });
 }
