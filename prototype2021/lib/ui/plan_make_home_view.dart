@@ -105,7 +105,8 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   bool isMapEnabled = false;
-  void toggleMap() {
+  @override
+  void onMapButtonTap() {
     setState(() {
       isMapEnabled = !isMapEnabled;
     });
@@ -204,18 +205,21 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
-    planListItemWidgets.insertAll(0, [
-      Container(
-        height: 50,
-      ),
-      /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
-      PseudoMap(),
-      buildPlanListItemsHeader(mode, _setMode, _planListItemsHeaderElevation,
-          _sizeAnimation, _borderColor),
-      buildTopShadowHidingContainer(_blindContainerColor),
-    ]);
+
     return Container(
-      child: Column(children: planListItemWidgets),
+      child: Column(
+        children: [
+          Container(
+            height: 50,
+          ),
+          /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
+          PseudoMap(),
+          buildPlanListItemsHeader(mode, _setMode,
+              _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
+          buildTopShadowHidingContainer(_blindContainerColor),
+          Column(children: planListItemWidgets),
+        ],
+      ),
       decoration: BoxDecoration(
           borderRadius: BorderRadius.only(
               topLeft: Radius.circular(40), topRight: Radius.circular(40)),
@@ -275,6 +279,6 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
 class PseudoMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text("asddf");
   }
 }
