@@ -7,6 +7,12 @@ import 'package:prototype2021/theme/circular_wrapper.dart';
 import 'package:provider/provider.dart';
 
 mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
+  /*
+   * Abstract method for State
+   * override this method with State variable.
+   */
+  void onMapButtonTap();
+
   Container buildHeader(BuildContext context) {
     return Container(
       child: Row(
@@ -54,7 +60,7 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
         children: [
           CircularWrapper(
             icon: Image.asset('assets/icons/map.png'),
-            onTap: () {},
+            onTap: onMapButtonTap,
             size: 34,
             shadow: true,
           ),
