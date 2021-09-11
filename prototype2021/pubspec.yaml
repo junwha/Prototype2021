@@ -56,7 +56,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  mockito: 5.0.15
+  mockito: ^5.0.15
+  build_runner: ^2.1.2
   flutter_localizations:
     sdk: flutter
 
