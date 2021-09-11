@@ -115,10 +115,10 @@ class MarkerList {
   * Change focus with Location
   */
   void changeFocus(Location? location) {
-    if (location != null) {
+    if (location != null && markers.keys.contains(location)) {
       this.focusedLocation = location;
       print(location.latLng);
-    } else {
+    } else if (location == null) {
       this.focusedLocation = null;
     }
   }
