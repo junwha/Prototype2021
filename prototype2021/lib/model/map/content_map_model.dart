@@ -46,7 +46,7 @@ class ContentMapModel extends TBMapModel {
   }
 
   /*
-   * Find plcae of point and update clicked location
+   * Find place of point and update clicked location
    */
   Future<void> findPlace(LatLng point) async {
     GooglePlaceData? placeData = await this.placeLoader.getOnePlace(point);
