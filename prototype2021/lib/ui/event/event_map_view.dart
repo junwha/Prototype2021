@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/event_map_model.dart';
+import 'package:prototype2021/model/event/event_map_model.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:provider/provider.dart';
 
