@@ -22,9 +22,11 @@ class _SelectableTextButtonState extends State<SelectableTextButton> {
               borderRadius: BorderRadius.circular(30.0))),
           side: MaterialStateProperty.resolveWith<BorderSide>(
               (Set<MaterialState> states) {
-            final Color color =
-                this.widget.isChecked ? Colors.blue : Colors.grey;
-            return BorderSide(color: color, width: 2);
+            return BorderSide(
+                color: this.widget.isChecked
+                    ? Color(0xffbbd2ff)
+                    : Color(0xffdbdbdb),
+                width: 2);
           })),
       onPressed: this.widget.onPressed,
       child: Text(
@@ -32,7 +34,7 @@ class _SelectableTextButtonState extends State<SelectableTextButton> {
         style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 12 * pt,
-          color: this.widget.isChecked ? Colors.blue[300] : Colors.grey,
+          color: this.widget.isChecked ? Color(0xff4080ff) : Color(0xffdbdbdb),
         ),
       ),
     );

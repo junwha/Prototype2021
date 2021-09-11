@@ -1,5 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+import 'package:prototype2021/loader/article_loader.dart';
+import 'package:prototype2021/model/search_article_model.dart';
+import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/cards/recruit_card.dart';
+import 'package:provider/provider.dart';
 
 class EventSearchView extends StatefulWidget {
   const EventSearchView({Key? key}) : super(key: key);
@@ -9,38 +16,85 @@ class EventSearchView extends StatefulWidget {
 }
 
 class _EventSearchViewState extends State<EventSearchView> {
+  List<EventPreviewData> previewData = [];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset("assets/icons/search_1.png"),
-                  Text(
-                    "이벤트 게시판에 글을 검색해보세요.",
-                    style: TextStyle(
-                        color: Color.fromRGBO(180, 180, 180, 1), fontSize: 16),
-                  ),
-                ],
-              ),
-            ),
-            buildFloatingSearchBar(context),
-            IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: Icon(Icons.arrow_back)),
-          ],
-        ),
+        child: ChangeNotifierProvider(
+            create: (context) => SearchArticleModel(),
+            child: Consumer(
+              builder: (context, SearchArticleModel searchArticleModel, child) {
+                return Stack(
+                  children: [
+                    searchArticleModel.loading == true
+                        ? Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image.asset("assets/icons/search_1.png"),
+                                Text(
+                                  "이벤트 게시판에 글을 검색해보세요.",
+                                  style: TextStyle(
+                                      color: Color.fromRGBO(180, 180, 180, 1),
+                                      fontSize: 16),
+                                ),
+                              ],
+                            ),
+                          )
+                        : buildArticleSection(searchArticleModel),
+                    buildFloatingSearchBar(searchArticleModel),
+                    IconButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                        icon: Icon(Icons.arrow_back)),
+                  ],
+                );
+              },
+            )),
       ),
     );
   }
 
-  Widget buildFloatingSearchBar(BuildContext context) {
+  Padding buildArticleSection(SearchArticleModel searchArticleModel) {
+    return Padding(
+      padding: EdgeInsets.only(top: 50),
+      child: Column(
+        children: [
+          Row(children: [
+            Expanded(
+                child: TextButton(
+              child: Text("이벤트"),
+              onPressed: () {
+                setState(() {
+                  this.previewData = searchArticleModel.eventArticleList;
+                });
+              },
+            )),
+            Expanded(
+                child: TextButton(
+              child: Text("동행찾기"),
+              onPressed: () {
+                setState(() {
+                  this.previewData = searchArticleModel.companionArticleList;
+                });
+              },
+            ))
+          ]),
+          Column(
+            children: this
+                .previewData
+                .map((e) => RecruitCard(
+                    title: e.title, hasContents: false, range: e.period))
+                .toList(),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildFloatingSearchBar(SearchArticleModel searchArticleModel) {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final controller = FloatingSearchBarController();
@@ -67,8 +121,12 @@ class _EventSearchViewState extends State<EventSearchView> {
       width: isPortrait ? 600 : 500,
       debounceDelay: const Duration(milliseconds: 500),
       automaticallyImplyBackButton: false,
-      onQueryChanged: (query) {
+      onSubmitted: (query) {
         // Call your model, bloc, controller here.
+        searchArticleModel.searchArticles(query);
+        setState(() {
+          this.previewData = searchArticleModel.eventArticleList;
+        });
       },
       onFocusChanged: (bool focus) {},
       // Specify a custom transition to be used for
@@ -97,18 +155,18 @@ class _EventSearchViewState extends State<EventSearchView> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Container(
-                  height: 112,
-                  width: MediaQuery.of(context).size.width,
-                  color: Colors.white,
-                  child: Center(
-                    child: Text(
-                      '서비스를 준비중입니다',
-                      style: TextStyle(
-                          color: Colors.black, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ),
+                // Container(
+                //   height: 112,
+                //   width: MediaQuery.of(context).size.width,
+                //   color: Colors.white,
+                //   child: Center(
+                //     child: Text(
+                //       '서비스를 준비중입니다',
+                //       style: TextStyle(
+                //           color: Colors.black, fontWeight: FontWeight.bold),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
