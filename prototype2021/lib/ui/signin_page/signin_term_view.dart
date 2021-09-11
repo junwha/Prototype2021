@@ -53,7 +53,7 @@ class _SigninTermViewState extends State<SigninTermView>
   Widget build(BuildContext context) {
     return Scaffold(
       drawerScrimColor: Colors.white,
-      appBar: buildAppBar(context, shouldPopTo: SigninView),
+      appBar: buildAppBar(context, shouldPopTo: SigninView, title: "회원가입"),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(15.0 * pt, 36 * pt, 15 * pt, 0),
         child: Column(

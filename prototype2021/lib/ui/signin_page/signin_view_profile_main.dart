@@ -46,7 +46,8 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
   Widget build(BuildContext context) {
     return Scaffold(
       drawerScrimColor: Colors.white,
-      appBar: buildAppBar(context, shouldPopTo: SignInViewVerification),
+      appBar: buildAppBar(context,
+          shouldPopTo: SignInViewVerification, title: "회원 설정"),
       body: Center(
         child: Column(
           children: [

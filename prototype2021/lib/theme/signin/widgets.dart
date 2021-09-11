@@ -22,7 +22,8 @@ final _shouldPopTo = <Type, Widget Function()>{
 };
 
 mixin SignInViewWidgets {
-  AppBar buildAppBar(BuildContext context, {required Type shouldPopTo}) {
+  AppBar buildAppBar(BuildContext context,
+      {required Type shouldPopTo, required String title}) {
     SignInModel signInModel = Provider.of<SignInModel>(context);
     return AppBar(
         backgroundColor: Colors.white,
@@ -39,7 +40,7 @@ mixin SignInViewWidgets {
                         child: _shouldPopTo[shouldPopTo]!())));
           },
         ),
-        title: Text("회원가입",
+        title: Text(title,
             style: const TextStyle(
                 color: const Color(0xff000000),
                 fontWeight: FontWeight.w400,

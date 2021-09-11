@@ -29,10 +29,10 @@ class _SigninViewGenderState extends State<SigninViewGender>
 
   @override
   Widget build(BuildContext context) {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
     return Scaffold(
       drawerScrimColor: Colors.white,
-      appBar: buildAppBar(context, shouldPopTo: SigninViewProfileMain),
+      appBar: buildAppBar(context,
+          shouldPopTo: SigninViewProfileMain, title: "회원 설정"),
       body: Center(
         child: Column(
           children: [
@@ -57,14 +57,23 @@ class _SigninViewGenderState extends State<SigninViewGender>
             SizedBox(
               height: 40,
             ),
-            buildSigninButton(context, onPressed: () {
-              signInModel.setGender(gender);
-              navigateToNext(context,
-                  model: signInModel, child: SigninViewBirth());
-            }, text: "다음")
+            buildNextButton(context),
           ],
         ),
       ),
+    );
+  }
+
+  Padding buildNextButton(BuildContext context) {
+    SignInModel signInModel = Provider.of<SignInModel>(context);
+    void onPressed() {
+      signInModel.setGender(gender);
+      navigateToNext(context, model: signInModel, child: SigninViewBirth());
+    }
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: buildSigninButton(context, onPressed: onPressed, text: "다음"),
     );
   }
 

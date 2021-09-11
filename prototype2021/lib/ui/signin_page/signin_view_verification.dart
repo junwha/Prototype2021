@@ -67,12 +67,14 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   Future<void> Function() requestVerificationFactory(
       VerificationMethod method) {
     String modeToString = method == VerificationMethod.Email ? "이메일을" : "메시지를";
+    String errorToString = method == VerificationMethod.Email
+        ? "올바르지 않은 이메일입니다"
+        : "올바르지 않은 전화번호입니다(010-xxxx-xxxx 형식으로 입력)";
     String alertMessage = "인증번호가 발송되었습니다. $modeToString 확인해주세요";
     return () async {
       try {
         if (!validate(method)) {
-          tbShowTextDialog(context,
-              "올바르지 않은 ${modeToString.substring(0, modeToString.length - 1)}}입니다");
+          tbShowTextDialog(context, errorToString);
           return;
         }
         // String _verificationToken = await requestAuth(credential, method);
@@ -89,15 +91,17 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   @override
   Widget build(BuildContext context) {
     SignInModel signInModel = Provider.of<SignInModel>(context);
-    String modeToString =
-        signInModel.method == VerificationMethod.Email ? "이메일을" : "전화번호를";
+    String modeToString = signInModel.method == VerificationMethod.Email
+        ? "이메일을 입력해주세요"
+        : "전화번호를 입력해주세요(010-xxxx-xxxx 형식)";
     return Scaffold(
-        appBar: buildAppBar(context, shouldPopTo: SigninTermView),
+        appBar:
+            buildAppBar(context, shouldPopTo: SigninTermView, title: "회원가입"),
         body: Padding(
             padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
             child: Column(
               children: [
-                buildSignInInput(context, hintText: "$modeToString 입력해주세요",
+                buildSignInInput(context, hintText: modeToString,
                     onTextChange: (String text) {
                   setCredential(text);
                 },
@@ -168,10 +172,10 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
               half: true),
           buildSigninButton(context, onPressed: () async {
             try {
-              // String _signinToken = await requestCodeVerification(
-              //     verificationToken, verificationCode);
-              // signInModel.setSigninToken(_signinToken);
-              // signInModel.setVerifier(credential);
+              String _signinToken = await requestCodeVerification(
+                  verificationToken, verificationCode);
+              signInModel.setSigninToken(_signinToken);
+              signInModel.setVerifier(credential);
               navigateToNext(context,
                   model: signInModel, child: SigninViewProfileMain());
             } catch (error) {
@@ -204,8 +208,9 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   }
 
   bool validatePhoneNumber(String rawPhoneNumber) {
-    String pattern = r"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
+    String pattern = r"^010-\d{4}-\d{4}$";
     RegExp regex = new RegExp(pattern);
+    print(regex.hasMatch(rawPhoneNumber));
     if (!regex.hasMatch(rawPhoneNumber)) return false;
     return true;
   }

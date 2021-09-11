@@ -37,10 +37,10 @@ class _SigninViewBirthState extends State<SigninViewBirth>
 
   @override
   Widget build(BuildContext context) {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
     return Scaffold(
       drawerScrimColor: Colors.white,
-      appBar: buildAppBar(context, shouldPopTo: SigninViewGender),
+      appBar:
+          buildAppBar(context, shouldPopTo: SigninViewGender, title: "회원 설정"),
       body: Center(
           child: Column(children: [
         SizedBox(
@@ -57,40 +57,42 @@ class _SigninViewBirthState extends State<SigninViewBirth>
         SizedBox(
           height: 40,
         ),
-        Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '생년월일',
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Color(0xff999999),
-                  fontFamily: 'Roboto',
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              buildDatePicker(),
-              SizedBox(
-                height: 60,
-              ),
-              buildSigninButton(context, onPressed: () async {
-                try {
-                  signInModel.setBirth(
-                      new DateTime(year, interpolateMonthToInt(month), day));
-                  int userUid = await requestSignup(signInModel);
-                  Navigator.popUntil(context, ModalRoute.withName("login"));
-                } catch (error) {
-                  tbShowTextDialog(context, generateErrorText(error));
-                }
-              }, text: "시작하기")
-            ],
+        Text(
+          '생년월일',
+          style: TextStyle(
+            fontSize: 18,
+            color: Color(0xff999999),
+            fontFamily: 'Roboto',
           ),
         ),
+        SizedBox(
+          height: 10,
+        ),
+        buildDatePicker(),
+        SizedBox(
+          height: 60,
+        ),
+        buildNextButton(context),
       ])),
+    );
+  }
+
+  Padding buildNextButton(BuildContext context) {
+    SignInModel signInModel = Provider.of<SignInModel>(context);
+    void onPressed() async {
+      try {
+        signInModel
+            .setBirth(new DateTime(year, interpolateMonthToInt(month), day));
+        int uid = await requestSignup(signInModel);
+        Navigator.popUntil(context, ModalRoute.withName("login"));
+      } catch (error) {
+        tbShowTextDialog(context, generateErrorText(error));
+      }
+    }
+
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: buildSigninButton(context, onPressed: onPressed, text: "시작하기"),
     );
   }
 
@@ -110,6 +112,8 @@ class _SigninViewBirthState extends State<SigninViewBirth>
         buildDropdownMenu<int>(
             value: day, allValues: dayList, valueSetter: setDay),
       ],
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
     );
   }
 
