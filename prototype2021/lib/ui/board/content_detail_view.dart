@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:prototype2021/model/event_article_model.dart';
+import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event/editor_view.dart';
