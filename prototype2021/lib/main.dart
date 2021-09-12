@@ -12,7 +12,7 @@ void main() {
     //Don't touch here. route map is in 'main_page.dart'
     MaterialApp(
       routes: {
-        'login': (context) => PlanmakeSaveView(),
+        'login': (context) => LoginView(),
         'editor': (context) => EditorView(),
         'select_location': (context) => SelectLocationMapView(),
         'map': (context) => MapView(),
