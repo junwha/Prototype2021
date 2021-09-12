@@ -12,7 +12,7 @@ void main() {
 
 void testTBMapModel() {
   Location A = Location(LatLng(0, 0), PlaceType.EVENT, "A");
-  final List<Location> locationsAC = [
+  final List<Location> locationsABC = [
     A,
     Location(LatLng(0, 1), PlaceType.EVENT, "B"),
     Location(LatLng(0, 2), PlaceType.EVENT, "C"),
@@ -40,7 +40,7 @@ void testTBMapModel() {
 
     // initial length check
     expect(model.locations.length, 0);
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     // 3 are added
     expect(model.locations.length, 3);
     model.addLocations(locationsAD);
@@ -54,7 +54,7 @@ void testTBMapModel() {
 
     // initial length check
     expect(model.locations.length, 0);
-    model.updateLocations(locationsAC);
+    model.updateLocations(locationsABC);
     // 3 are added
     expect(model.locations.length, 3);
     model.updateLocations(locationsAD);
@@ -66,14 +66,14 @@ void testTBMapModel() {
     final model = TBMapModel(LatLng(0, 0));
     await model.markerList.loadImage();
 
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     // general remove
     expect(model.locations.length, 3);
-    model.removeLocations(locationsAC);
+    model.removeLocations(locationsABC);
     expect(model.locations.length, 0);
 
     // try to remove the locations which not exist
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     expect(model.locations.length, 3);
     model.removeLocations(locationsE);
     expect(model.locations.length, 3);
@@ -87,7 +87,7 @@ void testTBMapModel() {
     final model = TBMapModel(LatLng(0, 0));
     await model.markerList.loadImage();
 
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     expect(model.locations.length != 0, true);
     model.clearMap();
     expect(model.locations.length, 0);
@@ -102,7 +102,7 @@ void testTBMapModel() {
     model.updateBearing(23.2);
     expect(model.markerList.bearing != initialBearing, true);
 
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     model.updateBearing(35.0);
     expect(model.markerList.bearing, 35.0);
     // check if the rotations of markers are all changed
@@ -115,7 +115,7 @@ void testTBMapModel() {
     final model = TBMapModel(LatLng(0, 0));
     await model.markerList.loadImage();
 
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     int initialLength = model.locations.length;
 
     model.redrawMap();
@@ -128,7 +128,7 @@ void testTBMapModel() {
     Location newLocation = Location(LatLng(0, 0), PlaceType.DEFAULT, "new");
 
     // inital focused location
-    model.addLocations(locationsAC);
+    model.addLocations(locationsABC);
     expect(model.markerList.focusedLocation, null);
     expect(model.isFocused(), false);
 
