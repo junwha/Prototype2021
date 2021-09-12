@@ -21,6 +21,7 @@ void testContentMapModel() {
   test('initial include types are false', () {
     final model = ContentMapModel(center: LatLng(0, 0));
     for (MapEntry<String, bool> entry in model.isIncludeType.entries) {
+      // Key: Type (String), Value: Whether type is included (bool)
       expect(entry.value, false);
     }
   });
@@ -91,13 +92,14 @@ void testContentMapModel() {
       },
       "types": ["street_address"]
     };
-    model.moveToResult(GooglePlaceData(googleExampleMeta, PlaceType.CAFFEE));
+    model.moveToResult(GooglePlaceData(googleExampleMeta, PlaceType.DEFAULT));
     expect(model.locations.length, 1);
     expect(model.center.latitude.toStringAsFixed(6),
         googleExampleMeta["geometry"]["location"]["lat"].toStringAsFixed(6));
     expect(model.center.longitude.toStringAsFixed(6),
         googleExampleMeta["geometry"]["location"]["lng"].toStringAsFixed(6));
     for (MapEntry<String, bool> entry in model.isIncludeType.entries) {
+      // Key: Type (String), Value: Whether type is included (bool)
       expect(entry.value, false);
     }
   });
