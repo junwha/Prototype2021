@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/data_handler.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';

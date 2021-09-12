@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/login/signin_model.dart';
+import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
-import 'package:prototype2021/model/login/login_model.dart';
+import 'package:prototype2021/model/login_model.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_1.dart';

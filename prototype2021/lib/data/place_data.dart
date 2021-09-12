@@ -16,7 +16,7 @@ class GooglePlaceData {
   LatLng get location => LatLng(placeMeta["geometry"]["location"]["lat"],
       placeMeta["geometry"]["location"]["lng"]);
 
-  String get name => placeMeta["name"] ?? "";
+  String get name => placeMeta["name"];
   String get businessStatus => placeMeta["business_status"];
   String get userRatingsTotal => placeMeta["user_ratings_total"];
   String get types => placeMeta["types"];
