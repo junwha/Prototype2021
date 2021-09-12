@@ -37,6 +37,7 @@ class MarkerList {
 
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
@@ -114,10 +115,10 @@ class MarkerList {
   * Change focus with Location
   */
   void changeFocus(Location? location) {
-    if (location != null) {
+    if (location != null && markers.keys.contains(location)) {
       this.focusedLocation = location;
       print(location.latLng);
-    } else {
+    } else if (location == null) {
       this.focusedLocation = null;
     }
   }
@@ -128,8 +129,13 @@ class MarkerImage {
   * Return marker icon from asset path
   */
   static Future<BitmapDescriptor> createIcon(String path, int size) async {
-    Uint8List bytes = await getBytesFromAsset(path, size);
-    return BitmapDescriptor.fromBytes(bytes);
+    try {
+      Uint8List bytes = await getBytesFromAsset(path, size);
+      return BitmapDescriptor.fromBytes(bytes);
+    } catch (e) {
+      // print(e);
+      return BitmapDescriptor.defaultMarker;
+    }
   }
 
   /*
