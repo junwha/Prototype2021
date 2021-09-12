@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/map/plan_map_model.dart';
 import 'package:prototype2021/model/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/ai_dialog.dart';
@@ -9,6 +11,7 @@ import 'package:prototype2021/theme/calendar/plan_make_home/header.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/main.dart';
 import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
+import 'package:prototype2021/theme/calendar/plan_map.dart';
 import 'package:provider/provider.dart';
 
 class PlanMakeHomeView extends StatefulWidget {
@@ -213,7 +216,20 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
             height: 50,
           ),
           /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
-          PseudoMap(),
+          Container(
+            height: isMapEnabled ? 200 : 0,
+            // duration: Duration(milliseconds: 500),
+            child: ChangeNotifierProvider<PlanMapModel>(
+                create: (_) => PlanMapModel(LatLng(35.5763, 129.1893)),
+                child: Consumer(builder:
+                    (BuildContext context, PlanMapModel model, Widget? _) {
+                  return model.mapLoaded
+                      ? PlanMap(
+                          model: model,
+                        )
+                      : SizedBox();
+                })),
+          ),
           buildPlanListItemsHeader(mode, _setMode,
               _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
           buildTopShadowHidingContainer(_blindContainerColor),
