@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/board/app_bar_text_button.dart';
+import 'package:prototype2021/theme/board/app_bar.dart';
 import 'package:prototype2021/theme/board/board_list_view.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
 import 'package:prototype2021/theme/board/helpers.dart';
@@ -18,26 +18,65 @@ class BoardMainView extends StatefulWidget {
   _BoardMainViewState createState() => _BoardMainViewState();
 }
 
+enum BoardMainViewMode { main, search, result }
+
 class _BoardMainViewState extends State<BoardMainView>
-    with BoardMainHeaderSilverMixin, BoardMainViewHelpers {
+    with
+        BoardMainHeaderSilverMixin,
+        BoardMainViewAppBarMixin,
+        BoardMainViewHelpers {
+  /* =================================/================================= */
+  /* =========================STATES & METHODS========================= */
+  /* =================================/================================= */
+
+  BoardMainViewMode viewMode = BoardMainViewMode.main;
+
+  void setViewMode(BoardMainViewMode _viewMode) => setState(() {
+        viewMode = _viewMode;
+      });
+
+  TextEditingController textEditingController = new TextEditingController();
+  String searchInput = "";
+  void setSearchInput(String _searchInput) => setState(() {
+        searchInput = _searchInput;
+      });
+
+  // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
+  // Need to apply individual cards
   bool heartSelected = false;
   bool heartSelected2 = false;
+
+  /* =================================/================================= */
+  /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
+  /* =================================/================================= */
+
+  _BoardMainViewState() : super();
+
+  /* =================================/================================= */
+  /* ==============================WIDGETS============================== */
+  /* =================================/================================= */
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBar(context),
+      appBar: buildAppBar(context,
+          viewMode: viewMode,
+          setViewMode: setViewMode,
+          textController: textEditingController,
+          onTextFieldChanged: setSearchInput),
       body: DefaultTabController(
         initialIndex: 0,
         length: 2,
         child: NestedScrollView(
           headerSliverBuilder: buildHeaderBuilder(context),
-          body: TabBarView(children: [
-            buildPlanListView(context),
-            buildContentListView(context),
-          ]),
+          body: viewMode == BoardMainViewMode.search
+              ? SizedBox()
+              : TabBarView(children: [
+                  buildPlanListView(context),
+                  buildContentListView(context),
+                ]),
         ),
       ),
     );
@@ -45,6 +84,7 @@ class _BoardMainViewState extends State<BoardMainView>
 
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderBuilder(
       BuildContext context) {
+    // Need Refactor
     void onLeadingPressed() {
       Navigator.push(
           context,
@@ -64,7 +104,9 @@ class _BoardMainViewState extends State<BoardMainView>
     }
 
     return buildHeaderSilverBuilder(
-        location: location, onLeadingPressed: onLeadingPressed);
+        location: location,
+        onLeadingPressed: onLeadingPressed,
+        viewMode: viewMode);
   }
 
   /* 
@@ -94,36 +136,6 @@ class _BoardMainViewState extends State<BoardMainView>
       }, heartSelected2),
       builder: (props) => ContentsCard(props: props),
       routeBuilder: (_) => ContentDetailView(),
-    );
-  }
-
-  AppBar buildAppBar(BuildContext context) {
-    return AppBar(
-      elevation: 0,
-      backgroundColor: Colors.white,
-      shadowColor: Colors.white,
-      leading: IconButton(
-        color: Colors.black,
-        icon: Image.asset("assets/icons/ic_remove_x.png"),
-        onPressed: () {
-          Navigator.pop(context);
-        },
-      ),
-      toolbarHeight: 60,
-      actions: [
-        AppBarTextButton(
-            onPressed: () {},
-            icon: Image.asset("assets/icons/ic_main_search.png"),
-            text: "검색"),
-        AppBarTextButton(
-            onPressed: () {},
-            icon: Image.asset("assets/icons/ic_main_heart_default.png"),
-            text: "찜목록"),
-        AppBarTextButton(
-            onPressed: () {},
-            icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
-            text: "메뉴"),
-      ],
     );
   }
 }

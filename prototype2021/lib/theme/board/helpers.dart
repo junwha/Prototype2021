@@ -3,7 +3,7 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card_base.dart';
 
-class BoardMainViewHelpers {
+mixin BoardMainViewHelpers {
   /* 
    * This is temporary implementation. isHeartSelected state should be handled  
    * at the individual ProductCard or ContentsCard level, 

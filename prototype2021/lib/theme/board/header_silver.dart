@@ -2,14 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/ui/board/board_main_view.dart';
 import 'package:prototype2021/ui/event/filter_view.dart';
 
 mixin BoardMainHeaderSilverMixin {
-  List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder(
-          {required void Function() onLeadingPressed,
-          required Map<String, String> location}) =>
+  List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder({
+    required void Function() onLeadingPressed,
+    required Map<String, String> location,
+    required BoardMainViewMode viewMode,
+  }) =>
       (BuildContext context, bool innerBoxIsScrolled) {
-        return <SliverAppBar>[
+        List<SliverAppBar> slivers = <SliverAppBar>[
           SliverAppBar(
             automaticallyImplyLeading: false,
             centerTitle: false,
@@ -33,6 +36,9 @@ mixin BoardMainHeaderSilverMixin {
             title: buildFilterBar(),
           )
         ];
+        if (viewMode == BoardMainViewMode.search) slivers = [];
+        if (viewMode == BoardMainViewMode.result) slivers.removeAt(0);
+        return slivers;
       };
 
   /* 
