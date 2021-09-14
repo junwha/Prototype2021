@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/board/app_bar_text_button.dart';
+import 'package:prototype2021/theme/board/board_list_view.dart';
+import 'package:prototype2021/theme/board/helpers.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
@@ -20,7 +22,8 @@ class BoardMainView extends StatefulWidget {
   _BoardMainViewState createState() => _BoardMainViewState();
 }
 
-class _BoardMainViewState extends State<BoardMainView> {
+class _BoardMainViewState extends State<BoardMainView>
+    with BoardMainViewHelpers {
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
   bool heartSelected = false;
   bool heartSelected2 = false;
@@ -29,7 +32,7 @@ class _BoardMainViewState extends State<BoardMainView> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBar(),
+      appBar: buildAppBar(context),
       body: DefaultTabController(
         initialIndex: 0,
         length: 2,
@@ -44,78 +47,19 @@ class _BoardMainViewState extends State<BoardMainView> {
     );
   }
 
-  SingleChildScrollView buildPlanListView(BuildContext context) {
-    void onTap() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (BuildContext context) {
-        return PlanMakeView();
-      }));
-    }
-
-    return SingleChildScrollView(
-      child: Column(
-          children: List.generate(
-              20,
-              (index) => GestureDetector(
-                    onTap: onTap,
-                    child: ProductCard(
-                        props: new ProductCardBaseProps(
-                      preview: placeHolder,
-                      title: "중국 도장깨기",
-                      place: '상하이(중국), 베이징(중국), 광저우(중국)',
-                      period: 3,
-                      costStart: 3,
-                      costEnd: 5,
-                      matchPercent: 34,
-                      tags: ["액티비티", "관광명소", "인생사진"],
-                      tendencies: [],
-                      onHeartPreessed: (bool isSelected) {
-                        setState(() {
-                          this.heartSelected2 = !isSelected;
-                        });
-                        print(heartSelected2);
-                      },
-                      isHeartSelected: this.heartSelected2,
-                      isGuide: index % 2 == 0,
-                    )),
-                  ))),
+  BoardListView buildPlanListView(BuildContext context) {
+    return BoardListView<ProductCardBaseProps>(
+      data: generatePseudoPlanData(setState, heartSelected),
+      builder: (props) => ProductCard(props: props),
+      routeBuilder: (_) => PlanMakeView(),
     );
   }
 
-  SingleChildScrollView buildContentListView(BuildContext context) {
-    void onTap() {
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => ContentDetailView()));
-    }
-
-    return SingleChildScrollView(
-      child: Column(
-        children: List.generate(
-          20,
-          (index) => GestureDetector(
-            onTap: onTap,
-            child: ContentsCard(
-              props: new ContentsCardBaseProps(
-                backgroundColor: Colors.white,
-                preview: placeHolder,
-                title: "울산대공원",
-                place: "대한민국, 울산",
-                explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
-                rating: 5,
-                ratingNumbers: 34,
-                tags: ["액티비티", "관광명소", "인생사진"],
-                isHeartSelected: heartSelected,
-                onHeartPreessed: (bool isSelected) {
-                  setState(() {
-                    this.heartSelected = !isSelected;
-                  });
-                  print(heartSelected);
-                },
-              ),
-            ),
-          ),
-        ),
-      ),
+  BoardListView buildContentListView(BuildContext context) {
+    return BoardListView<ContentsCardBaseProps>(
+      data: generatePseudoContentData(setState, heartSelected),
+      builder: (props) => ContentsCard(props: props),
+      routeBuilder: (_) => ContentDetailView(),
     );
   }
 
@@ -224,7 +168,7 @@ class _BoardMainViewState extends State<BoardMainView> {
     );
   }
 
-  AppBar buildAppBar() {
+  AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
