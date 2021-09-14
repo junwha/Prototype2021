@@ -15,7 +15,8 @@ class BoardListView<T> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    /* if routeBuilder is provided and not onTap, 
+    /* 
+     * If routeBuilder is provided and not onTap, 
      * it'll push the route with routeBuilder
      * If onTap is provided, it'll override routeBuilder, 
      * not navigating to the route

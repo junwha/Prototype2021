@@ -4,8 +4,13 @@ import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card_base.dart';
 
 class BoardMainViewHelpers {
+  /* 
+   * This is temporary implementation. isHeartSelected state should be handled  
+   * at the individual ProductCard or ContentsCard level, 
+   * not at the root list level(BoardMainView)
+   */
   List<ProductCardBaseProps> generatePseudoPlanData(
-          StateSetter setState, bool heartSelected) =>
+          void Function(bool) setHeartSelected, bool heartSelected) =>
       List.generate(
           20,
           (index) => new ProductCardBaseProps(
@@ -18,17 +23,14 @@ class BoardMainViewHelpers {
                 matchPercent: 34,
                 tags: ["액티비티", "관광명소", "인생사진"],
                 tendencies: [],
-                onHeartPreessed: (bool isSelected) {
-                  setState(() {
-                    heartSelected = !isSelected;
-                  });
-                },
+                onHeartPreessed: (bool isSelected) =>
+                    setHeartSelected(isSelected),
                 isHeartSelected: heartSelected,
                 isGuide: index % 2 == 0,
               ));
 
   List<ContentsCardBaseProps> generatePseudoContentData(
-          StateSetter setState, bool heartSelected) =>
+          void Function(bool) setHeartSelected, bool heartSelected) =>
       List.generate(
           20,
           (index) => new ContentsCardBaseProps(
@@ -41,10 +43,7 @@ class BoardMainViewHelpers {
                 ratingNumbers: 34,
                 tags: ["액티비티", "관광명소", "인생사진"],
                 isHeartSelected: heartSelected,
-                onHeartPreessed: (bool isSelected) {
-                  setState(() {
-                    heartSelected = !isSelected;
-                  });
-                },
+                onHeartPreessed: (bool isSelected) =>
+                    setHeartSelected(isSelected),
               ));
 }
