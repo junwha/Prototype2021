@@ -1,43 +1,60 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:geodesy/geodesy.dart';
 import 'package:mockito/annotations.dart';
+import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 
 @GenerateMocks([PlanMakeCalendarModel])
-void main(List<String> args) {
+void main() {
   group('[Class] PlanMakeCalendarModel', testPlanMakeCalendarModel);
 }
 
 void testPlanMakeCalendarModel() {
-  final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+  PlanMakeCalendarModel model = new PlanMakeCalendarModel();
 
   final DateTime firstTappedDate = new DateTime(2021, 1, 1);
   final DateTime secondTappedDate = new DateTime(2021, 1, 5);
+  final int dateDifference = 5;
+
+  final List<PlaceDataProps> dataSamples = [
+    new PseudoPlaceData(
+        location: new LatLng(0.0, 0.0),
+        name: 'test1',
+        types: 'cafe',
+        address: 'testtesttest'),
+    new PseudoPlaceData(
+        location: new LatLng(0.1, 0.1),
+        name: 'test2',
+        types: 'cafe',
+        address: 'testtesttest'),
+    new PseudoPlaceData(
+        location: new LatLng(0.2, 0.2),
+        name: 'test3',
+        types: 'cafe',
+        address: 'testtesttest'),
+  ];
+  final dataListIndex = 0;
 
   group('[Method] handleTap', () {
-    void datePointsExpectation() {
-      test('should expect datePoints as [DateTime, null] form', () {
-        expect(model.datePoints[0] is DateTime, true);
-        expect(model.datePoints[1], null);
-      });
-    }
-
     test('should expect initial state as PENDING', () {
       expect(model.phase, CalendarTouchPhase.PENDING);
     });
 
-    model.handleTap(firstTappedDate);
-
     test('should expect POINT phase with first touch', () {
+      model.handleTap(firstTappedDate);
       expect(model.phase, CalendarTouchPhase.POINT);
     });
 
-    datePointsExpectation();
-
-    model.handleTap(secondTappedDate);
+    test('should expect datePoints as [DateTime, null] form', () {
+      expect(model.datePoints[0] is DateTime, true);
+      expect(model.datePoints[1] == null, true);
+    });
 
     test(
         'should expect RANGE phase as secondly touched point is after the date of first touched one',
         () {
+      model.handleTap(secondTappedDate);
       expect(model.phase, CalendarTouchPhase.RANGE);
     });
     test('should expect dataPoints as List of DateTime', () {
@@ -45,23 +62,77 @@ void testPlanMakeCalendarModel() {
       expect(model.datePoints[1] is DateTime, true);
     });
 
-    model.handleTap(secondTappedDate);
-
     test('should expect POINT phase with third touch', () {
+      model.handleTap(secondTappedDate);
       expect(model.phase, CalendarTouchPhase.POINT);
     });
-
-    datePointsExpectation();
-
-    model.handleTap(firstTappedDate);
 
     test(
         'should expect POINT phase as touched point is earlier than first element of datePoints',
         () {
+      model.handleTap(firstTappedDate);
       expect(model.phase, CalendarTouchPhase.POINT);
     });
-
-    datePointsExpectation();
-    model.handleTap(secondTappedDate);
   });
+
+  group('[Property] dateDifference', () {
+    test('should return a date difference including edges', () {
+      model.handleTap(secondTappedDate);
+      expect(model.dateDifference, dateDifference);
+      expect(model.dateDifference is int, true);
+    });
+  });
+  group('[Method] generatePlanListItems', () {
+    test('should set planListItems as a list of empty lists', () {
+      model.generatePlanListItems();
+      model.planListItems?.forEach((element) {
+        expect(element is List, true);
+      });
+    });
+    test('should set the list with length of date difference', () {
+      expect(model.planListItems?.length, dateDifference);
+    });
+  });
+
+  group('[Method] addPlaceData', () {
+    test('should add the data to planListItem as nested', () {
+      model.addPlaceData(dataListIndex, dataSamples[0]);
+      expect(model.planListItems![dataListIndex].length, 1);
+    });
+  });
+
+  group('[Method] deletePlaceData', () {
+    test('should delete the data from planListItem from nested list', () {
+      int order = 1; // Item added above test: order is 1
+      model.deletePlaceData(dataListIndex, order);
+      expect(model.planListItems![dataListIndex].length, 0);
+    });
+  });
+
+  group('[Method] swapPlaceData', () {
+    test('should move data from oldIndex to newList', () {
+      model.addPlaceData(dataListIndex, dataSamples[0]);
+      model.addPlaceData(dataListIndex, dataSamples[1]);
+      expect(model.planListItems![dataListIndex][0].name, 'test1');
+      expect(model.planListItems![dataListIndex][1].name, 'test2');
+
+      model.swapPlaceData(dataListIndex, 0, 1);
+
+      expect(model.planListItems![dataListIndex][0].name, 'test2');
+      expect(model.planListItems![dataListIndex][1].name, 'test1');
+    });
+  });
+
+  group('[Method] insertPlaceData', () {
+    test('should insert data betweeen items', () {
+      model.insertPlaceData(dataListIndex, dataSamples[2], 1);
+      expect(model.planListItems![dataListIndex][1].name, 'test3');
+    });
+  });
+
+  /*
+   * - Private methods are not tested
+   * - resetPlanListItems is equivalent to generatePlanListItems
+   * - inherit is not tested since it's very simple function
+   */
 }
