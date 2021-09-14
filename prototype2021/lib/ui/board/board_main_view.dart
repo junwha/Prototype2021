@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/board/app_bar_text_button.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
@@ -20,9 +21,9 @@ class BoardMainView extends StatefulWidget {
 }
 
 class _BoardMainViewState extends State<BoardMainView> {
+  Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
   bool heartSelected = false;
   bool heartSelected2 = false;
-  Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
 
   @override
   Widget build(BuildContext context) {
@@ -316,38 +317,6 @@ class _BoardMainViewState extends State<BoardMainView> {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class AppBarTextButton extends StatelessWidget {
-  Function() onPressed;
-  Image icon;
-  String text;
-
-  AppBarTextButton({
-    required this.onPressed,
-    required this.icon,
-    required this.text,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: this.onPressed,
-      icon: Column(
-        children: [
-          this.icon,
-          Text(
-            this.text,
-            style: TextStyle(
-              color: Color(0xff555555),
-              fontSize: 10,
-              fontFamily: 'Roboto',
-            ),
-          ),
-        ],
       ),
     );
   }
