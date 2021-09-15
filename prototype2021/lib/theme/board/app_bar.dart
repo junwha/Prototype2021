@@ -75,6 +75,7 @@ mixin BoardMainViewAppBarMixin {
               borderSide: BorderSide.none),
           prefixIcon: Image.asset("assets/icons/ic_main_search.png"),
           fillColor: const Color(0xffe8e8e8),
+          filled: true,
           contentPadding: EdgeInsets.all(12),
           hintText: "지역, 맛집, 키워드를 검색해보세요.",
           hintStyle: const TextStyle(

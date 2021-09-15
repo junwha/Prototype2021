@@ -145,25 +145,23 @@ class _BoardMainViewState extends State<BoardMainView>
             buildPersistentFooterButtons(onSearch: onSearch));
   }
 
-  PreferredSize buildAppBar(BuildContext context) {
-    return PreferredSize(
-        child: AppBar(
-          elevation: 0,
-          backgroundColor: Colors.white,
-          shadowColor: Colors.white,
-          leading: buildLeading(context,
-              viewMode: viewMode, setViewMode: setViewMode),
-          title: buildTextField(
-            textEditingController,
-            viewMode: viewMode,
-            onChanged: setSearchInput,
-            setViewMode: setViewMode,
-            onSubmitted: searchOnSubmitted,
-          ),
-          toolbarHeight: _toolbarHeight,
-          actions: buildActions(setViewMode: setViewMode, viewMode: viewMode),
-        ),
-        preferredSize: Size.fromHeight(_toolbarHeight));
+  AppBar buildAppBar(BuildContext context) {
+    return AppBar(
+      elevation: 0,
+      backgroundColor: Colors.white,
+      shadowColor: Colors.white,
+      leading:
+          buildLeading(context, viewMode: viewMode, setViewMode: setViewMode),
+      title: buildTextField(
+        textEditingController,
+        viewMode: viewMode,
+        onChanged: setSearchInput,
+        setViewMode: setViewMode,
+        onSubmitted: searchOnSubmitted,
+      ),
+      toolbarHeight: _toolbarHeight,
+      actions: buildActions(setViewMode: setViewMode, viewMode: viewMode),
+    );
   }
 
   TabBarView buildDefaultBody(BuildContext context) {
