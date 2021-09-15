@@ -6,11 +6,12 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
   final Stream<List<T>> stream;
   final Widget Function(T) builder;
   final Widget Function(BuildContext)? routeBuilder;
+  final int refetchCount;
   final Widget? header;
   final Widget? emptyWidget;
   final Widget? errorWidget;
   final void Function()? refetch;
-  final int refetchCount;
+  final void Function(T)? onTap;
 
   BoardMainViewStreamList({
     required this.stream,
@@ -21,6 +22,7 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
     this.errorWidget,
     this.refetch,
     this.refetchCount = 3,
+    this.onTap,
   });
 
   @override
@@ -39,10 +41,12 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
         if (snapshot.hasData) {
           if (snapshot.data!.length > 0) {
             return BoardListView<T>(
-                header: header,
-                data: snapshot.data!,
-                builder: builder,
-                routeBuilder: routeBuilder);
+              header: header,
+              data: snapshot.data!,
+              builder: builder,
+              routeBuilder: routeBuilder,
+              onTap: onTap,
+            );
           } else {
             return emptyWidget ?? SizedBox();
           }

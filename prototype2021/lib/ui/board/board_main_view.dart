@@ -87,6 +87,7 @@ class _BoardMainViewState extends State<BoardMainView>
   void handleModeChange(BoardMainViewMode _viewMode) {
     if (_viewMode == BoardMainViewMode.search) {
       loadSearchKeywords();
+      textEditingController.text = "";
     } else {
       pseudoApiCall();
     }
@@ -156,8 +157,8 @@ class _BoardMainViewState extends State<BoardMainView>
         textEditingController,
         viewMode: viewMode,
         onChanged: setSearchInput,
-        setViewMode: setViewMode,
         onSubmitted: searchOnSubmitted,
+        onTap: () => setViewMode(BoardMainViewMode.search),
       ),
       toolbarHeight: _toolbarHeight,
       actions: buildActions(setViewMode: setViewMode, viewMode: viewMode),
@@ -184,8 +185,10 @@ class _BoardMainViewState extends State<BoardMainView>
               if (recentSearch is String)
                 return buildRecentSearchItem(
                     text: recentSearch,
-                    onActionPressed: () {
-                      removeSearchKeyword(recentSearch);
+                    onActionPressed: () => removeSearchKeyword(recentSearch),
+                    onTap: () {
+                      textEditingController.text = recentSearch;
+                      searchOnSubmitted(recentSearch);
                     });
               else
                 return SizedBox();

@@ -57,8 +57,8 @@ mixin BoardMainViewAppBarMixin {
   Widget buildTextField(
     TextEditingController textController, {
     required BoardMainViewMode viewMode,
-    required void Function(BoardMainViewMode) setViewMode,
-    required void Function(String?) onSubmitted,
+    void Function()? onTap,
+    void Function(String?)? onSubmitted,
     void Function(String)? onChanged,
   }) {
     if (viewMode == BoardMainViewMode.main) {
@@ -67,7 +67,7 @@ mixin BoardMainViewAppBarMixin {
     return TextField(
       controller: textController,
       onChanged: onChanged,
-      onTap: () => setViewMode(BoardMainViewMode.search),
+      onTap: onTap,
       onSubmitted: onSubmitted,
       decoration: InputDecoration(
           border: OutlineInputBorder(
