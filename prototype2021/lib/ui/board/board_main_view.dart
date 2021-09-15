@@ -15,6 +15,8 @@ import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
 
+const double _toolbarHeight = 60;
+
 class BoardMainView extends StatefulWidget {
   const BoardMainView({Key? key}) : super(key: key);
 
@@ -131,14 +133,7 @@ class _BoardMainViewState extends State<BoardMainView>
     bool onSearch = viewMode == BoardMainViewMode.search;
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildAppBar(
-          context,
-          viewMode: viewMode,
-          setViewMode: setViewMode,
-          textController: textEditingController,
-          onTextFieldChanged: setSearchInput,
-          onTextFieldSubmitted: searchOnSubmitted,
-        ),
+        appBar: buildAppBar(context),
         body: DefaultTabController(
           initialIndex: 0,
           length: 2,
@@ -148,6 +143,27 @@ class _BoardMainViewState extends State<BoardMainView>
         ),
         persistentFooterButtons:
             buildPersistentFooterButtons(onSearch: onSearch));
+  }
+
+  PreferredSize buildAppBar(BuildContext context) {
+    return PreferredSize(
+        child: AppBar(
+          elevation: 0,
+          backgroundColor: Colors.white,
+          shadowColor: Colors.white,
+          leading: buildLeading(context,
+              viewMode: viewMode, setViewMode: setViewMode),
+          title: buildTextField(
+            textEditingController,
+            viewMode: viewMode,
+            onChanged: setSearchInput,
+            setViewMode: setViewMode,
+            onSubmitted: searchOnSubmitted,
+          ),
+          toolbarHeight: _toolbarHeight,
+          actions: buildActions(setViewMode: setViewMode, viewMode: viewMode),
+        ),
+        preferredSize: Size.fromHeight(_toolbarHeight));
   }
 
   TabBarView buildDefaultBody(BuildContext context) {
