@@ -7,23 +7,31 @@ const String _recentSearchKey = 'recentSearch';
 
 mixin BoardMainViewSearchLogicMixin {
   TextEditingController textEditingController = new TextEditingController();
-  StreamController<List<String>> recentSearchController =
-      new StreamController<List<String>>();
+  StreamController<List<dynamic>> recentSearchController =
+      new StreamController<List<dynamic>>.broadcast();
 
   SimpleStorage storage = new SimpleStorage();
 
-  Future<List<String>?> getSearchKeywords() async =>
-      await storage.readList<String>(_recentSearchKey);
+  Future<List<dynamic>?> getSearchKeywords() async {
+    try {
+      return await storage.readList(_recentSearchKey);
+    } catch (error) {
+      return null;
+    }
+  }
 
   Future<void> loadSearchKeywords() async {
-    List<String>? current = await getSearchKeywords();
-    if (current != null) {
-      recentSearchController.add(current);
+    List<dynamic>? current = await getSearchKeywords();
+    if (current == null || current.length == 0) {
+      await resetSearchKeyword();
+      recentSearchController.add([]);
+    } else {
+      recentSearchController.add(current.reversed.toList());
     }
   }
 
   Future<void> addSearchKeyword(String keyword) async {
-    List<String>? current = await getSearchKeywords();
+    List<dynamic>? current = await getSearchKeywords();
     if (current == null) {
       current = [keyword];
     } else {
@@ -35,9 +43,10 @@ mixin BoardMainViewSearchLogicMixin {
   }
 
   Future<void> removeSearchKeyword(String keyword) async {
-    List<String>? current = await getSearchKeywords();
+    List<dynamic>? current = await getSearchKeywords();
     if (current != null) {
       current.remove(keyword);
+      storage.writeList(_recentSearchKey, current);
       recentSearchController.add(current);
     }
   }

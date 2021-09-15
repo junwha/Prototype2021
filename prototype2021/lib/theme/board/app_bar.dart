@@ -5,11 +5,14 @@ import 'package:prototype2021/ui/board/board_main_view.dart';
 const double _toolbarHeight = 60;
 
 mixin BoardMainViewAppBarMixin {
-  PreferredSize buildAppBar(BuildContext context,
-      {required BoardMainViewMode viewMode,
-      required void Function(BoardMainViewMode) setViewMode,
-      required TextEditingController textController,
-      void Function(String)? onTextFieldChanged}) {
+  PreferredSize buildAppBar(
+    BuildContext context, {
+    required BoardMainViewMode viewMode,
+    required void Function(BoardMainViewMode) setViewMode,
+    required TextEditingController textController,
+    required void Function(String?) onTextFieldSubmitted,
+    void Function(String)? onTextFieldChanged,
+  }) {
     return PreferredSize(
         child: AppBar(
           elevation: 0,
@@ -17,10 +20,13 @@ mixin BoardMainViewAppBarMixin {
           shadowColor: Colors.white,
           leading: buildLeading(context,
               viewMode: viewMode, setViewMode: setViewMode),
-          title: buildTextField(textController,
-              viewMode: viewMode,
-              onChanged: onTextFieldChanged,
-              setViewMode: setViewMode),
+          title: buildTextField(
+            textController,
+            viewMode: viewMode,
+            onChanged: onTextFieldChanged,
+            setViewMode: setViewMode,
+            onSubmitted: onTextFieldSubmitted,
+          ),
           toolbarHeight: _toolbarHeight,
           actions: buildActions(setViewMode: setViewMode, viewMode: viewMode),
         ),
@@ -39,7 +45,7 @@ mixin BoardMainViewAppBarMixin {
           Navigator.pop(context);
           break;
         case BoardMainViewMode.search:
-          setViewMode(BoardMainViewMode.result);
+          setViewMode(BoardMainViewMode.main);
           break;
         case BoardMainViewMode.result:
           setViewMode(BoardMainViewMode.search);
@@ -82,6 +88,7 @@ mixin BoardMainViewAppBarMixin {
     TextEditingController textController, {
     required BoardMainViewMode viewMode,
     required void Function(BoardMainViewMode) setViewMode,
+    required void Function(String?) onSubmitted,
     void Function(String)? onChanged,
   }) {
     if (viewMode == BoardMainViewMode.main) {
@@ -91,7 +98,7 @@ mixin BoardMainViewAppBarMixin {
       controller: textController,
       onChanged: onChanged,
       onTap: () => setViewMode(BoardMainViewMode.search),
-      onSubmitted: (_) => setViewMode(BoardMainViewMode.result),
+      onSubmitted: onSubmitted,
       decoration: InputDecoration(
           border: OutlineInputBorder(
               borderRadius: BorderRadius.all(Radius.circular(21)),

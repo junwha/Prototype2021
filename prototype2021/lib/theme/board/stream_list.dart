@@ -2,22 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/board/board_list_view.dart';
 import 'package:prototype2021/theme/loading.dart';
 
-mixin BoardMainViewStreamListMixin {
-  StreamBuilder buildStreamListView<T>(BuildContext context,
-      {required Stream<List<T>> stream,
-      required Widget Function(T) builder,
-      Widget Function(BuildContext)? routeBuilder}) {
+class BoardMainViewStreamList<T> extends StatelessWidget {
+  final Stream<List<T>> stream;
+  final Widget Function(T) builder;
+  final Widget Function(BuildContext)? routeBuilder;
+  final Widget? header;
+  final Widget? emptyWidget;
+  final Widget? errorWidget;
+  final void Function()? refetch;
+  final int refetchCount;
+
+  BoardMainViewStreamList({
+    required this.stream,
+    required this.builder,
+    this.routeBuilder,
+    this.header,
+    this.emptyWidget,
+    this.errorWidget,
+    this.refetch,
+    this.refetchCount = 3,
+  });
+
+  @override
+  Widget build(BuildContext context) => buildStreamListView(context);
+
+  StreamBuilder buildStreamListView(BuildContext context) {
     return StreamBuilder<List<T>>(
       stream: stream,
       builder: (_, snapshot) {
-        if (snapshot.data == null) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          if (refetch != null) {
+            refetch!();
+          }
           return LoadingIndicator();
-        } else {
-          return BoardListView<T>(
-              data: snapshot.data!,
-              builder: builder,
-              routeBuilder: routeBuilder);
         }
+        if (snapshot.hasData) {
+          if (snapshot.data!.length > 0) {
+            return BoardListView<T>(
+                header: header,
+                data: snapshot.data!,
+                builder: builder,
+                routeBuilder: routeBuilder);
+          } else {
+            return emptyWidget ?? SizedBox();
+          }
+        }
+        return errorWidget ?? SizedBox();
       },
     );
   }

@@ -5,12 +5,15 @@ class BoardListView<T> extends StatelessWidget {
   final Widget Function(T) builder;
   final void Function(T)? onTap;
   final Widget Function(BuildContext)? routeBuilder;
+  final Widget? header;
+
   const BoardListView({
     Key? key,
     required this.data,
     required this.builder,
     this.onTap,
     this.routeBuilder,
+    this.header,
   }) : super(key: key);
 
   @override
@@ -32,14 +35,30 @@ class BoardListView<T> extends StatelessWidget {
       }
     }
 
+    List<Widget> _children = data
+        .map((datum) => GestureDetector(
+              onTap: () => _onTap(datum),
+              child: builder(datum),
+            ))
+        .toList();
+
+    // Idk why this error occurs,
+    // but anyway, I need to set all widgets in _children
+    // as GestureDetector
+    if (header != null) {
+      if (header is GestureDetector) {
+        _children.insert(0, header!);
+      } else {
+        _children.insert(
+            0,
+            GestureDetector(
+              child: header!,
+            ));
+      }
+    }
+
     return SingleChildScrollView(
-      child: Column(
-          children: data
-              .map((datum) => GestureDetector(
-                    onTap: () => _onTap(datum),
-                    child: builder(datum),
-                  ))
-              .toList()),
+      child: Column(children: _children),
     );
   }
 }

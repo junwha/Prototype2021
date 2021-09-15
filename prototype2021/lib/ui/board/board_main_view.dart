@@ -5,6 +5,7 @@ import 'package:prototype2021/theme/board/app_bar.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
 import 'package:prototype2021/theme/board/helpers.dart';
 import 'package:prototype2021/theme/board/search_logic.dart';
+import 'package:prototype2021/theme/board/search_widget.dart';
 import 'package:prototype2021/theme/board/stream_list.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
@@ -27,7 +28,7 @@ class _BoardMainViewState extends State<BoardMainView>
     with
         BoardMainHeaderSilverMixin,
         BoardMainViewAppBarMixin,
-        BoardMainViewStreamListMixin,
+        BoardMainViewSearchWidgetMixin,
         BoardMainViewSearchLogicMixin,
         BoardMainViewHelpers {
   /* =================================/================================= */
@@ -36,9 +37,12 @@ class _BoardMainViewState extends State<BoardMainView>
 
   BoardMainViewMode viewMode = BoardMainViewMode.main;
 
-  void setViewMode(BoardMainViewMode _viewMode) => setState(() {
-        viewMode = _viewMode;
-      });
+  Future<void> setViewMode(BoardMainViewMode _viewMode) async {
+    handleModeChange(_viewMode);
+    setState(() {
+      viewMode = _viewMode;
+    });
+  }
 
   String searchInput = "";
   void setSearchInput(String _searchInput) => setState(() {
@@ -47,24 +51,48 @@ class _BoardMainViewState extends State<BoardMainView>
   // The types inside Lists are temporary implementation.
   // If needed, this types can be changed.
   StreamController<List<ProductCardBaseProps>> planDataController =
-      new StreamController<List<ProductCardBaseProps>>();
+      new StreamController<List<ProductCardBaseProps>>.broadcast();
   StreamController<List<ContentsCardBaseProps>> contentsDataController =
-      new StreamController<List<ContentsCardBaseProps>>();
+      new StreamController<List<ContentsCardBaseProps>>.broadcast();
 
-  Future<void> searchOnSubmitted(String keyword) async {
-    setViewMode(BoardMainViewMode.result);
-    addSearchKeyword(keyword);
-    // Do something with keyword (e.g. API call)
-    // Code below is just a simulation of api call
+  late Stream<List<ProductCardBaseProps>> planDataStream;
+  late Stream<List<ContentsCardBaseProps>> contentsDataStream;
+  late Stream<List<dynamic>> recentSearchesStream;
+
+  Future<void> pseudoApiCall() async {
     planDataController.add([]);
     contentsDataController.add([]);
     planDataController.add(await getPseudoPlanData());
     contentsDataController.add(await getPseudoContentData());
   }
 
+  Future<void> searchOnSubmitted(String? keyword) async {
+    if (keyword != null && keyword.length > 0) {
+      await addSearchKeyword(keyword);
+      setViewMode(BoardMainViewMode.result);
+      // Do something with keyword (e.g. API call)
+      // Code below is just a simulation of api call
+    }
+  }
+
+  Future<void> onResetButtonPressed() async {
+    await resetSearchKeyword();
+    loadSearchKeywords();
+  }
+
+  Future<void> initData() async => await pseudoApiCall();
+
+  void handleModeChange(BoardMainViewMode _viewMode) {
+    if (_viewMode == BoardMainViewMode.search) {
+      loadSearchKeywords();
+    } else {
+      pseudoApiCall();
+    }
+  }
+
   // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
-  // Need to apply individual cards
+  // Need to apply at the level of individual cards
   bool heartSelected = false;
   bool heartSelected2 = false;
 
@@ -72,26 +100,26 @@ class _BoardMainViewState extends State<BoardMainView>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  _BoardMainViewState() : super();
-
-  @override
-  void initState() async {
-    super.initState();
-    // Code below is a simulation of api call
-    planDataController.add(await getPseudoPlanData());
-    contentsDataController.add(await getPseudoContentData());
+  _BoardMainViewState() {
+    planDataStream = planDataController.stream;
+    contentsDataStream = contentsDataController.stream;
+    recentSearchesStream = recentSearchController.stream;
   }
 
   @override
-  void didUpdateWidget(BoardMainView oldWidget) async {
-    super.didUpdateWidget(oldWidget);
-    if (viewMode == BoardMainViewMode.search) {
-      List<String>? recentSearches = await getSearchKeywords();
-      if (recentSearches == null || recentSearches.length == 0)
-        recentSearchController.add([]);
-      else
-        recentSearchController.add(recentSearches);
-    }
+  void initState() {
+    super.initState();
+    // Code below is a simulation of api call
+    initData();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    textEditingController.dispose();
+    recentSearchController.close();
+    planDataController.close();
+    contentsDataController.close();
   }
 
   /* =================================/================================= */
@@ -103,11 +131,14 @@ class _BoardMainViewState extends State<BoardMainView>
     bool onSearch = viewMode == BoardMainViewMode.search;
     return Scaffold(
         backgroundColor: Colors.white,
-        appBar: buildAppBar(context,
-            viewMode: viewMode,
-            setViewMode: setViewMode,
-            textController: textEditingController,
-            onTextFieldChanged: setSearchInput),
+        appBar: buildAppBar(
+          context,
+          viewMode: viewMode,
+          setViewMode: setViewMode,
+          textController: textEditingController,
+          onTextFieldChanged: setSearchInput,
+          onTextFieldSubmitted: searchOnSubmitted,
+        ),
         body: DefaultTabController(
           initialIndex: 0,
           length: 2,
@@ -128,29 +159,23 @@ class _BoardMainViewState extends State<BoardMainView>
 
   Container buildSearchBody() {
     return Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        child: buildStreamListView<String>(context,
+        padding: EdgeInsets.only(right: 20, left: 40, top: 20, bottom: 20),
+        child: BoardMainViewStreamList(
             stream: recentSearchController.stream,
-            builder: (recentSearch) => Container(
-                  child: Row(
-                    children: [
-                      Text(recentSearch,
-                          style: const TextStyle(
-                              color: const Color(0xff555555),
-                              fontWeight: FontWeight.w400,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 14.0),
-                          textAlign: TextAlign.left),
-                      IconButton(
-                          onPressed: () {},
-                          icon: Icon(Icons.cancel,
-                              color: const Color(0xffdadada))),
-                    ],
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                  ),
-                )));
+            refetch: () => loadSearchKeywords(),
+            header: buildSearchBodyHeader(),
+            emptyWidget: buildCenterNotice('최근 검색기록이 없습니다'),
+            errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다'),
+            builder: (recentSearch) {
+              if (recentSearch is String)
+                return buildRecentSearchItem(
+                    text: recentSearch,
+                    onActionPressed: () {
+                      removeSearchKeyword(recentSearch);
+                    });
+              else
+                return SizedBox();
+            }));
   }
 
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderBuilder(
@@ -180,11 +205,11 @@ class _BoardMainViewState extends State<BoardMainView>
         viewMode: viewMode);
   }
 
-  List<TextButton> buildPersistentFooterButtons({required bool onSearch}) {
+  List<TextButton>? buildPersistentFooterButtons({required bool onSearch}) {
     if (onSearch) {
       return [
         TextButton(
-            onPressed: () {},
+            onPressed: onResetButtonPressed,
             child: Row(
               children: [
                 Icon(Icons.delete_forever, color: const Color(0xff555555)),
@@ -203,22 +228,24 @@ class _BoardMainViewState extends State<BoardMainView>
             ))
       ];
     } else {
-      return [];
+      return null;
     }
   }
 
-  StreamBuilder buildPlanListView(BuildContext context) {
-    return buildStreamListView<ProductCardBaseProps>(
-      context,
+  BoardMainViewStreamList buildPlanListView(BuildContext context) {
+    return BoardMainViewStreamList<ProductCardBaseProps>(
       stream: planDataController.stream,
+      refetch: () async => planDataController.add(await getPseudoPlanData()),
       builder: (props) => ProductCard(props: props),
       routeBuilder: (_) => PlanMakeView(),
     );
   }
 
-  StreamBuilder buildContentListView(BuildContext context) {
-    return buildStreamListView<ContentsCardBaseProps>(context,
+  BoardMainViewStreamList buildContentListView(BuildContext context) {
+    return BoardMainViewStreamList<ContentsCardBaseProps>(
         stream: contentsDataController.stream,
+        refetch: () async =>
+            contentsDataController.add(await getPseudoContentData()),
         builder: (props) => ContentsCard(props: props),
         routeBuilder: (_) => ContentDetailView());
   }
