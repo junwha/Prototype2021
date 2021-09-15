@@ -1,8 +1,11 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/board/app_bar.dart';
-import 'package:prototype2021/theme/board/board_list_view.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
 import 'package:prototype2021/theme/board/helpers.dart';
+import 'package:prototype2021/theme/board/search_logic.dart';
+import 'package:prototype2021/theme/board/stream_list.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
@@ -24,6 +27,8 @@ class _BoardMainViewState extends State<BoardMainView>
     with
         BoardMainHeaderSilverMixin,
         BoardMainViewAppBarMixin,
+        BoardMainViewStreamListMixin,
+        BoardMainViewSearchLogicMixin,
         BoardMainViewHelpers {
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
@@ -35,11 +40,27 @@ class _BoardMainViewState extends State<BoardMainView>
         viewMode = _viewMode;
       });
 
-  TextEditingController textEditingController = new TextEditingController();
   String searchInput = "";
   void setSearchInput(String _searchInput) => setState(() {
         searchInput = _searchInput;
       });
+  // The types inside Lists are temporary implementation.
+  // If needed, this types can be changed.
+  StreamController<List<ProductCardBaseProps>> planDataController =
+      new StreamController<List<ProductCardBaseProps>>();
+  StreamController<List<ContentsCardBaseProps>> contentsDataController =
+      new StreamController<List<ContentsCardBaseProps>>();
+
+  Future<void> searchOnSubmitted(String keyword) async {
+    setViewMode(BoardMainViewMode.result);
+    addSearchKeyword(keyword);
+    // Do something with keyword (e.g. API call)
+    // Code below is just a simulation of api call
+    planDataController.add([]);
+    contentsDataController.add([]);
+    planDataController.add(await getPseudoPlanData());
+    contentsDataController.add(await getPseudoContentData());
+  }
 
   // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
@@ -53,33 +74,83 @@ class _BoardMainViewState extends State<BoardMainView>
 
   _BoardMainViewState() : super();
 
+  @override
+  void initState() async {
+    super.initState();
+    // Code below is a simulation of api call
+    planDataController.add(await getPseudoPlanData());
+    contentsDataController.add(await getPseudoContentData());
+  }
+
+  @override
+  void didUpdateWidget(BoardMainView oldWidget) async {
+    super.didUpdateWidget(oldWidget);
+    if (viewMode == BoardMainViewMode.search) {
+      List<String>? recentSearches = await getSearchKeywords();
+      if (recentSearches == null || recentSearches.length == 0)
+        recentSearchController.add([]);
+      else
+        recentSearchController.add(recentSearches);
+    }
+  }
+
   /* =================================/================================= */
   /* ==============================WIDGETS============================== */
   /* =================================/================================= */
 
   @override
   Widget build(BuildContext context) {
+    bool onSearch = viewMode == BoardMainViewMode.search;
     return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: buildAppBar(context,
-          viewMode: viewMode,
-          setViewMode: setViewMode,
-          textController: textEditingController,
-          onTextFieldChanged: setSearchInput),
-      body: DefaultTabController(
-        initialIndex: 0,
-        length: 2,
-        child: NestedScrollView(
-          headerSliverBuilder: buildHeaderBuilder(context),
-          body: viewMode == BoardMainViewMode.search
-              ? SizedBox()
-              : TabBarView(children: [
-                  buildPlanListView(context),
-                  buildContentListView(context),
-                ]),
+        backgroundColor: Colors.white,
+        appBar: buildAppBar(context,
+            viewMode: viewMode,
+            setViewMode: setViewMode,
+            textController: textEditingController,
+            onTextFieldChanged: setSearchInput),
+        body: DefaultTabController(
+          initialIndex: 0,
+          length: 2,
+          child: NestedScrollView(
+              headerSliverBuilder: buildHeaderBuilder(context),
+              body: onSearch ? buildSearchBody() : buildDefaultBody(context)),
         ),
-      ),
-    );
+        persistentFooterButtons:
+            buildPersistentFooterButtons(onSearch: onSearch));
+  }
+
+  TabBarView buildDefaultBody(BuildContext context) {
+    return TabBarView(children: [
+      buildPlanListView(context),
+      buildContentListView(context),
+    ]);
+  }
+
+  Container buildSearchBody() {
+    return Container(
+        padding: EdgeInsets.symmetric(horizontal: 20),
+        child: buildStreamListView<String>(context,
+            stream: recentSearchController.stream,
+            builder: (recentSearch) => Container(
+                  child: Row(
+                    children: [
+                      Text(recentSearch,
+                          style: const TextStyle(
+                              color: const Color(0xff555555),
+                              fontWeight: FontWeight.w400,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 14.0),
+                          textAlign: TextAlign.left),
+                      IconButton(
+                          onPressed: () {},
+                          icon: Icon(Icons.cancel,
+                              color: const Color(0xffdadada))),
+                    ],
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                  ),
+                )));
   }
 
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderBuilder(
@@ -109,33 +180,46 @@ class _BoardMainViewState extends State<BoardMainView>
         viewMode: viewMode);
   }
 
-  /* 
-   * This(buildPlanListView and buildContentListView) is temporary implementation. 
-   * isHeartSelected state should be handled  
-   * at the individual ProductCard or ContentsCard level, 
-   * not at the root widget level(BoardMainView)
-   */
-  BoardListView buildPlanListView(BuildContext context) {
-    return BoardListView<ProductCardBaseProps>(
-      data: generatePseudoPlanData((bool isSelected) {
-        setState(() {
-          heartSelected = isSelected;
-        });
-      }, heartSelected),
+  List<TextButton> buildPersistentFooterButtons({required bool onSearch}) {
+    if (onSearch) {
+      return [
+        TextButton(
+            onPressed: () {},
+            child: Row(
+              children: [
+                Icon(Icons.delete_forever, color: const Color(0xff555555)),
+                SizedBox(width: 7),
+                Text("전체 삭제",
+                    style: const TextStyle(
+                        color: const Color(0xff555555),
+                        fontWeight: FontWeight.w700,
+                        fontFamily: "Roboto",
+                        fontStyle: FontStyle.normal,
+                        fontSize: 15.0),
+                    textAlign: TextAlign.center)
+              ],
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+            ))
+      ];
+    } else {
+      return [];
+    }
+  }
+
+  StreamBuilder buildPlanListView(BuildContext context) {
+    return buildStreamListView<ProductCardBaseProps>(
+      context,
+      stream: planDataController.stream,
       builder: (props) => ProductCard(props: props),
       routeBuilder: (_) => PlanMakeView(),
     );
   }
 
-  BoardListView buildContentListView(BuildContext context) {
-    return BoardListView<ContentsCardBaseProps>(
-      data: generatePseudoContentData((bool isSelected) {
-        setState(() {
-          heartSelected2 = isSelected;
-        });
-      }, heartSelected2),
-      builder: (props) => ContentsCard(props: props),
-      routeBuilder: (_) => ContentDetailView(),
-    );
+  StreamBuilder buildContentListView(BuildContext context) {
+    return buildStreamListView<ContentsCardBaseProps>(context,
+        stream: contentsDataController.stream,
+        builder: (props) => ContentsCard(props: props),
+        routeBuilder: (_) => ContentDetailView());
   }
 }
