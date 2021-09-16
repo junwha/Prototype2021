@@ -62,6 +62,7 @@ class _BoardMainViewState extends State<BoardMainView>
   late Stream<List<dynamic>> recentSearchesStream;
 
   Future<void> pseudoApiCall() async {
+    // Code below is just a simulation of api calls
     planDataController.add(await getPseudoPlanData());
     contentsDataController.add(await getPseudoContentData());
   }
@@ -71,7 +72,6 @@ class _BoardMainViewState extends State<BoardMainView>
       await addSearchKeyword(keyword);
       setViewMode(BoardMainViewMode.result);
       // Do something with keyword (e.g. API call)
-      // Code below is just a simulation of api call
     }
   }
 
