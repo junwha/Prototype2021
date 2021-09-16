@@ -11,6 +11,7 @@ import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
 import 'package:prototype2021/theme/cards/product_card_base.dart';
+import 'package:prototype2021/theme/center_notice.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
@@ -178,9 +179,12 @@ class _BoardMainViewState extends State<BoardMainView>
             stream: recentSearchController.stream,
             refetch: _handleSearchKeywords,
             header: buildSearchBodyHeader(),
-            emptyWidget: buildCenterNotice('최근 검색기록이 없습니다'),
-            errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다',
-                onActionPressed: _handleSearchKeywords),
+            emptyWidget: CenterNotice(text: '최근 검색기록이 없습니다'),
+            errorWidget: CenterNotice(
+              text: '예기치 못한 오류가 발생했습니다',
+              actionText: "다시 시도",
+              onActionPressed: _handleSearchKeywords,
+            ),
             builder: (recentSearch) {
               if (recentSearch is String)
                 return buildRecentSearchItem(
@@ -217,9 +221,10 @@ class _BoardMainViewState extends State<BoardMainView>
     }
 
     return buildHeaderSilverBuilder(
-        location: location,
-        onLeadingPressed: onLeadingPressed,
-        viewMode: viewMode);
+      location: location,
+      onLeadingPressed: onLeadingPressed,
+      viewMode: viewMode,
+    );
   }
 
   List<TextButton>? buildPersistentFooterButtons({required bool onSearch}) {
@@ -266,9 +271,12 @@ class _BoardMainViewState extends State<BoardMainView>
       refetch: _handleRefetch,
       builder: (props) => ProductCard(props: props),
       routeBuilder: (_) => PlanMakeView(),
-      emptyWidget: buildCenterNotice("불러올 수 있는 플랜이 없습니다"),
-      errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다',
-          onActionPressed: _handleRefetch),
+      emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
+      errorWidget: CenterNotice(
+        text: '예기치 못한 오류가 발생했습니다',
+        actionText: "다시 시도",
+        onActionPressed: _handleRefetch,
+      ),
     );
   }
 
@@ -278,9 +286,12 @@ class _BoardMainViewState extends State<BoardMainView>
       refetch: _handleRefetch,
       builder: (props) => ContentsCard(props: props),
       routeBuilder: (_) => ContentDetailView(),
-      emptyWidget: buildCenterNotice("불러올 수 있는 컨텐츠가 없습니다"),
-      errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다',
-          onActionPressed: _handleRefetch),
+      emptyWidget: CenterNotice(text: "불러올 수 있는 컨텐츠가 없습니다"),
+      errorWidget: CenterNotice(
+        text: '예기치 못한 오류가 발생했습니다',
+        actionText: "다시 시도",
+        onActionPressed: _handleRefetch,
+      ),
     );
   }
 }

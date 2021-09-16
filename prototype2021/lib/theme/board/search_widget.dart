@@ -1,38 +1,6 @@
 import 'package:flutter/material.dart';
 
 mixin BoardMainViewSearchWidgetMixin {
-  Center buildCenterNotice(String text, {void Function()? onActionPressed}) {
-    return Center(
-      child: Column(
-        children: [
-          Text(text,
-              style: const TextStyle(
-                  color: const Color(0xff555555),
-                  fontWeight: FontWeight.w400,
-                  fontFamily: "Roboto",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 18.0),
-              textAlign: TextAlign.center),
-          SizedBox(
-            height: 5,
-          ),
-          TextButton(
-              onPressed: onActionPressed,
-              child: Text(text,
-                  style: const TextStyle(
-                      color: const Color(0xff4080ff),
-                      fontWeight: FontWeight.w400,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 16.0),
-                  textAlign: TextAlign.center))
-        ],
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-      ),
-    );
-  }
-
   Container buildSearchBodyHeader() {
     return Container(
       child: Text("최근 검색어",
