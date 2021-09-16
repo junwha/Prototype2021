@@ -62,8 +62,6 @@ class _BoardMainViewState extends State<BoardMainView>
   late Stream<List<dynamic>> recentSearchesStream;
 
   Future<void> pseudoApiCall() async {
-    planDataController.add([]);
-    contentsDataController.add([]);
     planDataController.add(await getPseudoPlanData());
     contentsDataController.add(await getPseudoContentData());
   }
@@ -173,14 +171,16 @@ class _BoardMainViewState extends State<BoardMainView>
   }
 
   Container buildSearchBody() {
+    void _handleSearchKeywords() => loadSearchKeywords();
     return Container(
         padding: EdgeInsets.only(right: 20, left: 40, top: 20, bottom: 20),
         child: BoardMainViewStreamList(
             stream: recentSearchController.stream,
-            refetch: () => loadSearchKeywords(),
+            refetch: _handleSearchKeywords,
             header: buildSearchBodyHeader(),
             emptyWidget: buildCenterNotice('최근 검색기록이 없습니다'),
-            errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다'),
+            errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다',
+                onActionPressed: _handleSearchKeywords),
             builder: (recentSearch) {
               if (recentSearch is String)
                 return buildRecentSearchItem(
@@ -249,21 +249,38 @@ class _BoardMainViewState extends State<BoardMainView>
     }
   }
 
+  void _handleRefetch() {
+    if (viewMode == BoardMainViewMode.result && searchInput.length > 0) {
+      searchOnSubmitted(searchInput);
+      return;
+    }
+    if (viewMode == BoardMainViewMode.main) {
+      pseudoApiCall();
+      return;
+    }
+  }
+
   BoardMainViewStreamList buildPlanListView(BuildContext context) {
     return BoardMainViewStreamList<ProductCardBaseProps>(
       stream: planDataController.stream,
-      refetch: () async => planDataController.add(await getPseudoPlanData()),
+      refetch: _handleRefetch,
       builder: (props) => ProductCard(props: props),
       routeBuilder: (_) => PlanMakeView(),
+      emptyWidget: buildCenterNotice("불러올 수 있는 플랜이 없습니다"),
+      errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다',
+          onActionPressed: _handleRefetch),
     );
   }
 
   BoardMainViewStreamList buildContentListView(BuildContext context) {
     return BoardMainViewStreamList<ContentsCardBaseProps>(
-        stream: contentsDataController.stream,
-        refetch: () async =>
-            contentsDataController.add(await getPseudoContentData()),
-        builder: (props) => ContentsCard(props: props),
-        routeBuilder: (_) => ContentDetailView());
+      stream: contentsDataController.stream,
+      refetch: _handleRefetch,
+      builder: (props) => ContentsCard(props: props),
+      routeBuilder: (_) => ContentDetailView(),
+      emptyWidget: buildCenterNotice("불러올 수 있는 컨텐츠가 없습니다"),
+      errorWidget: buildCenterNotice('예기치 못한 오류가 발생했습니다',
+          onActionPressed: _handleRefetch),
+    );
   }
 }
