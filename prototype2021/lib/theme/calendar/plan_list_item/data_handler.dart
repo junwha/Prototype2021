@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:geodesy/geodesy.dart';
+import 'package:geodesy/geodesy.dart' as Geodesy;
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/plan/google_geodesy_latlng_adapter.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/middle_divider.dart';
 import 'package:prototype2021/theme/calendar/schedule_card.dart';
 
 mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
-  final Geodesy _geodesy = new Geodesy();
+  final Geodesy.Geodesy _geodesy = new Geodesy.Geodesy();
 
   int toWidgetIndex(int index) => (index + 2) ~/ 2;
 
@@ -28,7 +29,8 @@ mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
             PlaceDataProps nextData = data[i];
             if (nextData.types != "memo") {
               distanceBetweenCurAndNext = _geodesy.distanceBetweenTwoGeoPoints(
-                  cur.location, nextData.location);
+                  GoogleGeodesyLatLngAdapter(cur.location),
+                  GoogleGeodesyLatLngAdapter(nextData.location));
               break;
             }
           }

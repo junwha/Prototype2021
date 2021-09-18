@@ -1,6 +1,6 @@
 import 'dart:math';
 
-import 'package:geodesy/geodesy.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 
 // class GooglePlaceData {
