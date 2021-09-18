@@ -14,7 +14,11 @@ class TBMapModel with ChangeNotifier {
   // If you ensure mapController is initialized, you can use this mapController with ! operator.
   GoogleMapController? mapController;
 
-  TBMapModel(this.center) {
+  TBMapModel(this.center, {MarkerList? markerList}) {
+    if (markerList != null) {
+      this.markerList = markerList;
+    }
+
     init();
   }
 
