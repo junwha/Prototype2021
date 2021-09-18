@@ -55,6 +55,15 @@ void testCalendar() {
     });
   });
 
+  group('[Static Method] dateToString', () {
+    DateTime birth = new DateTime(2002, 12, 09);
+    String birthToString = '2002-12-09';
+
+    test('should get date to string in format that can satisfy the API', () {
+      expect(Calendar.dateToString(birth), birthToString);
+    });
+  });
+
   /* 
    * These are untested methods since it's logic is too simple to test it
    * 
