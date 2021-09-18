@@ -47,6 +47,16 @@ class PlanMakeCalendarModel with ChangeNotifier {
    * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
   */
   List<List<PlaceDataProps>>? get planListItems => _planListItems;
+  List<PlaceDataProps> get plainPlanListItems {
+    List<PlaceDataProps> plainPlanListItems = [];
+    if (_planListItems == null) return plainPlanListItems;
+
+    for (List<PlaceDataProps> itemList in _planListItems!) {
+      plainPlanListItems.addAll(itemList);
+    }
+
+    return plainPlanListItems;
+  }
 
   /* 
    * 캘린더의 터치를 핸들링하는 메소드입니다. 
