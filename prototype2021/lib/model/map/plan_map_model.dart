@@ -6,7 +6,6 @@ import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/model/map/tb_map_model.dart';
 
 class PlanMapModel extends TBMapModel {
-  List<PlaceDataProps> placeItems;
   List<LatLng> get _polylinePoints =>
       this.locations.map((l) => l.latLng).toList();
 
@@ -18,15 +17,24 @@ class PlanMapModel extends TBMapModel {
         patterns: [PatternItem.dash(10), PatternItem.gap(10)],
       );
 
-  PlanMapModel(LatLng center, this.placeItems) : super(center) {
-    testPolyline();
-  }
+  PlanMapModel(LatLng center) : super(center);
 
-  void testPolyline() async {
-    await this.markerList.loadImage();
-    this.updateLocations(placeItems.map((e) => Location(
-        LatLng(e.location.latitude, e.location.longitude),
-        PlaceType.CAFFEE,
-        e.name)));
+  void updatePolyline(List<PlaceDataProps> placeItems) async {
+    if (placeItems.length > 0 && mapLoaded) {
+      double meanLatitude = placeItems
+              .map((e) => e.location.latitude)
+              .reduce((value, element) => value + element) /
+          placeItems.length;
+      double meanLongitude = placeItems
+              .map((e) => e.location.longitude)
+              .reduce((value, element) => value + element) /
+          placeItems.length;
+
+      this.changeFocus(Location(LatLng(meanLatitude, meanLongitude),
+          PlaceType.DEFAULT, "center of polyline"));
+
+      this.updateLocations(placeItems.map((e) => Location(
+          LatLng(e.location.latitude, e.location.longitude), e.types, e.name)));
+    }
   }
 }
