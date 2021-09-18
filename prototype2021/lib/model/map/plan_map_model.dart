@@ -33,12 +33,10 @@ class PlanMapModel extends TBMapModel {
   void updatePolyline(List<PlaceDataProps> placeItems) async {
     if (mapLoaded) {
       // Update Marker with data of placeItems
-      List<PlanLocation> locations = [];
+      List<IndexLocation> locations = [];
       for (int i = 0; i < placeItems.length; i++) {
-        int index = (i < 9) ? i : 9;
-
-        locations.add(PlanLocation(
-            index,
+        locations.add(IndexLocation(
+            i,
             LatLng(placeItems[i].location.latitude,
                 placeItems[i].location.longitude),
             placeItems[i].types,

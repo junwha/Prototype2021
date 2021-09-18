@@ -38,7 +38,7 @@ class PlanMarker extends MarkerList {
   @override
   void addMarkers(Iterable<Location> locationList) {
     for (Location location in locationList) {
-      if (location is PlanLocation) {
+      if (location is IndexLocation) {
         try {
           addMarker(location,
               externalMarkerIcon:

@@ -56,8 +56,18 @@ class MultiEventLocation extends Location {
                     .toString()); // TODO: specify maximum number of markers
 }
 
-class PlanLocation extends Location {
-  int index;
-  PlanLocation(this.index, LatLng latLng, String type, String name)
-      : super(latLng, type, name);
+/*
+ * This location type is the index specified location type.
+ * Generally, use this with plan map
+ */
+class IndexLocation extends Location {
+  late int index;
+  IndexLocation(int index, LatLng latLng, String type, String name,
+      {int maxIndex = 8})
+      : super(latLng, type, name) {
+    this.index = (index <= maxIndex)
+        ? index
+        : maxIndex +
+            1; // if index is over maxIndex, set index as maxIndex+1 (this logic is for marker index of 9+)
+  }
 }
