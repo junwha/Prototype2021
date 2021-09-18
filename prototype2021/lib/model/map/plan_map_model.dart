@@ -23,6 +23,7 @@ class PlanMapModel extends TBMapModel {
           ], // TODO: resolve IOS dash error
         );
 
+  // Initialize TBMapModel with PlanMarker
   PlanMapModel(LatLng center) : super(center, markerList: PlanMarker());
 
   /*
@@ -33,18 +34,14 @@ class PlanMapModel extends TBMapModel {
   void updatePolyline(List<PlaceDataProps> placeItems) async {
     if (mapLoaded) {
       // Update Marker with data of placeItems
-      List<IndexLocation> locations = [];
-      for (int i = 0; i < placeItems.length; i++) {
-        locations.add(IndexLocation(
-            i,
-            LatLng(placeItems[i].location.latitude,
-                placeItems[i].location.longitude),
-            placeItems[i].types,
-            placeItems[i].name));
-      }
-      this.updateLocations(locations);
+      this.updateLocations(placeItems.map((e) => IndexLocation(
+          placeItems.indexOf(e),
+          LatLng(e.location.latitude, e.location.longitude),
+          e.types,
+          e.name)));
+
       if (placeItems.length > 0) {
-        // Set center as mean point
+        // Calculate mean point
         double meanLatitude = placeItems
                 .map((e) => e.location.latitude)
                 .reduce((value, element) => value + element) /
@@ -53,6 +50,8 @@ class PlanMapModel extends TBMapModel {
                 .map((e) => e.location.longitude)
                 .reduce((value, element) => value + element) /
             placeItems.length;
+
+        // Update center as mean point
         this.updateCenter(LatLng(meanLatitude, meanLongitude));
       }
     }
