@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
@@ -13,23 +14,23 @@ void testPlanMapModel() {
   List<PlaceDataProps> data = [
     PseudoPlaceData(
         location: LatLng(0, 0),
-        name: "A",
-        types: PlaceType.DEFAULT,
+        name: "cafe",
+        types: PlaceType.CAFE,
         address: null),
     PseudoPlaceData(
         location: LatLng(0, 3),
-        name: "B",
-        types: PlaceType.DEFAULT,
+        name: "spot",
+        types: PlaceType.SPOT,
         address: null),
     PseudoPlaceData(
         location: LatLng(0, 2),
-        name: "C",
-        types: PlaceType.DEFAULT,
+        name: "restaurant",
+        types: PlaceType.RESTAURANT,
         address: null),
     PseudoPlaceData(
         location: LatLng(3, 0),
-        name: "D",
-        types: PlaceType.DEFAULT,
+        name: "hotel",
+        types: PlaceType.HOTEL,
         address: null)
   ];
 
@@ -41,15 +42,26 @@ void testPlanMapModel() {
     model.updatePolyline([]);
     expect(model.polyline, null);
 
+    // Update polyline with one event location
+    model.updatePolyline([
+      PseudoPlaceData(
+          location: LatLng(3, 0),
+          name: "nontype",
+          types: PlaceType.EVENT,
+          address: null)
+    ]);
     // polyline is null if data is only one
-    model.updatePolyline([data[0]]);
-    expect(model.polyline, null);
     expect(1, model.locations.length);
+    expect(model.polyline, null);
 
     // expect same length between data and points of polyline if data is newly added
     model.updatePolyline(data);
     expect(model.polyline != null, true);
     expect(model.polyline!.points.length, data.length);
+
+    // All data have to be saved as IndexLocation
+    expect(
+        model.locations.map((e) => e is IndexLocation).contains(false), false);
 
     model.updatePolyline([]);
     expect(model.polyline, null);
