@@ -71,7 +71,7 @@ class _EventMainViewState extends State<EventMainView> {
                 Text(
                   "마감 임박 게시글",
                   style: TextStyle(
-                      color: Colors.black,
+                      color: Color(0xff555555),
                       fontWeight: FontWeight.bold,
                       fontSize: 14 * pt),
                 ),
@@ -313,10 +313,7 @@ class _EventMainViewState extends State<EventMainView> {
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
       leading: IconButton(
-        icon: Icon(
-          Icons.arrow_back,
-          color: Colors.black,
-        ),
+        icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
         onPressed: () {
           Navigator.pop(context);
         },
