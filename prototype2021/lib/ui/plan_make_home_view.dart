@@ -215,7 +215,11 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
             129.1893)); // TODO: replace this position as current position;
         calendarHandler.addListener(() {
           // Notify to plan map model when the calendar handler has changed.
-          model.updatePolyline(calendarHandler.plainPlanListItems);
+          try {
+            model.updatePolyline(calendarHandler.plainPlanListItems);
+          } catch (e) {
+            print(e);
+          }
         });
         return model;
       },
@@ -229,11 +233,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
                 height: isMapEnabled ? 200 : 0,
                 child: Consumer(builder:
                     (BuildContext context, PlanMapModel model, Widget? _) {
-                  return model.mapLoaded
-                      ? PlanMap(
-                          model: model,
-                        )
-                      : SizedBox();
+                  return model.mapLoaded ? PlanMap() : SizedBox();
                 })),
             buildPlanListItemsHeader(mode, _setMode,
                 _planListItemsHeaderElevation, _sizeAnimation, _borderColor),

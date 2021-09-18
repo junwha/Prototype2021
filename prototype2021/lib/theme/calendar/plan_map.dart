@@ -6,9 +6,7 @@ import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:provider/provider.dart';
 
 class PlanMap extends StatefulWidget {
-  final PlanMapModel model;
-
-  PlanMap({required this.model, Key? key}) : super(key: key);
+  PlanMap({Key? key}) : super(key: key);
 
   @override
   _PlanMapState createState() => _PlanMapState();
@@ -17,15 +15,14 @@ class PlanMap extends StatefulWidget {
 class _PlanMapState extends State<PlanMap> {
   @override
   Widget build(BuildContext context) {
+    PlanMapModel model = Provider.of<PlanMapModel>(context);
     return BackgroundMap(
-      center: this.widget.model.center,
-      markers: this.widget.model.markers,
+      center: model.center,
+      markers: model.markers,
       onMapCreated: (GoogleMapController controller) {
-        this.widget.model.mapController = controller;
+        model.mapController = controller;
       },
-      polylines: this.widget.model.polyline != null
-          ? <Polyline>{this.widget.model.polyline!}
-          : null,
+      polylines: model.polyline != null ? <Polyline>{model.polyline!} : null,
       zoom: 13,
     );
   }
