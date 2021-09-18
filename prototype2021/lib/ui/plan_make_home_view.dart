@@ -197,9 +197,10 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         )));
   }
 
-  Container buildMain(BuildContext context) {
+  Widget buildMain(BuildContext context) {
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
+
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
       return PlanListItem(
@@ -208,19 +209,23 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
-
-    return Container(
-      child: Column(
-        children: [
-          Container(
-            height: 50,
-          ),
-          /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
-          Container(
-            height: isMapEnabled ? 200 : 0,
-            child: ChangeNotifierProvider<PlanMapModel>(
-                create: (_) => PlanMapModel(LatLng(35.5763, 129.1893),
-                    calendarHandler.plainPlanListItems),
+    return ChangeNotifierProvider<PlanMapModel>(
+      create: (_) {
+        PlanMapModel model = PlanMapModel(LatLng(35.5763,
+            129.1893)); // TODO: replace this position as current position;
+        calendarHandler.addListener(() {
+          model.updatePolyline(calendarHandler.plainPlanListItems);
+        });
+        return model;
+      },
+      child: Container(
+        child: Column(
+          children: [
+            Container(
+              height: 50,
+            ),
+            Container(
+                height: isMapEnabled ? 200 : 0,
                 child: Consumer(builder:
                     (BuildContext context, PlanMapModel model, Widget? _) {
                   return model.mapLoaded
@@ -229,20 +234,20 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
                         )
                       : SizedBox();
                 })),
-          ),
-          buildPlanListItemsHeader(mode, _setMode,
-              _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
-          buildTopShadowHidingContainer(_blindContainerColor),
-          Column(children: planListItemWidgets),
-        ],
+            buildPlanListItemsHeader(mode, _setMode,
+                _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
+            buildTopShadowHidingContainer(_blindContainerColor),
+            Column(children: planListItemWidgets),
+          ],
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+            color: Colors.white),
+        width: MediaQuery.of(context).size.width,
+        constraints:
+            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
       ),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-          color: Colors.white),
-      width: MediaQuery.of(context).size.width,
-      constraints:
-          BoxConstraints(minHeight: MediaQuery.of(context).size.height),
     );
   }
 
