@@ -13,6 +13,7 @@ class BackgroundMap extends StatefulWidget {
   Function(GoogleMapController) onMapCreated;
   CameraPosition? initialCameraPosition;
   late Set<Polyline> polylines;
+  double zoom;
 
   BackgroundMap({
     required this.center,
@@ -22,6 +23,7 @@ class BackgroundMap extends StatefulWidget {
     this.onCameraMove,
     this.onTap,
     this.initialCameraPosition,
+    this.zoom = 18.0,
     polylines,
   }) {
     this.polylines = polylines ?? {};
@@ -47,7 +49,7 @@ class _BackgroundMapState extends State<BackgroundMap> {
                 CameraPosition(
                   //Set initial Camera Position
                   target: this.widget.center,
-                  zoom: 18.0,
+                  zoom: this.widget.zoom,
                 ),
             gestureRecognizers: //Gesture Detectors
                 <Factory<OneSequenceGestureRecognizer>>{
