@@ -47,15 +47,19 @@ class PlanMakeCalendarModel with ChangeNotifier {
    * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
   */
   List<List<PlaceDataProps>>? get planListItems => _planListItems;
-  List<PlaceDataProps> get plainPlanListItems {
-    List<PlaceDataProps> plainPlanListItems = [];
-    if (_planListItems == null) return plainPlanListItems;
+
+  /*
+   * 여행 계획들을 순서를 유지하면서 평탄화하여 리턴합니다
+   */
+  List<PlaceDataProps> get flattenPlanListItems {
+    List<PlaceDataProps> _flattenPlanListItems = [];
+    if (_planListItems == null) return _flattenPlanListItems;
 
     for (List<PlaceDataProps> itemList in _planListItems!) {
-      plainPlanListItems.addAll(itemList);
+      _flattenPlanListItems.addAll(itemList);
     }
 
-    return plainPlanListItems;
+    return _flattenPlanListItems;
   }
 
   /* 

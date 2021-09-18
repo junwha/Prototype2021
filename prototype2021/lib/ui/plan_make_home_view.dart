@@ -216,7 +216,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         calendarHandler.addListener(() {
           // Notify to plan map model when the calendar handler has changed.
           try {
-            model.updatePolyline(calendarHandler.plainPlanListItems);
+            model.updatePolyline(calendarHandler.flattenPlanListItems);
           } catch (e) {
             print(e);
           }
