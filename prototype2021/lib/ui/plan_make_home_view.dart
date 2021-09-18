@@ -214,6 +214,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         PlanMapModel model = PlanMapModel(LatLng(35.5763,
             129.1893)); // TODO: replace this position as current position;
         calendarHandler.addListener(() {
+          // Notify to plan map model when the calendar handler has changed.
           model.updatePolyline(calendarHandler.plainPlanListItems);
         });
         return model;
