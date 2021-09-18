@@ -4,6 +4,7 @@ import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/model/map/tb_map_model.dart';
+import 'package:prototype2021/theme/map/plan_marker.dart';
 
 class PlanMapModel extends TBMapModel {
   List<LatLng> get _polylinePoints =>
@@ -22,7 +23,7 @@ class PlanMapModel extends TBMapModel {
           ], // TODO: resolve IOS dash error
         );
 
-  PlanMapModel(LatLng center) : super(center);
+  PlanMapModel(LatLng center) : super(center, markerList: PlanMarker());
 
   /*
    * This method updates polyline data with placeItems from outer model
@@ -32,8 +33,18 @@ class PlanMapModel extends TBMapModel {
   void updatePolyline(List<PlaceDataProps> placeItems) async {
     if (mapLoaded) {
       // Update Marker with data of placeItems
-      this.updateLocations(placeItems.map((e) => Location(
-          LatLng(e.location.latitude, e.location.longitude), e.types, e.name)));
+      List<PlanLocation> locations = [];
+      for (int i = 0; i < placeItems.length; i++) {
+        int index = (i < 9) ? i : 9;
+
+        locations.add(PlanLocation(
+            index,
+            LatLng(placeItems[i].location.latitude,
+                placeItems[i].location.longitude),
+            placeItems[i].types,
+            placeItems[i].name));
+      }
+      this.updateLocations(locations);
       if (placeItems.length > 0) {
         // Set center as mean point
         double meanLatitude = placeItems
