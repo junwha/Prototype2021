@@ -59,17 +59,17 @@ List<PseudoPlaceData> pseudoPlaceData = [
   PseudoPlaceData(
       location: randomLocation(),
       name: "상하이 디즈니랜드",
-      types: PlaceType.DEFAULT,
+      types: PlaceType.SPOT,
       address: "중국, 상하이"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "루브르 박물관",
-      types: PlaceType.DEFAULT,
+      types: PlaceType.SPOT,
       address: "프랑스, 파리"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "그라니트 자카",
-      types: PlaceType.DEFAULT,
+      types: PlaceType.SPOT,
       address: "스위스, 베른"),
   PseudoPlaceData(
       location: randomLocation(),
