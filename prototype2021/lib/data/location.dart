@@ -55,3 +55,9 @@ class MultiEventLocation extends Location {
                     .nextInt(100000)
                     .toString()); // TODO: specify maximum number of markers
 }
+
+class PlanLocation extends Location {
+  int index;
+  PlanLocation(this.index, LatLng latLng, String type, String name)
+      : super(latLng, type, name);
+}
