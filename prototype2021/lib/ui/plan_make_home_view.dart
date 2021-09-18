@@ -218,9 +218,9 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
           /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
           Container(
             height: isMapEnabled ? 200 : 0,
-            // duration: Duration(milliseconds: 500),
             child: ChangeNotifierProvider<PlanMapModel>(
-                create: (_) => PlanMapModel(LatLng(35.5763, 129.1893)),
+                create: (_) => PlanMapModel(LatLng(35.5763, 129.1893),
+                    calendarHandler.plainPlanListItems),
                 child: Consumer(builder:
                     (BuildContext context, PlanMapModel model, Widget? _) {
                   return model.mapLoaded
