@@ -9,16 +9,18 @@ class PlanMapModel extends TBMapModel {
   List<LatLng> get _polylinePoints =>
       this.locations.map((l) => l.latLng).toList();
 
-  Polyline? get polyline => Polyline(
-        polylineId: PolylineId("0"),
-        points: _polylinePoints,
-        color: Colors.black,
-        width: 3,
-        patterns: [
-          PatternItem.dash(10),
-          PatternItem.gap(10)
-        ], // TODO: resolve IOS dash error
-      );
+  Polyline? get polyline => _polylinePoints.length <= 1
+      ? null
+      : Polyline(
+          polylineId: PolylineId("0"),
+          points: _polylinePoints,
+          color: Colors.black,
+          width: 3,
+          patterns: [
+            PatternItem.dash(10),
+            PatternItem.gap(10)
+          ], // TODO: resolve IOS dash error
+        );
 
   PlanMapModel(LatLng center) : super(center);
 
@@ -28,22 +30,22 @@ class PlanMapModel extends TBMapModel {
    * Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
    */
   void updatePolyline(List<PlaceDataProps> placeItems) async {
-    if (placeItems.length > 0 && mapLoaded) {
-      // Set center as mean point
-      double meanLatitude = placeItems
-              .map((e) => e.location.latitude)
-              .reduce((value, element) => value + element) /
-          placeItems.length;
-      double meanLongitude = placeItems
-              .map((e) => e.location.longitude)
-              .reduce((value, element) => value + element) /
-          placeItems.length;
-      this.changeFocus(Location(LatLng(meanLatitude, meanLongitude),
-          PlaceType.DEFAULT, "center of polyline"));
-
+    if (mapLoaded) {
       // Update Marker with data of placeItems
       this.updateLocations(placeItems.map((e) => Location(
           LatLng(e.location.latitude, e.location.longitude), e.types, e.name)));
+      if (placeItems.length > 0) {
+        // Set center as mean point
+        double meanLatitude = placeItems
+                .map((e) => e.location.latitude)
+                .reduce((value, element) => value + element) /
+            placeItems.length;
+        double meanLongitude = placeItems
+                .map((e) => e.location.longitude)
+                .reduce((value, element) => value + element) /
+            placeItems.length;
+        this.updateCenter(LatLng(meanLatitude, meanLongitude));
+      }
     }
   }
 }
