@@ -26,6 +26,7 @@ class _PlanMapState extends State<PlanMap> {
       polylines: this.widget.model.polyline != null
           ? <Polyline>{this.widget.model.polyline!}
           : null,
+      zoom: 13,
     );
   }
 }
