@@ -10,7 +10,7 @@ import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/header.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/main.dart';
-import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
+import 'package:prototype2021/theme/calendar/plan_make_appbar_base.dart';
 import 'package:prototype2021/theme/calendar/plan_map.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +21,7 @@ class PlanMakeHomeView extends StatefulWidget {
 
 class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     with
-        PlanMakeViewBase,
+        PlanMakeAppBarBase,
         TickerProviderStateMixin,
         ChangeNotifier,
         /* 
