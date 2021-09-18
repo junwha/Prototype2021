@@ -84,6 +84,6 @@ List<PseudoPlaceData> pseudoPlaceData = [
   PseudoPlaceData(
       location: randomLocation(),
       name: "Starbucks",
-      types: PlaceType.CAFFEE,
+      types: PlaceType.CAFE,
       address: "미국, 뉴욕"),
 ];

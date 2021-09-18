@@ -28,7 +28,7 @@ class MarkerList {
     try {
       markerIconMap[PlaceType.DEFAULT] =
           await MarkerImage.createIcon('assets/images/map/marker.png', 100);
-      markerIconMap[PlaceType.CAFFEE] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.CAFE] = await MarkerImage.createIcon(
           'assets/images/map/caffee_marker.png', 100);
       markerIconMap[PlaceType.RESTAURANT] = await MarkerImage.createIcon(
           'assets/images/map/restaurant_marker.png', 100);

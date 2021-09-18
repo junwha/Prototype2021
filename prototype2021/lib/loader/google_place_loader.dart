@@ -9,7 +9,7 @@ class PlaceType {
   static const String RESTAURANT = "식당";
   static const String HOTEL = "호텔";
   static const String SPOT = "관광지";
-  static const String CAFFEE = "카페";
+  static const String CAFE = "카페";
   static const String DEFAULT = "default";
   static const String EVENT = "event";
   static const String CLICKED = "clicked";
@@ -22,7 +22,7 @@ class PlaceLoader {
     PlaceType.RESTAURANT,
     PlaceType.HOTEL,
     PlaceType.SPOT,
-    PlaceType.CAFFEE
+    PlaceType.CAFE
   ];
 
   PlaceLoader({required this.center});

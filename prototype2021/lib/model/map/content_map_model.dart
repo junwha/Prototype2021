@@ -15,7 +15,7 @@ class ContentMapModel extends TBMapModel {
     PlaceType.RESTAURANT: false,
     PlaceType.HOTEL: false,
     PlaceType.SPOT: false,
-    PlaceType.CAFFEE: false,
+    PlaceType.CAFE: false,
   };
 
   late PlaceLoader placeLoader;
@@ -40,7 +40,7 @@ class ContentMapModel extends TBMapModel {
       PlaceType.RESTAURANT: false,
       PlaceType.HOTEL: false,
       PlaceType.SPOT: false,
-      PlaceType.CAFFEE: false,
+      PlaceType.CAFE: false,
     };
     notifyListeners();
   }

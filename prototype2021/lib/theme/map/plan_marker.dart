@@ -10,7 +10,7 @@ class PlanMarker extends MarkerList {
   @override
   Future<bool> loadImage() async {
     Map<String, String> placeTypeToFileName = {
-      PlaceType.CAFFEE: "cafe",
+      PlaceType.CAFE: "cafe",
       PlaceType.DEFAULT: "destination",
       PlaceType.RESTAURANT: "restaurant",
       PlaceType.HOTEL: "room"
