@@ -99,6 +99,7 @@ PlanDataProps pseudoPlanData = PseudoPlanData(
   [
     [pseudoPlaceData[0], pseudoPlaceData[1]],
     [pseudoPlaceData[3]],
-    [pseudoPlaceData[2], pseudoPlaceData[4]]
+    [pseudoPlaceData[2], pseudoPlaceData[4], pseudoPlaceData[0]],
+    [pseudoPlaceData[2], MemoData(memo: "asdf"), pseudoPlaceData[0]]
   ],
 );
