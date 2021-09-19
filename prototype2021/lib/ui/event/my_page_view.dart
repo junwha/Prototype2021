@@ -85,4 +85,28 @@ class MyPage extends StatelessWidget {
           ],
         )));
   }
+
+  Container buildCard(
+    String title,
+  ) {
+    return Container(
+        width: double.infinity,
+        height: 85,
+        child: Card(
+          child: Row(
+            children: [
+              SizedBox(
+                width: 50,
+              ),
+              Text(
+                title,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(68, 68, 68, 1)),
+              ),
+            ],
+          ),
+        ));
+  }
 }
