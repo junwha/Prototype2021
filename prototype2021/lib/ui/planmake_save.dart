@@ -396,21 +396,8 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     );
   }
 
-  Stack buildRadioButton(int selectedRadio, Function(int?) onChanged) {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        SizedBox(
-          height: 30,
-        ),
-        Container(
-          height: 2,
-          width: 300,
-          color: Color(0xffbdbdbd),
-        ),
-        TBRadioBar(selectedRadio: selectedRadio, onChanged: onChanged),
-      ],
-    );
+  Widget buildRadioButton(int selectedRadio, Function(int?) onChanged) {
+    return TBRadioBar(selectedRadio: selectedRadio, onChanged: onChanged);
   }
 
   Row buildRadioButtonTextArea(String Text1, String Text2) {
