@@ -5,7 +5,7 @@ import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 import 'package:prototype2021/ui/event/filter_view.dart';
 
-mixin BoardMainHeaderSilverMixin {
+mixin BoardMainSilverMixin {
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder({
     required void Function() onLeadingPressed,
     required Map<String, String> location,

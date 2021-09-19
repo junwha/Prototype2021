@@ -27,7 +27,7 @@ enum BoardMainViewMode { main, search, result }
 
 class _BoardMainViewState extends State<BoardMainView>
     with
-        BoardMainHeaderSilverMixin,
+        BoardMainSilverMixin,
         BoardMainViewAppBarMixin,
         BoardMainViewSearchWidgetMixin,
         BoardMainViewSearchLogicMixin,
