@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/model/map/plan_map_model.dart';
@@ -7,11 +6,9 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/calendar/plan_map.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/contents_card_base.dart';
-import 'package:prototype2021/theme/tag.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_foldable_card.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
-import 'package:prototype2021/ui/planmake_save.dart';
 import 'package:provider/provider.dart';
 
 class PlanDetailView extends StatefulWidget {
@@ -23,16 +20,22 @@ class PlanDetailView extends StatefulWidget {
 }
 
 class _PlanDetailViewState extends State<PlanDetailView> {
-  bool isLoaded = false;
-  late PlanDataProps planData;
-  // Flatten the place data double list
-  late List<PlaceDataProps> flattenPlaceData;
-  late PlanMapModel mapModel;
+  /* =================================/=============================== */
+  /* =========================STATES & METHODS======================== */
+  /* =================================/=============================== */
   // Simulate API call
   PlanDataProps getPlanDetail(int pid) {
     Future.delayed(Duration(seconds: 3));
     return pseudoPlanData;
   }
+
+  bool isLoaded = false;
+
+  late PlanDataProps planData;
+
+  // Flatten the place data double list
+  late List<PlaceDataProps> flattenPlaceData;
+  late PlanMapModel mapModel;
 
   void loadPlanDetail() async {
     planData = getPlanDetail(this.widget.pid);
@@ -50,11 +53,15 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     });
     // Remove non-PlaceData
     flattenPlaceData.removeWhere((element) => !(element is PseudoPlaceData));
-
     mapModel = PlanMapModel(flattenPlaceData[0].location);
+    mapModel
+        .setMapLoadListener(() => {mapModel.updatePolyline(flattenPlaceData)});
     super.initState();
   }
 
+  /* =================================/=============================== */
+  /* ===============================Widget============================ */
+  /* =================================/=============================== */
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,6 +83,10 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     );
   }
 
+  /*
+   * 현규님이 다른 곳에서 구현하신 것과 동일한 메소드입니다.
+   * 아이템 사이사이에 Divider를 끼워넣습니다
+   */
   Widget buildColumnWithDivider({List<Widget> children = const []}) {
     return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -88,6 +99,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
                 : buildDivider()));
   }
 
+  // TODO: replace this loading page to implemented loading page widget
   Widget buildLoading() {
     return Text("loading");
   }
@@ -116,6 +128,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           fontFamily: 'Roboto',
         ),
       ),
+      elevation: 3,
       shadowColor: Colors.white,
       leading: IconButton(
         icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
@@ -134,7 +147,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '울산 곳곳 탐방',
+              '${planData.title}',
               style: TextStyle(
                 color: Color(0xff444444),
                 fontSize: 18 * pt,
@@ -155,7 +168,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           ],
         ),
         Text(
-          '울산광역시',
+          '${planData.region}',
           style: TextStyle(
             color: Color(0xff555555),
             fontSize: 12 * pt,
@@ -164,14 +177,14 @@ class _PlanDetailViewState extends State<PlanDetailView> {
         ),
         SizedBox(height: 8),
         Text(
-          '기간 : 2일',
+          '${planData.period.duration.inDays}일',
           style: TextStyle(
             color: Color(0xff555555),
             fontFamily: 'Roboto',
           ),
         ),
         Text(
-          '예산 : 20만원 ~ 30만원',
+          '${planData.budget}',
           style: TextStyle(
             color: Color(0xff555555),
             fontFamily: 'Roboto',
@@ -186,18 +199,13 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   }
 
   Widget buildMap() {
-    return ChangeNotifierProvider<PlanMapModel>(
-        create: (_) {
-          return mapModel;
-        },
+    return ChangeNotifierProvider<PlanMapModel>.value(
+        value: mapModel,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Consumer<PlanMapModel>(
                 builder: (BuildContext ctx, PlanMapModel model, Widget? _) {
-              if (mapModel.mapLoaded) {
-                mapModel.updatePolyline(flattenPlaceData);
-              }
               return Container(
                 height: 200,
                 child: mapModel.mapLoaded ? PlanMap() : SizedBox(height: 200),

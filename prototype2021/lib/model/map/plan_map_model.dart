@@ -31,7 +31,7 @@ class PlanMapModel extends TBMapModel {
    * Please add this method as another model's notifier 
    * Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
    */
-  void updatePolyline(List<PlaceDataProps> placeItems) async {
+  void updatePolyline(List<PlaceDataProps> placeItems) {
     if (mapLoaded) {
       // Update Marker with data of placeItems
       this.updateLocations(placeItems.map((e) => IndexLocation(
