@@ -310,7 +310,7 @@ class _EventMainViewState extends State<EventMainView> {
     return Container(
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(10 * pt, 12 * pt, 15 * pt, 29 * pt),
+        padding: const EdgeInsets.fromLTRB(10 * pt, 12 * pt, 15 * pt, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -322,7 +322,7 @@ class _EventMainViewState extends State<EventMainView> {
                     style: TextStyle(
                       color: Color(0xff444444),
                       fontFamily: 'Roboto',
-                      fontSize: 23 * pt,
+                      fontSize: 21 * pt,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -358,7 +358,7 @@ class _EventMainViewState extends State<EventMainView> {
                 children: [
                   Text("지도 보기",
                       style: TextStyle(
-                          fontSize: 17 * pt,
+                          fontSize: 16 * pt,
                           fontWeight: FontWeight.bold,
                           color: Color.fromRGBO(85, 85, 85, 1))),
                   SizedBox(
