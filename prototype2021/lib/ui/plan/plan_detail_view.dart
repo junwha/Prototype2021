@@ -23,6 +23,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /* =================================/=============================== */
   /* =========================STATES & METHODS======================== */
   /* =================================/=============================== */
+
   // Simulate API call
   PlanDataProps getPlanDetail(int pid) {
     Future.delayed(Duration(seconds: 3));
@@ -198,6 +199,9 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     );
   }
 
+  /*
+   * initState에서 생성한 PlanMapModel을 사용합니다
+   */
   Widget buildMap() {
     return ChangeNotifierProvider<PlanMapModel>.value(
         value: mapModel,
@@ -227,6 +231,9 @@ class _PlanDetailViewState extends State<PlanDetailView> {
         ));
   }
 
+  /*
+   * placeList로부터 일자마다 foldable한 컨텐츠/메모 칼럼을 생성합니다
+   */
   Widget buildDailyPlan(List<PlaceDataProps> placeList) {
     return Column(
         children: placeList.map((data) {
@@ -266,6 +273,9 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     }).toList());
   }
 
+  /*
+   * planData로부터 모든 일자에 대해 컨텐츠/메모 뷰를 생성합니다
+   */
   Widget buildAllDayPlan(PlanDataProps planData) {
     return buildColumnWithDivider(
       children: planData.planItemList
@@ -279,18 +289,21 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     );
   }
 
+  /*
+   * RadioBar를 각각 생성합니다
+   */
   Widget buildTripStyleView(PlanDataProps planData) {
     return TBFoldableCard(
       text: "이 여행의 스타일 보기",
       child: Column(
         children: [
-          buildRadioBar(1, 3), //TODO: process with planData
+          _buildRadioBars(1, 3), //TODO: process with planData
         ],
       ),
     );
   }
 
-  Widget buildRadioBar(int p1, int p2) {
+  Widget _buildRadioBars(int p1, int p2) {
     //TODO: rename this two variables
     return Column(
       children: [
