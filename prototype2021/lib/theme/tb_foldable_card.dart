@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class TBFoldableCard extends StatefulWidget {
   double width;
@@ -37,7 +38,7 @@ class _TBFoldableCardState extends State<TBFoldableCard>
   Widget build(BuildContext context) {
     return Container(
       width: this.widget.width,
-      padding: EdgeInsets.symmetric(horizontal: 10),
+      // padding: EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [buildHeader(), buildMain()],
       ),
@@ -67,7 +68,7 @@ class _TBFoldableCardState extends State<TBFoldableCard>
             this.widget.text,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 13,
+              fontSize: 13 * pt,
               fontFamily: 'Roboto',
               fontWeight: FontWeight.w700,
             ),
