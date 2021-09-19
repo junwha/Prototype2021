@@ -7,6 +7,7 @@ import 'package:prototype2021/theme/event_articles.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:prototype2021/theme/tb_event_more_button.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
 import 'package:prototype2021/ui/event/editor_view.dart';
 import 'package:prototype2021/ui/event/event_detail_view.dart';
@@ -89,30 +90,7 @@ class _EventMainViewState extends State<EventMainView> {
           duration: Duration(seconds: 1),
           child: !isAllList ? SizedBox() : EventArticles(eventArticleModel),
         ),
-        TextButton(
-            child: Container(
-                height: 35 * pt,
-                width: 280 * pt,
-                decoration: BoxDecoration(
-                    border: Border.all(width: 1),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                child: Center(
-                    child: Text(
-                  "더보기",
-                  style: TextStyle(
-                      fontSize: 15 * pt,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.black54),
-                ))),
-            onPressed: () {
-              if (!isAllList) {
-                setState(() {
-                  isAllList = true;
-                });
-              } else {
-                // TODO: next page
-              }
-            }),
+        TBEventMoreButton(isAllList: isAllList)
       ],
     );
   }
