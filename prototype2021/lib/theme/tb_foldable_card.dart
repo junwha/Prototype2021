@@ -37,7 +37,6 @@ class _TBFoldableCardState extends State<TBFoldableCard>
   Widget build(BuildContext context) {
     return Container(
       width: this.widget.width,
-      color: Colors.pink,
       padding: EdgeInsets.symmetric(horizontal: 10),
       child: Column(
         children: [buildHeader(), buildMain()],
@@ -61,7 +60,6 @@ class _TBFoldableCardState extends State<TBFoldableCard>
   Container buildHeader() {
     return Container(
       height: this.widget.height,
-      color: Colors.blue,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

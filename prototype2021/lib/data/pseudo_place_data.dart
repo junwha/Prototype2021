@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
@@ -87,3 +88,17 @@ List<PseudoPlaceData> pseudoPlaceData = [
       types: PlaceType.CAFE,
       address: "미국, 뉴욕"),
 ];
+
+PlanDataProps pseudoPlanData = PseudoPlanData(
+  "Tripbuilder",
+  "울산광역시",
+  DateTimeRange(start: DateTime(2020, 06, 23), end: DateTime(2021, 10, 31)),
+  "100만원",
+  true,
+  ["맛집탐방", "SNS핫플", "인생사진"],
+  [
+    [pseudoPlaceData[0], pseudoPlaceData[1]],
+    [pseudoPlaceData[3]],
+    [pseudoPlaceData[2], pseudoPlaceData[4]]
+  ],
+);
