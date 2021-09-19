@@ -300,7 +300,7 @@ class _EventMainViewState extends State<EventMainView> {
                     style: TextStyle(
                       color: Color(0xff444444),
                       fontFamily: 'Roboto',
-                      fontSize: 21 * pt,
+                      fontSize: 19 * pt,
                       fontWeight: FontWeight.w700,
                     ),
                   ),
@@ -336,7 +336,7 @@ class _EventMainViewState extends State<EventMainView> {
                 children: [
                   Text("지도 보기",
                       style: TextStyle(
-                          fontSize: 16 * pt,
+                          fontSize: 15 * pt,
                           fontWeight: FontWeight.bold,
                           color: Color.fromRGBO(85, 85, 85, 1))),
                   SizedBox(
