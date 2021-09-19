@@ -189,12 +189,18 @@ class _EventMainViewState extends State<EventMainView> {
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             IconButton(
-              icon: Image.asset(
-                "assets/icons/filter_list_24px.png",
-                width: 40,
-                height: 40,
-              ),
-              onPressed: () {},
+              onPressed: () {
+                tbShowDialog(
+                    context,
+                    TBLargeDialog(
+                      title: "",
+                      insetsPadding:
+                          EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+                      padding: EdgeInsets.all(20),
+                      body: SingleChildScrollView(child: FilterView()),
+                    ));
+              },
+              icon: Image.asset("assets/icons/ic_filter_gray.png"),
             ),
             IconButton(
               icon: Image.asset(
