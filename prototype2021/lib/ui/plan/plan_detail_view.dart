@@ -10,6 +10,7 @@ import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/tag.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_foldable_card.dart';
+import 'package:prototype2021/theme/tb_radio_bar.dart';
 import 'package:prototype2021/ui/planmake_save.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +20,7 @@ class PlanDetailView extends StatefulWidget {
 
   @override
   _PlanDetailViewState createState() => _PlanDetailViewState();
+}
 
 class _PlanDetailViewState extends State<PlanDetailView> {
   bool isLoaded = false;
@@ -58,27 +60,32 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: isLoaded ? buildPlanDetailView() : buildLoading(),
+      body: isLoaded
+          ? SingleChildScrollView(
+              child: Column(
+              children: [
+                buildColumnWithDivider(children: [
+                  buildDescription(),
+                  buildTripStyleView(planData),
+                  buildMap(),
+                ]),
+                buildAllDayPlan(planData)
+              ],
+            ))
+          : buildLoading(),
     );
   }
 
-  Widget buildPlanDetailView() {
-    List<Widget> children = [
-      buildDescription(),
-      buildMap(),
-      buildAllDayPlan(planData)
-    ];
-    return SingleChildScrollView(
-      child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-              children.length * 2,
-              (index) => (index % 2 == 0)
-                  ? Padding(
-                      padding: EdgeInsets.all(20),
-                      child: (children[(index ~/ 2)]))
-                  : buildDivider())),
-    );
+  Widget buildColumnWithDivider({List<Widget> children = const []}) {
+    return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: List.generate(
+            children.length * 2,
+            (index) => (index % 2 == 0)
+                ? Padding(
+                    padding: EdgeInsets.all(20),
+                    child: (children[(index ~/ 2)]))
+                : buildDivider()));
   }
 
   Widget buildLoading() {
@@ -217,14 +224,27 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     return Column(
         children: placeList.map((data) {
       if (data is MemoData) {
-        return SizedBox();
-      } else if (data is PseudoPlaceData) {
-        PseudoPlaceData placeData = data as PseudoPlaceData;
         return ContentsCard(
           props: ContentsCardBaseProps(
             backgroundColor: Colors.white,
             preview: placeHolder,
-            title: "울산대공원",
+            title: "Custom Memo",
+            place: "",
+            explanation: "${data.memo}",
+            rating: 0,
+            ratingNumbers: 0,
+            tags: [],
+            isHeartSelected: false,
+            onHeartPreessed: (bool isSelected) {},
+          ),
+        );
+      } else if (data is PseudoPlaceData) {
+        PseudoPlaceData placeData = data;
+        return ContentsCard(
+          props: ContentsCardBaseProps(
+            backgroundColor: Colors.white,
+            preview: placeHolder,
+            title: "${placeData.name}",
             place: "대한민국, 울산",
             explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
             rating: 5,
@@ -240,7 +260,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   }
 
   Widget buildAllDayPlan(PlanDataProps planData) {
-    return Column(
+    return buildColumnWithDivider(
       children: planData.planItemList
           .map(
             (placeList) => TBFoldableCard(
@@ -249,6 +269,37 @@ class _PlanDetailViewState extends State<PlanDetailView> {
             ),
           )
           .toList(),
+    );
+  }
+
+  Widget buildTripStyleView(PlanDataProps planData) {
+    return TBFoldableCard(
+      text: "이 여행의 스타일 보기",
+      child: Column(
+        children: [
+          buildRadioBar(1, 3), //TODO: process with planData
+        ],
+      ),
+    );
+  }
+
+  Widget buildRadioBar(int p1, int p2) {
+    //TODO: rename this two variables
+    return Column(
+      children: [
+        TBRadioBar(
+          selectedRadio: p1,
+          onChanged: (_) {},
+          minimumText: '여유롭고 \n느긋한 여행',
+          maximumText: "바쁘더라도\n알찬 여행",
+        ),
+        TBRadioBar(
+          selectedRadio: p2,
+          onChanged: (_) {},
+          minimumText: "불편해도\n 저렴하게",
+          maximumText: "비싸더라도\n 편안하게",
+        ),
+      ],
     );
   }
 }
