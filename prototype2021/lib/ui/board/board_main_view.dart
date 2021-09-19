@@ -170,7 +170,7 @@ class _BoardMainViewState extends State<BoardMainView>
     void _handleSearchKeywords() => loadSearchKeywords();
     return Container(
         padding: EdgeInsets.only(right: 20, left: 40, top: 20, bottom: 20),
-        child: BoardMainViewStreamList(
+        child: BoardMainViewStreamList<dynamic>(
             stream: recentSearchController.stream,
             refetch: _handleSearchKeywords,
             header: buildSearchBodyHeader(),

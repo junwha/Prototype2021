@@ -36,7 +36,7 @@ class BoardListView<T> extends StatelessWidget {
     }
 
     List<Widget> _children = data
-        .map((datum) => GestureDetector(
+        .map<Widget>((datum) => GestureDetector(
               onTap: () => _onTap(datum),
               child: builder(datum),
             ))
@@ -46,15 +46,7 @@ class BoardListView<T> extends StatelessWidget {
     // but anyway, I need to set all widgets in _children
     // as GestureDetector
     if (header != null) {
-      if (header is GestureDetector) {
-        _children.insert(0, header!);
-      } else {
-        _children.insert(
-            0,
-            GestureDetector(
-              child: header!,
-            ));
-      }
+      _children.insert(0, header!);
     }
 
     return SingleChildScrollView(
