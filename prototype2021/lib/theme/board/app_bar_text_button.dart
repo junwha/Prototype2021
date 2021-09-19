@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-class AppBarTextButton extends StatelessWidget {
+class TBAppBarTextButton extends StatelessWidget {
   final Function() onPressed;
   final Image icon;
   final String text;
 
-  AppBarTextButton({
+  TBAppBarTextButton({
     required this.onPressed,
     required this.icon,
     required this.text,

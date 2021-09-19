@@ -6,21 +6,23 @@ class CardBaseProps {
   final String title;
   final String place;
   final List<String> tags;
-  final Function(bool)? onHeartPreessed;
-  final bool isHeartSelected;
 
-  CardBaseProps(
-      {required this.preview,
-      required this.title,
-      required this.place,
-      required this.tags,
-      this.isHeartSelected = false,
-      this.onHeartPreessed});
+  CardBaseProps({
+    required this.preview,
+    required this.title,
+    required this.place,
+    required this.tags,
+  });
 }
 
 class CardBase {
-  Container buildCard(Widget itemInfo, Color backgroundColor, String preview,
-      bool isHeartSelected, Function(bool)? onHeartPressed) {
+  Container buildCard({
+    required Widget itemInfo,
+    required Color backgroundColor,
+    required String preview,
+    required bool heartSelected,
+    Function()? onHeartPressed,
+  }) {
     return Container(
         padding: EdgeInsets.all(20 * pt),
         height: 160 * pt,
@@ -34,7 +36,7 @@ class CardBase {
         child: Row(children: <Widget>[
           itemInfo,
           buildW(15 * pt),
-          buildPreview(preview, isHeartSelected, onHeartPressed)
+          buildPreview(preview, heartSelected, onHeartPressed)
         ]));
   }
 
@@ -117,7 +119,7 @@ class CardBase {
   }
 
   ClipRRect buildPreview(
-      String preview, bool isHeartSelected, Function(bool)? onHeartPressed) {
+      String preview, bool heartSelected, void Function()? onHeartPressed) {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(9.0)),
       child: Stack(
@@ -135,10 +137,10 @@ class CardBase {
           IconButton(
             padding: EdgeInsets.zero,
             onPressed: () {
-              if (onHeartPressed != null) onHeartPressed.call(isHeartSelected);
+              if (onHeartPressed != null) onHeartPressed.call();
             },
             icon: Image.asset(
-              isHeartSelected
+              heartSelected
                   ? "assets/icons/ic_product_heart_fill.png"
                   : "assets/icons/ic_product_heart_default.png",
             ),

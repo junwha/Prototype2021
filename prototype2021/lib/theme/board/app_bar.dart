@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/board/app_bar_text_button.dart';
+import 'package:prototype2021/theme/rounded_text_field.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 
 mixin BoardMainViewAppBarMixin {
@@ -36,15 +37,15 @@ mixin BoardMainViewAppBarMixin {
       {required void Function(BoardMainViewMode) setViewMode,
       required BoardMainViewMode viewMode}) {
     List<Widget> actions = [
-      AppBarTextButton(
+      TBAppBarTextButton(
           onPressed: () => setViewMode(BoardMainViewMode.search),
           icon: Image.asset("assets/icons/ic_main_search.png"),
           text: "검색"),
-      AppBarTextButton(
+      TBAppBarTextButton(
           onPressed: () {},
           icon: Image.asset("assets/icons/ic_main_heart_default.png"),
           text: "찜목록"),
-      AppBarTextButton(
+      TBAppBarTextButton(
           onPressed: () {},
           icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
           text: "메뉴"),
@@ -64,26 +65,13 @@ mixin BoardMainViewAppBarMixin {
     if (viewMode == BoardMainViewMode.main) {
       return SizedBox();
     }
-    return TextField(
-      controller: textController,
+    return RoundedTextField(
+      textController: textController,
+      onSubmitted: onSubmitted,
       onChanged: onChanged,
       onTap: onTap,
-      onSubmitted: onSubmitted,
-      decoration: InputDecoration(
-          border: OutlineInputBorder(
-              borderRadius: BorderRadius.all(Radius.circular(21)),
-              borderSide: BorderSide.none),
-          prefixIcon: Image.asset("assets/icons/ic_main_search.png"),
-          fillColor: const Color(0xffe8e8e8),
-          filled: true,
-          contentPadding: EdgeInsets.all(12),
-          hintText: "지역, 맛집, 키워드를 검색해보세요.",
-          hintStyle: const TextStyle(
-              color: const Color(0xff555555),
-              fontWeight: FontWeight.w400,
-              fontFamily: "Roboto",
-              fontStyle: FontStyle.normal,
-              fontSize: 14.0)),
+      hintText: "지역, 맛집, 키워드를 검색해보세요.",
+      prefixIcon: Image.asset("assets/icons/ic_main_search.png"),
     );
   }
 }

@@ -8,9 +8,7 @@ import 'package:prototype2021/theme/board/search_logic.dart';
 import 'package:prototype2021/theme/board/search_widget.dart';
 import 'package:prototype2021/theme/board/stream_list.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
-import 'package:prototype2021/theme/cards/product_card_base.dart';
 import 'package:prototype2021/theme/center_notice.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
@@ -94,9 +92,6 @@ class _BoardMainViewState extends State<BoardMainView>
 
   // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
-  // Need to apply at the level of individual cards
-  bool heartSelected = false;
-  bool heartSelected2 = false;
 
   /* =================================/================================= */
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
@@ -269,7 +264,7 @@ class _BoardMainViewState extends State<BoardMainView>
     return BoardMainViewStreamList<ProductCardBaseProps>(
       stream: planDataController.stream,
       refetch: _handleRefetch,
-      builder: (props) => ProductCard(props: props),
+      builder: (props) => ProductCard.fromProps(props: props),
       routeBuilder: (_) => PlanMakeView(),
       emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
       errorWidget: CenterNotice(
@@ -284,7 +279,7 @@ class _BoardMainViewState extends State<BoardMainView>
     return BoardMainViewStreamList<ContentsCardBaseProps>(
       stream: contentsDataController.stream,
       refetch: _handleRefetch,
-      builder: (props) => ContentsCard(props: props),
+      builder: (props) => ContentsCard.fromProps(props: props),
       routeBuilder: (_) => ContentDetailView(),
       emptyWidget: CenterNotice(text: "불러올 수 있는 컨텐츠가 없습니다"),
       errorWidget: CenterNotice(

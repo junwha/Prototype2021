@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/contents_card_base.dart';
-import 'package:prototype2021/theme/cards/product_card_base.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/theme/cards/product_card.dart';
 
 mixin BoardMainViewHelpers {
   /* 
@@ -22,15 +22,6 @@ mixin BoardMainViewHelpers {
               matchPercent: 34,
               tags: ["액티비티", "관광명소", "인생사진"],
               tendencies: [],
-              /* 
-              * This is temporary implementation. isHeartSelected state should be handled  
-              * at the individual ProductCard or ContentsCard level, 
-              * not at the root list level(BoardMainView)
-              */
-              onHeartPreessed: (bool isSelected) => setHeartSelected != null
-                  ? setHeartSelected(isSelected)
-                  : null,
-              isHeartSelected: heartSelected ?? false,
               isGuide: index % 2 == 0,
             ));
   }
@@ -49,10 +40,6 @@ mixin BoardMainViewHelpers {
               rating: 5,
               ratingNumbers: 34,
               tags: ["액티비티", "관광명소", "인생사진"],
-              isHeartSelected: heartSelected ?? false,
-              onHeartPreessed: (bool isSelected) => setHeartSelected != null
-                  ? setHeartSelected(isSelected)
-                  : null,
             ));
   }
 }
