@@ -166,32 +166,11 @@ class _FilterViewState extends State<FilterView> {
               SizedBox(
                 height: 20,
               ),
-              buildMainText('여행 경비'),
-              SizedBox(
-                height: 20,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    height: 2,
-                    width: 300,
-                    color: Color(0xffbdbdbd),
-                  ),
-                  TBRadioBar(
-                    selectedRadio: selectedRadio2,
-                    onChanged: (int? val) {
-                      // Changes the selected value on 'onChanged' click on each radio button
-                      setState(() {
-                        selectedRadio2 = val!;
-                      });
-                    },
-                  ),
-                ],
-              ),
+              buildRadioArea("여행 경비", selectedRadio2, (int? val) {
+                setState(() {
+                  selectedRadio2 = val!;
+                });
+              }, '불편해도 \n저렴한 여행', "비싸더라도 \n편안한 여행"),
             ],
           ),
         ));
