@@ -186,38 +186,37 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   }
 
   Widget buildMap() {
-    return mapModel.mapLoaded
-        ? ChangeNotifierProvider<PlanMapModel>(
-            create: (_) {
-              mapModel.updatePolyline(flattenPlaceData);
-              return mapModel;
-            },
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Consumer<PlanMapModel>(
-                    builder: (BuildContext ctx, PlanMapModel model, Widget? _) {
-                  return Container(
-                    height: 200,
-                    child: PlanMap(),
-                  );
-                }),
-                SizedBox(
-                  height: 30,
-                ),
-                Text(
-                  '일정',
-                  style: TextStyle(
-                    fontSize: 15 * pt,
-                    color: Colors.black,
-                    fontFamily: 'Roboto',
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ],
+    return ChangeNotifierProvider<PlanMapModel>(
+        create: (_) {
+          return mapModel;
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Consumer<PlanMapModel>(
+                builder: (BuildContext ctx, PlanMapModel model, Widget? _) {
+              if (mapModel.mapLoaded) {
+                mapModel.updatePolyline(flattenPlaceData);
+              }
+              return Container(
+                height: 200,
+                child: mapModel.mapLoaded ? PlanMap() : SizedBox(height: 200),
+              );
+            }),
+            SizedBox(
+              height: 30,
             ),
-          )
-        : SizedBox(height: 200);
+            Text(
+              '일정',
+              style: TextStyle(
+                fontSize: 15 * pt,
+                color: Colors.black,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ));
   }
 
   Widget buildDailyPlan(List<PlaceDataProps> placeList) {
