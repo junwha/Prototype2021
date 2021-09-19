@@ -270,20 +270,12 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
           ],
         ),
         Padding(
-          padding: const EdgeInsets.all(15.0),
-          child: Column(
-            children: [
-              buildRadioButton(
-                selectedRadio,
-                onChanged,
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              buildRadioButtonTextArea(minimumText, maximumText)
-            ],
-          ),
-        ),
+            padding: const EdgeInsets.all(15.0),
+            child: TBRadioBar(
+                selectedRadio: selectedRadio,
+                onChanged: onChanged,
+                minimumText: minimumText,
+                maximumText: maximumText)),
       ],
     );
   }
@@ -393,27 +385,6 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
       fontFamily: 'Roboto',
       fontWeight: textweight,
       fontStyle: FontStyle.normal,
-    );
-  }
-
-  Widget buildRadioButton(int selectedRadio, Function(int?) onChanged) {
-    return TBRadioBar(selectedRadio: selectedRadio, onChanged: onChanged);
-  }
-
-  Row buildRadioButtonTextArea(String Text1, String Text2) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(Text1,
-            style: builidTextStyle(14, Color(0xff707070), FontWeight.w400)),
-        Text(Text2,
-            style: builidTextStyle(
-              14,
-              Color(0xff707070),
-              FontWeight.w400,
-            ),
-            textAlign: TextAlign.right)
-      ],
     );
   }
 
