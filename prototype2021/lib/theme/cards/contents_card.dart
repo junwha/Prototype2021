@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card_base.dart';
+import 'package:prototype2021/theme/heart_button.dart';
 
 class ContentsCardBaseProps extends CardBaseProps {
   final double rating;
@@ -29,32 +30,22 @@ class ContentsCardBaseProps extends CardBaseProps {
         );
 }
 
-class ContentsCard extends StatefulWidget {
+class ContentsCard extends StatelessWidget with CardBase {
   final ContentsCardBaseProps props;
 
   ContentsCard.fromProps({required this.props});
 
   @override
-  _ContentsCardState createState() => _ContentsCardState();
-}
-
-class _ContentsCardState extends State<ContentsCard> with CardBase {
-  bool heartSelected = false;
-  void toggleHeartSelected() {
-    setState(() {
-      heartSelected = !heartSelected;
-    });
-    // Do something needed here (e.g. API call)
-  }
-
-  @override
   Widget build(BuildContext context) {
     return buildCard(
       itemInfo: buildContentsCardInfo(),
-      backgroundColor: widget.props.backgroundColor,
-      preview: widget.props.preview,
-      heartSelected: heartSelected,
-      onHeartPressed: toggleHeartSelected,
+      backgroundColor: props.backgroundColor,
+      preview: props.preview,
+      heartFor: HeartFor.contentCard,
+      userId: 1, // PLEASE INPUT REAL USERID HERE
+      dataId: 1, // PLEASE INPUT REAL DATAID HERE
+      isHeartSelected:
+          false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
     );
   }
 
@@ -66,15 +57,15 @@ class _ContentsCardState extends State<ContentsCard> with CardBase {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildH(2),
-          buildTitle(widget.props.title),
+          buildTitle(props.title),
           buildH(6),
-          buildPlace(widget.props.place),
+          buildPlace(props.place),
           buildH(5),
-          buildRatings(widget.props.rating, widget.props.ratingNumbers),
+          buildRatings(props.rating, props.ratingNumbers),
           buildH(6 * pt),
-          buildExplanation(widget.props.explanation),
+          buildExplanation(props.explanation),
           buildH(10 * pt),
-          buildTags(widget.props.tags),
+          buildTags(props.tags),
         ],
       ),
     );

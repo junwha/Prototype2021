@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card_base.dart';
+import 'package:prototype2021/theme/heart_button.dart';
 import 'package:prototype2021/theme/tag.dart';
 
 class ProductCardBaseProps extends CardBaseProps {
@@ -30,33 +31,23 @@ class ProductCardBaseProps extends CardBaseProps {
         );
 }
 
-class ProductCard extends StatefulWidget {
+class ProductCard extends StatelessWidget with CardBase {
   final ProductCardBaseProps props;
   ProductCard.fromProps({
     required this.props,
   });
 
   @override
-  _ProductCardState createState() => _ProductCardState();
-}
-
-class _ProductCardState extends State<ProductCard> with CardBase {
-  bool heartSelected = false;
-  void toggleHeartSelected() {
-    setState(() {
-      heartSelected = !heartSelected;
-    });
-    // Do something needed here (e.g. API call)
-  }
-
-  @override
   Widget build(BuildContext context) {
     return buildCard(
       itemInfo: buildProductCardInfo(),
       backgroundColor: Colors.white,
-      preview: widget.props.preview,
-      heartSelected: heartSelected,
-      onHeartPressed: toggleHeartSelected,
+      preview: props.preview,
+      heartFor: HeartFor.planCard,
+      userId: 1, // PLEASE INPUT REAL USERID HERE
+      dataId: 1, // PLEASE INPUT REAL DATAID HERE
+      isHeartSelected:
+          false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
     );
   }
 
@@ -68,14 +59,13 @@ class _ProductCardState extends State<ProductCard> with CardBase {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             buildH(2),
-            buildProductTitle(widget.props.title, widget.props.isGuide),
+            buildProductTitle(props.title, props.isGuide),
             buildH(6),
-            buildPlace(widget.props.place),
+            buildPlace(props.place),
             buildH(12 * pt),
-            buildEstimates(widget.props.period, widget.props.costStart,
-                widget.props.costEnd),
+            buildEstimates(props.period, props.costStart, props.costEnd),
             buildH(14 * pt),
-            buildTags(widget.props.tags)
+            buildTags(props.tags)
           ],
         ));
   }

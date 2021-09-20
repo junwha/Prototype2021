@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/heart_button.dart';
 
 class CardBaseProps {
   final String preview;
@@ -20,8 +21,10 @@ class CardBase {
     required Widget itemInfo,
     required Color backgroundColor,
     required String preview,
-    required bool heartSelected,
-    Function()? onHeartPressed,
+    required int dataId,
+    required int userId,
+    bool isHeartSelected = false,
+    required HeartFor heartFor,
   }) {
     return Container(
         padding: EdgeInsets.all(20 * pt),
@@ -36,7 +39,13 @@ class CardBase {
         child: Row(children: <Widget>[
           itemInfo,
           buildW(15 * pt),
-          buildPreview(preview, heartSelected, onHeartPressed)
+          buildPreview(
+            preview,
+            isHeartSelected: isHeartSelected,
+            dataId: dataId,
+            userId: userId,
+            heartFor: heartFor,
+          )
         ]));
   }
 
@@ -119,7 +128,12 @@ class CardBase {
   }
 
   ClipRRect buildPreview(
-      String preview, bool heartSelected, void Function()? onHeartPressed) {
+    String preview, {
+    required HeartFor heartFor,
+    bool isHeartSelected = false,
+    required int dataId,
+    required int userId,
+  }) {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(9.0)),
       child: Stack(
@@ -134,18 +148,11 @@ class CardBase {
               fit: BoxFit.cover,
             ),
           ),
-          IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (onHeartPressed != null) onHeartPressed.call();
-            },
-            icon: Image.asset(
-              heartSelected
-                  ? "assets/icons/ic_product_heart_fill.png"
-                  : "assets/icons/ic_product_heart_default.png",
-            ),
-            iconSize: 30 * pt,
-          ),
+          HeartButton(
+              isHeartSelected: isHeartSelected,
+              heartFor: heartFor,
+              dataId: dataId,
+              userId: userId),
         ],
       ),
     );
