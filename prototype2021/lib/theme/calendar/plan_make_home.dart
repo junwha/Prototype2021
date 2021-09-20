@@ -157,6 +157,7 @@ class PlanMakeHomeState extends State<PlanMakeHome>
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+    _sizeController.dispose();
   }
 
   /* =================================/================================= */
