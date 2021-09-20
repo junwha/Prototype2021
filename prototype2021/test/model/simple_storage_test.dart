@@ -1,9 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:mockito/annotations.dart';
 import 'package:prototype2021/model/simple_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-@GenerateMocks([SimpleStorage])
 void main() {
   SharedPreferences.setMockInitialValues({});
   group('[Class] SimpleStorage', testSimpleStorage);
@@ -22,57 +20,55 @@ void testSimpleStorage() {
   };
   final List<dynamic> listData = ["value", 2, 2.4, false];
 
-  final SimpleStorage storage = new SimpleStorage();
-
   group('Write methods (writeSting, writeInt, etc...)', () {
     test('should write string', () async {
-      await storage.writeString('str', strData);
+      await SimpleStorage.writeString('str', strData);
     });
 
     test('should write int', () async {
-      await storage.writeInt('int', intData);
+      await SimpleStorage.writeInt('int', intData);
     });
 
     test('should write double', () async {
-      await storage.writeDouble('double', doubleData);
+      await SimpleStorage.writeDouble('double', doubleData);
     });
 
     test('should write bool', () async {
-      await storage.writeBool('bool', boolData);
+      await SimpleStorage.writeBool('bool', boolData);
     });
 
     test('should write map', () async {
-      await storage.writeMap('map', mapData);
+      await SimpleStorage.writeMap('map', mapData);
     });
 
     test('should write list', () async {
-      await storage.writeList('list', listData);
+      await SimpleStorage.writeList('list', listData);
     });
   });
 
   group('Reading methods (readString, readInt, etc...)', () {
     test('should read string', () async {
-      expect(await storage.readString('str'), strData);
+      expect(await SimpleStorage.readString('str'), strData);
     });
 
     test('should read int', () async {
-      expect(await storage.readInt('int'), intData);
+      expect(await SimpleStorage.readInt('int'), intData);
     });
 
     test('should read double', () async {
-      expect(await storage.readDouble('double'), doubleData);
+      expect(await SimpleStorage.readDouble('double'), doubleData);
     });
 
     test('should read bool', () async {
-      expect(await storage.readBool('bool'), boolData);
+      expect(await SimpleStorage.readBool('bool'), boolData);
     });
 
     test('should read map', () async {
-      expect(await storage.readMap('map'), mapData);
+      expect(await SimpleStorage.readMap('map'), mapData);
     });
 
     test('should read list', () async {
-      expect(await storage.readList('list'), listData);
+      expect(await SimpleStorage.readList('list'), listData);
     });
   });
 }

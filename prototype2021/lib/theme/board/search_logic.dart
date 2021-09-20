@@ -11,11 +11,9 @@ mixin BoardMainViewSearchLogicMixin {
   StreamController<List<dynamic>> recentSearchController =
       new BehaviorSubject<List<dynamic>>();
 
-  SimpleStorage storage = new SimpleStorage();
-
   Future<List<dynamic>?> getSearchKeywords() async {
     try {
-      return await storage.readList(_recentSearchKey);
+      return await SimpleStorage.readList(_recentSearchKey);
     } catch (error) {
       return null;
     }
@@ -39,7 +37,7 @@ mixin BoardMainViewSearchLogicMixin {
       current = current.where((word) => word != keyword).toList();
       current.add(keyword);
     }
-    storage.writeList(_recentSearchKey, current);
+    SimpleStorage.writeList(_recentSearchKey, current);
     recentSearchController.add(current);
   }
 
@@ -47,12 +45,12 @@ mixin BoardMainViewSearchLogicMixin {
     List<dynamic>? current = await getSearchKeywords();
     if (current != null) {
       current.remove(keyword);
-      storage.writeList(_recentSearchKey, current);
+      SimpleStorage.writeList(_recentSearchKey, current);
       recentSearchController.add(current);
     }
   }
 
   Future<void> resetSearchKeyword() async {
-    await storage.writeList(_recentSearchKey, []);
+    await SimpleStorage.writeList(_recentSearchKey, []);
   }
 }
