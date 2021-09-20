@@ -11,7 +11,7 @@ mixin BoardMainViewHelpers {
       [void Function(bool)? setHeartSelected, bool? heartSelected]) async {
     await Future.delayed(const Duration(seconds: 1));
     return List.generate(
-        20,
+        10,
         (index) => new ProductCardBaseProps(
               preview: placeHolder,
               title: "중국 도장깨기",
@@ -30,7 +30,7 @@ mixin BoardMainViewHelpers {
       [void Function(bool)? setHeartSelected, bool? heartSelected]) async {
     await Future.delayed(const Duration(seconds: 1));
     return List.generate(
-        20,
+        10,
         (index) => new ContentsCardBaseProps(
               backgroundColor: Colors.white,
               preview: placeHolder,

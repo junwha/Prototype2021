@@ -55,6 +55,9 @@ dependencies:
 
   # Device Storage for simple data
   shared_preferences: ^2.0.7
+
+  # rxdart (More functionalities related with streams)
+  rxdart: ^0.27.2
   
 dev_dependencies:
   flutter_test:

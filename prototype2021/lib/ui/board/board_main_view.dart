@@ -13,6 +13,7 @@ import 'package:prototype2021/theme/center_notice.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
+import 'package:rxdart/subjects.dart';
 
 const double _toolbarHeight = 60;
 
@@ -52,9 +53,9 @@ class _BoardMainViewState extends State<BoardMainView>
   // The types inside Lists are temporary implementation.
   // If needed, this types can be changed.
   StreamController<List<ProductCardBaseProps>> planDataController =
-      new StreamController<List<ProductCardBaseProps>>.broadcast();
+      new BehaviorSubject<List<ProductCardBaseProps>>();
   StreamController<List<ContentsCardBaseProps>> contentsDataController =
-      new StreamController<List<ContentsCardBaseProps>>.broadcast();
+      new BehaviorSubject<List<ContentsCardBaseProps>>();
 
   late Stream<List<ProductCardBaseProps>> planDataStream;
   late Stream<List<ContentsCardBaseProps>> contentsDataStream;
@@ -62,8 +63,8 @@ class _BoardMainViewState extends State<BoardMainView>
 
   Future<void> pseudoApiCall() async {
     // Code below is just a simulation of api calls
-    planDataController.add(await getPseudoPlanData());
-    contentsDataController.add(await getPseudoContentData());
+    planDataController.sink.add(await getPseudoPlanData());
+    contentsDataController.sink.add(await getPseudoContentData());
   }
 
   Future<void> searchOnSubmitted(String? keyword) async {
@@ -94,7 +95,7 @@ class _BoardMainViewState extends State<BoardMainView>
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
 
   /* =================================/================================= */
-  /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
+  /* =================CONSTRUCTORS & Widget METHODS================= */
   /* =================================/================================= */
 
   _BoardMainViewState() {

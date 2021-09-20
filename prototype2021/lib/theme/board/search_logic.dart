@@ -2,13 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/simple_storage.dart';
+import 'package:rxdart/subjects.dart';
 
 const String _recentSearchKey = 'recentSearch';
 
 mixin BoardMainViewSearchLogicMixin {
   TextEditingController textEditingController = new TextEditingController();
   StreamController<List<dynamic>> recentSearchController =
-      new StreamController<List<dynamic>>.broadcast();
+      new BehaviorSubject<List<dynamic>>();
 
   SimpleStorage storage = new SimpleStorage();
 
