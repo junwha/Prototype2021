@@ -11,8 +11,6 @@ void main() {
 }
 
 void testPlanMakeCalendarModel() {
-  final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
-
   final DateTime firstTappedDate = new DateTime(2021, 1, 1);
   final DateTime secondTappedDate = new DateTime(2021, 1, 5);
   final int dateDifference = 5;
@@ -34,9 +32,10 @@ void testPlanMakeCalendarModel() {
         types: 'cafe',
         address: 'testtesttest'),
   ];
-  final dataListIndex = 0;
+  final int dataListIndex = 0;
 
   group('[Method] handleTap', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
     test('should expect initial state as PENDING', () {
       expect(model.phase, CalendarTouchPhase.PENDING);
     });
@@ -76,6 +75,12 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Property] dateDifference', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+
+    test('should return 1 if the phase is POINT', () {
+      model.handleTap(firstTappedDate);
+      expect(model.dateDifference, 1);
+    });
     test('should return a date difference including edges', () {
       model.handleTap(secondTappedDate);
       expect(model.dateDifference, dateDifference);
@@ -83,7 +88,12 @@ void testPlanMakeCalendarModel() {
     });
   });
   group('[Method] generatePlanListItems', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+
+    model.handleTap(firstTappedDate);
+    model.handleTap(secondTappedDate);
     test('should set planListItems as a list of empty lists', () {
+      print(model);
       model.generatePlanListItems();
       model.planListItems?.forEach((element) {
         expect(element is List, true);
@@ -95,6 +105,11 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] addPlaceData', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+
+    model.handleTap(firstTappedDate);
+    model.handleTap(secondTappedDate);
+    model.generatePlanListItems();
     test('should add the data to planListItem as nested', () {
       model.addPlaceData(dataListIndex, dataSamples[0]);
       expect(model.planListItems![dataListIndex].length, 1);
@@ -102,6 +117,13 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] deletePlaceData', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+
+    model.handleTap(firstTappedDate);
+    model.handleTap(secondTappedDate);
+    model.generatePlanListItems();
+    model.addPlaceData(dataListIndex, dataSamples[0]);
+
     test('should delete the data from planListItem from nested list', () {
       int order = 1; // Item added above test: order is 1
       model.deletePlaceData(dataListIndex, order);
@@ -110,6 +132,11 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] swapPlaceData', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+
+    model.handleTap(firstTappedDate);
+    model.handleTap(secondTappedDate);
+    model.generatePlanListItems();
     test('should move data from oldIndex to newList', () {
       model.addPlaceData(dataListIndex, dataSamples[0]);
       model.addPlaceData(dataListIndex, dataSamples[1]);
@@ -124,6 +151,13 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] insertPlaceData', () {
+    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+
+    model.handleTap(firstTappedDate);
+    model.handleTap(secondTappedDate);
+    model.generatePlanListItems();
+    model.addPlaceData(dataListIndex, dataSamples[0]);
+    model.addPlaceData(dataListIndex, dataSamples[1]);
     test('should insert data betweeen items', () {
       model.insertPlaceData(dataListIndex, dataSamples[2], 1);
       expect(model.planListItems![dataListIndex][1].name, 'test3');
