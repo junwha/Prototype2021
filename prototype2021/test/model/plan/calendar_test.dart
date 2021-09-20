@@ -8,8 +8,8 @@ void main() {
 }
 
 void testCalendar() {
-  final Calendar calendar = new Calendar();
   group('[Method] generateCalendar', () {
+    final Calendar calendar = new Calendar();
     final calendars = List.generate(
         12, (index) => calendar.generateCalendar(2021, index + 1));
     test('should return a list has length divisible with 7', () {
@@ -45,6 +45,7 @@ void testCalendar() {
   });
 
   group('[Method] getMonthEndDay', () {
+    final Calendar calendar = new Calendar();
     int normalYear = 2021;
     int leapYear = 2020;
     test('should get month end day according to month', () {

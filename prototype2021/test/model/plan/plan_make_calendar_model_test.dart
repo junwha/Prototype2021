@@ -11,7 +11,7 @@ void main() {
 }
 
 void testPlanMakeCalendarModel() {
-  PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+  final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
 
   final DateTime firstTappedDate = new DateTime(2021, 1, 1);
   final DateTime secondTappedDate = new DateTime(2021, 1, 5);
