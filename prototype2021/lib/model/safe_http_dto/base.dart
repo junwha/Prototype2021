@@ -51,12 +51,13 @@ class SafeHttpInput {
    * This method does not mutates header
    */
   Map<String, String>? getHeaders() {
+    Map<String, String> newHeaders = {};
     if (token == null || headers?['Authorization'] != null) {
       return headers;
     }
-    Map<String, String> copyOfHeaders = headers!;
-    copyOfHeaders['Authorization'] = 'jwt $token';
-    return copyOfHeaders;
+    newHeaders.addAll(headers!);
+    newHeaders['Authorization'] = 'jwt $token';
+    return newHeaders;
   }
 
   Uri getUrl() => Uri.parse(url);

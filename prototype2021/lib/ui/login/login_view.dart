@@ -7,6 +7,7 @@ import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/theme/circle_check_button.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/loading.dart';
+import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view.dart';
 import 'package:provider/provider.dart';
@@ -64,12 +65,10 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     setAutoLogin(await LoginModel.loadAutoLogin());
     setSaveId(await LoginModel.loadDoSaveId());
     setUsername(await LoginModel.loadSavedId());
-    // Need to validate jwtToken here with API call
-    bool isValid = false;
+    bool isValid = await validateToken(model.token);
     bool shouldGoToNext = isValid && autoLogin;
     if (shouldGoToNext) {
       await navigateToMain(context);
-      return;
     }
     setLoading(false);
   }
@@ -81,14 +80,30 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
   }
 
   Future<void> onLoginPressed() async {
-    LoginOutput result = await requestToken(username, password);
-    UserInfoModel model = Provider.of<UserInfoModel>(context);
-    await model.saveToken(result.token);
-    await model.svaeId(result.id);
-    model.setToken(result.token);
-    model.setId(result.id);
-    saveLocalPrefs();
-    navigateToMain(context);
+    try {
+      LoginOutput result = await requestToken(username, password);
+      UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+      await model.saveToken(result.token);
+      await model.svaeId(result.id);
+      model.setToken(result.token);
+      model.setId(result.id);
+      saveLocalPrefs();
+      navigateToMain(context);
+    } catch (error) {
+      tbShowDialog(
+          context,
+          TBSimpleDialog(
+              title: '로그인 오류',
+              isBackEnabled: false,
+              body: Container(
+                child: Text(
+                  "예기치 못한 에러가 발생했습니다. 아이디와 비밀번호를 다시한번 확인해주세요: ${error.toString().substring(0, 30)}",
+                  textAlign: TextAlign.center,
+                ),
+                alignment: Alignment.center,
+                padding: const EdgeInsets.all(10),
+              )));
+    }
   }
 
   /* =================================/================================= */
@@ -242,10 +257,10 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
         centerTitle: false,
-        // leading: IconButton(
-        //   icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-        //   onPressed: () {},
-        // ),
+        leading: IconButton(
+          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
+          onPressed: () {},
+        ),
         title: Text("로그인",
             style: const TextStyle(
                 color: const Color(0xff000000),

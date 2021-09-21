@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/model/safe_http_dto/get/wishlist.dart';
 import 'package:prototype2021/model/safe_http_dto/patch/heart.dart';
 import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
@@ -19,6 +20,8 @@ final factories = <Type, SafeHttpDataOutput Function(Map<String, dynamic>)>{
   PlanHeartOutput: (Map<String, dynamic> _) => PlanHeartOutput.fromJson(),
   ContentsHeartOutput: (Map<String, dynamic> _) =>
       ContentsHeartOutput.fromJson(),
+  ContentsWishlistOutput: (Map<String, dynamic> json) =>
+      ContentsWishlistOutput.fromJson(json: json),
 };
 
 T generateOutput<T extends SafeHttpDataOutput>(String jsonString) {
