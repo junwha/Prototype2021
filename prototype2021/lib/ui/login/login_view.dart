@@ -84,7 +84,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       LoginOutput result = await requestToken(username, password);
       UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
       await model.saveToken(result.token);
-      await model.svaeId(result.id);
+      await model.saveId(result.id);
       model.setToken(result.token);
       model.setId(result.id);
       saveLocalPrefs();

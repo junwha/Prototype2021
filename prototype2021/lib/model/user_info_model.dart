@@ -8,8 +8,8 @@ class UserInfoModel with ChangeNotifier {
   String? get token => _jwtToken;
   int? get userId => _userId;
 
-  void setToken(String? token) {
-    _jwtToken = token;
+  void setToken(String? jwtToken) {
+    _jwtToken = jwtToken;
     notifyListeners();
   }
 
@@ -21,7 +21,7 @@ class UserInfoModel with ChangeNotifier {
   Future<void> saveToken(String token) async =>
       await SimpleStorage.writeString(SimpleStorageKeys.jwtToken, token);
 
-  Future<void> svaeId(int id) async =>
+  Future<void> saveId(int id) async =>
       await SimpleStorage.writeInt(SimpleStorageKeys.userId, id);
 
   Future<void> loadToken() async =>
