@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/loader/auth_loader.dart';
+import 'package:prototype2021/model/login/login_model.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
+import 'package:prototype2021/model/safe_http_dto/post/login.dart';
+import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/theme/circle_check_button.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
+import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/settings/constants.dart';
+
+class _TestCredentials {
+  static String username = "test1";
+  static String password = "test123";
+}
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
@@ -14,27 +24,108 @@ class LoginView extends StatefulWidget {
   _LoginViewState createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends State<LoginView> with AuthLoader {
+  /* =================================/================================= */
+  /* =========================STATES & METHODS========================= */
+  /* =================================/================================= */
+
   String username = "";
   String password = "";
   bool autoLogin = false;
   bool saveId = false;
   bool loading = true;
-  void setUsername(String _username) => setState(() {
-        username = _username;
+  void setUsername(String? _username) => setState(() {
+        username = _username ?? "";
       });
-  void setPassword(String _password) => setState(() {
-        password = _password;
+  void setPassword(String? _password) => setState(() {
+        password = _password ?? "";
       });
-  void setAutomaticLogin(bool _autoLogin) => setState(() {
+  void setAutoLogin(bool _autoLogin) => setState(() {
         autoLogin = _autoLogin;
       });
   void setSaveId(bool _saveId) => setState(() {
         saveId = _saveId;
       });
+  void setLoading(bool _loading) => setState(() {
+        loading = _loading;
+      });
+
+  Future<void> navigateToMain(BuildContext context) async {
+    await Navigator.push<MaterialPageRoute>(
+      context,
+      MaterialPageRoute(builder: (context) => BoardMainView()),
+    );
+  }
+
+  Future<void> initialize(BuildContext context) async {
+    UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+    await model.loadToken();
+    await model.loadUserId();
+    setAutoLogin(await LoginModel.loadAutoLogin());
+    setSaveId(await LoginModel.loadDoSaveId());
+    setUsername(await LoginModel.loadSavedId());
+    // Need to validate jwtToken here with API call
+    bool isValid = false;
+    bool shouldGoToNext = isValid && autoLogin;
+    if (shouldGoToNext) {
+      await navigateToMain(context);
+      return;
+    }
+    setLoading(false);
+  }
+
+  Future<void> saveLocalPrefs() async {
+    await LoginModel.writeAutoLogin(autoLogin);
+    await LoginModel.writeDoSaveId(saveId);
+    if (saveId && username.length > 0) await LoginModel.writeSavedId(username);
+  }
+
+  Future<void> onLoginPressed() async {
+    LoginOutput result = await requestToken(username, password);
+    UserInfoModel model = Provider.of<UserInfoModel>(context);
+    await model.saveToken(result.token);
+    await model.svaeId(result.id);
+    model.setToken(result.token);
+    model.setId(result.id);
+    saveLocalPrefs();
+    navigateToMain(context);
+  }
+
+  /* =================================/================================= */
+  /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
+  /* =================================/================================= */
+
+  @override
+  void initState() {
+    super.initState();
+    initialize(context);
+  }
+
+  @override
+  void dispose() {
+    if (!loading) saveLocalPrefs();
+    super.dispose();
+  }
+
+  /* =================================/================================= */
+  /* ==============================WIDGETS============================== */
+  /* =================================/================================= */
 
   @override
   Widget build(BuildContext context) {
+    if (loading) {
+      return buildLoading();
+    }
+    return buildLoginPage(context);
+  }
+
+  Container buildLoading() {
+    return Container(
+        child: LoadingIndicator(),
+        decoration: new BoxDecoration(color: Colors.white));
+  }
+
+  Scaffold buildLoginPage(BuildContext context) {
     return Scaffold(
         appBar: buildAppBar(),
         body: Padding(
@@ -49,7 +140,7 @@ class _LoginViewState extends State<LoginView> {
               SizedBox(height: 10),
               buildLoginCheckboxes(),
               SizedBox(height: 18),
-              buildLoginButton(),
+              buildLoginButton(context),
               buildSocialLoginButtons(),
               SizedBox(height: 60),
               buildFindIDPW(),
@@ -64,6 +155,7 @@ class _LoginViewState extends State<LoginView> {
       buildLoginInput(
         hintText: "아이디를 입력해주세요.",
         onChanged: setUsername,
+        defaultValue: username,
       ),
       SizedBox(height: 12),
       buildLoginInput(
@@ -84,14 +176,24 @@ class _LoginViewState extends State<LoginView> {
     return Row(
       children: [
         CircleCheckButton(
-          onChecked: setAutomaticLogin,
+          onChecked: setAutoLogin,
+          isValueChecked: autoLogin,
         ),
-        Text("자동 로그인", style: textStyle, textAlign: TextAlign.left),
+        Text(
+          "자동 로그인",
+          style: textStyle,
+          textAlign: TextAlign.left,
+        ),
         SizedBox(width: 10),
         CircleCheckButton(
           onChecked: setSaveId,
+          isValueChecked: saveId,
         ),
-        Text("아이디 저장", style: textStyle, textAlign: TextAlign.left),
+        Text(
+          "아이디 저장",
+          style: textStyle,
+          textAlign: TextAlign.left,
+        ),
       ],
     );
   }
@@ -99,6 +201,7 @@ class _LoginViewState extends State<LoginView> {
   Container buildLoginInput({
     required String hintText,
     required void Function(String) onChanged,
+    String? defaultValue,
   }) {
     return Container(
         height: 80,
@@ -108,17 +211,13 @@ class _LoginViewState extends State<LoginView> {
         child: CustomTextField(
           hintText: hintText,
           onChanged: onChanged,
+          initialText: defaultValue ?? '',
         ));
   }
 
-  TextButton buildLoginButton() {
+  TextButton buildLoginButton(BuildContext context) {
     return TextButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(builder: (context) => BoardMainView()),
-          );
-        },
+        onPressed: onLoginPressed,
         child: Container(
             child: Center(
               child: Text(
@@ -143,10 +242,10 @@ class _LoginViewState extends State<LoginView> {
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
         centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
-        ),
+        // leading: IconButton(
+        //   icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
+        //   onPressed: () {},
+        // ),
         title: Text("로그인",
             style: const TextStyle(
                 color: const Color(0xff000000),
