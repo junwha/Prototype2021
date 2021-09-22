@@ -45,6 +45,7 @@ class SigninLoader {
         return result.data!.token;
       errorMessage = result.error?.message;
     }
+    print(errorMessage);
     throw HttpException(errorMessage ?? defaultErrorMessage);
   }
 
@@ -53,10 +54,14 @@ class SigninLoader {
     AuthVerificationInput params =
         new AuthVerificationInput(verificationCode: verificationCode);
     SafeQueryInput<AuthVerificationInput> dto = new SafeQueryInput(
-        url: authVerificationUrl, params: params, token: token);
+        url: authVerificationUrl,
+        params: params,
+        token: token,
+        authScheme: AuthScheme.none);
     SafeQueryOutput<AuthVerificationOutput> result =
         await authVerification(dto);
     if (result.success && result.data?.token != null) return result.data!.token;
+    print(result.error?.message);
     throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 
@@ -73,6 +78,7 @@ class SigninLoader {
         new SafeMutationInput(data: data, url: signUpUrl);
     SafeMutationOutput<SignupOutput> result = await signup(dto);
     if (result.success && result.data?.id != null) return result.data!.id;
+    print(result.error?.message);
     throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 
@@ -88,7 +94,7 @@ class SigninLoader {
 
   Future<SafeMutationOutput<AuthOutput>> emailAuth(
           SafeMutationInput<EmailAuthInput> dto) async =>
-      await safePOST<EmailAuthInput, AuthOutput>(dto);
+      await safePOST<EmailAuthInput, AuthOutput>(dto, 200);
 
   Future<SafeQueryOutput<AuthVerificationOutput>> authVerification(
           SafeQueryInput<AuthVerificationInput> dto) async =>

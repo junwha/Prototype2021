@@ -77,8 +77,8 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
           tbShowTextDialog(context, errorToString);
           return;
         }
-        // String _verificationToken = await requestAuth(credential, method);
-        // setVerificationToken(_verificationToken);
+        String _verificationToken = await requestAuth(credential, method);
+        setVerificationToken(_verificationToken);
         setCodeSended(true);
         startTimer();
         tbShowTextDialog(context, alertMessage);

@@ -38,17 +38,29 @@ class SafeHttpError {
   SafeHttpError({required this.message});
 }
 
+enum AuthScheme {
+  jwt,
+  none,
+}
+
+Map<AuthScheme, String> _authSchemes = {
+  AuthScheme.jwt: "jwt",
+  AuthScheme.none: "",
+};
+
 class SafeHttpInput {
   final String url;
   final Map<String, String>? headers;
   final String? token;
+  final AuthScheme authScheme;
 
   /*
    * 만약 토큰이 주어지면 헤더에 토큰을 넣습니다
   */
-
-  SafeHttpInput({required this.url, headers, this.token})
-      : headers = headers ?? defaultHeaders;
+  SafeHttpInput(
+      {required this.url, headers, this.token, AuthScheme? authScheme})
+      : headers = headers ?? defaultHeaders,
+        authScheme = authScheme ?? AuthScheme.jwt;
 
   /*
    * This method does not mutates header
@@ -57,9 +69,14 @@ class SafeHttpInput {
     if (token == null || headers?['Authorization'] != null) {
       return headers;
     }
-    Map<String, String> copyOfHeaders = headers!;
-    copyOfHeaders['Authorization'] = 'jwt $token';
-    return copyOfHeaders;
+    Map<String, String> newHeaders = {};
+    headers!.entries.forEach((element) {
+      newHeaders[element.key] = element.value;
+    });
+    newHeaders['Authorization'] = authScheme == AuthScheme.none
+        ? token!
+        : '${_authSchemes[authScheme]} $token';
+    return newHeaders;
   }
 
   Uri getUrl() => Uri.parse(url);
@@ -83,12 +100,13 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
 class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T data;
 
-  SafeMutationInput(
-      {required this.data,
-      required String url,
-      Map<String, String>? headers,
-      String? token})
-      : super(headers: headers, url: url, token: token);
+  SafeMutationInput({
+    required this.data,
+    required String url,
+    Map<String, String>? headers,
+    String? token,
+    AuthScheme? authScheme,
+  }) : super(headers: headers, url: url, token: token, authScheme: authScheme);
 
   Map<String, dynamic>? getJson() => data.toJson();
   Map<String, dynamic>? getFiles() => data.getFiles();
@@ -128,12 +146,13 @@ class SafeMutationOutput<T extends SafeHttpDataOutput>
 class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
 
-  SafeQueryInput(
-      {required String url,
-      Map<String, String>? headers,
-      this.params,
-      String? token})
-      : super(url: url, headers: headers, token: token);
+  SafeQueryInput({
+    required String url,
+    Map<String, String>? headers,
+    this.params,
+    String? token,
+    AuthScheme? authScheme,
+  }) : super(url: url, headers: headers, token: token, authScheme: authScheme);
 
   Uri getUrlWithParams() {
     String queryString = "";

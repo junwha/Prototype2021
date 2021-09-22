@@ -36,6 +36,7 @@ class SignupInput extends SafeHttpDataInput {
 
   @override
   Map<String, String> toJson() {
+    print(agreeRequiredTerms.toString());
     Map<String, String> baseMap = {
       "username": username,
       "password": password,

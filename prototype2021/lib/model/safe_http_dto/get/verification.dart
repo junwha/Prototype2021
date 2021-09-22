@@ -13,12 +13,12 @@ class AuthVerificationInput extends SafeHttpDataInput {
 
 class AuthVerificationOutput extends SafeHttpDataOutput {
   final String token;
-  final int expiringTime;
+  final String expiringTime; // Why it's not integer
   final String? phoneNumberOrEmail;
 
   AuthVerificationOutput.fromJson({required Map<String, dynamic> json})
       : token = json['token'] as String,
-        expiringTime = json['expiring_time'] as int,
+        expiringTime = json['expiring_time'] as String,
         phoneNumberOrEmail = json['phoneNumberOrEmail'] as String?;
 }
 
