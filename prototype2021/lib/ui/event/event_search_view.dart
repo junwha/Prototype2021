@@ -66,7 +66,15 @@ class _EventSearchViewState extends State<EventSearchView> {
           Row(children: [
             Expanded(
                 child: TextButton(
-              child: Text("이벤트"),
+              child: Text(
+                "이벤트",
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 15,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               onPressed: () {
                 setState(() {
                   this.previewData = searchArticleModel.eventArticleList;
@@ -75,7 +83,15 @@ class _EventSearchViewState extends State<EventSearchView> {
             )),
             Expanded(
                 child: TextButton(
-              child: Text("동행찾기"),
+              child: Text(
+                "동행찾기",
+                style: TextStyle(
+                  color: Color(0xff000000),
+                  fontSize: 15,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
               onPressed: () {
                 setState(() {
                   this.previewData = searchArticleModel.companionArticleList;
