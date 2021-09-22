@@ -32,7 +32,7 @@ class _EventSearchViewState extends State<EventSearchView> {
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image.asset("assets/icons/search_1.png"),
+                                Image.asset("assets/icons/search_white.png"),
                                 Text(
                                   "이벤트 게시판에 글을 검색해보세요.",
                                   style: TextStyle(
@@ -45,10 +45,11 @@ class _EventSearchViewState extends State<EventSearchView> {
                         : buildArticleSection(searchArticleModel),
                     buildFloatingSearchBar(searchArticleModel),
                     IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back)),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
+                    )
                   ],
                 );
               },
@@ -106,10 +107,24 @@ class _EventSearchViewState extends State<EventSearchView> {
       backdropColor: Colors.transparent,
       borderRadius: BorderRadius.circular(50),
       height: 45,
-      backgroundColor: const Color(0xFFEDECEC),
+      backgroundColor: Color.fromRGBO(106, 126, 166, 1),
       controller: controller,
       title: Row(
-        children: [Icon(Icons.search), Text('이벤트 게시판에 글을 검색해보세요.')],
+        children: [
+          Image.asset("assets/icons/search_white.png"),
+          SizedBox(
+            width: 7,
+          ),
+          Text(
+            '장소, 여행지, 카페, 음식점 검색',
+            style: TextStyle(
+              fontSize: 16,
+              color: Color(0xffc5cddd),
+              fontWeight: FontWeight.normal,
+              fontFamily: 'Roboto',
+            ),
+          ),
+        ],
       ),
       hint: 'search',
       scrollPadding: const EdgeInsets.only(top: 16, bottom: 16),
