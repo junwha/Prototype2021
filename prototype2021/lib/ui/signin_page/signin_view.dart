@@ -27,6 +27,7 @@ class _SigninViewState extends State<SigninView>
   bool invalidPasswordConfirm = false;
   bool hasDuplicate = false;
   bool checkedDuplicate = false;
+  bool loading = false;
 
   void setId(String id) => setState(() {
         username = id;
@@ -36,6 +37,9 @@ class _SigninViewState extends State<SigninView>
       });
   void setPasswordConfirm(String pwConfirm) => setState(() {
         passwordConfirm = pwConfirm;
+      });
+  void setLoading(bool isLoading) => setState(() {
+        loading = isLoading;
       });
 
   @override
@@ -101,6 +105,7 @@ class _SigninViewState extends State<SigninView>
   }
 
   Future<void> checkDuplicacy() async {
+    setLoading(true);
     try {
       bool _hasDuplicate = await checkIfIdHasDuplicate(username);
       if (_hasDuplicate) {
@@ -115,6 +120,7 @@ class _SigninViewState extends State<SigninView>
     } catch (error) {
       tbShowTextDialog(context, generateErrorText(error));
     }
+    setLoading(false);
   }
 
   bool validate() {

@@ -36,18 +36,34 @@ class SignupInput extends SafeHttpDataInput {
 
   @override
   Map<String, String> toJson() {
-    print(agreeRequiredTerms.toString());
     Map<String, String> baseMap = {
       "username": username,
       "password": password,
       "gender": GenderStringMapping[gender]!,
       "birth": _formatDateTime(birth),
       "name": name,
-      "agreeRequiredTerms": agreeRequiredTerms.toString(),
-      "agreeMarketingTerms": agreeMarketingTerms.toString(),
     };
+    /* 
+     * Since the Multipart Request's fields part must be a Map<String, String>
+     * We send boolean field as string 'true' if it should be true
+     * and omit the field if it should be false
+     * 
+     * Ref: https://www.django-rest-framework.org/api-guide/fields/#booleanfield
+    */
+    if (agreeRequiredTerms) {
+      baseMap.addAll({
+        "agree_required_terms": agreeRequiredTerms.toString(),
+      });
+    }
+    if (agreeMarketingTerms) {
+      baseMap.addAll({
+        "agree_marketing_terms": agreeMarketingTerms.toString(),
+      });
+    }
+    print(phoneNumber);
+    print(email);
     if (phoneNumber != null) {
-      baseMap.addAll({"phoneNumber": phoneNumber!});
+      baseMap.addAll({"phone_number": phoneNumber!});
     }
     if (email != null) {
       baseMap.addAll({"email": email!});
@@ -56,11 +72,12 @@ class SignupInput extends SafeHttpDataInput {
   }
 
   @override
-  Map<String, XFile>? getFiles() => photo != null
-      ? {
-          "photo": photo!,
-        }
-      : null;
+  Map<String, XFile>? getFiles() {
+    if (photo == null) return null;
+    return {
+      "photo": photo!,
+    };
+  }
 
   String _formatDateTime(DateTime dateTime) {
     String year = dateTime.year.toString();

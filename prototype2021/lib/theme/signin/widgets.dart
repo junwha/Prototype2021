@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
+import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/ui/login/login_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view.dart';
@@ -55,6 +56,7 @@ mixin SignInViewWidgets {
     required String hintText,
     required void Function(String) onTextChange,
     required bool onError,
+    bool loading = false,
     bool hasActionButton = false,
     String actionButtonText = "",
     bool showUnderText = false,
@@ -94,17 +96,19 @@ mixin SignInViewWidgets {
                     child: Container(
                       height: 75,
                       width: 30,
-                      child: Center(
-                        child: Text(
-                          actionButtonText,
-                          style: TextStyle(
-                            color: Color(0xff999999),
-                            fontFamily: 'Roboto',
-                          ),
-                        ),
-                      ),
+                      child: loading
+                          ? LoadingIndicator()
+                          : Center(
+                              child: Text(
+                                actionButtonText,
+                                style: TextStyle(
+                                  color: Color(0xff999999),
+                                  fontFamily: 'Roboto',
+                                ),
+                              ),
+                            ),
                     ),
-                    onPressed: onActionButtonPressed,
+                    onPressed: loading ? null : onActionButtonPressed,
                   ),
                   flex: 1)
               : SizedBox()
@@ -118,17 +122,19 @@ mixin SignInViewWidgets {
       Row(
         children: [
           buildUnderTextSection(
-              underText: underText,
-              onError: onError,
-              showUnderText: showUnderText,
-              underline: underline,
-              onPressed: onUnderTextPressed),
+            underText: underText,
+            onError: onError,
+            showUnderText: showUnderText,
+            underline: underline,
+            onPressed: loading ? null : onUnderTextPressed,
+          ),
           buildUnderTextSection(
-              underText: extraUnderText,
-              onError: onError,
-              showUnderText: showUnderText,
-              underline: underline,
-              onPressed: onUnderTextPressed)
+            underText: extraUnderText,
+            onError: onError,
+            showUnderText: showUnderText,
+            underline: underline,
+            onPressed: loading ? null : onUnderTextPressed,
+          )
         ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -179,6 +185,7 @@ mixin SignInViewWidgets {
     BuildContext context, {
     required void Function()? onPressed,
     required String text,
+    bool loading = false,
     bool half = false,
     double gap = 1,
     Color? backgroundColor,
@@ -186,19 +193,21 @@ mixin SignInViewWidgets {
     Color? borderColor,
   }) {
     return TextButton(
-        onPressed: onPressed,
+        onPressed: loading ? null : onPressed,
         child: Container(
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(
-                    color: textColor ?? const Color(0xffffffff),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 20.0),
-              ),
-            ),
+            child: loading
+                ? LoadingIndicator()
+                : Center(
+                    child: Text(
+                      text,
+                      style: TextStyle(
+                          color: textColor ?? const Color(0xffffffff),
+                          fontWeight: FontWeight.w700,
+                          fontFamily: "Roboto",
+                          fontStyle: FontStyle.normal,
+                          fontSize: 20.0),
+                    ),
+                  ),
             width: half ? 160 : 400,
             height: 67,
             margin:

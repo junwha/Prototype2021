@@ -67,13 +67,21 @@ class SigninLoader {
 
   Future<int> requestSignup(SignInModel signInModel) async {
     SignupInput data = new SignupInput(
-        username: signInModel.username,
-        password: signInModel.password,
-        gender: signInModel.gender,
-        birth: signInModel.birth,
-        name: signInModel.nickname,
-        agreeMarketingTerms: signInModel.agreeMarketingTerms,
-        agreeRequiredTerms: signInModel.agreeRequiredTerms);
+      username: signInModel.username,
+      password: signInModel.password,
+      gender: signInModel.gender,
+      birth: signInModel.birth,
+      name: signInModel.nickname,
+      agreeMarketingTerms: signInModel.agreeMarketingTerms,
+      photo: signInModel.photo,
+      agreeRequiredTerms: signInModel.agreeRequiredTerms,
+      email: signInModel.method == VerificationMethod.Email
+          ? signInModel.verifier
+          : null,
+      phoneNumber: signInModel.method == VerificationMethod.Phone
+          ? signInModel.verifier
+          : null,
+    );
     SafeMutationInput<SignupInput> dto =
         new SafeMutationInput(data: data, url: signUpUrl);
     SafeMutationOutput<SignupOutput> result = await signup(dto);

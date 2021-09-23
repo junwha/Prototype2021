@@ -24,6 +24,7 @@ class _SigninViewBirthState extends State<SigninViewBirth>
   int year = 1999;
   String month = '1월';
   int day = 1;
+  bool loading = false;
 
   void setYear(int? _year) => setState(() {
         year = _year ?? 1999;
@@ -33,6 +34,9 @@ class _SigninViewBirthState extends State<SigninViewBirth>
       });
   void setDay(int? _day) => setState(() {
         day = _day ?? 1;
+      });
+  void setLoading(bool _loading) => setState(() {
+        loading = _loading;
       });
 
   @override
@@ -80,6 +84,7 @@ class _SigninViewBirthState extends State<SigninViewBirth>
   Padding buildNextButton(BuildContext context) {
     SignInModel signInModel = Provider.of<SignInModel>(context);
     void onPressed() async {
+      setLoading(true);
       try {
         signInModel
             .setBirth(new DateTime(year, interpolateMonthToInt(month), day));
@@ -88,11 +93,17 @@ class _SigninViewBirthState extends State<SigninViewBirth>
       } catch (error) {
         tbShowTextDialog(context, generateErrorText(error));
       }
+      setLoading(false);
     }
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20),
-      child: buildSigninButton(context, onPressed: onPressed, text: "시작하기"),
+      child: buildSigninButton(
+        context,
+        onPressed: onPressed,
+        text: "시작하기",
+        loading: loading,
+      ),
     );
   }
 

@@ -51,6 +51,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   String credential = "";
   int verificationCode = 0;
   String verificationToken = "";
+  bool loading = false;
   void setCodeSended(bool _codeSended) => setState(() {
         codeSended = _codeSended;
       });
@@ -63,6 +64,9 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   void setVerificationToken(String _verificationToken) => setState(() {
         verificationToken = _verificationToken;
       });
+  void setLoading(bool isLoading) => setState(() {
+        loading = isLoading;
+      });
 
   Future<void> Function() requestVerificationFactory(
       VerificationMethod method) {
@@ -72,6 +76,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
         : "올바르지 않은 전화번호입니다(010-xxxx-xxxx 형식으로 입력)";
     String alertMessage = "인증번호가 발송되었습니다. $modeToString 확인해주세요";
     return () async {
+      setLoading(true);
       try {
         if (!validate(method)) {
           tbShowTextDialog(context, errorToString);
@@ -85,6 +90,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
       } catch (error) {
         tbShowTextDialog(context, generateErrorText(error));
       }
+      setLoading(false);
     };
   }
 
@@ -113,7 +119,8 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
                   height: codeSended ? 16 : 40,
                 ),
                 codeSended
-                    ? buildSignInInput(context,
+                    ? buildSignInInput(
+                        context,
                         hintText: "인증번호를 입력해주세요",
                         onTextChange: setVerificationCode,
                         onError: false,
@@ -123,16 +130,21 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
                         showUnderText: true,
                         onUnderTextPressed:
                             requestVerificationFactory(signInModel.method),
-                        extraInputWidget: buildTimer())
+                        extraInputWidget: buildTimer(),
+                        loading: loading,
+                      )
                     : SizedBox(
                         height: 40,
                       ),
                 codeSended
                     ? buildButtonRow()
-                    : buildSigninButton(context,
+                    : buildSigninButton(
+                        context,
                         onPressed:
                             requestVerificationFactory(signInModel.method),
-                        text: "인증번호 전송")
+                        text: "인증번호 전송",
+                        loading: loading,
+                      )
               ],
             )));
   }
@@ -163,25 +175,36 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          buildSigninButton(context,
-              onPressed: () => setCodeSended(false),
-              text: "취소",
-              textColor: const Color(0xff444444),
-              borderColor: const Color(0xffbdbdbd),
-              backgroundColor: const Color(0xffffffff),
-              half: true),
-          buildSigninButton(context, onPressed: () async {
-            try {
-              String _signinToken = await requestCodeVerification(
-                  verificationToken, verificationCode);
-              signInModel.setSigninToken(_signinToken);
-              signInModel.setVerifier(credential);
-              navigateToNext(context,
-                  model: signInModel, child: SigninViewProfileMain());
-            } catch (error) {
-              tbShowTextDialog(context, generateErrorText(error));
-            }
-          }, text: "확인", half: true)
+          buildSigninButton(
+            context,
+            onPressed: () => setCodeSended(false),
+            text: "취소",
+            textColor: const Color(0xff444444),
+            borderColor: const Color(0xffbdbdbd),
+            backgroundColor: const Color(0xffffffff),
+            half: true,
+            loading: loading,
+          ),
+          buildSigninButton(
+            context,
+            onPressed: () async {
+              setLoading(true);
+              try {
+                String _signinToken = await requestCodeVerification(
+                    verificationToken, verificationCode);
+                signInModel.setSigninToken(_signinToken);
+                signInModel.setVerifier(credential);
+                navigateToNext(context,
+                    model: signInModel, child: SigninViewProfileMain());
+              } catch (error) {
+                tbShowTextDialog(context, generateErrorText(error));
+              }
+              setLoading(false);
+            },
+            text: "확인",
+            half: true,
+            loading: loading,
+          )
         ],
       ),
     );
