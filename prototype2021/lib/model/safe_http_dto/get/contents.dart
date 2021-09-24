@@ -22,7 +22,7 @@ class ContentsListInput extends SafeHttpDataInput {
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,
-        "area_detail_code": "($areaDetailCode)",
+        "area_detail_code": areaDetailCode == null ? null : "($areaDetailCode)",
         "keyword": keyword,
         "typeid": contentTypeId[typeId],
       };
@@ -31,12 +31,13 @@ class ContentsListInput extends SafeHttpDataInput {
 }
 
 class ContentsListOutput extends PaginationOutput
-    implements Pagination<ContentPreview> {
-  final List<ContentPreview> results;
+    implements Pagination<ContentPreviewBase> {
+  final List<ContentPreviewBase> results;
 
   ContentsListOutput.fromJson({required Map<String, dynamic> json})
-      : results = (json["results"] as List<Map<String, dynamic>>)
-            .map((result) => ContentPreview.fromJson(json: result))
+      : results = (json["results"] as List<dynamic>)
+            .map((result) => ContentPreviewBase.fromJson(
+                json: result as Map<String, dynamic>))
             .toList(),
         super.fromJson(json: json);
 }

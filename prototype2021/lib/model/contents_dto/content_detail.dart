@@ -1,7 +1,10 @@
 import 'package:prototype2021/model/contents_dto/content_preview.dart';
 import 'package:prototype2021/model/contents_dto/content_type.dart';
 
-class ContentsDetailBase extends ContentPreview {
+class ContentsDetailBase extends ContentPreviewBase {
+  final double rating;
+  final int reviewNo;
+
   final ContentType typeId;
 
   /// List of URLs of photos
@@ -20,6 +23,8 @@ class ContentsDetailBase extends ContentPreview {
         zipCode = json["zipcode"] as int,
         homePage = json["homepage"] as String,
         tel = json["tel"] as String,
+        rating = json["rating"] as double,
+        reviewNo = json["review_no"] as int,
         super.fromJson(json: json);
 }
 
