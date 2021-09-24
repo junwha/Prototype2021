@@ -38,8 +38,8 @@ class ContentsLoader {
 
   // Endpoints
 
-  String contentsHeartUrl = "$apiBaseUrl/contents/:id/like";
-  String contentsListUrl = "$apiBaseUrl/contents";
-  String contentsWishlistUrl = "$apiBaseUrl/contents/wishlists";
-  String contentsDetailUrl = "$apiBaseUrl/contents/:id";
+  String contentsHeartUrl = "$apiBaseUrl/contents/like/:id/";
+  String contentsListUrl = "$apiBaseUrl/contents/";
+  String contentsWishlistUrl = "$apiBaseUrl/contents/wishlists/";
+  String contentsDetailUrl = "$apiBaseUrl/contents/:id/";
 }

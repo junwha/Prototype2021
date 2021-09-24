@@ -3,6 +3,7 @@ import 'package:prototype2021/model/contents_dto/content_type.dart';
 
 final _factories =
     <ContentType, ContentsDetailBase Function(Map<String, dynamic>)>{
+  ContentType.unknown: (json) => ContentsDetailBase.fromJson(json: json),
   ContentType.spot: (json) => ContentsDetail12.fromJson(json: json),
   ContentType.cultureInfra: (json) => ContentsDetail14.fromJson(json: json),
   ContentType.events: (json) => ContentsDetail15.fromJson(json: json),

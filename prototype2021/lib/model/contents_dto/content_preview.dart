@@ -7,7 +7,7 @@ class ContentPreviewBase {
 
   /// URL of the photo
   final String? thumbnail;
-  final String address;
+  final String? address;
 
   /// catCode가 int가 아닌 것으로 보입니다.
   /// 예를들어 이런 식입니다: B0201
@@ -20,7 +20,7 @@ class ContentPreviewBase {
         title = json["title"] as String,
         overview = json["overview"] as String,
         thumbnail = nullable<String>(json["thumbnail"]),
-        address = json["address"] as String,
+        address = nullable<String>(json["address"]),
         catCode = json["cat_code"] as String,
         heartNo = json["heart_no"] as int,
         hearted = json["hearted"] as bool;
@@ -38,9 +38,9 @@ class ContentPreviewBase {
 // }
 
 class WishlistContentPreview extends ContentPreviewBase {
-  final double ratingNo;
+  final double? ratingNo;
 
   WishlistContentPreview.fromJson({required Map<String, dynamic> json})
-      : ratingNo = json["rating_no"] as double,
+      : ratingNo = nullable<double>(json["rating_n"]),
         super.fromJson(json: json);
 }

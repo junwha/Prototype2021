@@ -69,8 +69,9 @@ class ContentsWishlistOutput extends PaginationOutput
   final List<WishlistContentPreview> results;
 
   ContentsWishlistOutput.fromJson({required Map<String, dynamic> json})
-      : results = (json["results"] as List<Map<String, dynamic>>)
-            .map((result) => WishlistContentPreview.fromJson(json: result))
+      : results = (json["results"] as List<dynamic>)
+            .map((result) => WishlistContentPreview.fromJson(
+                json: result as Map<String, dynamic>))
             .toList(),
         super.fromJson(json: json);
 }
@@ -101,5 +102,7 @@ class ContentsDetailOutput extends SafeHttpDataOutput {
   */
   ContentsDetailOutput.fromJson({required Map<String, dynamic> json})
       : result = generateContentsData(
-            type: idContentType[json["typeid"] as int]!, json: json);
+          type: idContentType[nullable<int>(json["typeid"]) ?? -1]!,
+          json: json,
+        );
 }

@@ -1,4 +1,7 @@
 enum ContentType {
+  /// 알 수 없음: typeid가 null일 때를 의미합니다 [id: -1]
+  unknown,
+
   /// 관광지 [id: 12]
   spot,
 
@@ -22,6 +25,7 @@ enum ContentType {
 }
 
 Map<ContentType, int> contentTypeId = {
+  ContentType.unknown: -1,
   ContentType.spot: 12,
   ContentType.cultureInfra: 14,
   ContentType.events: 15,
@@ -32,6 +36,7 @@ Map<ContentType, int> contentTypeId = {
 };
 
 Map<int, ContentType> idContentType = {
+  -1: ContentType.unknown,
   12: ContentType.spot,
   14: ContentType.cultureInfra,
   15: ContentType.events,
