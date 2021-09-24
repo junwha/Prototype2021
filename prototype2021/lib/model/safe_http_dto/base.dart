@@ -54,9 +54,12 @@ class SafeHttpInput {
     if (token == null || headers?['Authorization'] != null) {
       return headers;
     }
-    Map<String, String> copyOfHeaders = headers!;
-    copyOfHeaders['Authorization'] = 'jwt $token';
-    return copyOfHeaders;
+    Map<String, String> newHeaders = {};
+    headers!.entries.forEach((element) {
+      newHeaders[element.key] = element.value;
+    });
+    newHeaders['Authorization'] = 'jwt $token';
+    return newHeaders;
   }
 
   Uri getUrl() => Uri.parse(url);
