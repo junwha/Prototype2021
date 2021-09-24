@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/model/safe_http_dto/get/contents.dart';
 import 'package:prototype2021/model/safe_http_dto/patch/heart.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -23,7 +24,22 @@ class ContentsLoader {
           SafeMutationInput<ContentsHeartInput> dto) async =>
       await safePatch<ContentsHeartInput, ContentsHeartOutput>(dto);
 
+  Future<SafeQueryOutput<ContentsListOutput>> contentsList(
+          SafeQueryInput<ContentsListInput> dto) async =>
+      await safeGET<ContentsListInput, ContentsListOutput>(dto);
+
+  Future<SafeQueryOutput<ContentsWishlistOutput>> contentsWishlist(
+          SafeQueryInput<ContentsWishlistInput> dto) async =>
+      await safeGET<ContentsWishlistInput, ContentsWishlistOutput>(dto);
+
+  Future<SafeQueryOutput<ContentsDetailOutput>> contentsDetail(
+          SafeQueryInput<ContentsDetailInput> dto) async =>
+      await safeGET<ContentsDetailInput, ContentsDetailOutput>(dto);
+
   // Endpoints
 
-  String contentsHeartUrl = "$apiBaseUrl/plan/:planId/like";
+  String contentsHeartUrl = "$apiBaseUrl/contents/:id/like";
+  String contentsListUrl = "$apiBaseUrl/contents";
+  String contentsWishlistUrl = "$apiBaseUrl/contents/wishlists";
+  String contentsDetailUrl = "$apiBaseUrl/contents/:id";
 }

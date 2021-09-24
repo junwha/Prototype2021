@@ -27,5 +27,5 @@ class PlanLoader {
 
   // Endpoints
 
-  String planHeartUrl = "$apiBaseUrl/contents/:id/like";
+  String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
 }

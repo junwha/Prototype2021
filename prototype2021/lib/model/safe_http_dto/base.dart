@@ -135,7 +135,9 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
     if (params?.toJson() != null) {
       queryString += "?";
       params!.toJson()!.forEach((key, value) {
-        queryString += "$key=$value&";
+        if (value != null) {
+          queryString += "$key=$value&";
+        }
       });
       queryString = queryString.substring(0, queryString.length - 1);
     }
