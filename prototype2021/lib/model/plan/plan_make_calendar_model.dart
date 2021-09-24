@@ -49,6 +49,20 @@ class PlanMakeCalendarModel with ChangeNotifier {
   */
   List<List<PlaceDataProps>>? get planListItems => _planListItems;
 
+  /*
+   * 여행 계획들을 순서를 유지하면서 평탄화하여 리턴합니다
+   */
+  List<PlaceDataProps> get flattenPlanListItems {
+    List<PlaceDataProps> _flattenPlanListItems = [];
+    if (_planListItems == null) return _flattenPlanListItems;
+
+    for (List<PlaceDataProps> itemList in _planListItems!) {
+      _flattenPlanListItems.addAll(itemList);
+    }
+
+    return _flattenPlanListItems;
+  }
+
   /* 
    * 캘린더의 터치를 핸들링하는 메소드입니다. 
    * 캘린더의 상태를 관리하는 핵심적인 함수로, 사용하지 않는것을 권장합니다

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 
-mixin PlanMakeHomeAIDialogMixin on State<PlanMakeHome> {
+mixin PlanMakeHomeAIDialogMixin on State<PlanMakeHomeView> {
   TBLargeDialog buildAIDialog(BuildContext context) {
     return TBLargeDialog(
         title: "AI 추천",

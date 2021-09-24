@@ -2,11 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/calendar/plan_make_calendar.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
 import 'package:provider/provider.dart';
 
-mixin PlanMakeHomeHeaderMixin on State<PlanMakeHome> {
+mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
+  /*
+   * Abstract method for State
+   * override this method with State variable.
+   */
+  void onMapButtonTap();
+
   Container buildHeader(BuildContext context) {
     return Container(
       child: Row(
@@ -54,7 +60,7 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHome> {
         children: [
           CircularWrapper(
             icon: Image.asset('assets/icons/map.png'),
-            onTap: () {},
+            onTap: onMapButtonTap,
             size: 34,
             shadow: true,
           ),

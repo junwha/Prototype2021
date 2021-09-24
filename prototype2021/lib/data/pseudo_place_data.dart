@@ -1,7 +1,8 @@
 import 'dart:math';
 
-import 'package:geodesy/geodesy.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
 
 // class GooglePlaceData {
 //   Map<String, dynamic>
@@ -58,31 +59,31 @@ List<PseudoPlaceData> pseudoPlaceData = [
   PseudoPlaceData(
       location: randomLocation(),
       name: "상하이 디즈니랜드",
-      types: "attraction",
+      types: PlaceType.SPOT,
       address: "중국, 상하이"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "루브르 박물관",
-      types: "attraction",
+      types: PlaceType.SPOT,
       address: "프랑스, 파리"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "그라니트 자카",
-      types: "attraction",
+      types: PlaceType.SPOT,
       address: "스위스, 베른"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "000 호텔",
-      types: "accomodations",
+      types: PlaceType.HOTEL,
       address: "스위스, 베른"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "RESTAURANT",
-      types: "restaurant",
+      types: PlaceType.RESTAURANT,
       address: "프랑스, 파리"),
   PseudoPlaceData(
       location: randomLocation(),
       name: "Starbucks",
-      types: "cafe",
+      types: PlaceType.CAFE,
       address: "미국, 뉴욕"),
 ];
