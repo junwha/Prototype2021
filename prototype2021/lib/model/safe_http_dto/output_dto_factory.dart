@@ -22,8 +22,19 @@ final factories = <Type, SafeHttpDataOutput Function(Map<String, dynamic>)>{
       ContentsHeartOutput.fromJson(),
   ContentsWishlistOutput: (Map<String, dynamic> json) =>
       ContentsWishlistOutput.fromJson(json: json),
+    // This key-value pair is for test purpose
+  ExampleOutput: (Map<String, dynamic> json) =>
+      ExampleOutput.fromJson(json: json),
 };
 
 T generateOutput<T extends SafeHttpDataOutput>(String jsonString) {
   return factories[T]!(jsonDecode(jsonString)) as T;
+}
+
+// This class is for test purpose
+class ExampleOutput extends SafeHttpDataOutput {
+  final String prop;
+
+  ExampleOutput.fromJson({required Map<String, dynamic> json})
+      : prop = json['prop'] as String;
 }

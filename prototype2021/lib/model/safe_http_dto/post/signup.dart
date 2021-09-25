@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:prototype2021/model/plan/calendar.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 
 enum Gender { M, F, None }
@@ -40,7 +41,7 @@ class SignupInput extends SafeHttpDataInput {
         "password": password,
         "photo": photo,
         "gender": GenderStringMapping[gender],
-        "birth": birth,
+        "birth": Calendar.dateToString(birth),
         "phoneNumber": phoneNumber,
         "email": email,
         "name": name,

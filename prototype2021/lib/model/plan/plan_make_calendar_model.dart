@@ -39,7 +39,8 @@ class PlanMakeCalendarModel with ChangeNotifier {
   /* 선택된 날짜들의 리스트를 반환합니다. null은 선택된 날짜가 없음을 의미합니다 */
   List<DateTime?> get datePoints => _datePoints;
   /* 
-  * 두개의 날짜가 선택되었을 때, 두 날짜의 차이를 일 수로 반환합니다. 
+  * 두개의 날짜가 선택되었을 때, 두 날짜의 차이를 일 수로 반환합니다.
+  * 첫 날과 마지막 날을 값에 반영합니다 
   * 하나의 날짜만 선택되었을 시에는 1을 반환합니다.
   */
   int? get dateDifference => _dateDifference;
@@ -115,7 +116,7 @@ class PlanMakeCalendarModel with ChangeNotifier {
   }
 
   void generatePlanListItems() {
-    _planListItems = List.generate(dateDifference!, (_) => []);
+    _planListItems = List.generate(_dateDifference!, (_) => []);
     notifyListeners();
   }
 

@@ -51,11 +51,13 @@ class SafeHttpInput {
    * This method does not mutates header
    */
   Map<String, String>? getHeaders() {
-    Map<String, String> newHeaders = {};
     if (token == null || headers?['Authorization'] != null) {
       return headers;
     }
-    newHeaders.addAll(headers!);
+    Map<String, String> newHeaders = {};
+    headers!.entries.forEach((element) {
+      newHeaders[element.key] = element.value;
+    });
     newHeaders['Authorization'] = 'jwt $token';
     return newHeaders;
   }
