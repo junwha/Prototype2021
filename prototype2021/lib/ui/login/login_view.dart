@@ -4,7 +4,7 @@ import 'package:prototype2021/model/login/login_model.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/model/safe_http_dto/post/login.dart';
 import 'package:prototype2021/model/user_info_model.dart';
-import 'package:prototype2021/theme/circle_check_button.dart';
+import 'package:prototype2021/theme/circle_button.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/theme/pop_up.dart';
@@ -188,11 +188,13 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       fontStyle: FontStyle.normal,
       fontSize: 13.0 * pt,
     );
+    Image image = Image.asset("assets/icons/ic_check_white.png");
     return Row(
       children: [
-        CircleCheckButton(
+        CircleButton(
           onChecked: setAutoLogin,
           isValueChecked: autoLogin,
+          image: image,
         ),
         Text(
           "자동 로그인",
@@ -200,9 +202,10 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
           textAlign: TextAlign.left,
         ),
         SizedBox(width: 10),
-        CircleCheckButton(
+        CircleButton(
           onChecked: setSaveId,
           isValueChecked: saveId,
+          image: image,
         ),
         Text(
           "아이디 저장",

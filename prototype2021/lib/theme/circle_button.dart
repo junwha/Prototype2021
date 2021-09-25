@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 
-class CircleCheckButton extends StatefulWidget {
+class CircleButton extends StatefulWidget {
   final bool isValueChecked;
+  final Image image;
   final Function(bool) onChecked;
-  CircleCheckButton({this.isValueChecked = false, required this.onChecked});
+  CircleButton({
+    this.isValueChecked = false,
+    required this.onChecked,
+    required this.image,
+  });
 
   @override
-  _CircleCheckButtonState createState() =>
-      _CircleCheckButtonState(isValueChecked: isValueChecked);
+  _CircleButtonState createState() =>
+      _CircleButtonState(isValueChecked: isValueChecked);
 }
 
-class _CircleCheckButtonState extends State<CircleCheckButton> {
+class _CircleButtonState extends State<CircleButton> {
   bool isValueChecked;
   void setIsValueChecked(bool isChecked) => setState(() {
         isValueChecked = isChecked;
@@ -21,7 +26,7 @@ class _CircleCheckButtonState extends State<CircleCheckButton> {
     widget.onChecked(isValueChecked);
   }
 
-  _CircleCheckButtonState({required this.isValueChecked});
+  _CircleButtonState({required this.isValueChecked});
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +43,7 @@ class _CircleCheckButtonState extends State<CircleCheckButton> {
                     borderRadius: BorderRadius.all(Radius.circular(11)),
                     color: const Color(0xff4080ff),
                   ),
-                  child: Image.asset("assets/icons/ic_check_white.png"),
+                  child: widget.image,
                 )
               : Container(
                   width: 21,

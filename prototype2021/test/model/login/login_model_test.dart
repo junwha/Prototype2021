@@ -4,6 +4,9 @@ import 'package:prototype2021/model/simple_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+  });
   group('[Class] LoginModel', testLoginModel);
 }
 
@@ -11,6 +14,7 @@ void testLoginModel() {
   final bool autoLogin = true;
   final bool doSaveId = true;
   final String savedId = "blabibla";
+
   group('[Method] loadAutoLogin', () {
     test('should load autoLogin variable', () async {
       expect(await LoginModel.loadAutoLogin(), false);
@@ -37,7 +41,6 @@ void testLoginModel() {
   });
 
   group('[Method] writeAutoLogin', () {
-    SharedPreferences.setMockInitialValues({});
     test('should write autoLogin variable', () async {
       bool success = false;
       try {
@@ -51,7 +54,6 @@ void testLoginModel() {
     });
   });
   group('[Method] writeDoSaveId', () {
-    SharedPreferences.setMockInitialValues({});
     test('should write doSaveId variable', () async {
       bool success = false;
       try {
@@ -65,7 +67,6 @@ void testLoginModel() {
     });
   });
   group('[Method] writeSavedId', () {
-    SharedPreferences.setMockInitialValues({});
     test('should write savedId variable', () async {
       bool success = false;
       try {
