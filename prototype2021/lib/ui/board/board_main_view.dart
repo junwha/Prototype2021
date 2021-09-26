@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/theme/board/app_bar.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
 import 'package:prototype2021/theme/board/helpers.dart';
@@ -13,6 +14,7 @@ import 'package:prototype2021/theme/center_notice.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 
 const double _toolbarHeight = 60;

@@ -74,7 +74,6 @@ Future<SafeQueryOutput<O>>
         SafeQueryInput<I> dto,
         [int expectedCode = 200]) async {
   try {
-    print(dto.getUrlWithParams());
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
     if (res.statusCode == expectedCode)
