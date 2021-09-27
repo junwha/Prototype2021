@@ -21,39 +21,50 @@ class _EventSearchViewState extends State<EventSearchView> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: ChangeNotifierProvider(
-            create: (context) => SearchArticleModel(),
-            child: Consumer(
-              builder: (context, SearchArticleModel searchArticleModel, child) {
-                return Stack(
-                  children: [
-                    searchArticleModel.loading == true
-                        ? Center(
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Image.asset("assets/icons/search_white.png"),
-                                Text(
-                                  "이벤트 게시판에 글을 검색해보세요.",
-                                  style: TextStyle(
-                                      color: Color.fromRGBO(180, 180, 180, 1),
-                                      fontSize: 16),
-                                ),
-                              ],
-                            ),
+        child: DefaultTabController(
+          length: 2,
+          child: ChangeNotifierProvider(
+              create: (context) => SearchArticleModel(),
+              child: Consumer(
+                builder:
+                    (context, SearchArticleModel searchArticleModel, child) {
+                  return Column(
+                    children: [
+                      Stack(
+                        children: [
+                          searchArticleModel.loading == true
+                              ? Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Image.asset(
+                                          "assets/icons/search_white.png"),
+                                      Text(
+                                        "이벤트 게시판에 글을 검색해보세요.",
+                                        style: TextStyle(
+                                            color: Color.fromRGBO(
+                                                180, 180, 180, 1),
+                                            fontSize: 16),
+                                      ),
+                                    ],
+                                  ),
+                                )
+                              : buildArticleSection(searchArticleModel),
+                          buildFloatingSearchBar(searchArticleModel),
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Image.asset(
+                                "assets/icons/ic_arrow_left_back.png"),
                           )
-                        : buildArticleSection(searchArticleModel),
-                    buildFloatingSearchBar(searchArticleModel),
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-                    )
-                  ],
-                );
-              },
-            )),
+                        ],
+                      ),
+                    ],
+                  );
+                },
+              )),
+        ),
       ),
     );
   }
@@ -206,6 +217,39 @@ class _EventSearchViewState extends State<EventSearchView> {
           );
         },
       ),
+    );
+  }
+
+  PreferredSizeWidget buildTabBar() {
+    return TabBar(
+      unselectedLabelColor: Color(0xffbdbdbd),
+      labelColor: Colors.black,
+      indicatorColor: Colors.black,
+      indicatorWeight: 1 * pt,
+      tabs: [
+        Tab(
+          child: Container(
+            child: Text(
+              '플랜',
+              style: TextStyle(
+                fontSize: 15 * pt,
+                fontFamily: 'Roboto',
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ),
+        ),
+        Tab(
+          child: Text(
+            '컨텐츠',
+            style: TextStyle(
+              fontSize: 15 * pt,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
