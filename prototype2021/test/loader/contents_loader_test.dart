@@ -12,7 +12,7 @@ class _Credentials {
 }
 
 void main() {
-  setUp(() async {
+  setUpAll(() async {
     await login();
   });
 
@@ -84,7 +84,7 @@ void testContentsWishlist() {
 
 void testContentsDetail() {
   test('should get detail', () async {
-    sampleData!.forEach((datum) async {
+    await Future.forEach<ContentPreviewBase>(sampleData!, (datum) async {
       ContentsDetailInput params = new ContentsDetailInput(id: datum.id);
       SafeQueryInput<ContentsDetailInput> dto = new SafeQueryInput(
           url: contentsLoader!.contentsDetailUrl, params: params, token: token);
