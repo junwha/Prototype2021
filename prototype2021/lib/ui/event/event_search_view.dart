@@ -45,6 +45,7 @@ class _EventSearchViewState extends State<EventSearchView> {
                           buildFloatingSearchBar(searchArticleModel),
                         ],
                       ),
+                      buildTabBar(),
                       // Content
                       searchArticleModel.loading == true
                           ? Center(
@@ -233,9 +234,9 @@ class _EventSearchViewState extends State<EventSearchView> {
         Tab(
           child: Container(
             child: Text(
-              '플랜',
+              '이벤트',
               style: TextStyle(
-                fontSize: 15 * pt,
+                fontSize: 12 * pt,
                 fontFamily: 'Roboto',
                 fontWeight: FontWeight.w700,
               ),
@@ -244,9 +245,9 @@ class _EventSearchViewState extends State<EventSearchView> {
         ),
         Tab(
           child: Text(
-            '컨텐츠',
+            '동행찾기',
             style: TextStyle(
-              fontSize: 15 * pt,
+              fontSize: 12 * pt,
               fontFamily: 'Roboto',
               fontWeight: FontWeight.w700,
             ),
