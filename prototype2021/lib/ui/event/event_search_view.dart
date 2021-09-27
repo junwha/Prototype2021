@@ -22,6 +22,7 @@ class _EventSearchViewState extends State<EventSearchView> {
     return Scaffold(
       body: SafeArea(
         child: DefaultTabController(
+          initialIndex: 0,
           length: 2,
           child: ChangeNotifierProvider(
               create: (context) => SearchArticleModel(),
@@ -30,36 +31,37 @@ class _EventSearchViewState extends State<EventSearchView> {
                     (context, SearchArticleModel searchArticleModel, child) {
                   return Column(
                     children: [
-                      Stack(
+                      // Search Bar
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          searchArticleModel.loading == true
-                              ? Center(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Image.asset(
-                                          "assets/icons/search_white.png"),
-                                      Text(
-                                        "이벤트 게시판에 글을 검색해보세요.",
-                                        style: TextStyle(
-                                            color: Color.fromRGBO(
-                                                180, 180, 180, 1),
-                                            fontSize: 16),
-                                      ),
-                                    ],
-                                  ),
-                                )
-                              : buildArticleSection(searchArticleModel),
-                          buildFloatingSearchBar(searchArticleModel),
                           IconButton(
                             onPressed: () {
                               Navigator.pop(context);
                             },
                             icon: Image.asset(
                                 "assets/icons/ic_arrow_left_back.png"),
-                          )
+                          ),
+                          buildFloatingSearchBar(searchArticleModel),
                         ],
                       ),
+                      // Content
+                      searchArticleModel.loading == true
+                          ? Center(
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset("assets/icons/search_white.png"),
+                                  Text(
+                                    "이벤트 게시판에 글을 검색해보세요.",
+                                    style: TextStyle(
+                                        color: Color.fromRGBO(180, 180, 180, 1),
+                                        fontSize: 16),
+                                  ),
+                                ],
+                              ),
+                            )
+                          : buildArticleSection(searchArticleModel),
                     ],
                   );
                 },
@@ -69,9 +71,9 @@ class _EventSearchViewState extends State<EventSearchView> {
     );
   }
 
-  Padding buildArticleSection(SearchArticleModel searchArticleModel) {
-    return Padding(
-      padding: EdgeInsets.only(top: 50),
+  Container buildArticleSection(SearchArticleModel searchArticleModel) {
+    return Container(
+      padding: EdgeInsets.only(top: 10),
       child: Column(
         children: [
           Row(children: [
@@ -128,10 +130,9 @@ class _EventSearchViewState extends State<EventSearchView> {
     final controller = FloatingSearchBarController();
     final _applyKey = GlobalKey<FormState>();
 
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+    return Container(
       child: FloatingSearchBar(
-        margins: EdgeInsets.only(left: 50),
+        // margins: EdgeInsets.only(left: 50),
         shadowColor: Colors.transparent,
         backdropColor: Colors.transparent,
         borderRadius: BorderRadius.circular(50),
@@ -217,6 +218,8 @@ class _EventSearchViewState extends State<EventSearchView> {
           );
         },
       ),
+      height: 60,
+      width: 300,
     );
   }
 
