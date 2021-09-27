@@ -46,6 +46,7 @@ class _EventSearchViewState extends State<EventSearchView> {
                         ],
                       ),
                       buildTabBar(),
+
                       // Content
                       searchArticleModel.loading == true
                           ? Center(
@@ -74,44 +75,34 @@ class _EventSearchViewState extends State<EventSearchView> {
 
   Container buildArticleSection(SearchArticleModel searchArticleModel) {
     return Container(
-      padding: EdgeInsets.only(top: 10),
-      child: Column(
-        children: [
-          Row(children: [
-            Expanded(
-                child: TextButton(
-              child: Text(
-                "이벤트",
-                style: TextStyle(
-                  color: Color(0xff000000),
-                  fontSize: 15,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              onPressed: () {
-                setState(() {
-                  this.previewData = searchArticleModel.eventArticleList;
-                });
-              },
-            )),
-            Expanded(
-                child: TextButton(
-              child: Text(
-                "동행찾기",
-                style: TextStyle(
-                  color: Color(0xff000000),
-                  fontSize: 15,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-              onPressed: () {
-                setState(() {
-                  this.previewData = searchArticleModel.companionArticleList;
-                });
-              },
-            ))
+        padding: EdgeInsets.only(top: 10),
+        child: Column(children: [
+          TabBarView(children: [
+            SingleChildScrollView(
+              child: Column(
+                  children: List.generate(
+                      20,
+                      (index) => GestureDetector(
+                            onTap: () {
+                              setState(() {
+                                this.previewData =
+                                    searchArticleModel.eventArticleList;
+                              });
+                            },
+                          ))),
+            ),
+            SingleChildScrollView(
+                child: Column(
+                    children: List.generate(
+                        20,
+                        (index) => GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  this.previewData =
+                                      searchArticleModel.companionArticleList;
+                                });
+                              },
+                            )))),
           ]),
           Column(
             children: this
@@ -120,9 +111,7 @@ class _EventSearchViewState extends State<EventSearchView> {
                     title: e.title, hasContents: false, range: e.period))
                 .toList(),
           ),
-        ],
-      ),
-    );
+        ]));
   }
 
   Widget buildFloatingSearchBar(SearchArticleModel searchArticleModel) {
