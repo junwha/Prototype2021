@@ -62,7 +62,6 @@ void testContentsHeart() {
     try {
       await contentsLoader!.heartContents(sampleData![0].id.toString(), token);
     } catch (error) {
-      print(error);
       success = false;
     }
     expect(success, true);
@@ -76,7 +75,6 @@ void testContentsWishlist() {
         url: contentsLoader!.contentsWishlistUrl, params: params, token: token);
     SafeQueryOutput<ContentsWishlistOutput> result =
         await contentsLoader!.contentsWishlist(dto);
-    print(result.error?.message);
     expect(result.data?.results != null, true);
     expect(result.data!.results is List<ContentPreviewBase>, true);
   });

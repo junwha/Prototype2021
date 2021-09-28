@@ -11,13 +11,17 @@ import 'package:prototype2021/model/safe_http_dto/base.dart';
 */
 Future<SafeMutationOutput<O>>
     safePOST<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
-        SafeMutationInput<I> dto,
-        [int expectedCode = 201]) async {
+  SafeMutationInput<I> dto, [
+  int expectedCode = 201,
+  bool fromBytes = false,
+]) async {
   try {
     Response res = await http.post(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
-    if (res.statusCode == expectedCode)
-      return new SafeMutationOutput<O>(success: true, data: res.body);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeMutationOutput<O>(success: true, data: data);
+    }
     throw new HttpException("[${res.statusCode}] : ${res.body.toString()}");
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -31,13 +35,17 @@ Future<SafeMutationOutput<O>>
 */
 Future<SafeMutationOutput<O>>
     safePUT<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
-        SafeMutationInput<I> dto,
-        [int expectedCode = 200]) async {
+  SafeMutationInput<I> dto, [
+  int expectedCode = 200,
+  bool fromBytes = false,
+]) async {
   try {
     Response res = await http.put(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
-    if (res.statusCode == expectedCode)
-      return new SafeMutationOutput<O>(success: true, data: res.body);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeMutationOutput<O>(success: true, data: data);
+    }
     throw new HttpException("[${res.statusCode}] : ${res.body.toString()}");
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -51,13 +59,17 @@ Future<SafeMutationOutput<O>>
 */
 Future<SafeMutationOutput<O>>
     safePatch<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
-        SafeMutationInput<I> dto,
-        [int expectedCode = 201]) async {
+  SafeMutationInput<I> dto, [
+  int expectedCode = 201,
+  bool fromBytes = false,
+]) async {
   try {
     Response res = await http.patch(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
-    if (res.statusCode == expectedCode)
-      return new SafeMutationOutput<O>(success: true, data: res.body);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeMutationOutput<O>(success: true, data: data);
+    }
     throw new HttpException("[${res.statusCode}] : ${res.body.toString()}");
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -71,13 +83,18 @@ Future<SafeMutationOutput<O>>
 */
 Future<SafeQueryOutput<O>>
     safeGET<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
-        SafeQueryInput<I> dto,
-        [int expectedCode = 200]) async {
+  SafeQueryInput<I> dto, [
+  int expectedCode = 200,
+  bool fromBytes = false,
+]) async {
   try {
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
-    if (res.statusCode == expectedCode)
-      return new SafeQueryOutput<O>(success: true, data: res.body);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      print(data);
+      return new SafeQueryOutput<O>(success: true, data: data);
+    }
     throw new HttpException("[${res.statusCode} : ${res.body.toString()}]");
   } catch (error) {
     return new SafeQueryOutput<O>(

@@ -22,19 +22,20 @@ class ContentsLoader {
 
   Future<SafeMutationOutput<ContentsHeartOutput>> contentsHeart(
           SafeMutationInput<ContentsHeartInput> dto) async =>
-      await safePatch<ContentsHeartInput, ContentsHeartOutput>(dto);
+      await safePatch<ContentsHeartInput, ContentsHeartOutput>(dto, 201, true);
 
   Future<SafeQueryOutput<ContentsListOutput>> contentsList(
           SafeQueryInput<ContentsListInput> dto) async =>
-      await safeGET<ContentsListInput, ContentsListOutput>(dto);
+      await safeGET<ContentsListInput, ContentsListOutput>(dto, 200, true);
 
   Future<SafeQueryOutput<ContentsWishlistOutput>> contentsWishlist(
           SafeQueryInput<ContentsWishlistInput> dto) async =>
-      await safeGET<ContentsWishlistInput, ContentsWishlistOutput>(dto);
+      await safeGET<ContentsWishlistInput, ContentsWishlistOutput>(
+          dto, 200, true);
 
   Future<SafeQueryOutput<ContentsDetailOutput>> contentsDetail(
           SafeQueryInput<ContentsDetailInput> dto) async =>
-      await safeGET<ContentsDetailInput, ContentsDetailOutput>(dto);
+      await safeGET<ContentsDetailInput, ContentsDetailOutput>(dto, 200, true);
 
   // Endpoints
 
