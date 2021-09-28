@@ -88,7 +88,6 @@ void testContentsDetail() {
           url: contentsLoader!.contentsDetailUrl, params: params, token: token);
       SafeQueryOutput<ContentsDetailOutput> result =
           await contentsLoader!.contentsDetail(dto);
-      print(result.data!.result);
       print(result.error?.message);
       expect(result.data?.result != null, true);
     });

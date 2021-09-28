@@ -95,14 +95,11 @@ class ContentsDetailOutput extends SafeHttpDataOutput {
    * 모든 typeId에 따라 달라지는 Contents Detail DTO들은 ContentsDetailBase를 상속하므로
    * 아래와 같이 정의해 두었습니다
   */
-  final ContentsDetailBase result;
+  final ContentsDetail result;
 
   /* 
    * typeId를 먼저 확인한 뒤, typeId에 맞는 DTO를 불러옵니다
   */
   ContentsDetailOutput.fromJson({required Map<String, dynamic> json})
-      : result = generateContentsData(
-          type: idContentType[nullable<int>(json["typeid"]) ?? -1]!,
-          json: json,
-        );
+      : result = ContentsDetail.fromJson(json: json);
 }

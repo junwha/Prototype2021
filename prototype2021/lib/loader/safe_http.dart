@@ -92,7 +92,6 @@ Future<SafeQueryOutput<O>>
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
-      print(data);
       return new SafeQueryOutput<O>(success: true, data: data);
     }
     throw new HttpException("[${res.statusCode} : ${res.body.toString()}]");
