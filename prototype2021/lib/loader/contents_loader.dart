@@ -1,10 +1,13 @@
 import 'dart:io';
 
 import 'package:prototype2021/loader/safe_http.dart';
+import 'package:prototype2021/model/contents_dto/content_detail.dart';
+import 'package:prototype2021/model/contents_dto/content_preview.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/get/contents.dart';
 import 'package:prototype2021/model/safe_http_dto/patch/heart.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
 
 class ContentsLoader {
   // Custom Functions
@@ -16,6 +19,37 @@ class ContentsLoader {
     SafeMutationOutput<ContentsHeartOutput> result = await contentsHeart(dto);
     if (!result.success)
       throw HttpException(result.error?.message ?? "Unexpected error");
+  }
+
+  Future<List<ContentsCardBaseProps>> getContentsList(String token) async {
+    ContentsListInput params = new ContentsListInput();
+    SafeQueryInput<ContentsListInput> dto =
+        new SafeQueryInput(url: contentsListUrl, params: params, token: token);
+    SafeQueryOutput<ContentsListOutput> result = await contentsList(dto);
+    if (result.success && result.data?.results != null)
+      return result.data!.results
+          .map<ContentsCardBaseProps>((datum) => ContentsCardBaseProps(
+                id: datum.id,
+                title: datum.title,
+                rating: datum.rating,
+                explanation: datum.overview,
+                preview: datum.thumbnail,
+                heartCount: datum.heartNo,
+                place: datum.address,
+                ratingNumbers: datum.reviewNo,
+              ))
+          .toList();
+    throw HttpException(result.error?.message ?? "Unexpected error");
+  }
+
+  Future<ContentsDetail> getContentDetail(int id, String token) async {
+    ContentsDetailInput params = new ContentsDetailInput(id: id);
+    SafeQueryInput<ContentsDetailInput> dto = new SafeQueryInput(
+        url: contentsDetailUrl, params: params, token: token);
+    SafeQueryOutput<ContentsDetailOutput> result = await contentsDetail(dto);
+    if (result.success && result.data?.result != null)
+      return result.data!.result;
+    throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
   // Fetching Functions

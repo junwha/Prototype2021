@@ -20,7 +20,7 @@ void main() {
 }
 
 String token = "";
-List<ContentPreviewBase>? sampleData;
+List<ContentPreview>? sampleData;
 ContentsLoader? contentsLoader;
 
 Future<void> login() async {
@@ -49,7 +49,7 @@ void testContentsList() {
     SafeQueryOutput<ContentsListOutput> result =
         await contentsLoader!.contentsList(dto);
     expect(result.data?.results != null, true);
-    expect(result.data!.results is List<ContentPreviewBase>, true);
+    expect(result.data!.results is List<ContentPreview>, true);
     expect(result.data!.count > 0, true);
     expect(result.data!.previous, null);
     sampleData = result.data!.results;
@@ -76,13 +76,13 @@ void testContentsWishlist() {
     SafeQueryOutput<ContentsWishlistOutput> result =
         await contentsLoader!.contentsWishlist(dto);
     expect(result.data?.results != null, true);
-    expect(result.data!.results is List<ContentPreviewBase>, true);
+    expect(result.data!.results is List<ContentPreview>, true);
   });
 }
 
 void testContentsDetail() {
   test('should get detail', () async {
-    await Future.forEach<ContentPreviewBase>(sampleData!, (datum) async {
+    await Future.forEach<ContentPreview>(sampleData!, (datum) async {
       ContentsDetailInput params = new ContentsDetailInput(id: datum.id);
       SafeQueryInput<ContentsDetailInput> dto = new SafeQueryInput(
           url: contentsLoader!.contentsDetailUrl, params: params, token: token);

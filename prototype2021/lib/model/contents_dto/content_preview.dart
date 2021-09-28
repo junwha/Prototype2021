@@ -27,17 +27,17 @@ class ContentPreviewBase {
 }
 
 // 이 DTO가 맞지 않는 것 같습니다
-// class ContentPreview extends ContentPreviewBase {
-//   final double rating;
-//   final int reviewNo;
+class ContentPreview extends ContentPreviewBase {
+  final int? rating;
+  final double? reviewNo;
 
-//   ContentPreview.fromJson({required Map<String, dynamic> json})
-//       : rating = json["rating"] as double,
-//         reviewNo = json["review_no"] as int,
-//         super.fromJson(json: json);
-// }
+  ContentPreview.fromJson({required Map<String, dynamic> json})
+      : rating = nullable<int>(json["rating"]),
+        reviewNo = nullable<double>(json["review_no"]),
+        super.fromJson(json: json);
+}
 
-class WishlistContentPreview extends ContentPreviewBase {
+class WishlistContentPreview extends ContentPreview {
   final double? ratingNo;
 
   WishlistContentPreview.fromJson({required Map<String, dynamic> json})

@@ -32,7 +32,7 @@ class CenterNotice extends StatelessWidget {
         ),
         TextButton(
             onPressed: onActionPressed,
-            child: Text(text,
+            child: Text(actionText ?? "다시 시도",
                 style: const TextStyle(
                     color: const Color(0xff4080ff),
                     fontWeight: FontWeight.w400,

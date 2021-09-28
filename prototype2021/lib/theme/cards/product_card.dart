@@ -23,7 +23,9 @@ class ProductCardBaseProps extends CardBaseProps {
     required String title,
     required String place,
     required List<String> tags,
+    required int id,
   }) : super(
+          id: id,
           preview: preview,
           title: title,
           place: place,

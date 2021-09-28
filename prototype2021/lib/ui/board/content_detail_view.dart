@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/model/contents_dto/content_detail.dart';
 import 'package:prototype2021/model/event/event_article_model.dart';
+import 'package:prototype2021/model/user_info_model.dart';
+import 'package:prototype2021/theme/center_notice.dart';
+import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/ui/event/editor_view.dart';
@@ -10,97 +15,78 @@ import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class ContentDetailView extends StatefulWidget {
-  const ContentDetailView();
+  final int id;
+  ContentDetailView({required this.id});
 
   @override
   ContentDetailViewState createState() => ContentDetailViewState();
 }
 
-class ContentDetailViewState extends State<ContentDetailView> {
-  double image_index = 0;
+class ContentDetailViewState extends State<ContentDetailView>
+    with ContentsLoader {
+  double imageIndex = 0;
   bool isAllList = false;
+  bool onError = false;
 
-  List<String> images = [
-    'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
-  ];
+  ContentsDetail? props;
+  void setProps(ContentsDetail _props) => setState(() {
+        props = _props;
+      });
+  void setOnError(bool _onError) => setState(() {
+        onError = _onError;
+      });
+
+  Future<void> fetchDetail() async {
+    try {
+      UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+      setProps(await getContentDetail(widget.id, model.token!));
+      setOnError(false);
+    } catch (error) {
+      print(error);
+      setOnError(true);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchDetail();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (onError) {
+      return Container(
+        child: CenterNotice(
+          text: "컨텐츠를 불러오는 중 오류가 발생했습니다. 다시 시도해주세요",
+          actionText: "다시 시도",
+          onActionPressed: fetchDetail,
+        ),
+        decoration: const BoxDecoration(color: Colors.white),
+      );
+    }
+    if (props == null) {
+      return Container(
+        child: LoadingIndicator(),
+        decoration: new BoxDecoration(color: Colors.white),
+      );
+    }
+    return buildPage();
+  }
+
+  Scaffold buildPage() {
     return Scaffold(
-        backgroundColor: Colors.white,
-        appBar: buildAppBar(),
-        body: SingleChildScrollView(
+      backgroundColor: Colors.white,
+      appBar: buildAppBar(),
+      body: SafeArea(
+        child: SingleChildScrollView(
             child: ChangeNotifierProvider(
           create: (context) => EventArticleModel.main(),
           child: Consumer(
               builder: (context, EventArticleModel eventArticleModel, child) {
             return Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '울산대공원',
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 21,
-                              fontFamily: 'Roboto',
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                          IconButton(
-                              onPressed: () {},
-                              icon: Image.asset(
-                                  'assets/icons/ic_main_heart_default.png'))
-                        ],
-                      ),
-                      Text(
-                        '대한민국, 울산',
-                        style: TextStyle(
-                          color: Color(0xff707070),
-                          fontSize: 13,
-                          fontFamily: 'Roboto',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                      SizedBox(
-                        height: 8,
-                      ),
-                      Row(
-                        children: [
-                          Image.asset('assets/icons/ic_pc_star_big.png'),
-                          SizedBox(
-                            width: 5,
-                          ),
-                          Text(
-                            '3.7 (369)',
-                            style: TextStyle(
-                              color: Color(0xff707070),
-                              fontSize: 15,
-                              fontFamily: 'Roboto',
-                            ),
-                          ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 6,
-                      ),
-                      buildTags(),
-                      SizedBox(
-                        height: 18,
-                      ),
-                      buildImageArea(),
-                      SizedBox(
-                        height: 8,
-                      ),
-                    ],
-                  ),
-                ),
+                buildHeadSection(),
                 buildLineArea(),
                 buildTextArea(),
                 buildLineArea(),
@@ -112,42 +98,121 @@ class ContentDetailViewState extends State<ContentDetailView> {
                 buildLineArea(),
                 buildEventArea(eventArticleModel),
                 buildEventArticles(eventArticleModel),
-                TextButton(
-                    child: Container(
-                        height: 35 * pt,
-                        width: 280 * pt,
-                        decoration: BoxDecoration(
-                            border: Border.all(width: 1),
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10))),
-                        child: Center(
-                            child: Text(
-                          "이벤트 게시판에서 더보기 ->",
-                          style: TextStyle(
-                            color: Color(0xff555555),
-                            fontSize: 18,
-                            fontFamily: 'Roboto',
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ))),
-                    onPressed: () {
-                      if (!isAllList) {
-                        setState(() {
-                          isAllList = true;
-                        });
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => EventMainView()),
-                        );
-                        // TODO: next page
-                      }
-                    })
+                buildEventNavigatorButton(),
               ],
             );
           }),
-        )));
+        )),
+      ),
+    );
+  }
+
+  Padding buildHeadSection() {
+    String ratingText = "";
+    if (props!.rating != null) {
+      ratingText += props!.rating.toString();
+      if (props!.reviewNo != null) {
+        ratingText += "(${props!.reviewNo.toString()})";
+      }
+    }
+    return Padding(
+      padding: const EdgeInsets.all(25.0),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                props!.title,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 21,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Image.asset('assets/icons/ic_main_heart_default.png'))
+            ],
+          ),
+          Text(
+            props!.address ?? "",
+            style: TextStyle(
+              color: Color(0xff707070),
+              fontSize: 13,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          SizedBox(
+            height: 8,
+          ),
+          Row(
+            children: [
+              Image.asset('assets/icons/ic_pc_star_big.png'),
+              SizedBox(
+                width: 5,
+              ),
+              Text(
+                ratingText,
+                style: TextStyle(
+                  color: Color(0xff707070),
+                  fontSize: 15,
+                  fontFamily: 'Roboto',
+                ),
+              ),
+            ],
+          ),
+          SizedBox(
+            height: 6,
+          ),
+          buildTags([]), // API에서 태그가 넘어오는게 아닌데 어떻게 처리해야 좋을까요ㅜㅜ
+          SizedBox(
+            height: 18,
+          ),
+          buildImageArea(),
+          SizedBox(
+            height: 8,
+          ),
+        ],
+      ),
+    );
+  }
+
+  TextButton buildEventNavigatorButton() {
+    return TextButton(
+      child: Container(
+          height: 35 * pt,
+          width: 280 * pt,
+          decoration: BoxDecoration(
+              border: Border.all(width: 1),
+              borderRadius: BorderRadius.all(Radius.circular(10))),
+          child: Center(
+              child: Text(
+            "이벤트 게시판에서 더보기 ->",
+            style: TextStyle(
+              color: Color(0xff555555),
+              fontSize: 18,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ))),
+      onPressed: () {
+        if (!isAllList) {
+          setState(() {
+            isAllList = true;
+          });
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => EventMainView()),
+          );
+          // TODO: next page
+        }
+      },
+    );
   }
 
   AppBar buildAppBar() {
@@ -176,62 +241,27 @@ class ContentDetailViewState extends State<ContentDetailView> {
             )));
   }
 
-  Row buildTags() {
-    return Row(
-      children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
-          margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-          decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0),
-              borderRadius: BorderRadius.circular(15),
-              border:
-                  Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
-          child: Text(
-            "액티비티",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: const Color(0xff707070),
-            ),
-          ),
+  Container buildTag(String tagName) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
+      margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
+      decoration: BoxDecoration(
+          color: Colors.black.withOpacity(0),
+          borderRadius: BorderRadius.circular(15),
+          border: Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
+      child: Text(
+        tagName,
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 12,
+          color: const Color(0xff707070),
         ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
-          margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-          decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0),
-              borderRadius: BorderRadius.circular(15),
-              border:
-                  Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
-          child: Text(
-            "관광명소",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: const Color(0xff707070),
-            ),
-          ),
-        ),
-        Container(
-          padding: const EdgeInsets.fromLTRB(12, 2, 12, 2),
-          margin: EdgeInsets.fromLTRB(0, 0, 5, 0),
-          decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0),
-              borderRadius: BorderRadius.circular(15),
-              border:
-                  Border.all(color: Colors.black.withOpacity(0.1), width: 1)),
-          child: Text(
-            "인생사진",
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
-              color: const Color(0xff707070),
-            ),
-          ),
-        ),
-      ],
+      ),
     );
+  }
+
+  Row buildTags(List<String> tags) {
+    return Row(children: tags.map<Container>((tag) => buildTag(tag)).toList());
   }
 
   Stack buildImageArea() {
@@ -242,13 +272,13 @@ class ContentDetailViewState extends State<ContentDetailView> {
             options: CarouselOptions(
               onPageChanged: (i, reason) {
                 setState(() {
-                  image_index = i.toDouble();
+                  imageIndex = i.toDouble();
                 });
               },
               height: 200,
               viewportFraction: 1,
             ),
-            items: images.map((url) {
+            items: props!.photo.map((url) {
               return Builder(
                 builder: (BuildContext context) {
                   return Container(
@@ -263,8 +293,8 @@ class ContentDetailViewState extends State<ContentDetailView> {
               );
             }).toList()),
         DotsIndicator(
-          dotsCount: images.length,
-          position: image_index,
+          dotsCount: props!.photo.length,
+          position: imageIndex,
         )
       ],
     );
@@ -284,7 +314,7 @@ class ContentDetailViewState extends State<ContentDetailView> {
       child: Column(
         children: [
           Text(
-            '다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원',
+            props!.title,
             style: TextStyle(
               height: 1.3,
               color: Color(0xff010101),
@@ -298,7 +328,7 @@ class ContentDetailViewState extends State<ContentDetailView> {
             height: 6,
           ),
           Text(
-            '울산대공원은 울산광역시 남구 대공원로 94에 있으며, 옥동과 신정동에 걸쳐 있는 도심 공원이다. 전체 면적은 약364만여m2이고, 시설 면적은 79만m2이다. 공원 정문 쪽에는 소규모 워터파크와 수영장 시설을 갖추고 있는 아쿠아시스가 입지하고 있다. 공원 정문과 동문 사이에 현충탑이 자리잡고 있으며, 매년 6월 6일에 현충탑 앞에서 추념식이 열린다. 정문, 남문, 동문 모두 자전거 대여소가 있어 자전거 대여를 할 수 있다.',
+            props!.overview,
             style: TextStyle(
               color: Colors.black,
               height: 1.5,

@@ -13,6 +13,7 @@ mixin BoardMainViewHelpers {
     return List.generate(
         10,
         (index) => new ProductCardBaseProps(
+              id: index,
               preview: placeHolder,
               title: "중국 도장깨기",
               place: '상하이(중국), 베이징(중국), 광저우(중국)',
@@ -32,6 +33,7 @@ mixin BoardMainViewHelpers {
     return List.generate(
         10,
         (index) => new ContentsCardBaseProps(
+              id: index,
               backgroundColor: Colors.white,
               preview: placeHolder,
               title: "울산대공원",

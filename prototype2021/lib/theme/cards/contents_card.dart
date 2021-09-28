@@ -4,26 +4,28 @@ import 'package:prototype2021/theme/cards/card_base.dart';
 import 'package:prototype2021/theme/heart_button.dart';
 
 class ContentsCardBaseProps extends CardBaseProps {
-  final double rating;
-  final int ratingNumbers;
+  final int? rating;
+  final double? ratingNumbers;
   final String explanation;
   final Color backgroundColor;
   final EdgeInsets margin;
-  final int heartCount;
+  final int? heartCount;
 
   ContentsCardBaseProps({
-    required this.rating,
-    required this.ratingNumbers,
+    this.rating,
+    this.ratingNumbers,
     this.backgroundColor = Colors.white,
-    required this.explanation,
+    this.explanation = "",
     this.heartCount = 3,
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    required String preview,
+    required int id,
+    String? preview,
     required String title,
-    required String place,
-    required List<String> tags,
+    String? place,
+    List<String> tags = const [],
   }) : super(
-          preview: preview,
+          id: id,
+          preview: preview ?? placeHolder,
           title: title,
           place: place,
           tags: tags,
@@ -71,7 +73,26 @@ class ContentsCard extends StatelessWidget with CardBase {
     );
   }
 
-  Row buildRatings(double rating, int ratingNumbers) {
+  Row buildRatings([
+    int? rating,
+    double? ratingNumbers,
+    int? heartCount,
+  ]) {
+    String ratingText = "";
+    if (rating == null) {
+      ratingText += "?";
+    } else {
+      ratingText += rating.toString();
+      if (ratingNumbers != null) {
+        ratingText += "(${ratingNumbers.toString()})";
+      }
+    }
+    String heartText = "";
+    if (heartCount == null) {
+      heartText += "?";
+    } else {
+      heartText += heartCount.toString();
+    }
     return Row(
       children: [
         Image.asset(
@@ -79,7 +100,7 @@ class ContentsCard extends StatelessWidget with CardBase {
         ),
         SizedBox(width: 3),
         Text(
-          '${rating.toString()} (${ratingNumbers.toString()})',
+          ratingText,
           style: TextStyle(
             color: Color(0xff555555),
             fontSize: 10 * pt,
@@ -90,7 +111,7 @@ class ContentsCard extends StatelessWidget with CardBase {
         Image.asset("assets/icons/ic_pc_heart_small.png"),
         SizedBox(width: 3),
         Text(
-          '${rating.toString()} (${ratingNumbers.toString()})',
+          heartText,
           style: TextStyle(
             color: Color(0xff555555),
             fontSize: 10 * pt,

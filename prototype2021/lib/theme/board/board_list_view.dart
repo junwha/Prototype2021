@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/common.dart';
 
 class BoardListView<T> extends StatelessWidget {
   final List<T> data;
   final Widget Function(T) builder;
   final void Function(T)? onTap;
-  final Widget Function(BuildContext)? routeBuilder;
+  final Widget Function(BuildContext, int?)? routeBuilder;
   final Widget? header;
 
   const BoardListView({
@@ -30,7 +31,11 @@ class BoardListView<T> extends StatelessWidget {
         return;
       }
       if (routeBuilder != null) {
-        Navigator.push(context, MaterialPageRoute(builder: routeBuilder!));
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => routeBuilder!(
+                    context, datum is CommonObject ? datum.id : null)));
         return;
       }
     }

@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/theme/board/app_bar.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
@@ -34,7 +36,8 @@ class _BoardMainViewState extends State<BoardMainView>
         BoardMainViewAppBarMixin,
         BoardMainViewSearchWidgetMixin,
         BoardMainViewSearchLogicMixin,
-        BoardMainViewHelpers {
+        BoardMainViewHelpers,
+        ContentsLoader {
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
@@ -63,10 +66,18 @@ class _BoardMainViewState extends State<BoardMainView>
   late Stream<List<ContentsCardBaseProps>> contentsDataStream;
   late Stream<List<dynamic>> recentSearchesStream;
 
-  Future<void> pseudoApiCall() async {
+  Future<void> callApi([String? keyword]) async {
     // Code below is just a simulation of api calls
     planDataController.sink.add(await getPseudoPlanData());
-    contentsDataController.sink.add(await getPseudoContentData());
+    try {
+      UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+      if (model.token != null) {
+        contentsDataController.sink.add(await getContentsList(model.token!));
+      }
+    } catch (error) {
+      print(error);
+      // error handle
+    }
   }
 
   Future<void> searchOnSubmitted(String? keyword) async {
@@ -82,14 +93,14 @@ class _BoardMainViewState extends State<BoardMainView>
     loadSearchKeywords();
   }
 
-  Future<void> initData() async => await pseudoApiCall();
+  Future<void> initData() async => await callApi();
 
   void handleModeChange(BoardMainViewMode _viewMode) {
     if (_viewMode == BoardMainViewMode.search) {
       loadSearchKeywords();
       textEditingController.text = "";
     } else {
-      pseudoApiCall();
+      callApi(searchInput.length > 0 ? searchInput : null);
     }
   }
 
@@ -258,7 +269,7 @@ class _BoardMainViewState extends State<BoardMainView>
       return;
     }
     if (viewMode == BoardMainViewMode.main) {
-      pseudoApiCall();
+      callApi();
       return;
     }
   }
@@ -268,7 +279,7 @@ class _BoardMainViewState extends State<BoardMainView>
       stream: planDataController.stream,
       refetch: _handleRefetch,
       builder: (props) => ProductCard.fromProps(props: props),
-      routeBuilder: (_) => PlanMakeView(),
+      routeBuilder: (_, __) => PlanMakeView(),
       emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
@@ -283,7 +294,9 @@ class _BoardMainViewState extends State<BoardMainView>
       stream: contentsDataController.stream,
       refetch: _handleRefetch,
       builder: (props) => ContentsCard.fromProps(props: props),
-      routeBuilder: (_) => ContentDetailView(),
+      routeBuilder: (_, id) => ContentDetailView(
+        id: id!,
+      ),
       emptyWidget: CenterNotice(text: "불러올 수 있는 컨텐츠가 없습니다"),
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',

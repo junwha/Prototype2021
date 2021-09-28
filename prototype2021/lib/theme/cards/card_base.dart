@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/heart_button.dart';
 
-class CardBaseProps {
+class CardBaseProps implements CommonObject {
+  final int id;
   final String preview;
   final String title;
-  final String place;
+  final String? place;
   final List<String> tags;
 
   CardBaseProps({
+    required this.id,
     required this.preview,
     required this.title,
-    required this.place,
     required this.tags,
+    this.place,
   });
 }
 
@@ -20,11 +23,11 @@ class CardBase {
   Container buildCard({
     required Widget itemInfo,
     required Color backgroundColor,
-    required String preview,
     required int dataId,
     required int userId,
-    bool isHeartSelected = false,
     required HeartFor heartFor,
+    bool isHeartSelected = false,
+    required String preview,
   }) {
     return Container(
         padding: EdgeInsets.all(20 * pt),
@@ -82,7 +85,10 @@ class CardBase {
     );
   }
 
-  Text buildPlace(String place) {
+  Widget buildPlace(String? place) {
+    if (place == null) {
+      return SizedBox();
+    }
     return Text(
       place,
       style: TextStyle(

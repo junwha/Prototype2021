@@ -31,13 +31,13 @@ class ContentsListInput extends SafeHttpDataInput {
 }
 
 class ContentsListOutput extends PaginationOutput
-    implements Pagination<ContentPreviewBase> {
-  final List<ContentPreviewBase> results;
+    implements Pagination<ContentPreview> {
+  final List<ContentPreview> results;
 
   ContentsListOutput.fromJson({required Map<String, dynamic> json})
       : results = (json["results"] as List<dynamic>)
-            .map((result) => ContentPreviewBase.fromJson(
-                json: result as Map<String, dynamic>))
+            .map((result) =>
+                ContentPreview.fromJson(json: result as Map<String, dynamic>))
             .toList(),
         super.fromJson(json: json);
 }

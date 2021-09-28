@@ -5,7 +5,7 @@ import 'package:prototype2021/theme/loading.dart';
 class BoardMainViewStreamList<T> extends StatelessWidget {
   final Stream<List<T>> stream;
   final Widget Function(T) builder;
-  final Widget Function(BuildContext)? routeBuilder;
+  final Widget Function(BuildContext, int?)? routeBuilder;
   final int refetchCount;
   final Widget? header;
   final Widget? emptyWidget;
