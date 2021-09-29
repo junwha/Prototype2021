@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/card_base.dart';
 import 'package:prototype2021/theme/heart_button.dart';
+import 'package:provider/provider.dart';
 
 class ContentsCardBaseProps extends CardBaseProps {
   final int? rating;
@@ -10,13 +12,15 @@ class ContentsCardBaseProps extends CardBaseProps {
   final Color backgroundColor;
   final EdgeInsets margin;
   final int? heartCount;
+  final bool hearted;
 
   ContentsCardBaseProps({
+    required this.hearted,
+    this.heartCount,
     this.rating,
     this.ratingNumbers,
     this.backgroundColor = Colors.white,
     this.explanation = "",
-    this.heartCount = 3,
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
     required int id,
     String? preview,
@@ -39,15 +43,15 @@ class ContentsCard extends StatelessWidget with CardBase {
 
   @override
   Widget build(BuildContext context) {
+    UserInfoModel model = Provider.of<UserInfoModel>(context);
     return buildCard(
       itemInfo: buildContentsCardInfo(),
       backgroundColor: props.backgroundColor,
       preview: props.preview,
       heartFor: HeartFor.contentCard,
-      userId: 1, // PLEASE INPUT REAL USERID HERE
-      dataId: 1, // PLEASE INPUT REAL DATAID HERE
-      isHeartSelected:
-          false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
+      userId: model.userId ?? -1,
+      dataId: props.id,
+      isHeartSelected: props.hearted,
     );
   }
 
@@ -55,15 +59,15 @@ class ContentsCard extends StatelessWidget with CardBase {
     return Expanded(
       flex: 2,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildH(2),
           buildTitle(props.title),
           buildH(6),
           buildPlace(props.place),
-          buildH(5),
-          buildRatings(props.rating, props.ratingNumbers),
+          // buildH(5),
+          // buildRatings(props.rating, props.ratingNumbers),
           buildH(6 * pt),
           buildExplanation(props.explanation),
           buildH(10 * pt),
@@ -125,7 +129,7 @@ class ContentsCard extends StatelessWidget with CardBase {
   Text buildExplanation(String explanation) {
     return Text(
       explanation,
-      maxLines: 2,
+      maxLines: 3,
       style: TextStyle(
         color: Color(0xff555555),
         fontSize: 10 * pt,

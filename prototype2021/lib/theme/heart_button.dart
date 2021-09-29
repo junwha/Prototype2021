@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/loader/plan_loader.dart';
@@ -33,9 +35,17 @@ class _HeartButtonState extends State<HeartButton>
         heartSelected = _heartSelected;
       });
   void onHeartPressed() async {
-    bool success = await handleHeartPressed(
-        heartFor: widget.heartFor, heartSelected: heartSelected);
-    if (success) setHeartSelected(!heartSelected);
+    try {
+      bool success = await handleHeartPressed(
+          heartFor: widget.heartFor, heartSelected: heartSelected);
+      if (success) {
+        setHeartSelected(!heartSelected);
+        return;
+      }
+      throw HttpException("Unexpected error");
+    } catch (error) {
+      print(error);
+    }
   }
 
   _HeartButtonState({required this.heartSelected});
@@ -75,6 +85,7 @@ class _HeartButtonState extends State<HeartButton>
       }
       return true;
     } catch (error) {
+      print(error);
       // Silently passing the error...
       return false;
     }

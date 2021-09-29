@@ -1,5 +1,4 @@
 import 'package:prototype2021/model/contents_dto/content_detail.dart';
-import 'package:prototype2021/model/contents_dto/content_detail_factory.dart';
 import 'package:prototype2021/model/contents_dto/content_preview.dart';
 import 'package:prototype2021/model/contents_dto/content_type.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';

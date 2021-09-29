@@ -37,6 +37,7 @@ class ContentsLoader {
                 heartCount: datum.heartNo,
                 place: datum.address,
                 ratingNumbers: datum.reviewNo,
+                hearted: datum.hearted,
               ))
           .toList();
     throw HttpException(result.error?.message ?? "Unexpected error");

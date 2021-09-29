@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -6,6 +8,7 @@ import 'package:prototype2021/model/contents_dto/content_detail.dart';
 import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/theme/center_notice.dart';
+import 'package:prototype2021/theme/heart_button.dart';
 import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 import 'package:provider/provider.dart';
@@ -13,6 +16,8 @@ import 'package:prototype2021/ui/event/editor_view.dart';
 import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/settings/constants.dart';
+
+int _testCid = 128022;
 
 class ContentDetailView extends StatefulWidget {
   final int id;
@@ -108,12 +113,16 @@ class ContentDetailViewState extends State<ContentDetailView>
   }
 
   Padding buildHeadSection() {
+    UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
     String ratingText = "";
-    if (props!.rating != null) {
-      ratingText += props!.rating.toString();
-      if (props!.reviewNo != null) {
-        ratingText += "(${props!.reviewNo.toString()})";
+    if (props!.reviewNo != null) {
+      ratingText += props!.reviewNo.toString();
+      if (props!.rating != null) {
+        ratingText += " (${props!.rating.toString()})";
       }
+    }
+    if (ratingText.length == 0) {
+      ratingText += "?";
     }
     return Padding(
       padding: const EdgeInsets.all(25.0),
@@ -123,22 +132,35 @@ class ContentDetailViewState extends State<ContentDetailView>
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                props!.title,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 21,
-                  fontFamily: 'Roboto',
-                  fontWeight: FontWeight.w700,
+              Flexible(
+                child: Text(
+                  props!.title,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 21,
+                    fontFamily: 'Roboto',
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
+                flex: 2,
               ),
-              IconButton(
-                  onPressed: () {},
-                  icon: Image.asset('assets/icons/ic_main_heart_default.png'))
+              Flexible(
+                child: HeartButton(
+                  isHeartSelected: props?.hearted ?? false,
+                  heartFor: HeartFor.contentCard,
+                  dataId: props?.id ?? -1,
+                  userId: model.userId ?? -1,
+                ),
+                flex: 1,
+              ),
             ],
           ),
           Text(
-            props!.address ?? "",
+            props!.detailInfo.place ??
+                props!.detailInfo.eventplace ??
+                props!.detailInfo.placeinfo ??
+                props!.address ??
+                "",
             style: TextStyle(
               color: Color(0xff707070),
               fontSize: 13,
@@ -168,7 +190,7 @@ class ContentDetailViewState extends State<ContentDetailView>
           SizedBox(
             height: 6,
           ),
-          buildTags([]), // API에서 태그가 넘어오는게 아닌데 어떻게 처리해야 좋을까요ㅜㅜ
+          buildTags([]), // API에서 태그가 넘어오는게 아니라 어떻게 처리해야 할지가 난감합니다
           SizedBox(
             height: 18,
           ),
@@ -264,40 +286,42 @@ class ContentDetailViewState extends State<ContentDetailView>
     return Row(children: tags.map<Container>((tag) => buildTag(tag)).toList());
   }
 
-  Stack buildImageArea() {
-    return Stack(
-      alignment: Alignment.bottomCenter,
-      children: [
-        CarouselSlider(
-            options: CarouselOptions(
-              onPageChanged: (i, reason) {
-                setState(() {
-                  imageIndex = i.toDouble();
-                });
-              },
-              height: 200,
-              viewportFraction: 1,
-            ),
-            items: props!.photo.map((url) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.asset(
-                      "assets/icons/imagebar2.png",
-                      fit: BoxFit.cover,
-                      scale: 20,
-                    ),
-                  );
-                },
-              );
-            }).toList()),
-        DotsIndicator(
-          dotsCount: props!.photo.length,
-          position: imageIndex,
-        )
-      ],
-    );
+  Widget buildImageArea() {
+    return props!.photo.length == 0
+        ? SizedBox()
+        : Stack(
+            alignment: Alignment.bottomCenter,
+            children: [
+              CarouselSlider(
+                  options: CarouselOptions(
+                    onPageChanged: (i, reason) {
+                      setState(() {
+                        imageIndex = i.toDouble();
+                      });
+                    },
+                    height: 200,
+                    viewportFraction: 1,
+                  ),
+                  items: props!.photo.map((url) {
+                    return Builder(
+                      builder: (BuildContext context) {
+                        return Container(
+                          width: MediaQuery.of(context).size.width,
+                          child: Image.network(
+                            url,
+                            fit: BoxFit.cover,
+                            scale: 20,
+                          ),
+                        );
+                      },
+                    );
+                  }).toList()),
+              DotsIndicator(
+                dotsCount: props!.photo.length,
+                position: imageIndex,
+              )
+            ],
+          );
   }
 
   Container buildLineArea() {
@@ -341,7 +365,79 @@ class ContentDetailViewState extends State<ContentDetailView>
     );
   }
 
-  Padding buildPriceArea() {
+  /// 리스트에 있는 아이템 중에서 null
+  T? pickNonNull<T>(List<T?> items) {
+    T? result;
+    items.forEach((item) {
+      if (item != null) {
+        result = item;
+      }
+    });
+    return result;
+  }
+
+  String handlePriceData() {
+    List<List<String>> useFees = [];
+    String? usefee = pickNonNull([
+      props?.detailInfo.usefee,
+      props?.detailInfo.usetimefestival == null
+          ? null
+          : props?.detailInfo.usetimefestival.toString(),
+      props?.detailInfo.usefeeleports,
+    ]);
+    if (usefee != null) {
+      print(usefee is String);
+      useFees.add(['이용요금', usefee]);
+    }
+    String? discountInfo = pickNonNull([
+      props?.detailInfo.discountInfo,
+      props?.detailInfo.discountInfofood,
+      props?.detailInfo.discountinfofestival,
+    ]);
+    if (discountInfo != null) {
+      useFees.add(['할인 정보', discountInfo]);
+    }
+    String? refundRegulation = pickNonNull([
+      props?.detailInfo.refundregulation,
+    ]);
+    if (refundRegulation != null) {
+      useFees.add(['환불 정책', refundRegulation]);
+    }
+    String? parking = pickNonNull([
+      props?.detailInfo.parking,
+      props?.detailInfo.parkingculture,
+      props?.detailInfo.parkingleports,
+      props?.detailInfo.parkingshopping,
+      props?.detailInfo.parkingfood,
+    ]);
+    if (parking != null) {
+      useFees.add(['주차 시설', parking]);
+    }
+    String? parkingFee = pickNonNull([
+      props?.detailInfo.parkingfee,
+      props?.detailInfo.parkingfeeculture,
+      props?.detailInfo.parkingfeeleports,
+    ]);
+    if (parkingFee != null) {
+      useFees.add(['주차 요금', parkingFee]);
+    }
+    if (props?.detailInfo.saleitem != null) {
+      useFees.add(['판매 품목', props!.detailInfo.saleitem!]);
+      if (props?.detailInfo.saleitemcost != null) {
+        useFees.add(['품목별 가격', props!.detailInfo.saleitemcost!]);
+      }
+    }
+
+    return useFees.fold<String>("", (acc, cur) {
+      return acc + cur[0] + " " + cur[1] + '\n';
+    });
+  }
+
+  Widget buildPriceArea() {
+    String priceData = handlePriceData();
+    if (priceData.length == 0) {
+      return SizedBox();
+    }
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Column(
@@ -360,37 +456,113 @@ class ContentDetailViewState extends State<ContentDetailView>
               SizedBox(
                 width: 4,
               ),
-              Text(
-                "유료",
-                style: const TextStyle(
-                    color: const Color(0xff004af7),
-                    fontWeight: FontWeight.w700,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    letterSpacing: 1.5,
-                    fontSize: 17.0),
-              )
+              // Text(
+              //   "유료",
+              //   style: const TextStyle(
+              //       color: const Color(0xff004af7),
+              //       fontWeight: FontWeight.w700,
+              //       fontFamily: "Roboto",
+              //       fontStyle: FontStyle.normal,
+              //       letterSpacing: 1.5,
+              //       fontSize: 17.0),
+              // )
             ],
           ),
           SizedBox(
             height: 6,
           ),
           Text(
-              '성인 20유로 (홈페이지 예약 시, 19유로) \n 만 11세 이하 무료\n사전 예매 가능 (홈페이지)\n00 카드 소지 시 30% 할인',
-              style: TextStyle(
-                color: Color(0xff707070),
-                height: 1.9,
-                fontSize: 15,
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w700,
-              ),
-              textAlign: TextAlign.left),
+            priceData,
+            style: TextStyle(
+              color: Color(0xff707070),
+              height: 1.9,
+              fontSize: 15,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+            textAlign: TextAlign.left,
+          ),
         ],
       ),
     );
   }
 
-  Padding buildTimeArea() {
+  String handleTimeData() {
+    List<List<String>> useTimes = [];
+    String? openDate = pickNonNull([
+      props?.detailInfo.opendate,
+      props?.detailInfo.opendatefood,
+      props?.detailInfo.opendateshopping,
+    ]);
+    if (openDate != null) {
+      useTimes.add(['오픈 일자', openDate]);
+    }
+    // Need close date
+    String? openPeriod = pickNonNull([
+      props?.detailInfo.openpriod,
+    ]);
+    if (openPeriod != null) {
+      useTimes.add(['오픈 기간', openPeriod]);
+    }
+    String? openTime = pickNonNull([
+      props?.detailInfo.opentime,
+      props?.detailInfo.opentimefood,
+    ]);
+    if (openTime != null) {
+      useTimes.add(['영업시간', openTime]);
+    }
+    String? restDate = pickNonNull([
+      props?.detailInfo.restdate,
+      props?.detailInfo.restdateculture,
+      props?.detailInfo.restdateleports,
+      props?.detailInfo.restdateshopping,
+    ]);
+    if (restDate != null) {
+      useTimes.add(['쉬는날', restDate]);
+    }
+    String? useSeason = pickNonNull([
+      props?.detailInfo.useseason,
+    ]);
+    if (useSeason != null) {
+      useTimes.add(['이용시즌', useSeason]);
+    }
+    String? useTime = pickNonNull([
+      props?.detailInfo.usetime,
+      props?.detailInfo.usetimeculture,
+      props?.detailInfo.usetimeleports,
+      // props?.detailInfo.usetimefestival // 이게 왜 요금인지 모르겠음. 하여간 정부 API는 ㄹㅇ 이상함
+    ]);
+    if (useTime != null) {
+      useTimes.add(['이용시간', useTime]);
+    }
+    String? spendTime = pickNonNull([
+      props?.detailInfo.spendtime,
+    ]);
+    if (spendTime != null) {
+      useTimes.add(['관람 소요시간', spendTime]);
+    }
+    String? playtime = pickNonNull([
+      props?.detailInfo.playtime,
+    ]);
+    if (playtime != null) {
+      useTimes.add(["공연시간", playtime]);
+    }
+    if (props?.detailInfo.checkintime != null) {
+      useTimes.add(['입실 시간', props!.detailInfo.checkintime!]);
+    }
+    if (props?.detailInfo.checkouttime != null) {
+      useTimes.add(['퇴실 시간', props!.detailInfo.checkouttime!]);
+    }
+    return useTimes.fold<String>("", (acc, cur) {
+      return acc + cur[0] + " " + cur[1] + "\n";
+    });
+  }
+
+  Widget buildTimeArea() {
+    String timeData = handleTimeData();
+    if (timeData.length == 0) {
+      return SizedBox();
+    }
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Container(
@@ -410,23 +582,62 @@ class ContentDetailViewState extends State<ContentDetailView>
               height: 3,
             ),
             Text(
-                "일 09:00 - 21:00\n월 휴무\n화 09:00 - 21:00\n수 09:00 - 21:00\n목 09:00 - 21:00\n금 09:00 - 21:00\n토 09:00 - 21:00\n",
-                style: TextStyle(
-                  fontFamily: 'Roboto',
-                  height: 1.9,
-                  color: Color(0xff707070),
-                  fontSize: 15,
-                  fontWeight: FontWeight.w700,
-                  fontStyle: FontStyle.normal,
-                ),
-                textAlign: TextAlign.left)
+              timeData,
+              style: TextStyle(
+                fontFamily: 'Roboto',
+                height: 1.9,
+                color: Color(0xff707070),
+                fontSize: 15,
+                fontWeight: FontWeight.w700,
+                fontStyle: FontStyle.normal,
+              ),
+              textAlign: TextAlign.left,
+            )
           ],
         ),
       ),
     );
   }
 
+  List<TextSpan> buildKeyValueSpan(String key, String value) {
+    key = key + " ";
+    return [
+      TextSpan(
+        text: key,
+        style: const TextStyle(
+          fontFamily: 'Roboto',
+          color: Color(0xff040404),
+          fontSize: 15,
+          fontWeight: FontWeight.w700,
+          fontStyle: FontStyle.normal,
+          height: 2,
+        ),
+      ),
+      TextSpan(
+        text: value + "\n",
+        style: const TextStyle(
+            fontFamily: 'Roboto',
+            color: Color(0x80080808),
+            fontSize: 15,
+            fontWeight: FontWeight.w700,
+            fontStyle: FontStyle.normal,
+            height: 2),
+      ),
+    ];
+  }
+
   Padding buildLocationArea() {
+    // API에 가는 방법에 대한 데이터가 없어서 이게 빠져있습니다
+    List<TextSpan> locationInfo = [];
+    if (props?.address != null) {
+      locationInfo.addAll(buildKeyValueSpan('주소', props!.address!));
+    }
+    if (props?.tel != null) {
+      locationInfo.addAll(buildKeyValueSpan("전화", props!.tel!));
+    }
+    if (props?.homePage != null) {
+      locationInfo.addAll(buildKeyValueSpan("홈페이지", props!.homePage!));
+    }
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Column(
@@ -444,85 +655,12 @@ class ContentDetailViewState extends State<ContentDetailView>
           SizedBox(
             height: 15,
           ),
+          // ** NEED REAL MAP HERE **
           Image.asset('assets/icons/mapimage.png'),
           SizedBox(
             height: 10,
           ),
-          RichText(
-              text: new TextSpan(children: [
-            new TextSpan(
-                text: "주소 ",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0xff040404),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "Amusementstreet 1, 1071 XX Sanghai\n",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0x80080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "가는 방법 ",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0xff080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "장궈이 역에서 도보 5분 거리\n",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0x80080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "전화 ",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0xff080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "+31206747000\n",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0x80080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "홈페이지 ",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0xff080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-            new TextSpan(
-                text: "https://portal.unist.ac.kr/irj/portal",
-                style: TextStyle(
-                    fontFamily: 'Roboto',
-                    color: Color(0x80080808),
-                    fontSize: 15,
-                    fontWeight: FontWeight.w700,
-                    fontStyle: FontStyle.normal,
-                    height: 2)),
-          ]))
+          RichText(text: new TextSpan(children: locationInfo))
         ],
       ),
     );

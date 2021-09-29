@@ -33,6 +33,8 @@ mixin BoardMainViewHelpers {
     return List.generate(
         10,
         (index) => new ContentsCardBaseProps(
+              hearted: false,
+              heartCount: 3,
               id: index,
               backgroundColor: Colors.white,
               preview: placeHolder,
