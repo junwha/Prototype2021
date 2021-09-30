@@ -1,23 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 
-class SelectableTextButton extends StatefulWidget {
+class TBSelectableTextButton extends StatefulWidget {
   String titleName;
   bool isChecked;
   Function()? onPressed;
   EdgeInsets padding;
 
-  SelectableTextButton(
+  TBSelectableTextButton(
       {required this.titleName,
       required this.isChecked,
       this.onPressed,
       this.padding = const EdgeInsets.all(0)});
 
   @override
-  _SelectableTextButtonState createState() => _SelectableTextButtonState();
+  _TBSelectableTextButtonState createState() => _TBSelectableTextButtonState();
 }
 
-class _SelectableTextButtonState extends State<SelectableTextButton> {
+class _TBSelectableTextButtonState extends State<TBSelectableTextButton> {
   @override
   Widget build(BuildContext context) {
     return Padding(
