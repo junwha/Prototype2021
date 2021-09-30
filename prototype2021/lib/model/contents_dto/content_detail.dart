@@ -37,14 +37,14 @@ class ContentsDetail extends ContentPreview {
 }
 
 class DetailInfo {
-  final int? accomcount;
-  final bool? chkbabaycarriage;
-  final bool? chkcreditcard;
-  final bool? chkpet;
+  final String? accomcount; // int
+  final String? chkbabaycarriage; // bool
+  final String? chkcreditcard; // bool
+  final String? chkpet; // bool
   final String? expagerange;
-  final bool? heritage1;
-  final bool? heritage2;
-  final bool? heritage3;
+  final String? heritage1; // bool
+  final String? heritage2; // bool
+  final String? heritage3; // bool
   final String? infocenter;
   final String? paking;
   final String? opendate; // Date
@@ -76,31 +76,31 @@ class DetailInfo {
   final String? playtime;
   final String? usetimefestival;
   final String? infocerter;
-  // final int? parkingfee;
+  // final String? parkingfee; // int
   final String? reservation;
-  // final int? usefee;
+  // final String? usefee; // int
   final String? openpriod;
-  final bool? benikia;
+  final String? benikia; // bool
   final String? checkintime;
   final String? checkouttime;
-  final bool? chkcooking;
+  final String? chkcooking; // bool
   final String? foodplace;
-  final bool? goodstay;
-  final bool? hanok;
+  final String? goodstay; // bool
+  final String? hanok; // bool
   final String? pickup;
-  final int? roomcount;
+  final String? roomcount; // int
   final String? reservationurl;
   final String? roomtype;
   final String? subfacility;
-  final bool? barbecue;
-  final bool? beverage;
-  final bool? campfire;
-  final bool? fitness;
-  final bool? karooke;
-  final bool? publicbath;
-  final bool? pubblicpc;
-  final bool? seminar;
-  final bool? sports;
+  final String? barbecue; // bool
+  final String? beverage; // bool
+  final String? campfire; // bool
+  final String? fitness; // bool
+  final String? karooke; // bool
+  final String? publicbath; // bool
+  final String? pubblicpc; // bool
+  final String? seminar; // bool
+  final String? sports; // bool
   final String? refundregulation;
   final String? curturlcenter;
   final String? fairday; // Date
@@ -111,15 +111,15 @@ class DetailInfo {
   final String? opentime;
   final String? firstmenu;
   final String? kidsfacility;
-  final bool? packing;
-  final int? seat;
-  final bool? smoking;
+  final String? packing; // bool
+  final String? seat; // int
+  final String? smoking; // bool
   final String? treatmenu;
-  final int? lcnson;
-  final int? accomcountculture;
-  final bool? chkbabaycarriageculture;
-  final bool? chkcreditcardculture;
-  final bool? chkpetculture;
+  final String? lcnson; // int
+  final String? accomcountculture; // int
+  final String? chkbabaycarriageculture; // bool
+  final String? chkcreditcardculture; // bool
+  final String? chkpetculture; // bool
   final String? infocenterculture;
   final String? parkingculture;
   final String? parkingfeeculture;
@@ -129,10 +129,10 @@ class DetailInfo {
   final String? eventhomepage;
   final String? festivalgrade;
   final String? eventplace;
-  final int? accomcountleports;
-  final bool? chkbabaycarriageleports;
-  final bool? chkcreditcardleports;
-  final bool? chkpetleports;
+  final String? accomcountleports; // int
+  final String? chkbabaycarriageleports; // bool
+  final String? chkcreditcardleports; // bool
+  final String? chkpetleports; // bool
   final String? expagerangeleports;
   final String? infocerterleports;
   final String? parkingleports;
@@ -141,14 +141,14 @@ class DetailInfo {
   final String? usetimeleports;
   final String? restdateleports;
   final String? scaleleports;
-  final bool? chkbabaycarriageshopping;
-  final bool? chkcreditcardshopping;
-  final bool? chkpetshopping;
+  final String? chkbabaycarriageshopping; // bool
+  final String? chkcreditcardshopping; // bool
+  final String? chkpetshopping; // bool
   final String? infocentershopping;
   final String? parkingshopping;
   final String? opendateshopping; // Date
   final String? restdateshopping;
-  final bool? chkcreditcardfood;
+  final String? chkcreditcardfood; // bool
   final String? discountInfofood;
   final String? infocenterfood;
   final String? parkingfood;
@@ -159,7 +159,7 @@ class DetailInfo {
   DetailInfo.fromJson({required Map<String, dynamic> json})
       : agelimit = nullable<String>(json["detailInfo"]["agelimit"]),
         chkcreditcardfood =
-            nullable<bool>(json["detailInfo"]["chkcreditcardfood"]),
+            nullable<String>(json["detailInfo"]["chkcreditcardfood"]),
         discountInfofood =
             nullable<String>(json["detailInfo"]["discountInfofood"]),
         infocenterfood = nullable<String>(json["detailInfo"]["infocenterfood"]),
@@ -169,10 +169,10 @@ class DetailInfo {
         opendatefood = nullable<String>(json["detailInfo"]["opendatefood"]),
         opentimefood = nullable<String>(json["detailInfo"]["opentimefood"]),
         chkbabaycarriageshopping =
-            nullable<bool>(json["detailInfo"]["chkbabaycarriageshopping"]),
+            nullable<String>(json["detailInfo"]["chkbabaycarriageshopping"]),
         chkcreditcardshopping =
-            nullable<bool>(json["detailInfo"]["chkcreditcardshopping"]),
-        chkpetshopping = nullable<bool>(json["detailInfo"]["chkpetshopping"]),
+            nullable<String>(json["detailInfo"]["chkcreditcardshopping"]),
+        chkpetshopping = nullable<String>(json["detailInfo"]["chkpetshopping"]),
         infocentershopping =
             nullable<String>(json["detailInfo"]["infocentershopping"]),
         parkingshopping =
@@ -182,12 +182,12 @@ class DetailInfo {
         restdateshopping =
             nullable<String>(json["detailInfo"]["restdateshopping"]),
         accomcountleports =
-            nullable<int>(json["detailInfo"]["accomcountleports"]),
+            nullable<String>(json["detailInfo"]["accomcountleports"]),
         chkbabaycarriageleports =
-            nullable<bool>(json["detailInfo"]["chkbabaycarriageleports"]),
+            nullable<String>(json["detailInfo"]["chkbabaycarriageleports"]),
         chkcreditcardleports =
-            nullable<bool>(json["detailInfo"]["chkcreditcardleports"]),
-        chkpetleports = nullable<bool>(json["detailInfo"]["chkpetleports"]),
+            nullable<String>(json["detailInfo"]["chkcreditcardleports"]),
+        chkpetleports = nullable<String>(json["detailInfo"]["chkpetleports"]),
         expagerangeleports =
             nullable<String>(json["detailInfo"]["expagerangeleports"]),
         infocerterleports =
@@ -206,12 +206,12 @@ class DetailInfo {
         festivalgrade = nullable<String>(json["detailInfo"]["festivalgrade"]),
         eventplace = nullable<String>(json["detailInfo"]["eventplace"]),
         accomcountculture =
-            nullable<int>(json["detailInfo"]["accomcountculture"]),
+            nullable<String>(json["detailInfo"]["accomcountculture"]),
         chkbabaycarriageculture =
-            nullable<bool>(json["detailInfo"]["chkbabaycarriageculture"]),
+            nullable<String>(json["detailInfo"]["chkbabaycarriageculture"]),
         chkcreditcardculture =
-            nullable<bool>(json["detailInfo"]["chkcreditcardculture"]),
-        chkpetculture = nullable<bool>(json["detailInfo"]["chkpetculture"]),
+            nullable<String>(json["detailInfo"]["chkcreditcardculture"]),
+        chkpetculture = nullable<String>(json["detailInfo"]["chkpetculture"]),
         infocenterculture =
             nullable<String>(json["detailInfo"]["infocenterculture"]),
         parkingculture = nullable<String>(json["detailInfo"]["parkingculture"]),
@@ -225,18 +225,18 @@ class DetailInfo {
         infocenter = nullable<String>(json["detailInfo"]["infocenter"]),
         expagerange = nullable<String>(json["detailInfo"]["expagerange"]),
         kidsfacility = nullable<String>(json["detailInfo"]["kidsfacility"]),
-        packing = nullable<bool>(json["detailInfo"]["packing"]),
+        packing = nullable<String>(json["detailInfo"]["packing"]),
         parking = nullable<String>(json["detailInfo"]["parking"]),
         reservation = nullable<String>(json["detailInfo"]["reservation"]),
-        seat = nullable<int>(json["detailInfo"]["seat"]),
-        smoking = nullable<bool>(json["detailInfo"]["smoking"]),
+        seat = nullable<String>(json["detailInfo"]["seat"]),
+        smoking = nullable<String>(json["detailInfo"]["smoking"]),
         treatmenu = nullable<String>(json["detailInfo"]["treatmenu"]),
         opendate = nullable<String>(json["detailInfo"]["opendate"]),
         opentime = nullable<String>(json["detailInfo"]["opentime"]),
         restdate = nullable<String>(json["detailInfo"]["restdate"]),
-        lcnson = nullable<int>(json["detailInfo"]["lcnson"]),
-        chkcreditcard = nullable<bool>(json["detailInfo"]["chkcreditcard"]),
-        chkpet = nullable<bool>(json["detailInfo"]["chkpet"]),
+        lcnson = nullable<String>(json["detailInfo"]["lcnson"]),
+        chkcreditcard = nullable<String>(json["detailInfo"]["chkcreditcard"]),
+        chkpet = nullable<String>(json["detailInfo"]["chkpet"]),
         curturlcenter = nullable<String>(json["detailInfo"]["curturlcenter"]),
         fairday = nullable<String>(json["detailInfo"]["fairday"]),
         restroom = nullable<String>(json["detailInfo"]["restroom"]),
@@ -244,31 +244,31 @@ class DetailInfo {
         saleitemcost = nullable<String>(json["detailInfo"]["saleitemcost"]),
         shopguide = nullable<String>(json["detailInfo"]["shopguide"]),
         scale = nullable<String>(json["detailInfo"]["scale"]),
-        benikia = nullable<bool>(json["detailInfo"]["benikia"]),
+        benikia = nullable<String>(json["detailInfo"]["benikia"]),
         checkintime = nullable<String>(json["detailInfo"]["checkintime"]),
         checkouttime = nullable<String>(json["detailInfo"]["checkouttime"]),
-        chkcooking = nullable<bool>(json["detailInfo"]["chkcooking"]),
+        chkcooking = nullable<String>(json["detailInfo"]["chkcooking"]),
         foodplace = nullable<String>(json["detailInfo"]["foodplace"]),
-        goodstay = nullable<bool>(json["detailInfo"]["goodstay"]),
-        hanok = nullable<bool>(json["detailInfo"]["hanok"]),
+        goodstay = nullable<String>(json["detailInfo"]["goodstay"]),
+        hanok = nullable<String>(json["detailInfo"]["hanok"]),
         pickup = nullable<String>(json["detailInfo"]["pickup"]),
-        roomcount = nullable<int>(json["detailInfo"]["roomcount"]),
+        roomcount = nullable<String>(json["detailInfo"]["roomcount"]),
         reservationurl = nullable<String>(json["detailInfo"]["reservationurl"]),
         roomtype = nullable<String>(json["detailInfo"]["roomtype"]),
         subfacility = nullable<String>(json["detailInfo"]["subfacility"]),
-        barbecue = nullable<bool>(json["detailInfo"]["barbecue"]),
-        beverage = nullable<bool>(json["detailInfo"]["beverage"]),
-        campfire = nullable<bool>(json["detailInfo"]["campfire"]),
-        fitness = nullable<bool>(json["detailInfo"]["fitness"]),
-        karooke = nullable<bool>(json["detailInfo"]["karooke"]),
-        publicbath = nullable<bool>(json["detailInfo"]["publicbath"]),
-        pubblicpc = nullable<bool>(json["detailInfo"]["pubblicpc"]),
-        seminar = nullable<bool>(json["detailInfo"]["seminar"]),
-        sports = nullable<bool>(json["detailInfo"]["sports"]),
+        barbecue = nullable<String>(json["detailInfo"]["barbecue"]),
+        beverage = nullable<String>(json["detailInfo"]["beverage"]),
+        campfire = nullable<String>(json["detailInfo"]["campfire"]),
+        fitness = nullable<String>(json["detailInfo"]["fitness"]),
+        karooke = nullable<String>(json["detailInfo"]["karooke"]),
+        publicbath = nullable<String>(json["detailInfo"]["publicbath"]),
+        pubblicpc = nullable<String>(json["detailInfo"]["pubblicpc"]),
+        seminar = nullable<String>(json["detailInfo"]["seminar"]),
+        sports = nullable<String>(json["detailInfo"]["sports"]),
         refundregulation =
             nullable<String>(json["detailInfo"]["refundregulation"]),
         chkbabaycarriage =
-            nullable<bool>(json["detailInfo"]["chkbabaycarriage"]),
+            nullable<String>(json["detailInfo"]["chkbabaycarriage"]),
         infocerter = nullable<String>(json["detailInfo"]["infocerter"]),
         openpriod = nullable<String>(json["detailInfo"]["openpriod"]),
         usetime = nullable<String>(json["detailInfo"]["usetime"]),
@@ -289,12 +289,12 @@ class DetailInfo {
         spendtime = nullable<String>(json["detailInfo"]["spendtime"]),
         usetimefestival =
             nullable<String>(json["detailInfo"]["usetimefestival"]),
-        accomcount = nullable<int>(json["detailInfo"]["accomcount"]),
+        accomcount = nullable<String>(json["detailInfo"]["accomcount"]),
         parkingfee = nullable<String>(json["detailInfo"]["parkingfee"]),
         usefee = nullable<String>(json["detailInfo"]["usefee"]),
-        heritage1 = nullable<bool>(json["detailInfo"]["heritage1"]),
-        heritage2 = nullable<bool>(json["detailInfo"]["heritage2"]),
-        heritage3 = nullable<bool>(json["detailInfo"]["heritage3"]),
+        heritage1 = nullable<String>(json["detailInfo"]["heritage1"]),
+        heritage2 = nullable<String>(json["detailInfo"]["heritage2"]),
+        heritage3 = nullable<String>(json["detailInfo"]["heritage3"]),
         paking = nullable<String>(json["detailInfo"]["paking"]),
         eventstartdate = nullable<String>(json["detailInfo"]["eventstartdate"]),
         eventenddate = nullable<String>(json["detailInfo"]["eventenddate"]),
