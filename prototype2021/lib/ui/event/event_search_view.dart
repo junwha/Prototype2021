@@ -32,21 +32,24 @@ class _EventSearchViewState extends State<EventSearchView> {
                   return Column(
                     children: [
                       // Search Bar
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
+                      Column(
                         children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Image.asset(
-                                "assets/icons/ic_arrow_left_back.png"),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              IconButton(
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                                icon: Image.asset(
+                                    "assets/icons/ic_arrow_left_back.png"),
+                              ),
+                              buildFloatingSearchBar(searchArticleModel),
+                            ],
                           ),
-                          buildFloatingSearchBar(searchArticleModel),
+                          buildTabBar(),
                         ],
                       ),
-                      buildTabBar(),
-
                       // Content
                       searchArticleModel.loading == true
                           ? Center(
@@ -75,7 +78,7 @@ class _EventSearchViewState extends State<EventSearchView> {
 
   Container buildArticleSection(SearchArticleModel searchArticleModel) {
     return Container(
-        padding: EdgeInsets.only(top: 10),
+        padding: EdgeInsets.only(top: 20),
         child: Column(children: [
           TabBarView(children: [
             SingleChildScrollView(
