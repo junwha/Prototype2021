@@ -37,22 +37,25 @@ class _PlanMapState extends State<PlanMap> {
   }
 
   // Generate Day button by the length of place items
-  Container buildDayButtonBar(PlanMapModel model) {
-    return Container(
-      height: 60,
-      child: Row(
-        children: List.generate(
-            model.placeItemsPerDay.length,
-            (index) => TBSelectableTextButton(
-                  titleName: "${index + 1}일차",
-                  isChecked: model.day == index + 1,
-                  onPressed: () {
-                    model.setDay(index + 1);
-                  },
-                  padding: EdgeInsets.symmetric(
-                    horizontal: 5,
-                  ),
-                )),
+  Widget buildDayButtonBar(PlanMapModel model) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Container(
+        height: 60,
+        child: Row(
+          children: List.generate(
+              model.placeItemsPerDay.length,
+              (index) => TBSelectableTextButton(
+                    titleName: "${index + 1}일차",
+                    isChecked: model.day == index + 1,
+                    onPressed: () {
+                      model.setDay(index + 1);
+                    },
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 5,
+                    ),
+                  )),
+        ),
       ),
     );
   }

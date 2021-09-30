@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 
+/// This button is used as Tripbuilder-styled filter chip,
+/// Wrap this widget with horizontal SingleChildScrollView
 class TBSelectableTextButton extends StatefulWidget {
   String titleName;
   bool isChecked;
