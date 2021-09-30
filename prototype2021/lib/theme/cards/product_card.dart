@@ -50,6 +50,7 @@ class ProductCard extends StatelessWidget with CardBase {
       dataId: 1, // PLEASE INPUT REAL DATAID HERE
       isHeartSelected:
           false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
+      token: "some token", // PLEASE INPUT REAL token HERE
     );
   }
 

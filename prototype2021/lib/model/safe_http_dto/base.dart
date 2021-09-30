@@ -97,12 +97,18 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
 class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T data;
 
-  SafeMutationInput(
-      {required this.data,
-      required String url,
-      Map<String, String>? headers,
-      String? token})
-      : super(headers: headers, url: url, token: token);
+  SafeMutationInput({
+    required this.data,
+    required String url,
+    Map<String, String>? headers,
+    String? token,
+    AuthScheme? authScheme,
+  }) : super(
+          headers: headers,
+          url: url,
+          token: token,
+          authScheme: authScheme,
+        );
 
   String getJsonString() => jsonEncode(data.toJson());
 
@@ -140,12 +146,18 @@ class SafeMutationOutput<T extends SafeHttpDataOutput>
 class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
 
-  SafeQueryInput(
-      {required String url,
-      Map<String, String>? headers,
-      this.params,
-      String? token})
-      : super(url: url, headers: headers, token: token);
+  SafeQueryInput({
+    required String url,
+    Map<String, String>? headers,
+    this.params,
+    String? token,
+    AuthScheme? authScheme,
+  }) : super(
+          url: url,
+          headers: headers,
+          token: token,
+          authScheme: authScheme,
+        );
 
   Uri getUrlWithParams() {
     String queryString = "";

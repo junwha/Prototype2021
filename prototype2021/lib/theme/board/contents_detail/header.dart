@@ -39,14 +39,17 @@ mixin ContentDetailViewHeaderMixin {
   }
 
   /// 제목과 하트 버튼을 렌더링합니다
-  Row buildTitle(BuildContext context, ContentsDetail? props) {
+  Widget buildTitle(BuildContext context, ContentsDetail? props) {
     UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+    if (props == null) {
+      return SizedBox();
+    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Flexible(
           child: Text(
-            props!.title,
+            props.title,
             style: TextStyle(
               color: Colors.black,
               fontSize: 21,
@@ -58,10 +61,11 @@ mixin ContentDetailViewHeaderMixin {
         ),
         Flexible(
           child: HeartButton(
-            isHeartSelected: props?.hearted ?? false,
+            isHeartSelected: props.hearted,
             heartFor: HeartFor.contentCard,
-            dataId: props?.id ?? -1,
+            dataId: props.id,
             userId: model.userId ?? -1,
+            token: model.token ?? "",
           ),
           flex: 1,
         ),
@@ -69,14 +73,21 @@ mixin ContentDetailViewHeaderMixin {
     );
   }
 
+  String _handleAddress(ContentsDetail? props) {
+    if (props != null) {
+      return props.detailInfo.place ??
+          props.detailInfo.eventplace ??
+          props.detailInfo.placeinfo ??
+          props.address ??
+          "";
+    }
+    return "";
+  }
+
   /// 제목 아래에 들어가는 주소부분이 있다면 렌더링합니다
   Text buildAddress(ContentsDetail? props) {
     return Text(
-      props!.detailInfo.place ??
-          props!.detailInfo.eventplace ??
-          props!.detailInfo.placeinfo ??
-          props!.address ??
-          "",
+      _handleAddress(props),
       style: TextStyle(
         color: Color(0xff707070),
         fontSize: 13,
@@ -88,10 +99,12 @@ mixin ContentDetailViewHeaderMixin {
 
   String _handleRatingData(ContentsDetail? props) {
     String ratingText = "";
-    if (props!.reviewNo != null) {
-      ratingText += props!.reviewNo.toString();
-      if (props!.rating != null) {
-        ratingText += " (${props!.rating.toString()})";
+    if (props != null) {
+      if (props.reviewNo != null) {
+        ratingText += props.reviewNo.toString();
+        if (props.rating != null) {
+          ratingText += " (${props.rating.toString()})";
+        }
       }
     }
     if (ratingText.length == 0) {
@@ -163,38 +176,39 @@ mixin ContentDetailViewHeaderMixin {
     required double imageIndex,
   }) {
     List<String> photos = _handleImageData(props);
-    return photos.length == 0
-        ? SizedBox()
-        : Stack(
-            alignment: Alignment.bottomCenter,
-            children: [
-              CarouselSlider(
-                options: CarouselOptions(
-                  onPageChanged: onPageChanged,
-                  height: 200,
-                  viewportFraction: 1,
-                ),
-                items: photos.map((url) {
-                  return Builder(
-                    builder: (BuildContext context) {
-                      return Container(
-                        width: MediaQuery.of(context).size.width,
-                        child: Image.network(
-                          url,
-                          fit: BoxFit.cover,
-                          scale: 20,
-                        ),
-                      );
-                    },
-                  );
-                }).toList(),
-              ),
-              DotsIndicator(
-                dotsCount: props!.photo.length,
-                position: imageIndex,
-              )
-            ],
-          );
+    if (props == null || photos.length == 0) {
+      return SizedBox();
+    }
+    return Stack(
+      alignment: Alignment.bottomCenter,
+      children: [
+        CarouselSlider(
+          options: CarouselOptions(
+            onPageChanged: onPageChanged,
+            height: 200,
+            viewportFraction: 1,
+          ),
+          items: photos.map((url) {
+            return Builder(
+              builder: (BuildContext context) {
+                return Container(
+                  width: MediaQuery.of(context).size.width,
+                  child: Image.network(
+                    url,
+                    fit: BoxFit.cover,
+                    scale: 20,
+                  ),
+                );
+              },
+            );
+          }).toList(),
+        ),
+        DotsIndicator(
+          dotsCount: props.photo.length,
+          position: imageIndex,
+        )
+      ],
+    );
   }
 
   /// 현재 화면의 앱바를 렌더링합니다

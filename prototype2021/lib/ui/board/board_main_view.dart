@@ -55,6 +55,12 @@ class _BoardMainViewState extends State<BoardMainView>
   void setSearchInput(String _searchInput) => setState(() {
         searchInput = _searchInput;
       });
+
+  int tabIndex = 0;
+  void setTabIndex(int _tabIndex) => setState(() {
+        tabIndex = _tabIndex;
+      });
+
   // The types inside Lists are temporary implementation.
   // If needed, this types can be changed.
   StreamController<List<ProductCardBaseProps>> planDataController =
@@ -233,6 +239,8 @@ class _BoardMainViewState extends State<BoardMainView>
       location: location,
       onLeadingPressed: onLeadingPressed,
       viewMode: viewMode,
+      onTabBarPressed: setTabIndex,
+      tabIndex: tabIndex,
     );
   }
 

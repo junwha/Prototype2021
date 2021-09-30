@@ -5,13 +5,13 @@ import 'package:prototype2021/theme/board/contents_detail/helpers.dart';
 /// 페이지의 내용물 렌더링을 담당하는 믹스인
 mixin ContentsDetailViewBodyMixin {
   /// 관광지의 제목과 설명의 글을 렌더링합니다
-  Padding buildTextArea(ContentsDetail? props) {
+  Padding buildTextArea(ContentsDetail props) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
       child: Column(
         children: [
           Text(
-            props!.title,
+            props.title,
             style: TextStyle(
               height: 1.3,
               color: Color(0xff010101),
@@ -25,7 +25,7 @@ mixin ContentsDetailViewBodyMixin {
             height: 6,
           ),
           Text(
-            props!.overview,
+            props.overview,
             style: TextStyle(
               color: Colors.black,
               height: 1.5,
@@ -38,54 +38,54 @@ mixin ContentsDetailViewBodyMixin {
     );
   }
 
-  String _handlePriceData(ContentsDetail? props) {
+  String _handlePriceData(ContentsDetail props) {
     List<List<String>> useFees = [];
     String? usefee = pickNonNull([
-      props?.detailInfo.usefee,
-      props?.detailInfo.usetimefestival == null
+      props.detailInfo.usefee,
+      props.detailInfo.usetimefestival == null
           ? null
-          : props?.detailInfo.usetimefestival.toString(),
-      props?.detailInfo.usefeeleports,
+          : props.detailInfo.usetimefestival.toString(),
+      props.detailInfo.usefeeleports,
     ]);
     if (usefee != null) {
       useFees.add(['이용요금', usefee]);
     }
     String? discountInfo = pickNonNull([
-      props?.detailInfo.discountInfo,
-      props?.detailInfo.discountInfofood,
-      props?.detailInfo.discountinfofestival,
+      props.detailInfo.discountInfo,
+      props.detailInfo.discountInfofood,
+      props.detailInfo.discountinfofestival,
     ]);
     if (discountInfo != null) {
       useFees.add(['할인 정보', discountInfo]);
     }
     String? refundRegulation = pickNonNull([
-      props?.detailInfo.refundregulation,
+      props.detailInfo.refundregulation,
     ]);
     if (refundRegulation != null) {
       useFees.add(['환불 정책', refundRegulation]);
     }
     String? parking = pickNonNull([
-      props?.detailInfo.parking,
-      props?.detailInfo.parkingculture,
-      props?.detailInfo.parkingleports,
-      props?.detailInfo.parkingshopping,
-      props?.detailInfo.parkingfood,
+      props.detailInfo.parking,
+      props.detailInfo.parkingculture,
+      props.detailInfo.parkingleports,
+      props.detailInfo.parkingshopping,
+      props.detailInfo.parkingfood,
     ]);
     if (parking != null) {
       useFees.add(['주차 시설', parking]);
     }
     String? parkingFee = pickNonNull([
-      props?.detailInfo.parkingfee,
-      props?.detailInfo.parkingfeeculture,
-      props?.detailInfo.parkingfeeleports,
+      props.detailInfo.parkingfee,
+      props.detailInfo.parkingfeeculture,
+      props.detailInfo.parkingfeeleports,
     ]);
     if (parkingFee != null) {
       useFees.add(['주차 요금', parkingFee]);
     }
-    if (props?.detailInfo.saleitem != null) {
-      useFees.add(['판매 품목', props!.detailInfo.saleitem!]);
-      if (props?.detailInfo.saleitemcost != null) {
-        useFees.add(['품목별 가격', props!.detailInfo.saleitemcost!]);
+    if (props.detailInfo.saleitem != null) {
+      useFees.add(['판매 품목', props.detailInfo.saleitem!]);
+      if (props.detailInfo.saleitemcost != null) {
+        useFees.add(['품목별 가격', props.detailInfo.saleitemcost!]);
       }
     }
 
@@ -95,7 +95,7 @@ mixin ContentsDetailViewBodyMixin {
   }
 
   /// 관광지의 이용료에 관한 정보를 렌더링합니다
-  Widget buildPriceArea(ContentsDetail? props) {
+  Widget buildPriceArea(ContentsDetail props) {
     String priceData = _handlePriceData(props);
     if (priceData.length == 0) {
       return SizedBox();
@@ -149,71 +149,71 @@ mixin ContentsDetailViewBodyMixin {
     );
   }
 
-  String _handleTimeData(ContentsDetail? props) {
+  String _handleTimeData(ContentsDetail props) {
     List<List<String>> useTimes = [];
     String? openDate = pickNonNull([
-      props?.detailInfo.opendate,
-      props?.detailInfo.opendatefood,
-      props?.detailInfo.opendateshopping,
+      props.detailInfo.opendate,
+      props.detailInfo.opendatefood,
+      props.detailInfo.opendateshopping,
     ]);
     if (openDate != null) {
       useTimes.add(['오픈 일자', openDate]);
     }
     // Need close date
     String? openPeriod = pickNonNull([
-      props?.detailInfo.openpriod,
+      props.detailInfo.openpriod,
     ]);
     if (openPeriod != null) {
       useTimes.add(['오픈 기간', openPeriod]);
     }
     String? openTime = pickNonNull([
-      props?.detailInfo.opentime,
-      props?.detailInfo.opentimefood,
+      props.detailInfo.opentime,
+      props.detailInfo.opentimefood,
     ]);
     if (openTime != null) {
       useTimes.add(['영업시간', openTime]);
     }
     String? restDate = pickNonNull([
-      props?.detailInfo.restdate,
-      props?.detailInfo.restdateculture,
-      props?.detailInfo.restdateleports,
-      props?.detailInfo.restdateshopping,
+      props.detailInfo.restdate,
+      props.detailInfo.restdateculture,
+      props.detailInfo.restdateleports,
+      props.detailInfo.restdateshopping,
     ]);
     if (restDate != null) {
       useTimes.add(['쉬는날', restDate]);
     }
     String? useSeason = pickNonNull([
-      props?.detailInfo.useseason,
+      props.detailInfo.useseason,
     ]);
     if (useSeason != null) {
       useTimes.add(['이용시즌', useSeason]);
     }
     String? useTime = pickNonNull([
-      props?.detailInfo.usetime,
-      props?.detailInfo.usetimeculture,
-      props?.detailInfo.usetimeleports,
-      // props?.detailInfo.usetimefestival // 이게 왜 요금인지 모르겠음. 하여간 정부 API는 ㄹㅇ 이상함
+      props.detailInfo.usetime,
+      props.detailInfo.usetimeculture,
+      props.detailInfo.usetimeleports,
+      // props.detailInfo.usetimefestival // 이게 왜 요금인지 모르겠음. 하여간 정부 API는 ㄹㅇ 이상함
     ]);
     if (useTime != null) {
       useTimes.add(['이용시간', useTime]);
     }
     String? spendTime = pickNonNull([
-      props?.detailInfo.spendtime,
+      props.detailInfo.spendtime,
     ]);
     if (spendTime != null) {
       useTimes.add(['관람 소요시간', spendTime]);
     }
     String? playtime = pickNonNull([
-      props?.detailInfo.playtime,
+      props.detailInfo.playtime,
     ]);
     if (playtime != null) {
       useTimes.add(["공연시간", playtime]);
     }
-    if (props?.detailInfo.checkintime != null) {
-      useTimes.add(['입실 시간', props!.detailInfo.checkintime!]);
+    if (props.detailInfo.checkintime != null) {
+      useTimes.add(['입실 시간', props.detailInfo.checkintime!]);
     }
-    if (props?.detailInfo.checkouttime != null) {
-      useTimes.add(['퇴실 시간', props!.detailInfo.checkouttime!]);
+    if (props.detailInfo.checkouttime != null) {
+      useTimes.add(['퇴실 시간', props.detailInfo.checkouttime!]);
     }
     return useTimes.fold<String>("", (acc, cur) {
       return acc + cur[0] + " " + cur[1] + "\n";
@@ -221,7 +221,7 @@ mixin ContentsDetailViewBodyMixin {
   }
 
   /// 관광지의 영엽시간, 휴뮤일에 관한 정보를 렌더링합니다
-  Widget buildTimeArea(ContentsDetail? props) {
+  Widget buildTimeArea(ContentsDetail props) {
     String timeData = _handleTimeData(props);
     if (timeData.length == 0) {
       return SizedBox();
@@ -292,22 +292,22 @@ mixin ContentsDetailViewBodyMixin {
     ];
   }
 
-  List<TextSpan> _handleLocationInfo(ContentsDetail? props) {
+  List<TextSpan> _handleLocationInfo(ContentsDetail props) {
     List<TextSpan> locationInfo = [];
-    if (props?.address != null) {
-      locationInfo.addAll(buildKeyValueSpan('주소', props!.address!));
+    if (props.address != null) {
+      locationInfo.addAll(buildKeyValueSpan('주소', props.address!));
     }
-    if (props?.tel != null) {
-      locationInfo.addAll(buildKeyValueSpan("전화", props!.tel!));
+    if (props.tel != null) {
+      locationInfo.addAll(buildKeyValueSpan("전화", props.tel!));
     }
-    if (props?.homePage != null) {
-      locationInfo.addAll(buildKeyValueSpan("홈페이지", props!.homePage!));
+    if (props.homePage != null) {
+      locationInfo.addAll(buildKeyValueSpan("홈페이지", props.homePage!));
     }
     return locationInfo;
   }
 
   /// 관광지의 위치, 신상 등 여러 정보를 렌더링합니다
-  Widget buildLocationArea(ContentsDetail? props) {
+  Widget buildLocationArea(ContentsDetail props) {
     List<TextSpan> locationInfo = _handleLocationInfo(props);
     if (locationInfo.length == 0) {
       return SizedBox();

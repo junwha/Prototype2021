@@ -52,6 +52,7 @@ class ContentsCard extends StatelessWidget with CardBase {
       userId: model.userId ?? -1,
       dataId: props.id,
       isHeartSelected: props.hearted,
+      token: model.token ?? "",
     );
   }
 

@@ -28,6 +28,7 @@ class CardBase {
     required HeartFor heartFor,
     bool isHeartSelected = false,
     required String preview,
+    required String token,
   }) {
     return Container(
         padding: EdgeInsets.all(20 * pt),
@@ -48,6 +49,7 @@ class CardBase {
             dataId: dataId,
             userId: userId,
             heartFor: heartFor,
+            token: token,
           )
         ]));
   }
@@ -139,6 +141,7 @@ class CardBase {
     bool isHeartSelected = false,
     required int dataId,
     required int userId,
+    required String token,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(9.0)),
@@ -155,10 +158,12 @@ class CardBase {
             ),
           ),
           HeartButton(
-              isHeartSelected: isHeartSelected,
-              heartFor: heartFor,
-              dataId: dataId,
-              userId: userId),
+            isHeartSelected: isHeartSelected,
+            heartFor: heartFor,
+            dataId: dataId,
+            userId: userId,
+            token: token,
+          ),
         ],
       ),
     );

@@ -122,6 +122,10 @@ class ContentDetailViewState extends State<ContentDetailView>
               }
             }
 
+            if (props == null) {
+              return SizedBox();
+            }
+
             return Column(
               children: [
                 buildHeadSection(
@@ -130,13 +134,13 @@ class ContentDetailViewState extends State<ContentDetailView>
                   imageIndex: imageIndex,
                 ),
                 buildLineArea(),
-                buildTextArea(props),
+                buildTextArea(props!),
                 buildLineArea(),
-                buildPriceArea(props),
+                buildPriceArea(props!),
                 buildLineArea(),
-                buildTimeArea(props),
+                buildTimeArea(props!),
                 buildLineArea(),
-                buildLocationArea(props),
+                buildLocationArea(props!),
                 buildLineArea(),
                 // 이벤트와 관련한 위젯을 theme/board/contents_detail/body_event.dart에 옮겨두었습니다
                 buildEventArea(

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/contents_dto/content_detail.dart';
-import 'package:prototype2021/model/contents_dto/content_preview.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/get/contents.dart';
 import 'package:prototype2021/model/safe_http_dto/patch/heart.dart';
@@ -15,7 +14,10 @@ class ContentsLoader {
   Future<void> heartContents(String contentsId, String token) async {
     ContentsHeartInput params = new ContentsHeartInput(contentsId: contentsId);
     SafeMutationInput<ContentsHeartInput> dto = new SafeMutationInput(
-        data: params, url: contentsHeartUrl, token: token);
+      data: params,
+      url: contentsHeartUrl,
+      token: token,
+    );
     SafeMutationOutput<ContentsHeartOutput> result = await contentsHeart(dto);
     if (!result.success)
       throw HttpException(result.error?.message ?? "Unexpected error");
