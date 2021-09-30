@@ -60,10 +60,11 @@ class PlanMapModel extends TBMapModel {
 
   // This private method update the map with its given day and placeItems
   void _updatePolyline() {
+    this.updateLocations([]);
     if (placeItemsPerDay.length == 0) return;
 
     List<PlaceDataProps> placeItems = placeItemsPerDay[day - 1];
-    this.updateLocations([]);
+
     if (mapLoaded) {
       // Update Marker with data of placeItems
       this.updateLocations(placeItems.map((e) => IndexLocation(
