@@ -51,9 +51,11 @@ class PlanMapModel extends TBMapModel {
 
   /// change the day of markers which are included in placeItemsPerDay
   void setDay(int day) {
-    this.day = day;
-    _updatePolyline();
-    notifyListeners();
+    if (day <= placeItemsPerDay.length) {
+      this.day = day;
+      _updatePolyline();
+      notifyListeners();
+    }
   }
 
   // This private method update the map with its given day and placeItems
