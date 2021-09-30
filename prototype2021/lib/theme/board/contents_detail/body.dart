@@ -11,7 +11,7 @@ mixin ContentsDetailViewBodyMixin {
       child: Column(
         children: [
           Text(
-            props.title,
+            htmlToStringContent(props.title),
             style: TextStyle(
               height: 1.3,
               color: Color(0xff010101),
@@ -25,7 +25,7 @@ mixin ContentsDetailViewBodyMixin {
             height: 6,
           ),
           Text(
-            props.overview,
+            htmlToStringContent(props.overview),
             style: TextStyle(
               color: Colors.black,
               height: 1.5,
@@ -134,7 +134,7 @@ mixin ContentsDetailViewBodyMixin {
             height: 6,
           ),
           Text(
-            priceData,
+            htmlToStringContent(priceData),
             style: TextStyle(
               color: Color(0xff707070),
               height: 1.9,
@@ -245,7 +245,7 @@ mixin ContentsDetailViewBodyMixin {
               height: 3,
             ),
             Text(
-              timeData,
+              htmlToStringContent(timeData),
               style: TextStyle(
                 fontFamily: 'Roboto',
                 height: 1.9,
@@ -267,6 +267,7 @@ mixin ContentsDetailViewBodyMixin {
   /// 다른 페이지에서 쓰여야 한다면 독립적인 위젯으로 분리해주세요.
   List<TextSpan> buildKeyValueSpan(String key, String value) {
     key = key + " ";
+    value = value + "\n";
     return [
       TextSpan(
         text: key,
@@ -280,7 +281,7 @@ mixin ContentsDetailViewBodyMixin {
         ),
       ),
       TextSpan(
-        text: value + "\n",
+        text: htmlToStringContent(value),
         style: const TextStyle(
             fontFamily: 'Roboto',
             color: Color(0x80080808),

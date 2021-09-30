@@ -132,6 +132,7 @@ class ContentDetailViewState extends State<ContentDetailView>
                   context,
                   onPageChanged: onImageChanged,
                   imageIndex: imageIndex,
+                  props: props!,
                 ),
                 buildLineArea(),
                 buildTextArea(props!),

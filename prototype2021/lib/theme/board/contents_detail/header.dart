@@ -11,7 +11,7 @@ mixin ContentDetailViewHeaderMixin {
   /// 제목부터 이미지 슬라이드까지의 UI를 렌더링합니다
   Padding buildHeadSection(
     BuildContext context, {
-    ContentsDetail? props,
+    required ContentsDetail props,
     required Function(int, CarouselPageChangedReason) onPageChanged,
     required double imageIndex,
   }) {
@@ -39,11 +39,8 @@ mixin ContentDetailViewHeaderMixin {
   }
 
   /// 제목과 하트 버튼을 렌더링합니다
-  Widget buildTitle(BuildContext context, ContentsDetail? props) {
+  Widget buildTitle(BuildContext context, ContentsDetail props) {
     UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
-    if (props == null) {
-      return SizedBox();
-    }
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -73,19 +70,16 @@ mixin ContentDetailViewHeaderMixin {
     );
   }
 
-  String _handleAddress(ContentsDetail? props) {
-    if (props != null) {
-      return props.detailInfo.place ??
-          props.detailInfo.eventplace ??
-          props.detailInfo.placeinfo ??
-          props.address ??
-          "";
-    }
-    return "";
+  String _handleAddress(ContentsDetail props) {
+    return props.detailInfo.place ??
+        props.detailInfo.eventplace ??
+        props.detailInfo.placeinfo ??
+        props.address ??
+        "";
   }
 
   /// 제목 아래에 들어가는 주소부분이 있다면 렌더링합니다
-  Text buildAddress(ContentsDetail? props) {
+  Text buildAddress(ContentsDetail props) {
     return Text(
       _handleAddress(props),
       style: TextStyle(
@@ -97,14 +91,12 @@ mixin ContentDetailViewHeaderMixin {
     );
   }
 
-  String _handleRatingData(ContentsDetail? props) {
+  String _handleRatingData(ContentsDetail props) {
     String ratingText = "";
-    if (props != null) {
-      if (props.reviewNo != null) {
-        ratingText += props.reviewNo.toString();
-        if (props.rating != null) {
-          ratingText += " (${props.rating.toString()})";
-        }
+    if (props.reviewNo != null) {
+      ratingText += props.reviewNo.toString();
+      if (props.rating != null) {
+        ratingText += " (${props.rating.toString()})";
       }
     }
     if (ratingText.length == 0) {
@@ -114,7 +106,7 @@ mixin ContentDetailViewHeaderMixin {
   }
 
   /// 별점 정보를 렌더링합니다
-  Row buildRatings(ContentsDetail? props) {
+  Row buildRatings(ContentsDetail props) {
     return Row(
       children: [
         Image.asset('assets/icons/ic_pc_star_big.png'),
@@ -158,25 +150,23 @@ mixin ContentDetailViewHeaderMixin {
     );
   }
 
-  List<String> _handleImageData(ContentsDetail? props) {
+  List<String> _handleImageData(ContentsDetail props) {
     List<String> allPhotos = [];
-    if (props?.thumbnail != null) {
-      allPhotos.add(props!.thumbnail!);
+    if (props.thumbnail != null) {
+      allPhotos.add(props.thumbnail!);
     }
-    if (props?.photo != null) {
-      allPhotos.addAll(props!.photo);
-    }
+    allPhotos.addAll(props.photo);
     return allPhotos;
   }
 
   /// 제목, 주소, 별점 등의 아래에 표시되는 이미지를 렌더링합니다
   Widget buildImageArea(
-    ContentsDetail? props, {
+    ContentsDetail props, {
     required void Function(int, CarouselPageChangedReason) onPageChanged,
     required double imageIndex,
   }) {
     List<String> photos = _handleImageData(props);
-    if (props == null || photos.length == 0) {
+    if (photos.length == 0) {
       return SizedBox();
     }
     return Stack(

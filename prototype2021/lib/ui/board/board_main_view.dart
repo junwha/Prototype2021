@@ -45,10 +45,10 @@ class _BoardMainViewState extends State<BoardMainView>
   BoardMainViewMode viewMode = BoardMainViewMode.main;
 
   Future<void> setViewMode(BoardMainViewMode _viewMode) async {
-    handleModeChange(_viewMode);
     setState(() {
       viewMode = _viewMode;
     });
+    handleModeChange(_viewMode);
   }
 
   String searchInput = "";
@@ -73,15 +73,31 @@ class _BoardMainViewState extends State<BoardMainView>
   late Stream<List<dynamic>> recentSearchesStream;
 
   Future<void> callApi([String? keyword]) async {
-    // Code below is just a simulation of api calls
-    planDataController.sink.add(await getPseudoPlanData());
+    getPlanData(keyword);
+    getContentsData(keyword);
+  }
+
+  Future<void> getPlanData([String? keyword]) async {
+    try {
+      // Code below is just a simulation of api calls
+      planDataController.sink.add(await getPseudoPlanData());
+    } catch (error) {
+      print(error);
+      // error handle
+    }
+  }
+
+  Future<void> getContentsData([String? keyword]) async {
     try {
       UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
       if (model.token != null) {
-        contentsDataController.sink.add(await getContentsList(model.token!));
+        contentsDataController.sink.add(await getContentsList(
+          model.token!,
+          keyword != null && keyword.length > 0 ? keyword : null,
+        ));
       }
     } catch (error) {
-      print(error);
+      print("Error from getContentsData: $error");
       // error handle
     }
   }
@@ -90,7 +106,6 @@ class _BoardMainViewState extends State<BoardMainView>
     if (keyword != null && keyword.length > 0) {
       await addSearchKeyword(keyword);
       setViewMode(BoardMainViewMode.result);
-      // Do something with keyword (e.g. API call)
     }
   }
 
@@ -106,7 +121,7 @@ class _BoardMainViewState extends State<BoardMainView>
       loadSearchKeywords();
       textEditingController.text = "";
     } else {
-      callApi(searchInput.length > 0 ? searchInput : null);
+      callApi(searchInput);
     }
   }
 
@@ -126,7 +141,6 @@ class _BoardMainViewState extends State<BoardMainView>
   @override
   void initState() {
     super.initState();
-    // Code below is a simulation of api call
     initData();
   }
 
@@ -207,6 +221,7 @@ class _BoardMainViewState extends State<BoardMainView>
                     onActionPressed: () => removeSearchKeyword(recentSearch),
                     onTap: () {
                       textEditingController.text = recentSearch;
+                      setSearchInput(recentSearch);
                       searchOnSubmitted(recentSearch);
                     });
               else
@@ -253,14 +268,16 @@ class _BoardMainViewState extends State<BoardMainView>
               children: [
                 Icon(Icons.delete_forever, color: const Color(0xff555555)),
                 SizedBox(width: 7),
-                Text("전체 삭제",
-                    style: const TextStyle(
-                        color: const Color(0xff555555),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 15.0),
-                    textAlign: TextAlign.center)
+                Text(
+                  "전체 삭제",
+                  style: const TextStyle(
+                      color: const Color(0xff555555),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 15.0),
+                  textAlign: TextAlign.center,
+                )
               ],
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -271,28 +288,17 @@ class _BoardMainViewState extends State<BoardMainView>
     }
   }
 
-  void _handleRefetch() {
-    if (viewMode == BoardMainViewMode.result && searchInput.length > 0) {
-      searchOnSubmitted(searchInput);
-      return;
-    }
-    if (viewMode == BoardMainViewMode.main) {
-      callApi();
-      return;
-    }
-  }
-
   BoardMainViewStreamList buildPlanListView(BuildContext context) {
     return BoardMainViewStreamList<ProductCardBaseProps>(
       stream: planDataController.stream,
-      refetch: _handleRefetch,
+      refetch: getPlanData,
       builder: (props) => ProductCard.fromProps(props: props),
       routeBuilder: (_, __) => PlanMakeView(),
       emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: _handleRefetch,
+        onActionPressed: getPlanData,
       ),
     );
   }
@@ -300,7 +306,7 @@ class _BoardMainViewState extends State<BoardMainView>
   BoardMainViewStreamList buildContentListView(BuildContext context) {
     return BoardMainViewStreamList<ContentsCardBaseProps>(
       stream: contentsDataController.stream,
-      refetch: _handleRefetch,
+      refetch: getContentsData,
       builder: (props) => ContentsCard.fromProps(props: props),
       routeBuilder: (_, id) => ContentDetailView(
         id: id!,
@@ -309,7 +315,7 @@ class _BoardMainViewState extends State<BoardMainView>
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: _handleRefetch,
+        onActionPressed: getContentsData,
       ),
     );
   }

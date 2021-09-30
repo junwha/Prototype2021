@@ -23,8 +23,11 @@ class ContentsLoader {
       throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
-  Future<List<ContentsCardBaseProps>> getContentsList(String token) async {
-    ContentsListInput params = new ContentsListInput();
+  Future<List<ContentsCardBaseProps>> getContentsList(
+    String token, [
+    String? keyword,
+  ]) async {
+    ContentsListInput params = new ContentsListInput(keyword: keyword);
     SafeQueryInput<ContentsListInput> dto =
         new SafeQueryInput(url: contentsListUrl, params: params, token: token);
     SafeQueryOutput<ContentsListOutput> result = await contentsList(dto);

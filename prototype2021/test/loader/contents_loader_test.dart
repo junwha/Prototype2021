@@ -48,6 +48,7 @@ void testContentsList() {
         url: contentsLoader!.contentsListUrl, params: params, token: token);
     SafeQueryOutput<ContentsListOutput> result =
         await contentsLoader!.contentsList(dto);
+    print(result.error?.message);
     expect(result.data?.results != null, true);
     expect(result.data!.results is List<ContentPreview>, true);
     expect(result.data!.count > 0, true);
