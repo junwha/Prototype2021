@@ -440,7 +440,7 @@ class _EditorViewState extends State<EditorView> {
     if (this.widget.data == null)
       return Row(
         children: [
-          SelectableTextButton(
+          TBSelectableTextButton(
               titleName: "내 주변 이벤트",
               isChecked: articleType[0],
               onPressed: () {
@@ -451,7 +451,7 @@ class _EditorViewState extends State<EditorView> {
                 });
               }),
           SizedBox(width: 10),
-          SelectableTextButton(
+          TBSelectableTextButton(
               titleName: "동행찾기",
               isChecked: articleType[1],
               onPressed: () {
@@ -468,7 +468,7 @@ class _EditorViewState extends State<EditorView> {
       width: double.maxFinite,
       child: Row(
         children: [
-          SelectableTextButton(
+          TBSelectableTextButton(
             titleName: editorModel.articleType == ArticleType.EVENT
                 ? "내 주변 이벤트"
                 : "동행찾기",

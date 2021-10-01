@@ -187,6 +187,7 @@ class _EventMainViewState extends State<EventMainView> {
                   }),
             ],
           ),
+
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             IconButton(
               onPressed: () {

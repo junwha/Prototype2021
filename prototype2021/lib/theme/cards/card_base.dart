@@ -27,16 +27,17 @@ class CardBase {
     required HeartFor heartFor,
   }) {
     return Container(
-        padding: EdgeInsets.all(20 * pt),
+        padding: EdgeInsets.all(10 * pt),
         height: 160 * pt,
         decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(
             color: Color(0xffe8e8e8),
-            width: 1,
+            width: 0.5,
           ),
         ),
         child: Row(children: <Widget>[
+          SizedBox(width: 15),
           itemInfo,
           buildW(15 * pt),
           buildPreview(
@@ -93,14 +94,10 @@ class CardBase {
     );
   }
 
-  Row buildTags(List<String> tags) {
-    return Row(
-      children: [
-        Flex(
-          children: _generateTags(tags),
-          direction: Axis.horizontal,
-        ),
-      ],
+  Widget buildTags(List<String> tags) {
+    return Wrap(
+      children: _generateTags(tags),
+      direction: Axis.horizontal,
     );
   }
 

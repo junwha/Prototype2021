@@ -157,20 +157,40 @@ class _FilterViewState extends State<FilterView> {
               SizedBox(
                 height: 15,
               ),
-              buildRadioArea("여행 피로도", selectedRadio1, (int? val) {
-                setState(() {
-                  selectedRadio1 = val!;
-                });
-              }, '여유롭고 \n느긋한 여행', "바쁘더라도\n알찬 여행"),
-
+              buildMainText("여행 피로도"),
               SizedBox(
                 height: 20,
               ),
-              buildRadioArea("여행 경비", selectedRadio2, (int? val) {
-                setState(() {
-                  selectedRadio2 = val!;
-                });
-              }, '불편해도 \n저렴한 여행', "비싸더라도 \n편안한 여행"),
+              TBRadioBar(
+                selectedRadio: selectedRadio1,
+                onChanged: (int? val) {
+                  // Changes the selected value on 'onChanged' click on each radio button
+                  setState(() {
+                    selectedRadio1 = val!;
+                  });
+                },
+                minimumText: '여유롭고 \n느긋한 여행',
+                maximumText: "바쁘더라도\n알찬 여행",
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              buildMainText('여행 경비'),
+              SizedBox(
+                height: 20,
+              ),
+
+              TBRadioBar(
+                selectedRadio: selectedRadio2,
+                onChanged: (int? val) {
+                  // Changes the selected value on 'onChanged' click on each radio button
+                  setState(() {
+                    selectedRadio2 = val!;
+                  });
+                },
+                minimumText: "불편해도\n 저렴하게",
+                maximumText: "비싸더라도\n 편안하게",
+              ),
             ],
           ),
         ));

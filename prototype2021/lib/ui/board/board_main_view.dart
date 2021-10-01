@@ -113,6 +113,51 @@ class _BoardMainViewState extends State<BoardMainView>
     initData();
   }
 
+  SingleChildScrollView buildFilterBar() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          TBSelectableTextButton(
+            isChecked: true,
+            titleName: "모두보기",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "여행지",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "카페",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "음식점",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "숙소",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "기타",
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
+  }
+          
   @override
   void dispose() {
     super.dispose();
