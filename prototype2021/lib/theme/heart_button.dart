@@ -33,7 +33,7 @@ class HeartButton extends StatefulWidget {
 
 class _HeartButtonState extends State<HeartButton> {
   bool heartSelected;
-  PlanLoader planLoader = PlanLoader(PlanLoaderMode.general);
+  PlanLoader planLoader = PlanLoader();
   ContentsLoader contentsLoader = ContentsLoader();
 
   void setHeartSelected(bool _heartSelected) => setState(() {
