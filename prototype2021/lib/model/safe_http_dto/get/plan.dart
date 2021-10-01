@@ -19,10 +19,10 @@ class PlanListOutput extends PaginationOutput
         super.fromJson(json: json);
 }
 
-class PlanDetailInput extends SafeHttpDataInput {
+class PlanIdInput extends SafeHttpDataInput {
   final int id;
 
-  PlanDetailInput(this.id);
+  PlanIdInput(this.id);
 
   Map<String, dynamic>? toJson() => null;
 
@@ -34,4 +34,10 @@ class PlanDetailOutput extends SafeHttpDataOutput {
 
   PlanDetailOutput.fromJson({required Map<String, dynamic> json})
       : result = PlanDetail.fromJson(json: json);
+}
+
+class PlanDeleteOutput extends SafeHttpDataOutput {
+  final int id;
+  PlanDeleteOutput.fromJson({required Map<String, dynamic> json})
+      : id = json["id"];
 }
