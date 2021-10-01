@@ -61,7 +61,7 @@ class BottomCalendarButton extends StatelessWidget {
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
                   return ChangeNotifierProvider.value(
-                    value: calendarHandler,
+                    value: calendarHandler.inherit(),
                     child: PlanMakeHomeView(),
                   );
                 }));

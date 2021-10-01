@@ -12,7 +12,7 @@ class BackgroundMap extends StatefulWidget {
   bool load;
   Function(GoogleMapController) onMapCreated;
   CameraPosition? initialCameraPosition;
-  late Set<Polyline> polylines;
+  Set<Polyline> polylines;
   double zoom;
 
   BackgroundMap({
@@ -24,10 +24,8 @@ class BackgroundMap extends StatefulWidget {
     this.onTap,
     this.initialCameraPosition,
     this.zoom = 18.0,
-    polylines,
-  }) {
-    this.polylines = polylines ?? {};
-  }
+    this.polylines = const <Polyline>{},
+  });
 
   @override
   _BackgroundMapState createState() => _BackgroundMapState();

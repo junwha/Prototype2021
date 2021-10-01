@@ -263,4 +263,58 @@ class _FilterViewState extends State<FilterView> {
             fontSize: 18.0),
         textAlign: TextAlign.left);
   }
+
+  Column buildRadioArea(String title, int selectedRadio,
+      Function(int?) onChanged, String minimum, String maximum) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildMainText(title),
+        SizedBox(
+          height: 20,
+        ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 2,
+              width: 300,
+              color: Color(0xffbdbdbd),
+            ),
+            TBRadioBar(
+              selectedRadio: selectedRadio,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 9,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              minimum,
+              style: TextStyle(
+                color: Color(0xff707070),
+                fontSize: 14,
+                fontFamily: 'Roboto',
+              ),
+            ), // 바쁘더라도 알찬 여행
+            Text(maximum,
+                style: const TextStyle(
+                    color: const Color(0xff707070),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Roboto",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.right)
+          ],
+        ),
+      ],
+    );
+  }
 }

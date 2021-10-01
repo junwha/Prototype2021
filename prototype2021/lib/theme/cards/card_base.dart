@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/theme/heart_button.dart';
 
 class CardBaseProps {
   final String preview;
   final String title;
   final String place;
   final List<String> tags;
-  final Function(bool)? onHeartPreessed;
-  final bool isHeartSelected;
 
-  CardBaseProps(
-      {required this.preview,
-      required this.title,
-      required this.place,
-      required this.tags,
-      this.isHeartSelected = false,
-      this.onHeartPreessed});
+  CardBaseProps({
+    required this.preview,
+    required this.title,
+    required this.place,
+    required this.tags,
+  });
 }
 
 class CardBase {
-  Container buildCard(Widget itemInfo, Color backgroundColor, String preview,
-      bool isHeartSelected, Function(bool)? onHeartPressed) {
+  Container buildCard({
+    required Widget itemInfo,
+    required Color backgroundColor,
+    required String preview,
+    required int dataId,
+    required int userId,
+    bool isHeartSelected = false,
+    required HeartFor heartFor,
+  }) {
     return Container(
         padding: EdgeInsets.all(10 * pt),
         height: 160 * pt,
@@ -32,10 +37,16 @@ class CardBase {
           ),
         ),
         child: Row(children: <Widget>[
-          buildPreview(preview, isHeartSelected, onHeartPressed),
           SizedBox(width: 15),
           itemInfo,
           buildW(15 * pt),
+          buildPreview(
+            preview,
+            isHeartSelected: isHeartSelected,
+            dataId: dataId,
+            userId: userId,
+            heartFor: heartFor,
+          )
         ]));
   }
 
@@ -114,7 +125,12 @@ class CardBase {
   }
 
   ClipRRect buildPreview(
-      String preview, bool isHeartSelected, Function(bool)? onHeartPressed) {
+    String preview, {
+    required HeartFor heartFor,
+    bool isHeartSelected = false,
+    required int dataId,
+    required int userId,
+  }) {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(9.0)),
       child: Stack(
@@ -129,18 +145,11 @@ class CardBase {
               fit: BoxFit.cover,
             ),
           ),
-          IconButton(
-            padding: EdgeInsets.zero,
-            onPressed: () {
-              if (onHeartPressed != null) onHeartPressed.call(isHeartSelected);
-            },
-            icon: Image.asset(
-              isHeartSelected
-                  ? "assets/icons/ic_product_heart_fill.png"
-                  : "assets/icons/ic_product_heart_default.png",
-            ),
-            iconSize: 30 * pt,
-          ),
+          HeartButton(
+              isHeartSelected: isHeartSelected,
+              heartFor: heartFor,
+              dataId: dataId,
+              userId: userId),
         ],
       ),
     );
