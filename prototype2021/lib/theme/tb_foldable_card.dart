@@ -25,7 +25,7 @@ class _TBFoldableCardState extends State<TBFoldableCard>
   /* =========================STATES & METHODS======================== */
   /* =================================/=============================== */
   bool expanded = false;
-  void changeExpandedState() {
+  void setExpanded() {
     setState(() {
       expanded = !expanded;
     });
@@ -74,7 +74,7 @@ class _TBFoldableCardState extends State<TBFoldableCard>
             ),
           ),
           IconButton(
-            onPressed: changeExpandedState,
+            onPressed: setExpanded,
             icon: expanded
                 ? Image.asset('assets/icons/ic_calender_arrow_up_fold.png')
                 : Image.asset('assets/icons/ic_calender_arrow_down_unfold.png'),
