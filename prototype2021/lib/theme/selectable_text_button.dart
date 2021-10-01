@@ -9,11 +9,12 @@ class TBSelectableTextButton extends StatefulWidget {
   Function()? onPressed;
   EdgeInsets padding;
 
-  TBSelectableTextButton(
-      {required this.titleName,
-      required this.isChecked,
-      this.onPressed,
-      this.padding = const EdgeInsets.all(0)});
+  TBSelectableTextButton({
+    required this.titleName,
+    required this.isChecked,
+    this.onPressed,
+    this.padding = const EdgeInsets.all(0),
+  });
 
   @override
   _TBSelectableTextButtonState createState() => _TBSelectableTextButtonState();
