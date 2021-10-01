@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart' show Response;
 import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 /* 
  * 함수를 부를때 타입 I, O는 필수로 넣어주셔야 합니다.
@@ -18,6 +19,7 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.post(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
+    if (SAFE_HTTP_DEBUG) print(res.body);
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
@@ -42,6 +44,7 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.put(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
+    if (SAFE_HTTP_DEBUG) print(res.body);
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
@@ -66,6 +69,7 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.patch(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
+    if (SAFE_HTTP_DEBUG) print(res.body);
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
@@ -90,6 +94,7 @@ Future<SafeQueryOutput<O>>
   try {
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
+    if (SAFE_HTTP_DEBUG) print(res.body);
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeQueryOutput<O>(success: true, data: data);

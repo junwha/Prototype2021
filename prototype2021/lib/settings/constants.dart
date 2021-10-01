@@ -12,3 +12,5 @@ const String placeHolder =
     "https://www.orcajourney.com/wp-content/uploads/2020/08/placeholder.png";
 
 const String apiBaseUrl = 'http://api.tripbuilder.co.kr';
+
+bool SAFE_HTTP_DEBUG = false;
