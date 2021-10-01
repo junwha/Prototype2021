@@ -54,8 +54,7 @@ class PlanLoader {
       }
       return result.data!.results;
     }
-    print(result.error!.message);
-    return [];
+    throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
   Future<PlanDetail> getPlanDetail({required int id, String? token}) async {
@@ -68,8 +67,7 @@ class PlanLoader {
       return result.data!.result;
     }
 
-    print(result.error!.message);
-    throw NullThrownError();
+    throw HttpException(result.error?.message ?? "Unexpected error");
   }
   // Fetching Functions
 
