@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/map/plan_map_model.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/ai_dialog.dart';
@@ -8,17 +10,18 @@ import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/header.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/main.dart';
-import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
+import 'package:prototype2021/theme/calendar/plan_make_appbar_base.dart';
+import 'package:prototype2021/theme/calendar/plan_map.dart';
 import 'package:provider/provider.dart';
 
-class PlanMakeHome extends StatefulWidget {
+class PlanMakeHomeView extends StatefulWidget {
   @override
-  PlanMakeHomeState createState() => PlanMakeHomeState();
+  PlanMakeHomeViewState createState() => PlanMakeHomeViewState();
 }
 
-class PlanMakeHomeState extends State<PlanMakeHome>
+class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     with
-        PlanMakeViewBase,
+        PlanMakeAppBarBase,
         TickerProviderStateMixin,
         ChangeNotifier,
         /* 
@@ -104,6 +107,14 @@ class PlanMakeHomeState extends State<PlanMakeHome>
     calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
 
+  bool isMapEnabled = false;
+  @override
+  void onMapButtonTap() {
+    setState(() {
+      isMapEnabled = !isMapEnabled;
+    });
+  }
+
   late AnimationController _scrollController;
   late AnimationController _sizeController;
   late Animation _appBarColorAnimation;
@@ -121,7 +132,7 @@ class PlanMakeHomeState extends State<PlanMakeHome>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  PlanMakeHomeState() {
+  PlanMakeHomeViewState() {
     _scrollController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _sizeController =
@@ -157,6 +168,7 @@ class PlanMakeHomeState extends State<PlanMakeHome>
   void dispose() {
     super.dispose();
     _scrollController.dispose();
+    _sizeController.dispose();
   }
 
   /* =================================/================================= */
@@ -186,9 +198,10 @@ class PlanMakeHomeState extends State<PlanMakeHome>
         )));
   }
 
-  Container buildMain(BuildContext context) {
+  Widget buildMain(BuildContext context) {
     PlanMakeCalendarModel calendarHandler =
         Provider.of<PlanMakeCalendarModel>(context);
+
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
       return PlanListItem(
@@ -197,25 +210,46 @@ class PlanMakeHomeState extends State<PlanMakeHome>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
-    planListItemWidgets.insertAll(0, [
-      Container(
-        height: 50,
+    return ChangeNotifierProvider<PlanMapModel>(
+      create: (_) {
+        PlanMapModel model = PlanMapModel(LatLng(35.5763,
+            129.1893)); // TODO: replace this position as current position;
+        calendarHandler.addListener(() {
+          // Notify to plan map model when the calendar handler has changed.
+          try {
+            model.updatePolyline(calendarHandler.flattenPlanListItems);
+          } catch (e) {
+            print(e);
+          }
+        });
+        return model;
+      },
+      child: Container(
+        child: Column(
+          children: [
+            Container(
+              height: 50,
+            ),
+            Container(
+                height: isMapEnabled ? 200 : 0,
+                child: Consumer(builder:
+                    (BuildContext context, PlanMapModel model, Widget? _) {
+                  return model.mapLoaded ? PlanMap() : SizedBox();
+                })),
+            buildPlanListItemsHeader(mode, _setMode,
+                _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
+            buildTopShadowHidingContainer(_blindContainerColor),
+            Column(children: planListItemWidgets),
+          ],
+        ),
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(
+                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+            color: Colors.white),
+        width: MediaQuery.of(context).size.width,
+        constraints:
+            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
       ),
-      /* IMPORTANT!! REPLACE THIS PSEUDO MAP TO REAL MAP! */
-      PseudoMap(),
-      buildPlanListItemsHeader(mode, _setMode, _planListItemsHeaderElevation,
-          _sizeAnimation, _borderColor),
-      buildTopShadowHidingContainer(_blindContainerColor),
-    ]);
-    return Container(
-      child: Column(children: planListItemWidgets),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-          color: Colors.white),
-      width: MediaQuery.of(context).size.width,
-      constraints:
-          BoxConstraints(minHeight: MediaQuery.of(context).size.height),
     );
   }
 
@@ -268,6 +302,6 @@ class PlanMakeHomeState extends State<PlanMakeHome>
 class PseudoMap extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Text("asddf");
   }
 }

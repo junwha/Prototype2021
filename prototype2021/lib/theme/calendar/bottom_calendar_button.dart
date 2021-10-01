@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:provider/provider.dart';
 
 class BottomCalendarButton extends StatelessWidget {
@@ -60,11 +60,9 @@ class BottomCalendarButton extends StatelessWidget {
                 calendarHandler.generatePlanListItems();
                 Navigator.push(context,
                     MaterialPageRoute(builder: (BuildContext context) {
-                  return ChangeNotifierProvider(
-                    create: (_) {
-                      return calendarHandler.inherit();
-                    },
-                    child: PlanMakeHome(),
+                  return ChangeNotifierProvider.value(
+                    value: calendarHandler.inherit(),
+                    child: PlanMakeHomeView(),
                   );
                 }));
               },

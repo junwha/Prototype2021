@@ -14,7 +14,15 @@ class TBMapModel with ChangeNotifier {
   // If you ensure mapController is initialized, you can use this mapController with ! operator.
   GoogleMapController? mapController;
 
-  TBMapModel(this.center) {
+  /*
+   * Generally, TBMapModel start with its own plain MarkerList.
+   * However, if you have the child implements of MarkerList, inject the MarkerList into this model.
+   */
+  TBMapModel(this.center, {MarkerList? markerList}) {
+    if (markerList != null) {
+      this.markerList = markerList;
+    }
+
     init();
   }
 

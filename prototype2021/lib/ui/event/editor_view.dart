@@ -4,7 +4,6 @@ import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/editor/event_custom_text_field.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
@@ -422,7 +421,7 @@ class _EditorViewState extends State<EditorView> {
   Widget buildContentsCard(Location? targetLocation) {
     if (targetLocation is GooglePlaceLocation) {
       GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
-      return ContentsCard(
+      return ContentsCard.fromProps(
           props: new ContentsCardBaseProps(
         preview: location.preview,
         title: location.name,

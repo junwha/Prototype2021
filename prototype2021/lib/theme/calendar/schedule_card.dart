@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:prototype2021/theme/calendar/schedule_card/actions.dart';
 import 'package:prototype2021/theme/calendar/schedule_card/helper.dart';
@@ -63,8 +63,8 @@ class ScheduleCard extends StatelessWidget
 
   @override
   Widget build(BuildContext context) {
-    PlanMakeHomeState? grandParent =
-        context.findAncestorStateOfType<PlanMakeHomeState>();
+    PlanMakeHomeViewState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeViewState>();
     String types = data.types;
     return Container(
       key: key,
@@ -107,8 +107,8 @@ class ScheduleCard extends StatelessWidget
   }
 
   Container buildActions(BuildContext context, String types, Widget icon) {
-    PlanMakeHomeState? grandParent =
-        context.findAncestorStateOfType<PlanMakeHomeState>();
+    PlanMakeHomeViewState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeViewState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
     void onCopyButtonPressed() {
       grandParent?.setCopiedData(dataId, data);

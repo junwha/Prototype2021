@@ -1,6 +1,9 @@
 
+*.lock
+prototype2021/lib/model/[IGNORE]place_marker.dart
 .DS_Store
 *.lock
+*.xcconfig
 
 # Miscellaneous
 *.class
@@ -44,4 +47,4 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
 
-
+ 

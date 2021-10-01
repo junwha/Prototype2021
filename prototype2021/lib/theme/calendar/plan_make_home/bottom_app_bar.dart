@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'dart:io' show Platform;
 
-mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHome> {
+mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHomeView> {
   Container buildSaveButton() {
     return buildBottomRoundedButton([
       Text("저장하기",

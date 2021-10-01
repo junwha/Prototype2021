@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 
-class PlanMakeViewBase {
+class PlanMakeAppBarBase {
   AppBar buildAppBar(BuildContext context,
       [Color? backgroundColor, double? elevation]) {
     return AppBar(
