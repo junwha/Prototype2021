@@ -1,12 +1,9 @@
 import 'dart:io';
 
-import 'package:flutter/services.dart';
 import 'package:prototype2021/data/dto/plan/plan_preview.dart';
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/common.dart';
 import 'package:prototype2021/model/safe_http_dto/get/plan.dart';
-import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
 import 'package:prototype2021/model/safe_http_dto/patch/heart.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -14,6 +11,13 @@ enum PaginationState {
   start,
   mid,
   end,
+}
+
+enum PlanLoaderMode {
+  board,
+  wishlist,
+  mylist,
+  general,
 }
 
 class PlanLoader {
@@ -31,6 +35,7 @@ class PlanLoader {
   }
 
   Future<List<PlanPreview>> getPlanList(String token) async {
+    print(planListUrl);
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -41,7 +46,8 @@ class PlanLoader {
 
     if (result.success) {
       if (result.data!.next != null) {
-        planListUrl = result.data!.next!;
+        planListUrl = result.data!.next!
+            .replaceFirst("tbserver:8000", "api.tripbuilder.co.kr");
         pagination = PaginationState.mid;
       } else {
         planListUrl = "";
@@ -49,8 +55,7 @@ class PlanLoader {
       }
       return result.data!.results;
     }
-
-    print(result.error!);
+    print(result.error!.message);
     return [];
   }
 
@@ -66,5 +71,15 @@ class PlanLoader {
   // Endpoints
 
   String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
-  String planListUrl = "$apiBaseUrl/plan";
+  String planListUrl = "$apiBaseUrl/plans";
+
+  PlanLoader(PlanLoaderMode mode) {
+    if (mode == PlanLoaderMode.board) {
+      planListUrl = "$apiBaseUrl/plans";
+    } else if (mode == PlanLoaderMode.mylist) {
+      planListUrl = "$apiBaseUrl/plans/mylist/";
+    } else if (mode == PlanLoaderMode.wishlist) {
+      planListUrl = "$apiBaseUrl/plans/wishlists/";
+    }
+  }
 }
