@@ -4,6 +4,7 @@ import 'package:prototype2021/data/dto/plan/plan_dto.dart';
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/get/plan.dart';
+import 'package:prototype2021/model/safe_http_dto/output_dto_factory.dart';
 import 'package:prototype2021/model/safe_http_dto/patch/heart.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -58,9 +59,9 @@ class PlanLoader {
   }
 
   Future<PlanDetail> getPlanDetail({required int id, String? token}) async {
-    PlanDetailInput params = PlanDetailInput(id);
-    SafeQueryInput<PlanDetailInput> dto = SafeQueryInput<PlanDetailInput>(
-        params: params, url: planDetailUrl, token: token);
+    PlanIdInput params = PlanIdInput(id);
+    SafeQueryInput<PlanIdInput> dto = SafeQueryInput<PlanIdInput>(
+        params: params, url: planIdUrl, token: token);
     SafeQueryOutput<PlanDetailOutput> result = await planDetail(dto);
 
     if (result.success) {
@@ -68,6 +69,16 @@ class PlanLoader {
     }
 
     throw HttpException(result.error?.message ?? "Unexpected error");
+  }
+
+  Future<bool> deletePlan({required int id, String? token}) async {
+    PlanIdInput params = PlanIdInput(id);
+    SafeQueryInput<PlanIdInput> dto = SafeQueryInput<PlanIdInput>(
+        params: params, url: planIdUrl, token: token);
+    SafeQueryOutput<PlanDeleteOutput> result = await planDelete(dto);
+    if (result.success) return true;
+
+    return false;
   }
   // Fetching Functions
 
@@ -80,13 +91,17 @@ class PlanLoader {
       await safeGET<PlanListInput, PlanListOutput>(dto);
 
   Future<SafeQueryOutput<PlanDetailOutput>> planDetail(
-          SafeQueryInput<PlanDetailInput> dto) async =>
-      await safeGET<PlanDetailInput, PlanDetailOutput>(dto);
+          SafeQueryInput<PlanIdInput> dto) async =>
+      await safeGET<PlanIdInput, PlanDetailOutput>(dto);
+  Future<SafeQueryOutput<PlanDeleteOutput>> planDelete(
+          SafeQueryInput<PlanIdInput> dto) async =>
+      await safeDELETE<PlanIdInput, PlanDeleteOutput>(dto);
+
   // Endpoints
 
   String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
   String planListUrl = "$apiBaseUrl/plans";
-  String planDetailUrl = "$apiBaseUrl/plans/:id";
+  String planIdUrl = "$apiBaseUrl/plans/:id";
 
   PlanLoader(PlanLoaderMode mode) {
     if (mode == PlanLoaderMode.board) {
