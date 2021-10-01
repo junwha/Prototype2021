@@ -50,8 +50,8 @@ class _PlanDetailViewState extends State<PlanDetailView> {
 
   @override
   void initState() {
-    loadPlanDetail();
     super.initState();
+    loadPlanDetail();
   }
 
   /* =================================/=============================== */
