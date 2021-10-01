@@ -5,22 +5,23 @@ class PlanPreview {
   final int id;
   final String title;
   final String area;
-  final String photo; // url
+  final String? photo; // url
   final List<String> types;
-  final String expenses;
+  final String expense;
   final DateTimeRange period;
   final bool hearted;
 
   PlanPreview.fromJson({required Map<String, dynamic> json})
       : id = json["id"],
         title = json["title"],
-        area = (json["area"] as List<String>)
+        area = (json["area_code"] as List<dynamic>)
             .map((e) => areaCodeToAreaName[e])
             .toList()
             .join(", "),
         photo = json["photo"],
-        types = json["type"] as List<String>,
-        expenses = expenseCodeToString[json["expenses"]] ?? "",
+        types =
+            (json["type"] as List<dynamic>).map((e) => e as String).toList(),
+        expense = expenseCodeToString[json["expense"]] ?? "",
         period = DateTimeRange(
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"])),
