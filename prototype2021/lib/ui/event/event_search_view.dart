@@ -51,7 +51,7 @@ class _EventSearchViewState extends State<EventSearchView> {
                         ],
                       ),
                       // Content
-                      searchArticleModel.loading == true
+                      searchArticleModel.loading != true
                           ? Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +66,8 @@ class _EventSearchViewState extends State<EventSearchView> {
                                 ],
                               ),
                             )
-                          : buildArticleSection(searchArticleModel),
+                          : Expanded(
+                              child: buildArticleSection(searchArticleModel)),
                     ],
                   );
                 },
@@ -79,41 +80,48 @@ class _EventSearchViewState extends State<EventSearchView> {
   Container buildArticleSection(SearchArticleModel searchArticleModel) {
     return Container(
         padding: EdgeInsets.only(top: 20),
-        child: Column(children: [
-          TabBarView(children: [
-            SingleChildScrollView(
-              child: Column(
-                  children: List.generate(
-                      20,
-                      (index) => GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                this.previewData =
-                                    searchArticleModel.eventArticleList;
-                              });
-                            },
-                          ))),
+        child: TabBarView(children: [
+          SingleChildScrollView(
+            child: Column(
+              children: searchArticleModel.eventArticleList
+                  .map((e) => RecruitCard(
+                      title: e.title, hasContents: false, range: e.period))
+                  .toList(),
             ),
-            SingleChildScrollView(
-                child: Column(
-                    children: List.generate(
-                        20,
-                        (index) => GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  this.previewData =
-                                      searchArticleModel.companionArticleList;
-                                });
-                              },
-                            )))),
-          ]),
-          Column(
-            children: this
-                .previewData
-                .map((e) => RecruitCard(
-                    title: e.title, hasContents: false, range: e.period))
-                .toList(),
           ),
+          SingleChildScrollView(
+            child: Column(
+              children: searchArticleModel.companionArticleList
+                  .map((e) => RecruitCard(
+                      title: e.title, hasContents: false, range: e.period))
+                  .toList(),
+            ),
+          ),
+          // SingleChildScrollView(
+          //   child: Column(
+          //       children: List.generate(
+          //           20,
+          //           (index) => GestureDetector(
+          //                 onTap: () {
+          //                   setState(() {
+          //                     this.previewData =
+          //                         searchArticleModel.eventArticleList;
+          //                   });
+          //                 },
+          //               ))),
+          // ),
+          // SingleChildScrollView(
+          //     child: Column(
+          //         children: List.generate(
+          //             20,
+          //             (index) => GestureDetector(
+          //                   onTap: () {
+          //                     setState(() {
+          //                       this.previewData =
+          //                           searchArticleModel.companionArticleList;
+          //                     });
+          //                   },
+          //                 )))),
         ]));
   }
 
