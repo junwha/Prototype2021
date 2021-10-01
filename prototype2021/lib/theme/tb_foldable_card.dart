@@ -47,7 +47,7 @@ class _TBFoldableCardState extends State<TBFoldableCard>
 
   AnimatedSize buildMain() {
     return AnimatedSize(
-      duration: Duration(milliseconds: 200),
+      duration: const Duration(milliseconds: 200),
       curve: Curves.easeIn,
       child: expanded
           ? Container(

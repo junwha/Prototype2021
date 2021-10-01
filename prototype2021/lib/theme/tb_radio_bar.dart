@@ -54,20 +54,20 @@ class _TBRadioBarState extends State<TBRadioBar> {
   }
 
   Row buildRadioButtonTextArea(String minimumText, String maximumText) {
+    TextStyle buttonTextStyle = const TextStyle(
+        fontSize: 14, color: Color(0xff707070), fontWeight: FontWeight.w400);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Text(minimumText,
-            style: TextStyle(
-                fontSize: 14,
-                color: Color(0xff707070),
-                fontWeight: FontWeight.w400)),
-        Text(maximumText,
-            style: TextStyle(
-                fontSize: 14,
-                color: Color(0xff707070),
-                fontWeight: FontWeight.w400),
-            textAlign: TextAlign.right)
+        Text(
+          minimumText,
+          style: buttonTextStyle,
+        ),
+        Text(
+          maximumText,
+          style: buttonTextStyle,
+          textAlign: TextAlign.right,
+        )
       ],
     );
   }
