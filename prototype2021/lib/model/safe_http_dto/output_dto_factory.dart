@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/dto/plan/plan_preview.dart';
+import 'package:prototype2021/data/dto/plan/plan_dto.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/get/contents.dart';
 import 'package:prototype2021/model/safe_http_dto/get/plan.dart';
@@ -23,6 +23,7 @@ final _factories = <Type, SafeHttpDataOutput Function(Map<String, dynamic>)>{
   ContentsWishlistOutput: (json) => ContentsWishlistOutput.fromJson(json: json),
   ContentsDetailOutput: (json) => ContentsDetailOutput.fromJson(json: json),
   PlanListOutput: (json) => PlanListOutput.fromJson(json: json),
+  PlanDetailOutput: (json) => PlanDetailOutput.fromJson(json: json),
   // This key-value pair is for test purpose
   ExampleOutput: (json) => ExampleOutput.fromJson(json: json),
 };

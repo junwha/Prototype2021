@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:prototype2021/data/dto/plan/plan_preview.dart';
+import 'package:prototype2021/data/dto/plan/plan_dto.dart';
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/get/plan.dart';
@@ -35,7 +35,6 @@ class PlanLoader {
   }
 
   Future<List<PlanPreview>> getPlanList(String token) async {
-    print(planListUrl);
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -59,6 +58,19 @@ class PlanLoader {
     return [];
   }
 
+  Future<PlanDetail> getPlanDetail({required int id, String? token}) async {
+    PlanDetailInput params = PlanDetailInput(id);
+    SafeQueryInput<PlanDetailInput> dto = SafeQueryInput<PlanDetailInput>(
+        params: params, url: planDetailUrl, token: token);
+    SafeQueryOutput<PlanDetailOutput> result = await planDetail(dto);
+
+    if (result.success) {
+      return result.data!.result;
+    }
+
+    print(result.error!.message);
+    throw NullThrownError();
+  }
   // Fetching Functions
 
   Future<SafeMutationOutput<PlanHeartOutput>> planHeart(
@@ -68,10 +80,15 @@ class PlanLoader {
   Future<SafeQueryOutput<PlanListOutput>> planList(
           SafeQueryInput<PlanListInput> dto) async =>
       await safeGET<PlanListInput, PlanListOutput>(dto);
+
+  Future<SafeQueryOutput<PlanDetailOutput>> planDetail(
+          SafeQueryInput<PlanDetailInput> dto) async =>
+      await safeGET<PlanDetailInput, PlanDetailOutput>(dto);
   // Endpoints
 
   String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
   String planListUrl = "$apiBaseUrl/plans";
+  String planDetailUrl = "$apiBaseUrl/plans/:id";
 
   PlanLoader(PlanLoaderMode mode) {
     if (mode == PlanLoaderMode.board) {

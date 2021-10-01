@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/location_data.dart';
+import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/model/contents_dto/content_preview.dart';
 
@@ -45,14 +46,22 @@ class PlanPreview extends PlanProps {
 
 class PlanDetail extends PlanProps {
   final bool? hearted;
-  final List<dynamic> contents; // cid and memo
+  final List<List<dynamic>> contents; // day -> cid and memo
+  final UserData userData;
 
+  //user
   PlanDetail.fromJson({required Map<String, dynamic> json})
       : hearted = json["hearted"],
         contents = (json["contents"] as List<dynamic>)
-            .map((entry) => entry["type"] == "C"
-                ? entry["data"] as int
-                : entry["data"] as String)
+            .map((day) => (day as List<dynamic>)
+                .map(
+                  (entry) => entry["type"] == "C"
+                      ? int.parse(entry["data"])
+                      : entry["data"] as String,
+                )
+                .toList())
             .toList(),
+        userData = UserData(json["user"]["id"], json["user"]["name"],
+            null), // TODO: 유저 모델 수정 필요
         super.fromJson(json: json);
 }
