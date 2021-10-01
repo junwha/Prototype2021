@@ -35,29 +35,23 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   late PlanDataProps planData;
 
   // Flatten the place data double list
-  late List<PlaceDataProps> flattenPlaceData;
   late PlanMapModel mapModel;
 
-  void loadPlanDetail() async {
+  Future<void> loadPlanDetail() async {
     planData = getPlanDetail(this.widget.pid);
-    isLoaded = true;
+    mapModel = PlanMapModel(planData.planItemList[0][0].location);
+    // Update PlaceData and polyline when map is completely loaded
+    mapModel.setMapLoadListener(
+        () => {mapModel.updatePlaceData(planData.planItemList)});
+    setState(() {
+      isLoaded = true;
+    });
   }
 
   @override
   void initState() {
-    loadPlanDetail();
-    // Flatten the place data double list
-    flattenPlaceData = planData.planItemList.fold<List<PlaceDataProps>>(
-        <PlaceDataProps>[], (previousValue, element) {
-      previousValue.addAll(element);
-      return previousValue;
-    });
-    // Remove non-PlaceData
-    flattenPlaceData.removeWhere((element) => !(element is PseudoPlaceData));
-    mapModel = PlanMapModel(flattenPlaceData[0].location);
-    mapModel
-        .setMapLoadListener(() => {mapModel.updatePolyline(flattenPlaceData)});
     super.initState();
+    loadPlanDetail();
   }
 
   /* =================================/=============================== */
