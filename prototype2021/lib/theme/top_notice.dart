@@ -36,7 +36,7 @@ class _TopNoticeSlider extends State<TopNoticeSlider> {
                   SizedBox(
                     width: 10,
                   ),
-                  Image.asset("assets/icons/message_outlined.png"),
+                  Image.asset("assets/icons/ic_hbg_megaphone.png"),
                   SizedBox(
                     width: 7,
                   ),

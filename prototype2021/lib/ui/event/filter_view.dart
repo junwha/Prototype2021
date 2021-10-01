@@ -157,85 +157,20 @@ class _FilterViewState extends State<FilterView> {
               SizedBox(
                 height: 15,
               ),
-              buildMainText("여행 피로도"),
+              buildRadioArea("여행 피로도", selectedRadio1, (int? val) {
+                setState(() {
+                  selectedRadio1 = val!;
+                });
+              }, '여유롭고 \n느긋한 여행', "바쁘더라도\n알찬 여행"),
+
               SizedBox(
                 height: 20,
               ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    height: 2,
-                    width: 300,
-                    color: Color(0xffbdbdbd),
-                  ),
-                  TBRadioBar(
-                    selectedRadio: selectedRadio1,
-                    onChanged: (int? val) {
-                      // Changes the selected value on 'onChanged' click on each radio button
-                      setState(() {
-                        selectedRadio1 = val!;
-                      });
-                    },
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 9,
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    '여유롭고 \n느긋한 여행',
-                    style: TextStyle(
-                      color: Color(0xff707070),
-                      fontSize: 14,
-                      fontFamily: 'Roboto',
-                    ),
-                  ), // 바쁘더라도 알찬 여행
-                  Text("바쁘더라도\n알찬 여행",
-                      style: const TextStyle(
-                          color: const Color(0xff707070),
-                          fontWeight: FontWeight.w400,
-                          fontFamily: "Roboto",
-                          fontStyle: FontStyle.normal,
-                          fontSize: 14.0),
-                      textAlign: TextAlign.right)
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              buildMainText('여행 경비'),
-              SizedBox(
-                height: 20,
-              ),
-              Stack(
-                alignment: Alignment.center,
-                children: [
-                  SizedBox(
-                    height: 30,
-                  ),
-                  Container(
-                    height: 2,
-                    width: 300,
-                    color: Color(0xffbdbdbd),
-                  ),
-                  TBRadioBar(
-                    selectedRadio: selectedRadio2,
-                    onChanged: (int? val) {
-                      // Changes the selected value on 'onChanged' click on each radio button
-                      setState(() {
-                        selectedRadio2 = val!;
-                      });
-                    },
-                  ),
-                ],
-              ),
+              buildRadioArea("여행 경비", selectedRadio2, (int? val) {
+                setState(() {
+                  selectedRadio2 = val!;
+                });
+              }, '불편해도 \n저렴한 여행', "비싸더라도 \n편안한 여행"),
             ],
           ),
         ));
@@ -307,5 +242,59 @@ class _FilterViewState extends State<FilterView> {
             fontStyle: FontStyle.normal,
             fontSize: 18.0),
         textAlign: TextAlign.left);
+  }
+
+  Column buildRadioArea(String title, int selectedRadio,
+      Function(int?) onChanged, String minimum, String maximum) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        buildMainText(title),
+        SizedBox(
+          height: 20,
+        ),
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 2,
+              width: 300,
+              color: Color(0xffbdbdbd),
+            ),
+            TBRadioBar(
+              selectedRadio: selectedRadio,
+              onChanged: onChanged,
+            ),
+          ],
+        ),
+        SizedBox(
+          height: 9,
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              minimum,
+              style: TextStyle(
+                color: Color(0xff707070),
+                fontSize: 14,
+                fontFamily: 'Roboto',
+              ),
+            ), // 바쁘더라도 알찬 여행
+            Text(maximum,
+                style: const TextStyle(
+                    color: const Color(0xff707070),
+                    fontWeight: FontWeight.w400,
+                    fontFamily: "Roboto",
+                    fontStyle: FontStyle.normal,
+                    fontSize: 14.0),
+                textAlign: TextAlign.right)
+          ],
+        ),
+      ],
+    );
   }
 }
