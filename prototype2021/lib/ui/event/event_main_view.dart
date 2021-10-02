@@ -24,7 +24,11 @@ class EventMainView extends StatefulWidget {
   _EventMainViewState createState() => _EventMainViewState();
 }
 
-class _EventMainViewState extends State<EventMainView> with EventFilter {
+class _EventMainViewState extends State<EventMainView>
+    with EventFilter<EventMainView> {
+  // ------------------------------------------------------------------------------------- //
+  // -------------------------------------- State -------------------------------------- //
+  // ------------------------------------------------------------------------------------- //
   List<String> images = [
     'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
@@ -33,6 +37,7 @@ class _EventMainViewState extends State<EventMainView> with EventFilter {
   double image_index = 0;
   bool isAllList = false;
 
+  // Event/Companion Filters
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
   Map<Gender, bool> isGenderSelected = {
     Gender.MALE: true,
@@ -43,6 +48,9 @@ class _EventMainViewState extends State<EventMainView> with EventFilter {
   DateTimeRange dateRange = DateTimeRange(
       start: DateTime.now(), end: DateTime.now().add(Duration(days: 7)));
 
+  // ------------------------------------------------------------------------------------- //
+  // -------------------------------------- Widgets -------------------------------------- //
+  // ------------------------------------------------------------------------------------- //
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,33 +207,7 @@ class _EventMainViewState extends State<EventMainView> with EventFilter {
             ],
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            IconButton(
-              onPressed: () {
-                tbShowDialog(context,
-                    StatefulBuilder(builder: (context, setState) {
-                  return buildFilterView(
-                      isGenderSelected,
-                      (Gender gender) {
-                        setState(() {
-                          isGenderSelected[gender] = !isGenderSelected[gender]!;
-                        });
-                      },
-                      ageRange,
-                      (RangeValues values) {
-                        setState(() {
-                          ageRange = values;
-                        });
-                      },
-                      dateRange,
-                      (DateTimeRange range) {
-                        setState(() {
-                          dateRange = range;
-                        });
-                      });
-                }));
-              },
-              icon: Image.asset("assets/icons/ic_filter_gray.png"),
-            ),
+            buildFilterButton(),
             IconButton(
               icon: Image.asset(
                 "assets/icons/editor.png",
@@ -248,6 +230,37 @@ class _EventMainViewState extends State<EventMainView> with EventFilter {
           ]),
         ],
       ),
+    );
+  }
+
+  /// 이벤트 / 동행찾기의 필터 뷰를 구성하는 버튼
+  /// Filter 관련 State를 mixin에 주입하여 사용
+  IconButton buildFilterButton() {
+    return IconButton(
+      onPressed: () {
+        tbShowDialog(context, StatefulBuilder(builder: (context, setState) {
+          return buildFilterView(
+              isGenderSelected,
+              (Gender gender) {
+                setState(() {
+                  isGenderSelected[gender] = !isGenderSelected[gender]!;
+                });
+              },
+              ageRange,
+              (RangeValues values) {
+                setState(() {
+                  ageRange = values;
+                });
+              },
+              dateRange,
+              (DateTimeRange range) {
+                setState(() {
+                  dateRange = range;
+                });
+              });
+        }));
+      },
+      icon: Image.asset("assets/icons/ic_filter_gray.png"),
     );
   }
 

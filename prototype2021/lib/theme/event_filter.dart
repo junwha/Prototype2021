@@ -5,7 +5,8 @@ import 'package:prototype2021/theme/tb_drop_down_button.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
 
-mixin EventFilter on State<EventMainView> {
+/// 이벤트 필터 뷰를 구성하는
+mixin EventFilter<T extends StatefulWidget> on State<T> {
   Widget buildFilterView(
     Map<Gender, bool> isGenderSelected,
     Function(Gender) genderSetter,
@@ -60,6 +61,7 @@ mixin EventFilter on State<EventMainView> {
     );
   }
 
+  /// build gender select buttons with gender setter
   Row buildGenderSelector(
       Map<Gender, bool> isGenderSelected, Function(Gender) genderSetter) {
     return Row(
@@ -121,6 +123,7 @@ mixin EventFilter on State<EventMainView> {
     );
   }
 
+  /// this texts are placed with space between
   Widget buildSliderText(String start, String end) {
     TextStyle sliderTextStyle = TextStyle(
       color: Color(0xff707070),
@@ -142,6 +145,7 @@ mixin EventFilter on State<EventMainView> {
     );
   }
 
+  /// Select DateTimeRange with OutliendButton
   Widget buildDateSelector(
       DateTimeRange dateRange, Function(DateTimeRange) dateRangeSetter) {
     return Row(
