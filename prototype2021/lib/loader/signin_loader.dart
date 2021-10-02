@@ -7,7 +7,7 @@ import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
 import 'package:prototype2021/model/safe_http_dto/post/authentication.dart';
 import 'package:prototype2021/model/safe_http_dto/post/login.dart';
-import 'package:prototype2021/model/signin_model.dart';
+import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
 
