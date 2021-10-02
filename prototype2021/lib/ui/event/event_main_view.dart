@@ -168,7 +168,7 @@ class _EventMainViewState extends State<EventMainView> {
         children: [
           Row(
             children: [
-              SelectableTextButton(
+              TBSelectableTextButton(
                   titleName: "내 주변 이벤트",
                   isChecked: articleModel.articleType == ArticleType.EVENT,
                   onPressed: () {
@@ -177,7 +177,7 @@ class _EventMainViewState extends State<EventMainView> {
                     });
                   }),
               SizedBox(width: 10),
-              SelectableTextButton(
+              TBSelectableTextButton(
                   titleName: "동행찾기",
                   isChecked: articleModel.articleType == ArticleType.COMPANION,
                   onPressed: () {
@@ -187,7 +187,6 @@ class _EventMainViewState extends State<EventMainView> {
                   }),
             ],
           ),
-
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             IconButton(
               onPressed: () {

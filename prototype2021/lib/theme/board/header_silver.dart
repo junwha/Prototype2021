@@ -71,7 +71,7 @@ mixin BoardMainSilverMixin {
           children: List.generate(titleNames.length * 2 - 1, (index) {
         int titleNameIndex = index ~/ 2;
         return index % 2 == 0
-            ? SelectableTextButton(
+            ? TBSelectableTextButton(
                 isChecked: titleNameIndex == focusedIndex,
                 titleName: titleNames[titleNameIndex],
                 onPressed: () {},

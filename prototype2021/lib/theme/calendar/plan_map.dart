@@ -26,8 +26,9 @@ class _PlanMapState extends State<PlanMap> {
             onMapCreated: (GoogleMapController controller) {
               model.mapController = controller;
             },
-            polylines:
-                model.polyline != null ? <Polyline>{model.polyline!} : null,
+            polylines: model.polyline != null
+                ? <Polyline>{model.polyline!}
+                : Set<Polyline>(),
             zoom: 13,
           ),
         ),

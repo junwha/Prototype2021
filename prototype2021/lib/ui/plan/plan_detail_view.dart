@@ -5,7 +5,6 @@ import 'package:prototype2021/model/map/plan_map_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/calendar/plan_map.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/cards/contents_card_base.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_foldable_card.dart';
 import 'package:prototype2021/theme/tb_radio_bar.dart';
@@ -232,7 +231,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     return Column(
         children: placeList.map((data) {
       if (data is MemoData) {
-        return ContentsCard(
+        return ContentsCard.fromProps(
           props: ContentsCardBaseProps(
             backgroundColor: Colors.white,
             preview: placeHolder,
@@ -242,13 +241,11 @@ class _PlanDetailViewState extends State<PlanDetailView> {
             rating: 0,
             ratingNumbers: 0,
             tags: [],
-            isHeartSelected: false,
-            onHeartPreessed: (bool isSelected) {},
           ),
         );
       } else if (data is PseudoPlaceData) {
         PseudoPlaceData placeData = data;
-        return ContentsCard(
+        return ContentsCard.fromProps(
           props: ContentsCardBaseProps(
             backgroundColor: Colors.white,
             preview: placeHolder,
@@ -258,8 +255,6 @@ class _PlanDetailViewState extends State<PlanDetailView> {
             rating: 5,
             ratingNumbers: 34,
             tags: ["액티비티", "관광명소", "인생사진"],
-            isHeartSelected: true,
-            onHeartPreessed: (bool isSelected) {},
           ),
         );
       }
