@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/model/user_info_model.dart';
+import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/board/app_bar.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
 import 'package:prototype2021/theme/board/helpers.dart';
@@ -13,6 +14,7 @@ import 'package:prototype2021/theme/board/stream_list.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
 import 'package:prototype2021/theme/center_notice.dart';
+import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
@@ -142,6 +144,51 @@ class _BoardMainViewState extends State<BoardMainView>
   void initState() {
     super.initState();
     initData();
+  }
+
+  SingleChildScrollView buildFilterBar() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          TBSelectableTextButton(
+            isChecked: true,
+            titleName: "모두보기",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "여행지",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "카페",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "음식점",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "숙소",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "기타",
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
   }
 
   @override

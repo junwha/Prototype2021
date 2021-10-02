@@ -2,11 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/model/map/tb_map_model.dart';
 import 'package:prototype2021/theme/map/plan_marker.dart';
 
 class PlanMapModel extends TBMapModel {
+  List<List<PlaceDataProps>> placeItemsPerDay = [];
+  int day = 1;
+
   List<LatLng> get _polylinePoints =>
       this.locations.map((l) => l.latLng).toList();
 
@@ -26,12 +30,41 @@ class PlanMapModel extends TBMapModel {
   // Initialize TBMapModel with PlanMarker
   PlanMapModel(LatLng center) : super(center, markerList: PlanMarker());
 
-  /*
-   * This method updates polyline data with placeItems from outer model
-   * Please add this method as another model's notifier 
-   * Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
-   */
-  void updatePolyline(List<PlaceDataProps> placeItems) async {
+  /// Please add this method as another model's notifier
+  /// Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
+  /// This method updates placeItems and call updatePolyline so that the map can be reloaded with new data
+  void updatePlaceData(List<List<PlaceDataProps>> placeItemsPerDay) {
+    print(placeItemsPerDay.length);
+    // Copy PlaceData
+    this.placeItemsPerDay = List.generate(
+        placeItemsPerDay.length, (index) => List.from(placeItemsPerDay[index]));
+
+    // Remove non-PlaceData
+    this.placeItemsPerDay = placeItemsPerDay.map((placeDataList) {
+      placeDataList.removeWhere((element) => !(element is PseudoPlaceData));
+      return placeDataList;
+    }).toList();
+
+    _updatePolyline();
+    notifyListeners();
+  }
+
+  /// change the day of markers which are included in placeItemsPerDay
+  void setDay(int day) {
+    if (day <= placeItemsPerDay.length) {
+      this.day = day;
+      _updatePolyline();
+      notifyListeners();
+    }
+  }
+
+  // This private method update the map with its given day and placeItems
+  void _updatePolyline() {
+    this.updateLocations([]);
+    if (placeItemsPerDay.length == 0) return;
+
+    List<PlaceDataProps> placeItems = placeItemsPerDay[day - 1];
+
     if (mapLoaded) {
       // Update Marker with data of placeItems
       this.updateLocations(placeItems.map((e) => IndexLocation(
