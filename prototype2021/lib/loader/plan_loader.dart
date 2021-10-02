@@ -87,11 +87,24 @@ class PlanLoader {
     return false;
   }
 
+  /// data로부터 json을 구성해 플랜을 생성하고, 성공 여부를 반환한다.
   Future<bool> createPlan(String token, PlanData data) async {
     PlanCreateInput planInputData = PlanCreateInput(data);
     SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
         data: planInputData, url: planGeneralUrl, token: token);
     SafeMutationOutput<PlanCreateOutput> result = await planCreate(dto);
+    if (result.success) return true;
+
+    return false;
+  }
+
+  /// data로부터 json을 구성해 플랜을 수정하고, 성공 여부를 반환한다.
+  /// **컨텐츠는 수정 불가능!
+  Future<bool> editPlan(String token, PlanData data) async {
+    PlanCreateInput planInputData = PlanCreateInput(data);
+    SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
+        data: planInputData, url: planGeneralUrl, token: token);
+    SafeMutationOutput<PlanCreateOutput> result = await planEdit(dto);
     if (result.success) return true;
 
     return false;
@@ -112,9 +125,13 @@ class PlanLoader {
   Future<SafeQueryOutput<PlanDeleteOutput>> planDelete(
           SafeQueryInput<PlanIdInput> dto) async =>
       await safeDELETE<PlanIdInput, PlanDeleteOutput>(dto);
+
   Future<SafeMutationOutput<PlanCreateOutput>> planCreate(
           SafeMutationInput<PlanCreateInput> dto) async =>
       await safePOST(dto);
+  Future<SafeMutationOutput<PlanCreateOutput>> planEdit(
+          SafeMutationInput<PlanCreateInput> dto) async =>
+      await safePatch(dto);
 
   // Endpoints
   String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
