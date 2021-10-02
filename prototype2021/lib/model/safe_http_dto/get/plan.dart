@@ -1,4 +1,5 @@
 import 'package:prototype2021/data/dto/plan/plan_dto.dart';
+import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/common.dart';
 
@@ -48,5 +49,35 @@ class PlanDetailOutput extends SafeHttpDataOutput {
 class PlanDeleteOutput extends SafeHttpDataOutput {
   final int id;
   PlanDeleteOutput.fromJson({required Map<String, dynamic> json})
+      : id = json["id"];
+}
+
+/*---------------- Plan Create ----------------*/
+class PlanCreateInput extends SafeHttpDataInput {
+  final PlanData data;
+  PlanCreateInput(this.data);
+
+  Map<String, dynamic>? toJson() => {
+        "title": data.title,
+        "contents": data.contents
+            .map((day) => day
+                .map((item) =>
+                    item is MemoData ? "M:" + item.memo : "C" + item.placeId)
+                .toList())
+            .toList(),
+        "area_code": data.area,
+        "photo_url": data.photo,
+        "type": data.types,
+        "expenses": data.expense,
+        "expense_style": data.expense_style,
+        "fatigue_style": data.fatigue_style,
+      };
+
+  Map<String, String>? getUrlParams() => null;
+}
+
+class PlanCreateOutput extends SafeHttpDataOutput {
+  final int id;
+  PlanCreateOutput.fromJson({required Map<String, dynamic> json})
       : id = json["id"];
 }

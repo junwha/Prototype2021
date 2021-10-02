@@ -45,16 +45,16 @@ class PlanLoader {
     PlanListInput params = PlanListInput();
 
     SafeQueryInput<PlanListInput> dto = SafeQueryInput<PlanListInput>(
-        params: params, url: planListUrl, token: token);
+        params: params, url: planGeneralUrl, token: token);
     SafeQueryOutput<PlanListOutput> result = await planList(dto);
 
     if (result.success) {
       if (result.data!.next != null) {
-        planListUrl = result.data!.next!
+        planGeneralUrl = result.data!.next!
             .replaceFirst("tbserver:8000", "api.tripbuilder.co.kr");
         pagination = PaginationState.mid;
       } else {
-        planListUrl = "";
+        planGeneralUrl = "";
         pagination = PaginationState.end;
       }
       return result.data!.results;
@@ -87,6 +87,16 @@ class PlanLoader {
     return false;
   }
 
+  Future<bool> createPlan(String token, PlanData data) async {
+    PlanCreateInput planInputData = PlanCreateInput(data);
+    SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
+        data: planInputData, url: planGeneralUrl, token: token);
+    SafeMutationOutput<PlanCreateOutput> result = await planCreate(dto);
+    if (result.success) return true;
+
+    return false;
+  }
+
   // Fetching Functions
   Future<SafeMutationOutput<PlanHeartOutput>> planHeart(
           SafeMutationInput<PlanHeartInput> dto) async =>
@@ -102,10 +112,13 @@ class PlanLoader {
   Future<SafeQueryOutput<PlanDeleteOutput>> planDelete(
           SafeQueryInput<PlanIdInput> dto) async =>
       await safeDELETE<PlanIdInput, PlanDeleteOutput>(dto);
+  Future<SafeMutationOutput<PlanCreateOutput>> planCreate(
+          SafeMutationInput<PlanCreateInput> dto) async =>
+      await safePOST(dto);
 
   // Endpoints
   String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
-  String planListUrl = "$apiBaseUrl/plans";
+  String planGeneralUrl = "$apiBaseUrl/plans";
   String planIdUrl = "$apiBaseUrl/plans/:id";
 
   /// Pagination을 위한 인스턴스 생성 지원
@@ -114,11 +127,11 @@ class PlanLoader {
   /// PlanLoaderMode.mylist: 내가 쓴 플랜 Pagination
   PlanLoader.withMode(PlanLoaderMode mode) {
     if (mode == PlanLoaderMode.board) {
-      planListUrl = "$apiBaseUrl/plans";
+      planGeneralUrl = "$apiBaseUrl/plans";
     } else if (mode == PlanLoaderMode.mylist) {
-      planListUrl = "$apiBaseUrl/plans/mylist/";
+      planGeneralUrl = "$apiBaseUrl/plans/mylist/";
     } else if (mode == PlanLoaderMode.wishlist) {
-      planListUrl = "$apiBaseUrl/plans/wishlists/";
+      planGeneralUrl = "$apiBaseUrl/plans/wishlists/";
     }
   }
 
