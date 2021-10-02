@@ -88,6 +88,7 @@ Future<SafeQueryOutput<O>>
   bool fromBytes = false,
 ]) async {
   try {
+    print(dto.getUrlWithParams());
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
     if (res.statusCode == expectedCode) {

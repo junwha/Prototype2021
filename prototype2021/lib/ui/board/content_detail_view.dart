@@ -1,7 +1,4 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
-import 'package:dots_indicator/dots_indicator.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/model/contents_dto/content_detail.dart';
@@ -12,14 +9,9 @@ import 'package:prototype2021/theme/board/contents_detail/body_event.dart';
 import 'package:prototype2021/theme/board/contents_detail/header.dart';
 import 'package:prototype2021/theme/board/contents_detail/helpers.dart';
 import 'package:prototype2021/theme/center_notice.dart';
-import 'package:prototype2021/theme/heart_button.dart';
 import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 import 'package:provider/provider.dart';
-import 'package:prototype2021/ui/event/editor_view.dart';
-import 'package:prototype2021/ui/event/event_detail_view.dart';
-import 'package:prototype2021/theme/cards/timer_card.dart';
-import 'package:prototype2021/settings/constants.dart';
 
 int _testCid = 128022;
 
