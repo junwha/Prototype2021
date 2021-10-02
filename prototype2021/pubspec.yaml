@@ -47,7 +47,7 @@ dependencies:
   # Current location
   geolocator: ^7.2.0+1
   
-  image_picker: ^0.8.2
+  image_picker: ^0.8.4
 
   # Geodesy
   geodesy: 0.4.0-nullsafety.0
