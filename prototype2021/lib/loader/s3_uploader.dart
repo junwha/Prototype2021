@@ -8,21 +8,29 @@ import 'dart:io';
 class S3Uploader {
   /// This method upload image to S3 Server, and get the url of the image
   /// Call this method carefully! it consumes S3 Server resources.
-  static Future<String> uploadToS3AndGetUrl(File file) async {
+  static Future<String> uploadToS3AndGetUrl(File file, String fileName) async {
     SimpleS3 simpleS3 = SimpleS3();
     String result = await simpleS3.uploadFile(
       file,
       S3_BUCKET_NAME,
       S3_POOL_ID,
       AWSRegions.apNorthEast2,
+      fileName: fileName,
     );
 
     return result;
   }
 
+  static Future<String> uploadToS3AndGetUrlFromAssets(
+      String path, String fileName,
+      {String prefix = "assets/images/"}) async {
+    return uploadToS3AndGetUrl(
+        await _getFileFromAssets(path, prefix), fileName);
+  }
+
   /// Get File Instance from Assets
-  static Future<File> _getFileFromAssets(String path) async {
-    final byteData = await rootBundle.load('assets/images/$path');
+  static Future<File> _getFileFromAssets(String path, String prefix) async {
+    final byteData = await rootBundle.load('$prefix$path');
 
     final file = File('${(await getTemporaryDirectory()).path}/$path');
     await file.writeAsBytes(byteData.buffer
