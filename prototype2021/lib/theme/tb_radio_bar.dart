@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 
+/*
+ * It's width must be 350
+ */
 class TBRadioBar extends StatefulWidget {
   int selectedRadio = 0;
   Function(int?) onChanged;
-
-  TBRadioBar({required this.selectedRadio, required this.onChanged});
+  String minimumText;
+  String maximumText;
+  TBRadioBar(
+      {required this.selectedRadio,
+      required this.onChanged,
+      required this.minimumText,
+      required this.maximumText});
 
   @override
   _TBRadioBarState createState() => _TBRadioBarState();
@@ -13,20 +21,58 @@ class TBRadioBar extends StatefulWidget {
 class _TBRadioBarState extends State<TBRadioBar> {
   @override
   Widget build(BuildContext context) {
-    return ButtonBar(
-      mainAxisSize: MainAxisSize.max,
-      alignment: MainAxisAlignment.spaceBetween,
-      children: <Widget>[
-        buildRadio(context, 1),
-        buildRadio(context, 2),
-        buildRadio(context, 3),
-        buildRadio(context, 4),
-        buildRadio(context, 5),
+    return Column(
+      children: [
+        Stack(
+          alignment: Alignment.center,
+          children: [
+            SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 2,
+              width: 350,
+              color: Color(0xffbdbdbd),
+            ),
+            ButtonBar(
+              mainAxisSize: MainAxisSize.max,
+              alignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                buildRadio(context, 1),
+                buildRadio(context, 2),
+                buildRadio(context, 3),
+                buildRadio(context, 4),
+                buildRadio(context, 5),
+              ],
+            ),
+          ],
+        ),
+        buildRadioButtonTextArea(
+            this.widget.minimumText, this.widget.maximumText),
       ],
     );
   }
 
-  Container buildRadio(BuildContext context, int value) {
+  Row buildRadioButtonTextArea(String minimumText, String maximumText) {
+    TextStyle buttonTextStyle = const TextStyle(
+        fontSize: 14, color: Color(0xff707070), fontWeight: FontWeight.w400);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          minimumText,
+          style: buttonTextStyle,
+        ),
+        Text(
+          maximumText,
+          style: buttonTextStyle,
+          textAlign: TextAlign.right,
+        )
+      ],
+    );
+  }
+
+  Widget buildRadio(BuildContext context, int value) {
     return Container(
       width: 30,
       height: 30,

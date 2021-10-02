@@ -7,6 +7,8 @@ class CustomTextField extends StatefulWidget {
   final int maxLine;
   final bool isPasswordField;
   final bool onError;
+  final Widget? extraActionsWidget;
+  final bool disabled;
 
   CustomTextField({
     required this.hintText,
@@ -15,6 +17,8 @@ class CustomTextField extends StatefulWidget {
     this.maxLine = 1,
     this.isPasswordField = false,
     this.onError = false,
+    this.extraActionsWidget,
+    this.disabled = false,
   });
 
   @override
@@ -65,6 +69,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             obscureText: this.widget.isPasswordField ? this.isObscure : false,
             keyboardType: TextInputType.multiline,
             enableInteractiveSelection: false,
+            readOnly: this.widget.disabled,
           ),
         ),
         Container(
@@ -73,7 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              this.widget.isPasswordField
+              widget.isPasswordField
                   ? IconButton(
                       icon: Image.asset(
                         'assets/icons/ic_eye_gray.png',
@@ -94,6 +99,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       _controller!.clear();
                     });
                   }),
+              widget.extraActionsWidget ?? SizedBox()
             ],
           ),
         )

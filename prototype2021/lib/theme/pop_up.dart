@@ -1,6 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 
+void tbShowTextDialog(BuildContext context, String content) {
+  tbShowDialog(
+      context,
+      TBSimpleDialog(
+        title: "알림",
+        body: Text(content,
+            style: const TextStyle(
+                color: const Color(0xbf707070),
+                fontWeight: FontWeight.w400,
+                fontFamily: "Roboto",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.center),
+        isBackEnabled: false,
+      ));
+}
+
 void tbShowDialog(BuildContext context, Widget dialog) {
   showDialog(
       context: context,
