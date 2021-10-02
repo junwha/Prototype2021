@@ -28,7 +28,7 @@ class MarkerList {
     try {
       markerIconMap[PlaceType.DEFAULT] =
           await MarkerImage.createIcon('assets/images/map/marker.png', 100);
-      markerIconMap[PlaceType.CAFFEE] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.CAFE] = await MarkerImage.createIcon(
           'assets/images/map/caffee_marker.png', 100);
       markerIconMap[PlaceType.RESTAURANT] = await MarkerImage.createIcon(
           'assets/images/map/restaurant_marker.png', 100);
@@ -37,6 +37,7 @@ class MarkerList {
 
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
@@ -60,7 +61,8 @@ class MarkerList {
   /*
   * Add new marker on the location
   */
-  void addMarker(Location location, {bool clickable = true}) {
+  void addMarker(Location location,
+      {bool clickable = true, BitmapDescriptor? externalMarkerIcon}) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -74,8 +76,10 @@ class MarkerList {
     // _markerIdCounter++;
     // final MarkerId markerId = MarkerId(markerIdVal);
 
-    BitmapDescriptor markerIcon = markerIconMap[PlaceType.DEFAULT]!;
-    if (markerIconMap.containsKey(location.type)) {
+    BitmapDescriptor markerIcon =
+        externalMarkerIcon ?? markerIconMap[PlaceType.DEFAULT]!;
+    if (externalMarkerIcon == null &&
+        markerIconMap.containsKey(location.type)) {
       markerIcon = markerIconMap[location.type]!;
     }
     //Create Marker
@@ -114,10 +118,10 @@ class MarkerList {
   * Change focus with Location
   */
   void changeFocus(Location? location) {
-    if (location != null) {
+    if (location != null && markers.keys.contains(location)) {
       this.focusedLocation = location;
       print(location.latLng);
-    } else {
+    } else if (location == null) {
       this.focusedLocation = null;
     }
   }
@@ -128,8 +132,13 @@ class MarkerImage {
   * Return marker icon from asset path
   */
   static Future<BitmapDescriptor> createIcon(String path, int size) async {
-    Uint8List bytes = await getBytesFromAsset(path, size);
-    return BitmapDescriptor.fromBytes(bytes);
+    try {
+      Uint8List bytes = await getBytesFromAsset(path, size);
+      return BitmapDescriptor.fromBytes(bytes);
+    } catch (e) {
+      // print(e);
+      return BitmapDescriptor.defaultMarker;
+    }
   }
 
   /*

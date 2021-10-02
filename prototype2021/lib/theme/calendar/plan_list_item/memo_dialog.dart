@@ -19,12 +19,10 @@ mixin PlanListItemMemoDialogMixin {
             ),
             onBackPressed: () {
               setText("");
-              Navigator.pop(context);
             },
             onSubmitPressed: () {
               createMemo();
               setText("");
-              Navigator.pop(context);
             },
           );
         });

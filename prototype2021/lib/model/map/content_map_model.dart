@@ -15,7 +15,7 @@ class ContentMapModel extends TBMapModel {
     PlaceType.RESTAURANT: false,
     PlaceType.HOTEL: false,
     PlaceType.SPOT: false,
-    PlaceType.CAFFEE: false,
+    PlaceType.CAFE: false,
   };
 
   late PlaceLoader placeLoader;
@@ -40,13 +40,13 @@ class ContentMapModel extends TBMapModel {
       PlaceType.RESTAURANT: false,
       PlaceType.HOTEL: false,
       PlaceType.SPOT: false,
-      PlaceType.CAFFEE: false,
+      PlaceType.CAFE: false,
     };
     notifyListeners();
   }
 
   /*
-   * Find plcae of point and update clicked location
+   * Find place of point and update clicked location
    */
   Future<void> findPlace(LatLng point) async {
     GooglePlaceData? placeData = await this.placeLoader.getOnePlace(point);

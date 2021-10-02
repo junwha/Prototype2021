@@ -5,6 +5,7 @@ import 'package:prototype2021/theme/map/marker.dart';
 
 class TBMapModel with ChangeNotifier {
   bool mapLoaded = false;
+  Function() mapLoadListener = () {};
 
   LatLng center;
 
@@ -14,7 +15,15 @@ class TBMapModel with ChangeNotifier {
   // If you ensure mapController is initialized, you can use this mapController with ! operator.
   GoogleMapController? mapController;
 
-  TBMapModel(this.center) {
+  /*
+   * Generally, TBMapModel start with its own plain MarkerList.
+   * However, if you have the child implements of MarkerList, inject the MarkerList into this model.
+   */
+  TBMapModel(this.center, {MarkerList? markerList}) {
+    if (markerList != null) {
+      this.markerList = markerList;
+    }
+
     init();
   }
 
@@ -24,12 +33,18 @@ class TBMapModel with ChangeNotifier {
   // Markerized Location Set
   Set<Location> get locations => markerList.markers.keys.toSet();
 
+  void setMapLoadListener(Function() mapLoadListener) {
+    this.mapLoadListener = mapLoadListener;
+  }
+
   /*
    * init() function of TBMapModel loads the marker images when this Object is constructed
    * if you want to override init() function, please call super.init() inside the function.
    */
   void init() async {
     mapLoaded = await markerList.loadImage(); // Load Marker Icons
+    mapLoadListener.call();
+
     notifyListeners();
   }
 

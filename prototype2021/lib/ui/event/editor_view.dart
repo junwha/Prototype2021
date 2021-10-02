@@ -4,12 +4,11 @@ import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/cards/contents_card_base.dart';
+import 'package:prototype2021/theme/editor/event_custom_text_field.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
-import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 class EditorView extends StatefulWidget {
@@ -73,7 +72,8 @@ class _EditorViewState extends State<EditorView> {
                     Container(height: 1, width: 500, color: Colors.grey),
                     Container(
                         height: 61 * pt,
-                        child: CustomTextField(
+                        child: EventCustomTextField(
+                          height: 75,
                           hintText: "제목",
                           onChanged: (String text) {
                             editorModel.title = text;
@@ -87,7 +87,8 @@ class _EditorViewState extends State<EditorView> {
                         width: 500,
                         color: Colors.white,
                         child: SingleChildScrollView(
-                          child: CustomTextField(
+                          child: EventCustomTextField(
+                            height: 300,
                             hintText: "내용을 입력하세요.",
                             onChanged: (String text) {
                               editorModel.content = text;
@@ -420,7 +421,7 @@ class _EditorViewState extends State<EditorView> {
   Widget buildContentsCard(Location? targetLocation) {
     if (targetLocation is GooglePlaceLocation) {
       GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
-      return ContentsCard(
+      return ContentsCard.fromProps(
           props: new ContentsCardBaseProps(
         preview: location.preview,
         title: location.name,
@@ -439,7 +440,7 @@ class _EditorViewState extends State<EditorView> {
     if (this.widget.data == null)
       return Row(
         children: [
-          SelectableTextButton(
+          TBSelectableTextButton(
               titleName: "내 주변 이벤트",
               isChecked: articleType[0],
               onPressed: () {
@@ -450,7 +451,7 @@ class _EditorViewState extends State<EditorView> {
                 });
               }),
           SizedBox(width: 10),
-          SelectableTextButton(
+          TBSelectableTextButton(
               titleName: "동행찾기",
               isChecked: articleType[1],
               onPressed: () {
@@ -467,7 +468,7 @@ class _EditorViewState extends State<EditorView> {
       width: double.maxFinite,
       child: Row(
         children: [
-          SelectableTextButton(
+          TBSelectableTextButton(
             titleName: editorModel.articleType == ArticleType.EVENT
                 ? "내 주변 이벤트"
                 : "동행찾기",

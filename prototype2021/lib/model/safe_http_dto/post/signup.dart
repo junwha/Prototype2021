@@ -1,7 +1,6 @@
 import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
-import 'package:prototype2021/loader/s3_uploader.dart';
+import 'package:prototype2021/model/plan/calendar.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 
 enum Gender { M, F, None }
@@ -93,6 +92,8 @@ class SignupInput extends SafeHttpDataInput {
         dateTime.day < 10 ? "0${dateTime.day}" : dateTime.day.toString();
     return "$year-$month-$day";
   }
+
+  Map<String, String>? getUrlParams() => null;
 }
 
 class SignupOutput extends SafeHttpDataOutput {

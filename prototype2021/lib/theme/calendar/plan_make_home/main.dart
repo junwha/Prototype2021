@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'dart:io' show Platform;
 
-mixin PlanMakeHomeMainMixin on State<PlanMakeHome> {
+mixin PlanMakeHomeMainMixin on State<PlanMakeHomeView> {
   Container buildTopShadowHidingContainer(Color blindContainerColor) {
     return Container(
       child: Stack(children: [

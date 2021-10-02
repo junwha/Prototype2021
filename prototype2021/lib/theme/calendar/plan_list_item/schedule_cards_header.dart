@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/model/calendar.dart';
-import 'package:prototype2021/model/plan_make_calendar_model.dart';
+import 'package:prototype2021/model/plan/calendar.dart';
+import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/memo_dialog.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home.dart';
+import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:provider/provider.dart';
 
@@ -120,8 +120,8 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
         calendarHandler.addPlaceData(dateIndex, new MemoData(memo: _memo));
     PlanListItemState? parent =
         context.findAncestorStateOfType<PlanListItemState>();
-    PlanMakeHomeState? grandParent =
-        context.findAncestorStateOfType<PlanMakeHomeState>();
+    PlanMakeHomeViewState? grandParent =
+        context.findAncestorStateOfType<PlanMakeHomeViewState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
     return Container(
       child: Row(

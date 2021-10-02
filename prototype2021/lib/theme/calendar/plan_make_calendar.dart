@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/calendar.dart';
-import 'package:prototype2021/model/plan_make_calendar_model.dart';
+import 'package:prototype2021/model/plan/calendar.dart';
+import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/bottom_calendar_button.dart';
-import 'package:prototype2021/theme/calendar/plan_make_view_base.dart';
+import 'package:prototype2021/theme/calendar/plan_make_appbar_base.dart';
 import 'package:provider/provider.dart';
 
 const double CalendarHorizontalPadding = 10;
 
-class PlanMakeCalendar extends StatelessWidget with PlanMakeViewBase {
+class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

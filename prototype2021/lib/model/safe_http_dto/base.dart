@@ -76,6 +76,7 @@ class SafeHttpInput {
     newHeaders['Authorization'] = authScheme == AuthScheme.none
         ? token!
         : '${_authSchemes[authScheme]} $token';
+
     return newHeaders;
   }
 

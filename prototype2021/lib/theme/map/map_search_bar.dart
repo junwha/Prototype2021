@@ -44,7 +44,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
             this.widget.leading ?? SizedBox(),
             buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
                 Image.asset("assets/icons/place.png")),
-            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE,
+            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFE,
                 Image.asset("assets/icons/caffe.png")),
             buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT,
                 Image.asset("assets/icons/restaurant.png")),
