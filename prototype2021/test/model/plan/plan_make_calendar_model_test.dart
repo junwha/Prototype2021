@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:geodesy/geodesy.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
