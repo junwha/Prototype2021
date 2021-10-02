@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:prototype2021/loader/s3_uploader.dart';
 import 'package:prototype2021/loader/safe_http.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
@@ -66,6 +67,13 @@ class SigninLoader {
   }
 
   Future<int> requestSignup(SignInModel signInModel) async {
+    String? photoUrl;
+
+    if (signInModel.photo != null) {
+      photoUrl = await S3Uploader.uploadToS3AndGetUrl(
+          File(signInModel.photo!.path), signInModel.username + ".png");
+    }
+
     SignupInput data = new SignupInput(
       username: signInModel.username,
       password: signInModel.password,
@@ -73,7 +81,7 @@ class SigninLoader {
       birth: signInModel.birth,
       name: signInModel.nickname,
       agreeMarketingTerms: signInModel.agreeMarketingTerms,
-      photo: signInModel.photo,
+      photo: photoUrl,
       agreeRequiredTerms: signInModel.agreeRequiredTerms,
       email: signInModel.method == VerificationMethod.Email
           ? signInModel.verifier

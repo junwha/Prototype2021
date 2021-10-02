@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:image_picker/image_picker.dart';
+import 'package:prototype2021/loader/s3_uploader.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 
 enum Gender { M, F, None }
@@ -12,7 +15,7 @@ const GenderStringMapping = <Gender, String>{
 class SignupInput extends SafeHttpDataInput {
   final String username;
   final String password;
-  final XFile? photo;
+  final String? photo;
   final Gender gender;
   final DateTime birth;
   final String? phoneNumber;
@@ -43,6 +46,9 @@ class SignupInput extends SafeHttpDataInput {
       "birth": _formatDateTime(birth),
       "name": name,
     };
+    if (photo != null) {
+      baseMap["photo"] = photo!;
+    }
     /* 
      * Since the Multipart Request's fields part must be a Map<String, String>
      * We send boolean field as string 'true' if it should be true
@@ -71,13 +77,13 @@ class SignupInput extends SafeHttpDataInput {
     return baseMap;
   }
 
-  @override
-  Map<String, XFile>? getFiles() {
-    if (photo == null) return null;
-    return {
-      "photo": photo!,
-    };
-  }
+  // @override
+  // Map<String, XFile>? getFiles() {
+  //   if (photo == null) return null;
+  //   return {
+  //     "photo": photo!,
+  //   };
+  // }
 
   String _formatDateTime(DateTime dateTime) {
     String year = dateTime.year.toString();
