@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/theme/tb_drop_down_button.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
 
@@ -12,8 +14,36 @@ mixin EventFilter on State<EventMainView> {
       padding: EdgeInsets.all(20),
       body: SingleChildScrollView(
         child: Column(
-          children: [buildGenderSelector(isGenderSelected, genderSetter)],
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            buildText("성별"),
+            SizedBox(height: 15),
+            buildGenderSelector(isGenderSelected, genderSetter),
+            SizedBox(height: 20),
+            buildSlider(),
+            SizedBox(height: 20),
+            buildText("나이"),
+            SizedBox(height: 15),
+            buildAgeSelector(),
+          ],
         ),
+      ),
+    );
+  }
+
+  Widget buildSlider() {
+    return Container(
+        width: double.infinity, height: 1, color: Color(0xffe6e6e6));
+  }
+
+  Widget buildText(String text) {
+    return Text(
+      text,
+      style: TextStyle(
+        color: Colors.black,
+        fontSize: 16 * pt,
+        fontFamily: 'Roboto',
+        fontWeight: FontWeight.w700,
       ),
     );
   }
@@ -55,5 +85,9 @@ mixin EventFilter on State<EventMainView> {
         ),
       ),
     );
+  }
+
+  Widget buildAgeSelector() {
+    return Container();
   }
 }
