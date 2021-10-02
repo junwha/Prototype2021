@@ -99,6 +99,9 @@ class SigninLoader {
   }
 
   // Fetching Functions
+  Future<SafeMutationOutput<LoginOutput>> login(
+          SafeMutationInput<LoginInput> dto) async =>
+      await safePOST<LoginInput, LoginOutput>(dto, 200);
 
   Future<SafeQueryOutput<IdVerificationOutput>> idVerification(
           SafeQueryInput<IdVerificationInput> dto) async =>
@@ -119,10 +122,6 @@ class SigninLoader {
   Future<SafeMutationOutput<SignupOutput>> signup(
           SafeMutationInput<SignupInput> dto) async =>
       await safeMultipartPost(dto);
-
-  Future<SafeMutationOutput<LoginOutput>> login(
-          SafeMutationInput<LoginInput> dto) async =>
-      await safePOST<LoginInput, LoginOutput>(dto, 200);
 
   // Endpoints
 

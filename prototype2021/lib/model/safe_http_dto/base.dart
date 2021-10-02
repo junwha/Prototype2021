@@ -118,6 +118,7 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   Map<String, dynamic>? getFiles() => data.getFiles();
   String getJsonString() => jsonEncode(getJson());
 
+
   Uri getUrlWithParams() {
     String urlWithUrlParams = url;
     if (data.getUrlParams() != null) {
