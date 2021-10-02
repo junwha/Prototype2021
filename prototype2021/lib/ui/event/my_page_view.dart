@@ -25,64 +25,34 @@ class MyPage extends StatelessWidget {
         body: SingleChildScrollView(
             child: Column(
           children: [
-            Container(
-                width: double.infinity,
-                height: 85,
-                child: Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "임시 저장한 글",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(68, 68, 68, 1)),
-                      ),
-                    ],
-                  ),
-                )),
-            Container(
-                width: double.infinity,
-                height: 85,
-                child: Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "내가 쓴 글",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(68, 68, 68, 1)),
-                      ),
-                    ],
-                  ),
-                )),
-            Container(
-                width: double.infinity,
-                height: 85,
-                child: Card(
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 50,
-                      ),
-                      Text(
-                        "내가 찜한 글",
-                        style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromRGBO(68, 68, 68, 1)),
-                      ),
-                    ],
-                  ),
-                )),
+            buildCard('임시 저장한 글', () {}),
+            buildCard('내가 쓴 글', () {}),
+            buildCard('내가 찜한 글', () {})
           ],
         )));
+  }
+
+  Container buildCard(
+    String title,
+    Function()? onTap,
+  ) {
+    return Container(
+        width: double.infinity,
+        height: 85,
+        child: Card(
+          child: InkWell(
+            onTap: onTap,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(50, 25, 0, 0),
+              child: Text(
+                title,
+                style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color.fromRGBO(68, 68, 68, 1)),
+              ),
+            ),
+          ),
+        ));
   }
 }

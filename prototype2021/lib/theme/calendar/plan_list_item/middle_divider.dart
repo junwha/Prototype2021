@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
+import 'package:prototype2021/theme/tb_distance_icon.dart';
 import 'package:prototype2021/ui/plan_make_home_view.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:provider/provider.dart';
@@ -79,33 +80,7 @@ class PlanListMiddleDivider extends StatelessWidget with PlanListItemHelper {
     );
   }
 
-  SizedBox buildDistanceIcon() {
-    return SizedBox(
-      key: key,
-      height: 27,
-      child: Stack(children: [
-        Positioned.fill(
-          child: Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              child: Text(distanceWithUnit(distance as num),
-                  style: const TextStyle(
-                      color: const Color(0xff4080ff),
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Roboto",
-                      fontStyle: FontStyle.normal,
-                      fontSize: 11.0),
-                  textAlign: TextAlign.center),
-              decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(7)),
-                  border: Border.all(color: const Color(0xffbbd2ff), width: 1),
-                  color: const Color(0xffffffff)),
-              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-            ),
-          ),
-          top: -5,
-        )
-      ], clipBehavior: Clip.none),
-    );
+  Widget buildDistanceIcon() {
+    return TBDistanceIcon(distance: distance as num);
   }
 }

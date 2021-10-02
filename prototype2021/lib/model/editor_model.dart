@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/event_dto.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
