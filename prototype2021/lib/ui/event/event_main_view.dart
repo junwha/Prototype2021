@@ -39,6 +39,9 @@ class _EventMainViewState extends State<EventMainView> with EventFilter {
     Gender.FEMALE: true,
     Gender.OTHER: true
   };
+  RangeValues ageRange = RangeValues(0, 100);
+  DateTimeRange dateRange = DateTimeRange(
+      start: DateTime.now(), end: DateTime.now().add(Duration(days: 7)));
 
   @override
   Widget build(BuildContext context) {
@@ -200,11 +203,25 @@ class _EventMainViewState extends State<EventMainView> with EventFilter {
               onPressed: () {
                 tbShowDialog(context,
                     StatefulBuilder(builder: (context, setState) {
-                  return buildFilterView(isGenderSelected, (Gender gender) {
-                    setState(() {
-                      isGenderSelected[gender] = !isGenderSelected[gender]!;
-                    });
-                  });
+                  return buildFilterView(
+                      isGenderSelected,
+                      (Gender gender) {
+                        setState(() {
+                          isGenderSelected[gender] = !isGenderSelected[gender]!;
+                        });
+                      },
+                      ageRange,
+                      (RangeValues values) {
+                        setState(() {
+                          ageRange = values;
+                        });
+                      },
+                      dateRange,
+                      (DateTimeRange range) {
+                        setState(() {
+                          dateRange = range;
+                        });
+                      });
                 }));
               },
               icon: Image.asset("assets/icons/ic_filter_gray.png"),
