@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/model/safe_http_dto/output_dto_factory.dart';
 
 const Map<String, String> defaultHeaders = {
@@ -13,9 +15,10 @@ const Map<String, String> defaultHeaders = {
  * Use the method below as a dto for params at get, options, delete, etc...
  * and for fetchnig data at post, put, patch, etc...
  */
-abstract class SafeHttpDataInput {
-  Map<String, dynamic>? toJson();
-  Map<String, String>? getUrlParams();
+class SafeHttpDataInput {
+  Map<String, dynamic>? toJson() => null;
+  Map<String, String>? getUrlParams() => null;
+  Map<String, dynamic>? getFiles() => null;
 }
 
 class SafeHttpDataOutput {
@@ -35,17 +38,29 @@ class SafeHttpError {
   SafeHttpError({required this.message});
 }
 
+enum AuthScheme {
+  jwt,
+  none,
+}
+
+Map<AuthScheme, String> _authSchemes = {
+  AuthScheme.jwt: "jwt",
+  AuthScheme.none: "",
+};
+
 class SafeHttpInput {
   final String url;
   final Map<String, String>? headers;
   final String? token;
+  final AuthScheme authScheme;
 
   /*
    * 만약 토큰이 주어지면 헤더에 토큰을 넣습니다
   */
-
-  SafeHttpInput({required this.url, headers, this.token})
-      : headers = headers ?? defaultHeaders;
+  SafeHttpInput(
+      {required this.url, headers, this.token, AuthScheme? authScheme})
+      : headers = headers ?? defaultHeaders,
+        authScheme = authScheme ?? AuthScheme.jwt;
 
   /*
    * This method does not mutates header
@@ -58,7 +73,10 @@ class SafeHttpInput {
     headers!.entries.forEach((element) {
       newHeaders[element.key] = element.value;
     });
-    newHeaders['Authorization'] = 'jwt $token';
+    newHeaders['Authorization'] = authScheme == AuthScheme.none
+        ? token!
+        : '${_authSchemes[authScheme]} $token';
+
     return newHeaders;
   }
 
@@ -83,14 +101,17 @@ class SafeHttpOutput<T extends SafeHttpDataOutput> {
 class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T data;
 
-  SafeMutationInput(
-      {required this.data,
-      required String url,
-      Map<String, String>? headers,
-      String? token})
-      : super(headers: headers, url: url, token: token);
+  SafeMutationInput({
+    required this.data,
+    required String url,
+    Map<String, String>? headers,
+    String? token,
+    AuthScheme? authScheme,
+  }) : super(headers: headers, url: url, token: token, authScheme: authScheme);
 
-  String getJsonString() => jsonEncode(data.toJson());
+  Map<String, dynamic>? getJson() => data.toJson();
+  Map<String, dynamic>? getFiles() => data.getFiles();
+  String getJsonString() => jsonEncode(getJson());
 
   Uri getUrlWithParams() {
     String urlWithUrlParams = url;
@@ -126,12 +147,13 @@ class SafeMutationOutput<T extends SafeHttpDataOutput>
 class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
 
-  SafeQueryInput(
-      {required String url,
-      Map<String, String>? headers,
-      this.params,
-      String? token})
-      : super(url: url, headers: headers, token: token);
+  SafeQueryInput({
+    required String url,
+    Map<String, String>? headers,
+    this.params,
+    String? token,
+    AuthScheme? authScheme,
+  }) : super(url: url, headers: headers, token: token, authScheme: authScheme);
 
   Uri getUrlWithParams() {
     String queryString = "";

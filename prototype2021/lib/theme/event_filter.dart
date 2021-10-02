@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
+
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/tb_drop_down_button.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
+
 import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
+
 
 /// 이벤트 필터 뷰를 구성하는
 mixin EventFilter<T extends StatefulWidget> on State<T> {
@@ -66,16 +70,16 @@ mixin EventFilter<T extends StatefulWidget> on State<T> {
       Map<Gender, bool> isGenderSelected, Function(Gender) genderSetter) {
     return Row(
       children: [
-        buildGenderButton("무관", isGenderSelected[Gender.OTHER]!, () {
-          genderSetter(Gender.OTHER);
+        buildGenderButton("무관", isGenderSelected[Gender.None]!, () {
+          genderSetter(Gender.None);
         }),
         SizedBox(width: 10),
-        buildGenderButton("남성", isGenderSelected[Gender.MALE]!, () {
-          genderSetter(Gender.MALE);
+        buildGenderButton("남성", isGenderSelected[Gender.M]!, () {
+          genderSetter(Gender.M);
         }),
         SizedBox(width: 10),
-        buildGenderButton("여성", isGenderSelected[Gender.FEMALE]!, () {
-          genderSetter(Gender.FEMALE);
+        buildGenderButton("여성", isGenderSelected[Gender.F]!, () {
+
         }),
       ],
     );
