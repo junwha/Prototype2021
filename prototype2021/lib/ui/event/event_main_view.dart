@@ -4,6 +4,7 @@ import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/event_articles.dart';
+import 'package:prototype2021/theme/event_filter.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
@@ -14,6 +15,7 @@ import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/ui/event/event_search_view.dart';
 import 'package:prototype2021/ui/event/filter_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
+import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/theme/top_notice.dart';
 
@@ -22,7 +24,7 @@ class EventMainView extends StatefulWidget {
   _EventMainViewState createState() => _EventMainViewState();
 }
 
-class _EventMainViewState extends State<EventMainView> {
+class _EventMainViewState extends State<EventMainView> with EventFilter {
   List<String> images = [
     'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
@@ -30,7 +32,13 @@ class _EventMainViewState extends State<EventMainView> {
   int _pageIndex = 0;
   double image_index = 0;
   bool isAllList = false;
+
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
+  Map<Gender, bool> isGenderSelected = {
+    Gender.MALE: true,
+    Gender.FEMALE: true,
+    Gender.OTHER: true
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -190,15 +198,14 @@ class _EventMainViewState extends State<EventMainView> {
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
             IconButton(
               onPressed: () {
-                tbShowDialog(
-                    context,
-                    TBLargeDialog(
-                      title: "",
-                      insetsPadding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-                      padding: EdgeInsets.all(20),
-                      body: SingleChildScrollView(child: FilterView()),
-                    ));
+                tbShowDialog(context,
+                    StatefulBuilder(builder: (context, setState) {
+                  return buildFilterView(isGenderSelected, (Gender gender) {
+                    setState(() {
+                      isGenderSelected[gender] = !isGenderSelected[gender]!;
+                    });
+                  });
+                }));
               },
               icon: Image.asset("assets/icons/ic_filter_gray.png"),
             ),
