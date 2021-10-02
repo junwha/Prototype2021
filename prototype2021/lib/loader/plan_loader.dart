@@ -45,16 +45,16 @@ class PlanLoader {
     PlanListInput params = PlanListInput();
 
     SafeQueryInput<PlanListInput> dto = SafeQueryInput<PlanListInput>(
-        params: params, url: planGeneralUrl, token: token);
+        params: params, url: planListUrl, token: token);
     SafeQueryOutput<PlanListOutput> result = await planList(dto);
 
     if (result.success) {
       if (result.data!.next != null) {
-        planGeneralUrl = result.data!.next!
+        planListUrl = result.data!.next!
             .replaceFirst("tbserver:8000", "api.tripbuilder.co.kr");
         pagination = PaginationState.mid;
       } else {
-        planGeneralUrl = "";
+        planListUrl = "";
         pagination = PaginationState.end;
       }
       return result.data!.results;
@@ -134,9 +134,10 @@ class PlanLoader {
       await safePatch(dto);
 
   // Endpoints
-  String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
-  String planGeneralUrl = "$apiBaseUrl/plans";
-  String planIdUrl = "$apiBaseUrl/plans/:id";
+  final String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
+  final String planGeneralUrl = "$apiBaseUrl/plans";
+  String planListUrl = "";
+  final String planIdUrl = "$apiBaseUrl/plans/:id";
 
   /// Pagination을 위한 인스턴스 생성 지원
   /// PlanLoaderMode.board: 게시판 목록 Pagination
@@ -144,11 +145,11 @@ class PlanLoader {
   /// PlanLoaderMode.mylist: 내가 쓴 플랜 Pagination
   PlanLoader.withMode(PlanLoaderMode mode) {
     if (mode == PlanLoaderMode.board) {
-      planGeneralUrl = "$apiBaseUrl/plans";
+      planListUrl = "$apiBaseUrl/plans";
     } else if (mode == PlanLoaderMode.mylist) {
-      planGeneralUrl = "$apiBaseUrl/plans/mylist/";
+      planListUrl = "$apiBaseUrl/plans/mylist/";
     } else if (mode == PlanLoaderMode.wishlist) {
-      planGeneralUrl = "$apiBaseUrl/plans/wishlists/";
+      planListUrl = "$apiBaseUrl/plans/wishlists/";
     }
   }
 
