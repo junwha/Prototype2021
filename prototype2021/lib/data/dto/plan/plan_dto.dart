@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/event_dto.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/loader/article_loader.dart';
