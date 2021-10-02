@@ -17,7 +17,7 @@ mixin EventFilter<T extends StatefulWidget> on State<T> {
   ) {
     return TBLargeDialog(
       title: "이벤트/동행찾기",
-      insetsPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+      insetsPadding: EdgeInsets.symmetric(horizontal: 25, vertical: 70),
       padding: EdgeInsets.symmetric(horizontal: 20),
       body: SingleChildScrollView(
         child: Column(
