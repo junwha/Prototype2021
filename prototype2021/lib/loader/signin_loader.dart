@@ -98,7 +98,7 @@ class SigninLoader {
 
   Future<SafeMutationOutput<AuthOutput>> phoneAuth(
           SafeMutationInput<PhoneAuthInput> dto) async =>
-      await safePOST<PhoneAuthInput, AuthOutput>(dto);
+      await safePOST<PhoneAuthInput, AuthOutput>(dto, 200);
 
   Future<SafeMutationOutput<AuthOutput>> emailAuth(
           SafeMutationInput<EmailAuthInput> dto) async =>
