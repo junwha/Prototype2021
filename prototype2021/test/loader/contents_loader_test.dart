@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/loader/login_loader.dart';
 import 'package:prototype2021/loader/signin_loader.dart';
 import 'package:prototype2021/model/contents_dto/content_preview.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
@@ -24,12 +25,12 @@ List<ContentPreview>? sampleData;
 ContentsLoader? contentsLoader;
 
 Future<void> login() async {
-  SigninLoader signinLoader = new SigninLoader();
+  LoginLoader loginLoader = new LoginLoader();
   LoginInput data = new LoginInput(
       username: _Credentials.username, password: _Credentials.password);
   SafeMutationInput<LoginInput> dto =
-      new SafeMutationInput<LoginInput>(data: data, url: signinLoader.loginUrl);
-  SafeMutationOutput<LoginOutput> result = await signinLoader.login(dto);
+      new SafeMutationInput<LoginInput>(data: data, url: loginLoader.loginUrl);
+  SafeMutationOutput<LoginOutput> result = await loginLoader.login(dto);
   token = result.data!.token;
 }
 
