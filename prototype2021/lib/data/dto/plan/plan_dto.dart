@@ -70,7 +70,7 @@ class PlanDetail extends PlanProps {
 
   //user
   PlanDetail.fromJson({required Map<String, dynamic> json})
-      : hearted = json["hearted"],
+      : hearted = nullable<bool>(json["hearted"]),
         contents = dynamicListToTList<List<dynamic>>(json["contents"])
             .map((day) => (day)
                 .map(
