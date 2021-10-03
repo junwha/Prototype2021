@@ -233,6 +233,8 @@ class _PlanDetailViewState extends State<PlanDetailView> {
       if (data is MemoData) {
         return ContentsCard.fromProps(
           props: ContentsCardBaseProps(
+            id: 1,
+            hearted: true,
             backgroundColor: Colors.white,
             preview: placeHolder,
             title: "Custom Memo",
@@ -247,6 +249,8 @@ class _PlanDetailViewState extends State<PlanDetailView> {
         PseudoPlaceData placeData = data;
         return ContentsCard.fromProps(
           props: ContentsCardBaseProps(
+            id: 1,
+            hearted: true,
             backgroundColor: Colors.white,
             preview: placeHolder,
             title: "${placeData.name}",

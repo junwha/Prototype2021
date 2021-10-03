@@ -6,9 +6,6 @@ import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/tb_drop_down_button.dart';
 import 'package:prototype2021/ui/event/event_main_view.dart';
 
-import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
-
-
 /// 이벤트 필터 뷰를 구성하는
 mixin EventFilter<T extends StatefulWidget> on State<T> {
   Widget buildFilterView(
@@ -78,9 +75,7 @@ mixin EventFilter<T extends StatefulWidget> on State<T> {
           genderSetter(Gender.M);
         }),
         SizedBox(width: 10),
-        buildGenderButton("여성", isGenderSelected[Gender.F]!, () {
-
-        }),
+        buildGenderButton("여성", isGenderSelected[Gender.F]!, () {}),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/loader/plan_loader.dart';
+import 'package:prototype2021/model/simple_storage.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 enum HeartFor {
@@ -30,9 +31,11 @@ class HeartButton extends StatefulWidget {
       _HeartButtonState(heartSelected: isHeartSelected);
 }
 
-class _HeartButtonState extends State<HeartButton>
-    with PlanLoader, ContentsLoader {
+class _HeartButtonState extends State<HeartButton> {
   bool heartSelected;
+  PlanLoader planLoader = PlanLoader();
+  ContentsLoader contentsLoader = ContentsLoader();
+
   void setHeartSelected(bool _heartSelected) => setState(() {
         heartSelected = _heartSelected;
       });
@@ -76,10 +79,11 @@ class _HeartButtonState extends State<HeartButton>
     try {
       switch (heartFor) {
         case HeartFor.planCard:
-          await heartPlan(widget.dataId.toString(), widget.token);
+          await planLoader.heartPlan(widget.dataId.toString(), widget.token);
           break;
         case HeartFor.contentCard:
-          await heartContents(widget.dataId.toString(), widget.token);
+          await contentsLoader.heartContents(
+              widget.dataId.toString(), widget.token);
           break;
         default:
           break;

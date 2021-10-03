@@ -114,7 +114,6 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
           authScheme: authScheme,
         );
 
-
   Map<String, dynamic>? getJson() => data.toJson();
   Map<String, dynamic>? getFiles() => data.getFiles();
   String getJsonString() => jsonEncode(getJson());

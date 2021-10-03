@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event/event_article_model.dart';
+import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
 import 'package:prototype2021/theme/event_articles.dart';
@@ -15,7 +16,6 @@ import 'package:prototype2021/ui/event/event_detail_view.dart';
 import 'package:prototype2021/ui/event/event_search_view.dart';
 import 'package:prototype2021/ui/event/filter_view.dart';
 import 'package:prototype2021/ui/event/my_page_view.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_3.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/theme/top_notice.dart';
 
@@ -40,9 +40,9 @@ class _EventMainViewState extends State<EventMainView>
   // Event/Companion Filters
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
   Map<Gender, bool> isGenderSelected = {
-    Gender.MALE: true,
-    Gender.FEMALE: true,
-    Gender.OTHER: true
+    Gender.M: true,
+    Gender.F: true,
+    Gender.None: true
   };
   RangeValues ageRange = RangeValues(0, 100);
   DateTimeRange dateRange = DateTimeRange(

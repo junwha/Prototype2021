@@ -6,6 +6,14 @@ import 'package:http/http.dart'
     show Response, MultipartFile, MultipartRequest, StreamedResponse;
 import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/settings/constants.dart';
+
+void printHTTPLog(http.Response res) {
+  if (SAFE_HTTP_DEBUG) {
+    print("[ Response Body ] : ${res.body.toString()}");
+    print("[ Status Code ] : ${res.statusCode.toString()}");
+  }
+}
 
 HttpException generateHttpException(Response res) {
   return new HttpException("[${res.statusCode}] : ${res.body.toString()}");
@@ -85,9 +93,13 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.post(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
+    printHTTPLog(res);
 
-    if (res.statusCode == expectedCode)
-      return new SafeMutationOutput<O>(success: true, data: res.body);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeMutationOutput<O>(success: true, data: data);
+    }
+
     throw generateHttpException(res);
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -109,8 +121,11 @@ Future<SafeMutationOutput<O>>
     Response res = await http.put(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
 
-    if (res.statusCode == expectedCode)
-      return new SafeMutationOutput<O>(success: true, data: res.body);
+    printHTTPLog(res);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeMutationOutput<O>(success: true, data: data);
+    }
     throw generateHttpException(res);
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -131,11 +146,13 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.patch(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
+    printHTTPLog(res);
+
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
     }
-    throw new HttpException("[${res.statusCode}] : ${res.body.toString()}");
+    throw generateHttpException(res);
   } catch (error) {
     return new SafeMutationOutput<O>(
         success: false, error: new SafeHttpError(message: error.toString()));
@@ -156,7 +173,34 @@ Future<SafeQueryOutput<O>>
     print(dto.getUrlWithParams());
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
-    
+    printHTTPLog(res);
+
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeQueryOutput<O>(success: true, data: data);
+    }
+
+    throw generateHttpException(res);
+  } catch (error) {
+    return new SafeQueryOutput<O>(
+        success: false, error: new SafeHttpError(message: error.toString()));
+  }
+}
+
+Future<SafeQueryOutput<O>>
+    safeDELETE<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
+  SafeQueryInput<I> dto, [
+  int expectedCode = 204,
+  bool fromBytes = false,
+]) async {
+  try {
+    Response res =
+        await http.delete(dto.getUrlWithParams(), headers: dto.getHeaders());
+    printHTTPLog(res);
+    if (res.statusCode == expectedCode) {
+      String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
+      return new SafeQueryOutput<O>(success: true, data: data);
+    }
     if (res.statusCode == expectedCode)
       return new SafeQueryOutput<O>(success: true, data: res.body);
     throw generateHttpException(res);
