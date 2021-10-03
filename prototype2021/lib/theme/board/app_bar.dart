@@ -4,27 +4,14 @@ import 'package:prototype2021/theme/rounded_text_field.dart';
 import 'package:prototype2021/ui/board/board_main_view.dart';
 
 mixin BoardMainViewAppBarMixin {
-  IconButton buildLeading(BuildContext context,
-      {required BoardMainViewMode viewMode,
-      required void Function(BoardMainViewMode) setViewMode}) {
+  IconButton buildLeading(
+    BuildContext context, {
+    required BoardMainViewMode viewMode,
+    required void Function() onPressed,
+  }) {
     Image leadingIcon = viewMode == BoardMainViewMode.search
         ? Image.asset('assets/icons/ic_arrow_left_back.png')
         : Image.asset("assets/icons/ic_remove_x.png");
-    void onPressed() {
-      switch (viewMode) {
-        case BoardMainViewMode.main:
-          Navigator.pop(context);
-          break;
-        case BoardMainViewMode.search:
-          setViewMode(BoardMainViewMode.main);
-          break;
-        case BoardMainViewMode.result:
-          setViewMode(BoardMainViewMode.search);
-          break;
-        default:
-          break;
-      }
-    }
 
     return IconButton(
       color: Colors.black,

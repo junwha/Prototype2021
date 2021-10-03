@@ -214,6 +214,9 @@ class _MapViewState extends State<MapView> {
               color: Color(0xFFF3F3F3),
               child: ContentsCard.fromProps(
                 props: new ContentsCardBaseProps(
+                  hearted: false,
+                  heartCount: 3,
+                  id: 0,
                   preview: location.preview,
                   title: location.name,
                   place: "TEMP",

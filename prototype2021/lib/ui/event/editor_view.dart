@@ -424,6 +424,9 @@ class _EditorViewState extends State<EditorView> {
       GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
       return ContentsCard.fromProps(
           props: new ContentsCardBaseProps(
+        hearted: false,
+        heartCount: 3,
+        id: 0,
         preview: location.preview,
         title: location.name,
         place: "TEMP",

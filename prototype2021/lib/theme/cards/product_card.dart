@@ -23,7 +23,9 @@ class ProductCardBaseProps extends CardBaseProps {
     required String title,
     required String place,
     required List<String> tags,
+    required int id,
   }) : super(
+          id: id,
           preview: preview,
           title: title,
           place: place,
@@ -48,6 +50,7 @@ class ProductCard extends StatelessWidget with CardBase {
       dataId: 1, // PLEASE INPUT REAL DATAID HERE
       isHeartSelected:
           false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
+      token: "some token", // PLEASE INPUT REAL token HERE
     );
   }
 

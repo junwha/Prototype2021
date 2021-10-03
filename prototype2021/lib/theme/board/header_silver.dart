@@ -8,6 +8,8 @@ import 'package:prototype2021/ui/event/filter_view.dart';
 mixin BoardMainSilverMixin {
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder({
     required void Function() onLeadingPressed,
+    required void Function(int) onTabBarPressed,
+    required int tabIndex,
     required Map<String, String> location,
     required BoardMainViewMode viewMode,
   }) =>
@@ -25,7 +27,7 @@ mixin BoardMainSilverMixin {
             elevation: 0,
             pinned: true,
             backgroundColor: Colors.white,
-            title: buildTabBar(),
+            title: buildTabBar(onTap: onTabBarPressed),
           ),
           SliverAppBar(
             automaticallyImplyLeading: false,
@@ -36,6 +38,7 @@ mixin BoardMainSilverMixin {
             title: buildFilterBar(),
           )
         ];
+        if (tabIndex == 1) slivers.removeAt(2);
         if (viewMode == BoardMainViewMode.search) slivers = [];
         if (viewMode == BoardMainViewMode.result) slivers.removeAt(0);
         return slivers;
@@ -81,12 +84,13 @@ mixin BoardMainSilverMixin {
     );
   }
 
-  Widget buildTabBar() {
+  Widget buildTabBar({required void Function(int) onTap}) {
     return TabBar(
       unselectedLabelColor: Color(0xffbdbdbd),
       labelColor: Colors.black,
       indicatorColor: Colors.black,
       indicatorWeight: 1 * pt,
+      onTap: onTap,
       tabs: [
         Tab(
           child: Container(

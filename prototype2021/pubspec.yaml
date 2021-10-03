@@ -62,6 +62,9 @@ dependencies:
 
   # rxdart (More functionalities related with streams)
   rxdart: ^0.27.2
+
+  # For parsing data from API
+  html: ^0.15.0
   
 dev_dependencies:
   flutter_test:

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/loader/plan_loader.dart';
@@ -13,11 +15,13 @@ class HeartButton extends StatefulWidget {
   final HeartFor heartFor;
   final int dataId;
   final int userId;
+  final String token;
   const HeartButton({
     Key? key,
     required this.isHeartSelected,
     required this.heartFor,
     required this.dataId,
+    required this.token,
     required this.userId,
   }) : super(key: key);
 
@@ -33,9 +37,17 @@ class _HeartButtonState extends State<HeartButton>
         heartSelected = _heartSelected;
       });
   void onHeartPressed() async {
-    bool success = await handleHeartPressed(
-        heartFor: widget.heartFor, heartSelected: heartSelected);
-    if (success) setHeartSelected(!heartSelected);
+    try {
+      bool success = await handleHeartPressed(
+          heartFor: widget.heartFor, heartSelected: heartSelected);
+      if (success) {
+        setHeartSelected(!heartSelected);
+        return;
+      }
+      throw HttpException("Unexpected error");
+    } catch (error) {
+      print(error);
+    }
   }
 
   _HeartButtonState({required this.heartSelected});
@@ -62,19 +74,19 @@ class _HeartButtonState extends State<HeartButton>
     required bool heartSelected,
   }) async {
     try {
-      final String token = "token from somewhere";
       switch (heartFor) {
         case HeartFor.planCard:
-          await heartPlan(widget.dataId.toString(), token);
+          await heartPlan(widget.dataId.toString(), widget.token);
           break;
         case HeartFor.contentCard:
-          await heartContents(widget.dataId.toString(), token);
+          await heartContents(widget.dataId.toString(), widget.token);
           break;
         default:
           break;
       }
       return true;
     } catch (error) {
+      print(error);
       // Silently passing the error...
       return false;
     }

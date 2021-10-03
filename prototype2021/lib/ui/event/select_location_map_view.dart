@@ -146,6 +146,9 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
             ),
             ContentsCard.fromProps(
                 props: new ContentsCardBaseProps(
+              hearted: false,
+              heartCount: 3,
+              id: 0,
               preview: location.preview,
               title: location.name,
               place: "TEMP",

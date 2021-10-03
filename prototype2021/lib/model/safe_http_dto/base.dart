@@ -107,7 +107,13 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
     Map<String, String>? headers,
     String? token,
     AuthScheme? authScheme,
-  }) : super(headers: headers, url: url, token: token, authScheme: authScheme);
+  }) : super(
+          headers: headers,
+          url: url,
+          token: token,
+          authScheme: authScheme,
+        );
+
 
   Map<String, dynamic>? getJson() => data.toJson();
   Map<String, dynamic>? getFiles() => data.getFiles();
@@ -153,14 +159,21 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
     this.params,
     String? token,
     AuthScheme? authScheme,
-  }) : super(url: url, headers: headers, token: token, authScheme: authScheme);
+  }) : super(
+          url: url,
+          headers: headers,
+          token: token,
+          authScheme: authScheme,
+        );
 
   Uri getUrlWithParams() {
     String queryString = "";
     if (params?.toJson() != null) {
       queryString += "?";
       params!.toJson()!.forEach((key, value) {
-        queryString += "$key=$value&";
+        if (value != null) {
+          queryString += "$key=$value&";
+        }
       });
       queryString = queryString.substring(0, queryString.length - 1);
     }
