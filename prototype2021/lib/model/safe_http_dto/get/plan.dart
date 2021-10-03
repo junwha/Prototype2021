@@ -69,8 +69,8 @@ class PlanCreateInput extends SafeHttpDataInput {
         "photo_url": data.photo,
         "type": data.types,
         "expenses": data.expense,
-        "expense_style": data.expense_style,
-        "fatigue_style": data.fatigue_style,
+        "expense_style": data.expenseStyle,
+        "fatigue_style": data.fatigueStyle,
       };
 
   Map<String, String>? getUrlParams() => null;

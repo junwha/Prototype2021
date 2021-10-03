@@ -22,8 +22,8 @@ class PlanProps {
   final List<String> types;
   final int expense;
   final DateTimeRange period;
-  final int expense_style;
-  final int fatigue_style;
+  final int expenseStyle;
+  final int fatigueStyle;
 
   PlanProps(
     this.id,
@@ -33,8 +33,8 @@ class PlanProps {
     this.types,
     this.expense,
     this.period,
-    this.expense_style,
-    this.fatigue_style,
+    this.expenseStyle,
+    this.fatigueStyle,
   );
 
   PlanProps.fromJson({required Map<String, dynamic> json})
@@ -46,8 +46,8 @@ class PlanProps {
         types =
             (json["type"] as List<dynamic>).map((e) => e as String).toList(),
         expense = json["expense"],
-        expense_style = json["expense_style"],
-        fatigue_style = json["fatigue_style"],
+        expenseStyle = json["expense_style"],
+        fatigueStyle = json["fatigue_style"],
         period = DateTimeRange(
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"]));
@@ -81,7 +81,7 @@ class PlanDetail extends PlanProps {
                 .toList())
             .toList(),
         userData = UserData(json["user"]["id"], json["user"]["name"],
-            null), // TODO: 유저 모델 수정 필요
+            json["user"]["photo"]), // TODO: 유저 모델 수정 필요
         super.fromJson(json: json);
 }
 
@@ -96,9 +96,9 @@ class PlanData extends PlanProps {
     List<String> types,
     int expense,
     DateTimeRange period,
-    int expense_style,
-    int fatigue_style,
+    int expenseStyle,
+    int fatigueStyle,
     this.contents,
-  ) : super(id, title, areaCode, photo, types, expense, period, expense_style,
-            fatigue_style);
+  ) : super(id, title, areaCode, photo, types, expense, period, expenseStyle,
+            fatigueStyle);
 }
