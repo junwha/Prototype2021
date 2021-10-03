@@ -28,7 +28,7 @@ class PlanListOutput extends PaginationOutput
 class PlanIdInput extends SafeHttpDataInput {
   final int id;
 
-  PlanIdInput(this.id);
+  PlanIdInput({required this.id});
 
   Map<String, dynamic>? toJson() => null;
 
@@ -55,7 +55,7 @@ class PlanDeleteOutput extends SafeHttpDataOutput {
 /*---------------- Plan Create ----------------*/
 class PlanCreateInput extends SafeHttpDataInput {
   final PlanData data;
-  PlanCreateInput(this.data);
+  PlanCreateInput({required this.data});
 
   Map<String, dynamic>? toJson() => {
         "title": data.title,
