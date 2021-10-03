@@ -1,6 +1,6 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
+import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/handler/event/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/timer_card.dart';

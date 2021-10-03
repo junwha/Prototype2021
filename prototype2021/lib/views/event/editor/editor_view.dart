@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:prototype2021/data/dto/event/event_dto.dart';
+import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/handler/event/editor_model.dart';
-import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/views/event/editor/mixin/event_custom_text_field.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_preview.dart';

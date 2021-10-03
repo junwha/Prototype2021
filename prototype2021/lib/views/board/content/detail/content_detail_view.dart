@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:prototype2021/data/dto/contents/content_detail.dart';
+import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/handler/event/event_article_model.dart';
 import 'package:prototype2021/handler/user/user_info_model.dart';

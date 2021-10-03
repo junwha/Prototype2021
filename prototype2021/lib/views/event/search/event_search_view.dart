@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:prototype2021/data/dto/event/event_dto.dart';
+import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/handler/event/search_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';

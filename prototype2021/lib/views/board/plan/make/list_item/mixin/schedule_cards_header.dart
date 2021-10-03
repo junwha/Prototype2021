@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/handler/board/plan/calendar.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';

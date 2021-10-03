@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
-import 'package:prototype2021/data/dto/event/event_dto.dart';
+import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class ArticleLoader {

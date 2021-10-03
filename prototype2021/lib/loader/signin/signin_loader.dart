@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:prototype2021/utils/safe_http/base.dart';
-import 'package:prototype2021/data/dto/safe_http/get/verification.dart';
-import 'package:prototype2021/data/dto/safe_http/post/authentication.dart';
-import 'package:prototype2021/data/dto/safe_http/post/login.dart';
-import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
+import 'package:prototype2021/model/signin/http/verification.dart';
+import 'package:prototype2021/model/signin/http/authentication.dart';
+import 'package:prototype2021/model/login/http/login.dart';
+import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/utils/aws_s3_uploader/s3_uploader.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/handler/signin/signin_model.dart';

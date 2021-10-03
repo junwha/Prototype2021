@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/data/pseudo_place_data.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
+import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';

@@ -4,12 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/loader/event/event_place_loader.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
-import 'package:prototype2021/data/place_data.dart';
+import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/google_map/model/location.dart';
 
 /*
 * This Class is parent location class of Event, Content, etc.
 */
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
 class Location {
   final LatLng latLng;
   final String type;

@@ -1,7 +1,7 @@
-import 'package:prototype2021/data/dto/plan/plan_dto.dart';
+import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
-import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
 
 /*---------------- Plan List ----------------*/
 /// SafeHttpDataInput for Plan List

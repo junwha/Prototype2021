@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/dto/safe_http/post/login.dart';
+import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_model.dart';
 import 'package:prototype2021/handler/signin/signin_model.dart';

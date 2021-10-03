@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
+import 'package:prototype2021/model/signin/http/signup.dart';
 
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';

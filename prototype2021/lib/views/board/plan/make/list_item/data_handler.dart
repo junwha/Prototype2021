@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geodesy/geodesy.dart' as Geodesy;
-import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/handler/board/plan/google_geodesy_latlng_adapter.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/middle_divider.dart';

@@ -1,8 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prototype2021/data/dto/contents/content_preview.dart';
+import 'package:prototype2021/model/board/contents/content_preview.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
-import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
-import 'package:prototype2021/data/dto/safe_http/post/login.dart';
+import 'package:prototype2021/model/board/contents/http/contents.dart';
+import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/loader/login/login_loader.dart';
 

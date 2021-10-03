@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:prototype2021/utils/safe_http/base.dart';
-import 'package:prototype2021/data/dto/safe_http/get/wishlist.dart';
-import 'package:prototype2021/data/dto/safe_http/post/login.dart';
+import 'package:prototype2021/model/board/wishlist/http/wishlist.dart';
+import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
 

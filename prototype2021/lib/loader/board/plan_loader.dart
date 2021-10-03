@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:prototype2021/data/dto/plan/plan_dto.dart';
+import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
-import 'package:prototype2021/data/dto/safe_http/get/plan.dart';
-import 'package:prototype2021/data/dto/safe_http/patch/heart.dart';
+import 'package:prototype2021/model/board/plan/http/plan.dart';
+import 'package:prototype2021/model/board/wishlist/http/heart.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
 

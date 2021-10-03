@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/common.dart';
+import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
 

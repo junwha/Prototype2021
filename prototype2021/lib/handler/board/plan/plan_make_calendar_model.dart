@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
 
 /* 
 * 캘린더의 터치 상태를 표현하는 enum입니다. 
