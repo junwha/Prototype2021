@@ -41,13 +41,9 @@ class PlanProps {
   PlanProps.fromJson({required Map<String, dynamic> json})
       : id = json["id"],
         title = json["title"],
-        areaCodes = (json["area_code"] as List<dynamic>)
-            .map((_areaCode) => _areaCode as int)
-            .toList(),
+        areaCodes = dynamicListToTList<int>(json["area_code"]),
         photo = nullable<String>(json["photo"]),
-        types = (json["type"] as List<dynamic>)
-            .map((_type) => _type as String)
-            .toList(),
+        types = dynamicListToTList<String>(json["type"]),
         expense = json["expense"],
         expenseStyle = json["expense_style"],
         fatigueStyle = json["fatigue_style"],
@@ -75,8 +71,8 @@ class PlanDetail extends PlanProps {
   //user
   PlanDetail.fromJson({required Map<String, dynamic> json})
       : hearted = json["hearted"],
-        contents = (json["contents"] as List<dynamic>)
-            .map((day) => (day as List<dynamic>)
+        contents = dynamicListToTList<List<dynamic>>(json["contents"])
+            .map((day) => (day)
                 .map(
                   (entry) => entry["type"] == "C"
                       ? int.parse(entry["data"])
