@@ -4,8 +4,8 @@ import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
-import 'package:prototype2021/model/map/tb_map_model.dart';
-import 'package:prototype2021/theme/map/plan_marker.dart';
+import 'package:prototype2021/utils/google_map/model/tb_map_model.dart';
+import 'package:prototype2021/utils/google_map/widgets/plan_marker.dart';
 
 class PlanMapModel extends TBMapModel {
   List<List<PlaceDataProps>> placeItemsPerDay = [];

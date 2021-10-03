@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/theme/map/marker.dart';
+import 'package:prototype2021/utils/google_map/widgets/marker.dart';
 
 class TBMapModel with ChangeNotifier {
   bool mapLoaded = false;
