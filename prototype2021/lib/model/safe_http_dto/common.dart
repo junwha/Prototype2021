@@ -16,11 +16,6 @@ class PaginationOutput extends SafeHttpDataOutput {
       : count = json["count"] as int,
         next = nullable<String>(json["next"]),
         previous = nullable<String>(json["previous"]);
-
-  PaginationOutput.fromJson({required Map<String, dynamic> json})
-      : count = json["count"] as int,
-        next = nullable<int>(json["next"]),
-        previous = nullable<int>(json["previous"]);
 }
 
 T? nullable<T>(T? value) => value == null ? null : value as T;
