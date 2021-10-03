@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:prototype2021/data/dto/safe_http/output_dto_factory.dart';
+import 'package:prototype2021/util/safe_http/output_dto_factory.dart';
 
 const Map<String, String> defaultHeaders = {
   "accept": "application/json",
