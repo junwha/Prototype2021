@@ -3,7 +3,7 @@ import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/model/map/plan_map_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/calendar/plan_map.dart';
+import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/tb_contenttag.dart';
 import 'package:prototype2021/theme/tb_foldable_card.dart';

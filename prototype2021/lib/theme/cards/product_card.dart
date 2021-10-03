@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/card_base.dart';
+import 'package:prototype2021/theme/cards/props/card_base.dart';
 import 'package:prototype2021/theme/heart_button.dart';
 import 'package:prototype2021/theme/tag.dart';
 

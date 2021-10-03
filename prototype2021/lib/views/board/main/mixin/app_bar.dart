@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/board/app_bar_text_button.dart';
+import 'package:prototype2021/views/board/main/mixin/app_bar_text_button.dart';
 import 'package:prototype2021/theme/rounded_text_field.dart';
 import 'package:prototype2021/views/board/main/board_main_view.dart';
 

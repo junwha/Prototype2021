@@ -5,7 +5,7 @@ import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/editor/event_custom_text_field.dart';
+import 'package:prototype2021/views/event/editor/mixin/event_custom_text_field.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';

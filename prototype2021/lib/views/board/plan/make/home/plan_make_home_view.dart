@@ -3,15 +3,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/map/plan_map_model.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/ai_dialog.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/bottom_app_bar.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/header.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/helper.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/main.dart';
-import 'package:prototype2021/theme/calendar/plan_make_appbar_base.dart';
-import 'package:prototype2021/theme/calendar/plan_map.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/ai_dialog.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/bottom_app_bar.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/header.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/helper.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/main.dart';
+import 'package:prototype2021/views/board/plan/make/mixin/plan_make_appbar_base.dart';
+import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
 import 'package:provider/provider.dart';
 
 class PlanMakeHomeView extends StatefulWidget {

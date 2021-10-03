@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/plan_map_model.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:provider/provider.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/calendar/plan_make_calendar.dart';
+import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/theme/circular_wrapper.dart';
 import 'package:provider/provider.dart';

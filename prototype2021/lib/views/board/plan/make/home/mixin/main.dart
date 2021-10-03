@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/contants.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
 import 'dart:io' show Platform;
 
 mixin PlanMakeHomeMainMixin on State<PlanMakeHomeView> {

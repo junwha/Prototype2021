@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
-import 'package:prototype2021/theme/calendar/schedule_card/actions.dart';
-import 'package:prototype2021/theme/calendar/schedule_card/helper.dart';
-import 'package:prototype2021/theme/calendar/schedule_card/leading.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
+import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/actions.dart';
+import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/helper.dart';
+import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/leading.dart';
 
 // class ScheduleCard extends StatefulWidget {
 //   final PlaceDataProps data;

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:geodesy/geodesy.dart' as Geodesy;
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/plan/google_geodesy_latlng_adapter.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/middle_divider.dart';
-import 'package:prototype2021/theme/calendar/schedule_card.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/middle_divider.dart';
+import 'package:prototype2021/views/board/plan/make/schedule_card/schedule_card.dart';
 
 mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
   final Geodesy.Geodesy _geodesy = new Geodesy.Geodesy();

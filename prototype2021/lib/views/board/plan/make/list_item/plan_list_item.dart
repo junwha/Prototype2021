@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/contants.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/data_handler.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/memo_dialog.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/schedule_cards_header.dart';
-import 'package:prototype2021/theme/calendar/plan_list_item/schedule_cards_sub_header.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/contants.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/data_handler.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/memo_dialog.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/schedule_cards_header.dart';
+import 'package:prototype2021/views/board/plan/make/list_item/mixin/schedule_cards_sub_header.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
-import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
+import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
 import 'package:provider/provider.dart';
 import 'dart:core';
 
