@@ -168,7 +168,7 @@ void testSafeQueryOutput() {
   AuthVerificationOutput authVerificationOutput =
       new AuthVerificationOutput.fromJson(json: {
     "token": "sth",
-    "expiring_time": 1234,
+    "expiring_time": "1234",
     "phoneNumberOrEmail": "010-9048-9550"
   });
   IdVerificationOutput idVerificationOutput =
@@ -181,7 +181,7 @@ void testSafeQueryOutput() {
 
   test('should initialize class with right prop types', () {
     expect(authVerificationOutput.token is String, true);
-    expect(authVerificationOutput.expiringTime is int, true);
+    expect(authVerificationOutput.expiringTime is String, true);
     expect(authVerificationOutput.phoneNumberOrEmail is String, true);
     expect(idVerificationOutput.exists is bool, true);
   });
