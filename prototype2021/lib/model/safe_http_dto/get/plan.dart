@@ -65,7 +65,7 @@ class PlanCreateInput extends SafeHttpDataInput {
                     item is MemoData ? "M:" + item.memo : "C" + item.placeId)
                 .toList())
             .toList(),
-        "area_code": data.area,
+        "area_code": data.areaCodes,
         "photo_url": data.photo,
         "type": data.types,
         "expenses": data.expense,

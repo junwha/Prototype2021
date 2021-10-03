@@ -5,6 +5,7 @@ import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/model/contents_dto/content_preview.dart';
+import 'package:prototype2021/model/safe_http_dto/common.dart';
 
 const Map<int, String> expenseCodeToString = {
   1: "10만원 미만",
@@ -17,7 +18,7 @@ const Map<int, String> expenseCodeToString = {
 class PlanProps {
   final int id;
   final String title;
-  final List<int> area;
+  final List<int> areaCodes;
   final String? photo; // url
   final List<String> types;
   final int expense;
@@ -28,7 +29,7 @@ class PlanProps {
   PlanProps(
     this.id,
     this.title,
-    this.area,
+    this.areaCodes,
     this.photo,
     this.types,
     this.expense,
@@ -40,11 +41,13 @@ class PlanProps {
   PlanProps.fromJson({required Map<String, dynamic> json})
       : id = json["id"],
         title = json["title"],
-        area =
-            (json["area_code"] as List<dynamic>).map((e) => e as int).toList(),
-        photo = json["photo"],
-        types =
-            (json["type"] as List<dynamic>).map((e) => e as String).toList(),
+        areaCodes = (json["area_code"] as List<dynamic>)
+            .map((_areaCode) => _areaCode as int)
+            .toList(),
+        photo = nullable<String>(json["photo"]),
+        types = (json["type"] as List<dynamic>)
+            .map((_type) => _type as String)
+            .toList(),
         expense = json["expense"],
         expenseStyle = json["expense_style"],
         fatigueStyle = json["fatigue_style"],
@@ -52,7 +55,7 @@ class PlanProps {
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"]));
 
-  String get areaText => area.map((e) => areaCodeToAreaName[e]).join(", ");
+  String get areaText => areaCodes.map((e) => areaCodeToAreaName[e]).join(", ");
   String get expenseText => expenseCodeToString[expense] ?? "";
 }
 
