@@ -6,11 +6,9 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
   final Stream<List<T>> stream;
   final Widget Function(T) builder;
   final Widget Function(BuildContext, int?)? routeBuilder;
-  final int refetchCount;
   final Widget? header;
   final Widget? emptyWidget;
   final Widget? errorWidget;
-  final void Function()? refetch;
   final void Function(T)? onTap;
 
   BoardMainViewStreamList({
@@ -20,8 +18,6 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
     this.header,
     this.emptyWidget,
     this.errorWidget,
-    this.refetch,
-    this.refetchCount = 3,
     this.onTap,
   });
 
@@ -33,9 +29,6 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
       stream: stream,
       builder: (_, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          if (refetch != null) {
-            refetch!();
-          }
           return LoadingIndicator();
         }
         if (snapshot.hasData) {

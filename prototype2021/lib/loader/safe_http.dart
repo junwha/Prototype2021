@@ -99,6 +99,7 @@ Future<SafeMutationOutput<O>>
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
     }
+
     throw generateHttpException(res);
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -126,7 +127,6 @@ Future<SafeMutationOutput<O>>
       return new SafeMutationOutput<O>(success: true, data: data);
     }
     throw generateHttpException(res);
-
   } catch (error) {
     return new SafeMutationOutput<O>(
         success: false, error: new SafeHttpError(message: error.toString()));
@@ -147,13 +147,12 @@ Future<SafeMutationOutput<O>>
     Response res = await http.patch(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
     printHTTPLog(res);
- 
+
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
     }
-     throw generateHttpException(res);
- 
+    throw generateHttpException(res);
   } catch (error) {
     return new SafeMutationOutput<O>(
         success: false, error: new SafeHttpError(message: error.toString()));
@@ -171,15 +170,16 @@ Future<SafeQueryOutput<O>>
   bool fromBytes = false,
 ]) async {
   try {
+    print(dto.getUrlWithParams());
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
-     printHTTPLog(res);
- 
+    printHTTPLog(res);
+
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeQueryOutput<O>(success: true, data: data);
     }
- 
+
     throw generateHttpException(res);
   } catch (error) {
     return new SafeQueryOutput<O>(
@@ -204,7 +204,6 @@ Future<SafeQueryOutput<O>>
     if (res.statusCode == expectedCode)
       return new SafeQueryOutput<O>(success: true, data: res.body);
     throw generateHttpException(res);
- 
   } catch (error) {
     return new SafeQueryOutput<O>(
         success: false, error: new SafeHttpError(message: error.toString()));

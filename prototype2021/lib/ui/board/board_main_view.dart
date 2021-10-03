@@ -44,11 +44,18 @@ class _BoardMainViewState extends State<BoardMainView>
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
 
+  int refetchCount = 0;
+  final int maxRefetchCount = 3;
+  void setRefetchCount(int _refetchCount) => setState(() {
+        refetchCount = _refetchCount;
+      });
+
   BoardMainViewMode viewMode = BoardMainViewMode.main;
 
   Future<void> setViewMode(BoardMainViewMode _viewMode) async {
     setState(() {
       viewMode = _viewMode;
+      refetchCount = 0;
     });
     handleModeChange(_viewMode);
   }
@@ -116,16 +123,27 @@ class _BoardMainViewState extends State<BoardMainView>
     loadSearchKeywords();
   }
 
-  Future<void> initData() async => await callApi();
+  Future<void> initData() async => await callApi(searchInput);
 
   void handleModeChange(BoardMainViewMode _viewMode) {
     if (_viewMode == BoardMainViewMode.search) {
       loadSearchKeywords();
+      print('onSearch');
       textEditingController.text = "";
     } else {
+      print('onResultOfMAin');
       callApi(searchInput);
     }
   }
+
+  void addError(EventSink sink) => sink.addError("Unexpected Error");
+
+  Future<void> _handlePlanData() async => await getPlanData(searchInput);
+
+  Future<void> _handleContentsData() async =>
+      await getContentsData(searchInput);
+
+  Future<void> _handleSearchKeywords() async => await loadSearchKeywords();
 
   // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
@@ -222,12 +240,32 @@ class _BoardMainViewState extends State<BoardMainView>
   }
 
   AppBar buildAppBar(BuildContext context) {
+    void onPressed() {
+      switch (viewMode) {
+        case BoardMainViewMode.main:
+          Navigator.pop(context);
+          break;
+        case BoardMainViewMode.search:
+          setSearchInput("");
+          setViewMode(BoardMainViewMode.main);
+          break;
+        case BoardMainViewMode.result:
+          setViewMode(BoardMainViewMode.search);
+          break;
+        default:
+          break;
+      }
+    }
+
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
-      leading:
-          buildLeading(context, viewMode: viewMode, setViewMode: setViewMode),
+      leading: buildLeading(
+        context,
+        viewMode: viewMode,
+        onPressed: onPressed,
+      ),
       title: buildTextField(
         textEditingController,
         viewMode: viewMode,
@@ -248,12 +286,10 @@ class _BoardMainViewState extends State<BoardMainView>
   }
 
   Container buildSearchBody() {
-    void _handleSearchKeywords() => loadSearchKeywords();
     return Container(
         padding: EdgeInsets.only(right: 20, left: 40, top: 20, bottom: 20),
         child: BoardMainViewStreamList<dynamic>(
-            stream: recentSearchController.stream,
-            refetch: _handleSearchKeywords,
+            stream: recentSearchesStream,
             header: buildSearchBodyHeader(),
             emptyWidget: CenterNotice(text: '최근 검색기록이 없습니다'),
             errorWidget: CenterNotice(
@@ -337,8 +373,7 @@ class _BoardMainViewState extends State<BoardMainView>
 
   BoardMainViewStreamList buildPlanListView(BuildContext context) {
     return BoardMainViewStreamList<ProductCardBaseProps>(
-      stream: planDataController.stream,
-      refetch: getPlanData,
+      stream: planDataStream,
       builder: (props) => ProductCard.fromProps(props: props),
       routeBuilder: (_, __) => PlanMakeView(),
       emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
@@ -352,8 +387,7 @@ class _BoardMainViewState extends State<BoardMainView>
 
   BoardMainViewStreamList buildContentListView(BuildContext context) {
     return BoardMainViewStreamList<ContentsCardBaseProps>(
-      stream: contentsDataController.stream,
-      refetch: getContentsData,
+      stream: contentsDataStream,
       builder: (props) => ContentsCard.fromProps(props: props),
       routeBuilder: (_, id) => ContentDetailView(
         id: id!,
@@ -362,7 +396,7 @@ class _BoardMainViewState extends State<BoardMainView>
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: getContentsData,
+        onActionPressed: _handleContentsData,
       ),
     );
   }
