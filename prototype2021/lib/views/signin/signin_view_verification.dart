@@ -7,8 +7,8 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
-import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
+import 'package:prototype2021/views/signin/signin_term_view.dart';
+import 'package:prototype2021/views/signin/signin_view_profile_main.dart';
 import 'package:provider/provider.dart';
 
 class SignInViewVerification extends StatefulWidget {

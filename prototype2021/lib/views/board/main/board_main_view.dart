@@ -16,9 +16,9 @@ import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
 import 'package:prototype2021/theme/center_notice.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
-import 'package:prototype2021/ui/board/content_detail_view.dart';
-import 'package:prototype2021/ui/board/plan_make_view.dart';
-import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
+import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
+import 'package:prototype2021/views/board/main/location/select_location_toggle_view.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 

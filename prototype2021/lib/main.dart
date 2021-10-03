@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/user_info_model.dart';
-import 'package:prototype2021/ui/event/editor_view.dart';
-import 'package:prototype2021/ui/login/login_view.dart';
-import 'package:prototype2021/ui/event/map_view.dart';
-import 'package:prototype2021/ui/event/select_location_map_view.dart';
+import 'package:prototype2021/views/event/editor/editor_view.dart';
+import 'package:prototype2021/views/login/login_view.dart';
+import 'package:prototype2021/views/event/map/map_view.dart';
+import 'package:prototype2021/views/event/map/select_location_map_view.dart';
 import 'package:provider/provider.dart';
 
 void main() {

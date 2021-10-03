@@ -3,8 +3,8 @@ import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_birth.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
+import 'package:prototype2021/views/signin/signin_view_birth.dart';
+import 'package:prototype2021/views/signin/signin_view_profile_main.dart';
 import 'package:provider/provider.dart';
 
 class SigninViewGender extends StatefulWidget {

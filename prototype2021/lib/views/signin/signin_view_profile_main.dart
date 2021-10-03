@@ -7,8 +7,8 @@ import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_gender.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_verification.dart';
+import 'package:prototype2021/views/signin/signin_view_gender.dart';
+import 'package:prototype2021/views/signin/signin_view_verification.dart';
 import 'package:provider/provider.dart';
 
 class SigninViewProfileMain extends StatefulWidget {

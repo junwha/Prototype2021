@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/timer_card.dart';
-import 'package:prototype2021/ui/event/editor_view.dart';
-import 'package:prototype2021/ui/event/event_detail_view.dart';
+import 'package:prototype2021/views/event/editor/editor_view.dart';
+import 'package:prototype2021/views/event/detail/event_detail_view.dart';
 
 /// 화면 아래에 이벤트와 관련한 위젯들을 담당하는 믹스인
 mixin ContentDetailViewEventMixin {

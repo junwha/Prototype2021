@@ -7,7 +7,7 @@ import 'package:prototype2021/theme/calendar/plan_list_item/helper.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/memo_dialog.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/schedule_cards_header.dart';
 import 'package:prototype2021/theme/calendar/plan_list_item/schedule_cards_sub_header.dart';
-import 'package:prototype2021/ui/plan_make_home_view.dart';
+import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/theme/calendar/plan_make_home/constants.dart';
 import 'package:provider/provider.dart';
 import 'dart:core';

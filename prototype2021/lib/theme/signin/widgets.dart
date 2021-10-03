@@ -3,13 +3,13 @@ import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/loading.dart';
-import 'package:prototype2021/ui/login/login_view.dart';
-import 'package:prototype2021/ui/signin_page/signin_term_view.dart';
-import 'package:prototype2021/ui/signin_page/signin_view.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_birth.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_gender.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_profile_main.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_verification.dart';
+import 'package:prototype2021/views/login/login_view.dart';
+import 'package:prototype2021/views/signin/signin_term_view.dart';
+import 'package:prototype2021/views/signin/signin_view.dart';
+import 'package:prototype2021/views/signin/signin_view_birth.dart';
+import 'package:prototype2021/views/signin/signin_view_gender.dart';
+import 'package:prototype2021/views/signin/signin_view_profile_main.dart';
+import 'package:prototype2021/views/signin/signin_view_verification.dart';
 import 'package:provider/provider.dart';
 
 final _shouldPopTo = <Type, Widget Function()>{

@@ -10,12 +10,12 @@ import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:prototype2021/theme/tb_event_more_button.dart';
-import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
-import 'package:prototype2021/ui/event/editor_view.dart';
-import 'package:prototype2021/ui/event/event_detail_view.dart';
-import 'package:prototype2021/ui/event/event_search_view.dart';
-import 'package:prototype2021/ui/event/filter_view.dart';
-import 'package:prototype2021/ui/event/my_page_view.dart';
+import 'package:prototype2021/views/board/main/location/select_location_toggle_view.dart';
+import 'package:prototype2021/views/event/editor/editor_view.dart';
+import 'package:prototype2021/views/event/detail/event_detail_view.dart';
+import 'package:prototype2021/views/event/search/event_search_view.dart';
+import 'package:prototype2021/views/board/main/filter/filter_view.dart';
+import 'package:prototype2021/views/mypage/my_page_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/theme/top_notice.dart';
 

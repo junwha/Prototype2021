@@ -10,7 +10,7 @@ import 'package:prototype2021/theme/board/contents_detail/header.dart';
 import 'package:prototype2021/theme/board/contents_detail/helpers.dart';
 import 'package:prototype2021/theme/center_notice.dart';
 import 'package:prototype2021/theme/loading.dart';
-import 'package:prototype2021/ui/event/event_main_view.dart';
+import 'package:prototype2021/views/event/main/event_main_view.dart';
 import 'package:provider/provider.dart';
 
 int _testCid = 128022;

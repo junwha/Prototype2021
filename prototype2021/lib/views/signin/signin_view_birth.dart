@@ -4,7 +4,7 @@ import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/signin/helpers.dart';
 import 'package:prototype2021/theme/signin/widgets.dart';
-import 'package:prototype2021/ui/signin_page/signin_view_gender.dart';
+import 'package:prototype2021/views/signin/signin_view_gender.dart';
 import 'package:provider/provider.dart';
 
 class SigninViewBirth extends StatefulWidget {

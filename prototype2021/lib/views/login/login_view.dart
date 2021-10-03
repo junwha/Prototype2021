@@ -8,8 +8,8 @@ import 'package:prototype2021/theme/circle_button.dart';
 import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:prototype2021/theme/loading.dart';
 import 'package:prototype2021/theme/pop_up.dart';
-import 'package:prototype2021/ui/board/board_main_view.dart';
-import 'package:prototype2021/ui/signin_page/signin_view.dart';
+import 'package:prototype2021/views/board/main/board_main_view.dart';
+import 'package:prototype2021/views/signin/signin_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/settings/constants.dart';
 
