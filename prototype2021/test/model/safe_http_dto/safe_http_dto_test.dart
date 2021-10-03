@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/data/dto/safe_http/get/verification.dart';
-import 'package:prototype2021/data/dto/safe_http/output_dto_factory.dart';
+import 'package:prototype2021/utils/safe_http/output_dto_factory.dart';
 import 'package:prototype2021/data/dto/safe_http/post/authentication.dart';
 import 'package:prototype2021/data/dto/safe_http/post/login.dart';
 import 'package:prototype2021/data/dto/safe_http/post/signup.dart';

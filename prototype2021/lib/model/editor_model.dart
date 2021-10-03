@@ -4,7 +4,7 @@ import 'package:prototype2021/data/event_dto.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/loader/google_place_loader.dart';
-import 'package:prototype2021/loader/legacy_http.dart';
+import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
 

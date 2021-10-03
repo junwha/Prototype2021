@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:prototype2021/data/dto/contents/content_detail.dart';
 import 'package:prototype2021/data/dto/contents/content_preview.dart';
 import 'package:prototype2021/data/dto/contents/content_type.dart';
-import 'package:prototype2021/data/dto/safe_http/base.dart';
-import 'package:prototype2021/data/dto/safe_http/common.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/common.dart';
 
 // ========================= ContentsList ========================= //
 

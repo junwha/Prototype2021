@@ -1,4 +1,4 @@
-import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 
 enum Gender { M, F, None }
 

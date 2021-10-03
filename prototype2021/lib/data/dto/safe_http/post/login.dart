@@ -1,4 +1,4 @@
-import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 
 class LoginInput extends SafeHttpDataInput {
   final String username;

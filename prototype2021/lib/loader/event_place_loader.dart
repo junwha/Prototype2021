@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/place_data.dart';
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/loader/legacy_http.dart';
+import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
 class EventPlaceLoader {
   Future<List<Location>> searchEventLocations(LatLng pos,

@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:prototype2021/data/dto/contents/content_preview.dart';
-import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
 import 'package:prototype2021/data/dto/safe_http/post/login.dart';
 import 'package:prototype2021/loader/contents_loader.dart';

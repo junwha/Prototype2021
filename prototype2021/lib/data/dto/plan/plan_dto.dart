@@ -5,7 +5,7 @@ import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/data/dto/contents/content_preview.dart';
-import 'package:prototype2021/data/dto/safe_http/common.dart';
+import 'package:prototype2021/utils/safe_http/common.dart';
 
 const Map<int, String> expenseCodeToString = {
   1: "10만원 미만",

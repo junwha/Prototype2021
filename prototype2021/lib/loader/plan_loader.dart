@@ -1,11 +1,11 @@
 import 'dart:io';
 
 import 'package:prototype2021/data/dto/plan/plan_dto.dart';
-import 'package:prototype2021/data/dto/safe_http/base.dart';
-import 'package:prototype2021/data/dto/safe_http/common.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/common.dart';
 import 'package:prototype2021/data/dto/safe_http/get/plan.dart';
 import 'package:prototype2021/data/dto/safe_http/patch/heart.dart';
-import 'package:prototype2021/loader/safe_http.dart';
+import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 enum PlanLoaderMode {

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
 import 'package:prototype2021/data/dto/safe_http/get/plan.dart';
 import 'package:prototype2021/data/dto/safe_http/get/verification.dart';
