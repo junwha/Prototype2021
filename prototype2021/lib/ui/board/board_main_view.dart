@@ -1,6 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/model/common.dart';
+import 'package:prototype2021/model/user_info_model.dart';
+import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/board/app_bar.dart';
 import 'package:prototype2021/theme/board/header_silver.dart';
 import 'package:prototype2021/theme/board/helpers.dart';
@@ -10,9 +14,11 @@ import 'package:prototype2021/theme/board/stream_list.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/cards/product_card.dart';
 import 'package:prototype2021/theme/center_notice.dart';
+import 'package:prototype2021/theme/selectable_text_button.dart';
 import 'package:prototype2021/ui/board/content_detail_view.dart';
 import 'package:prototype2021/ui/board/plan_make_view.dart';
 import 'package:prototype2021/ui/board/select_location_toggle_view.dart';
+import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 
 const double _toolbarHeight = 60;
@@ -32,24 +38,38 @@ class _BoardMainViewState extends State<BoardMainView>
         BoardMainViewAppBarMixin,
         BoardMainViewSearchWidgetMixin,
         BoardMainViewSearchLogicMixin,
-        BoardMainViewHelpers {
+        BoardMainViewHelpers,
+        ContentsLoader {
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
 
+  int refetchCount = 0;
+  final int maxRefetchCount = 3;
+  void setRefetchCount(int _refetchCount) => setState(() {
+        refetchCount = _refetchCount;
+      });
+
   BoardMainViewMode viewMode = BoardMainViewMode.main;
 
   Future<void> setViewMode(BoardMainViewMode _viewMode) async {
-    handleModeChange(_viewMode);
     setState(() {
       viewMode = _viewMode;
+      refetchCount = 0;
     });
+    handleModeChange(_viewMode);
   }
 
   String searchInput = "";
   void setSearchInput(String _searchInput) => setState(() {
         searchInput = _searchInput;
       });
+
+  int tabIndex = 0;
+  void setTabIndex(int _tabIndex) => setState(() {
+        tabIndex = _tabIndex;
+      });
+
   // The types inside Lists are temporary implementation.
   // If needed, this types can be changed.
   StreamController<List<ProductCardBaseProps>> planDataController =
@@ -61,17 +81,40 @@ class _BoardMainViewState extends State<BoardMainView>
   late Stream<List<ContentsCardBaseProps>> contentsDataStream;
   late Stream<List<dynamic>> recentSearchesStream;
 
-  Future<void> pseudoApiCall() async {
-    // Code below is just a simulation of api calls
-    planDataController.sink.add(await getPseudoPlanData());
-    contentsDataController.sink.add(await getPseudoContentData());
+  Future<void> callApi([String? keyword]) async {
+    getPlanData(keyword);
+    getContentsData(keyword);
+  }
+
+  Future<void> getPlanData([String? keyword]) async {
+    try {
+      // Code below is just a simulation of api calls
+      planDataController.sink.add(await getPseudoPlanData());
+    } catch (error) {
+      print(error);
+      // error handle
+    }
+  }
+
+  Future<void> getContentsData([String? keyword]) async {
+    try {
+      UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+      if (model.token != null) {
+        contentsDataController.sink.add(await getContentsList(
+          model.token!,
+          keyword != null && keyword.length > 0 ? keyword : null,
+        ));
+      }
+    } catch (error) {
+      print("Error from getContentsData: $error");
+      // error handle
+    }
   }
 
   Future<void> searchOnSubmitted(String? keyword) async {
     if (keyword != null && keyword.length > 0) {
       await addSearchKeyword(keyword);
       setViewMode(BoardMainViewMode.result);
-      // Do something with keyword (e.g. API call)
     }
   }
 
@@ -80,16 +123,27 @@ class _BoardMainViewState extends State<BoardMainView>
     loadSearchKeywords();
   }
 
-  Future<void> initData() async => await pseudoApiCall();
+  Future<void> initData() async => await callApi(searchInput);
 
   void handleModeChange(BoardMainViewMode _viewMode) {
     if (_viewMode == BoardMainViewMode.search) {
       loadSearchKeywords();
+      print('onSearch');
       textEditingController.text = "";
     } else {
-      pseudoApiCall();
+      print('onResultOfMAin');
+      callApi(searchInput);
     }
   }
+
+  void addError(EventSink sink) => sink.addError("Unexpected Error");
+
+  Future<void> _handlePlanData() async => await getPlanData(searchInput);
+
+  Future<void> _handleContentsData() async =>
+      await getContentsData(searchInput);
+
+  Future<void> _handleSearchKeywords() async => await loadSearchKeywords();
 
   // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
@@ -107,8 +161,52 @@ class _BoardMainViewState extends State<BoardMainView>
   @override
   void initState() {
     super.initState();
-    // Code below is a simulation of api call
     initData();
+  }
+
+  SingleChildScrollView buildFilterBar() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        children: [
+          TBSelectableTextButton(
+            isChecked: true,
+            titleName: "모두보기",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "여행지",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "카페",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "음식점",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "숙소",
+            onPressed: () {},
+          ),
+          SizedBox(width: 8 * pt),
+          TBSelectableTextButton(
+            isChecked: false,
+            titleName: "기타",
+            onPressed: () {},
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -142,12 +240,32 @@ class _BoardMainViewState extends State<BoardMainView>
   }
 
   AppBar buildAppBar(BuildContext context) {
+    void onPressed() {
+      switch (viewMode) {
+        case BoardMainViewMode.main:
+          Navigator.pop(context);
+          break;
+        case BoardMainViewMode.search:
+          setSearchInput("");
+          setViewMode(BoardMainViewMode.main);
+          break;
+        case BoardMainViewMode.result:
+          setViewMode(BoardMainViewMode.search);
+          break;
+        default:
+          break;
+      }
+    }
+
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
-      leading:
-          buildLeading(context, viewMode: viewMode, setViewMode: setViewMode),
+      leading: buildLeading(
+        context,
+        viewMode: viewMode,
+        onPressed: onPressed,
+      ),
       title: buildTextField(
         textEditingController,
         viewMode: viewMode,
@@ -168,12 +286,10 @@ class _BoardMainViewState extends State<BoardMainView>
   }
 
   Container buildSearchBody() {
-    void _handleSearchKeywords() => loadSearchKeywords();
     return Container(
         padding: EdgeInsets.only(right: 20, left: 40, top: 20, bottom: 20),
         child: BoardMainViewStreamList<dynamic>(
-            stream: recentSearchController.stream,
-            refetch: _handleSearchKeywords,
+            stream: recentSearchesStream,
             header: buildSearchBodyHeader(),
             emptyWidget: CenterNotice(text: '최근 검색기록이 없습니다'),
             errorWidget: CenterNotice(
@@ -188,6 +304,7 @@ class _BoardMainViewState extends State<BoardMainView>
                     onActionPressed: () => removeSearchKeyword(recentSearch),
                     onTap: () {
                       textEditingController.text = recentSearch;
+                      setSearchInput(recentSearch);
                       searchOnSubmitted(recentSearch);
                     });
               else
@@ -220,6 +337,8 @@ class _BoardMainViewState extends State<BoardMainView>
       location: location,
       onLeadingPressed: onLeadingPressed,
       viewMode: viewMode,
+      onTabBarPressed: setTabIndex,
+      tabIndex: tabIndex,
     );
   }
 
@@ -232,14 +351,16 @@ class _BoardMainViewState extends State<BoardMainView>
               children: [
                 Icon(Icons.delete_forever, color: const Color(0xff555555)),
                 SizedBox(width: 7),
-                Text("전체 삭제",
-                    style: const TextStyle(
-                        color: const Color(0xff555555),
-                        fontWeight: FontWeight.w700,
-                        fontFamily: "Roboto",
-                        fontStyle: FontStyle.normal,
-                        fontSize: 15.0),
-                    textAlign: TextAlign.center)
+                Text(
+                  "전체 삭제",
+                  style: const TextStyle(
+                      color: const Color(0xff555555),
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 15.0),
+                  textAlign: TextAlign.center,
+                )
               ],
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -250,43 +371,32 @@ class _BoardMainViewState extends State<BoardMainView>
     }
   }
 
-  void _handleRefetch() {
-    if (viewMode == BoardMainViewMode.result && searchInput.length > 0) {
-      searchOnSubmitted(searchInput);
-      return;
-    }
-    if (viewMode == BoardMainViewMode.main) {
-      pseudoApiCall();
-      return;
-    }
-  }
-
   BoardMainViewStreamList buildPlanListView(BuildContext context) {
     return BoardMainViewStreamList<ProductCardBaseProps>(
-      stream: planDataController.stream,
-      refetch: _handleRefetch,
+      stream: planDataStream,
       builder: (props) => ProductCard.fromProps(props: props),
-      routeBuilder: (_) => PlanMakeView(),
+      routeBuilder: (_, __) => PlanMakeView(),
       emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: _handleRefetch,
+        onActionPressed: getPlanData,
       ),
     );
   }
 
   BoardMainViewStreamList buildContentListView(BuildContext context) {
     return BoardMainViewStreamList<ContentsCardBaseProps>(
-      stream: contentsDataController.stream,
-      refetch: _handleRefetch,
+      stream: contentsDataStream,
       builder: (props) => ContentsCard.fromProps(props: props),
-      routeBuilder: (_) => ContentDetailView(),
+      routeBuilder: (_, id) => ContentDetailView(
+        id: id!,
+      ),
       emptyWidget: CenterNotice(text: "불러올 수 있는 컨텐츠가 없습니다"),
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: _handleRefetch,
+        onActionPressed: _handleContentsData,
       ),
     );
   }

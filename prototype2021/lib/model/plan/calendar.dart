@@ -80,4 +80,13 @@ class Calendar {
         return "";
     }
   }
+
+  static String dateToString(DateTime dateTime) {
+    String yearToString = dateTime.year.toString();
+    int month = dateTime.month;
+    String monthToString = month < 10 ? "0$month" : month.toString();
+    int day = dateTime.day;
+    String dayToString = day < 10 ? "0$day" : day.toString();
+    return "$yearToString-$monthToString-$dayToString";
+  }
 }

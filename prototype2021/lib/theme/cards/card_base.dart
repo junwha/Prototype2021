@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/heart_button.dart';
 
-class CardBaseProps {
+class CardBaseProps implements CommonObject {
+  final int id;
   final String preview;
   final String title;
-  final String place;
+  final String? place;
   final List<String> tags;
 
   CardBaseProps({
+    required this.id,
     required this.preview,
     required this.title,
-    required this.place,
     required this.tags,
+    this.place,
   });
 }
 
@@ -20,23 +23,25 @@ class CardBase {
   Container buildCard({
     required Widget itemInfo,
     required Color backgroundColor,
-    required String preview,
     required int dataId,
     required int userId,
-    bool isHeartSelected = false,
     required HeartFor heartFor,
+    bool isHeartSelected = false,
+    required String preview,
+    required String token,
   }) {
     return Container(
-        padding: EdgeInsets.all(20 * pt),
+        padding: EdgeInsets.all(10 * pt),
         height: 160 * pt,
         decoration: BoxDecoration(
           color: backgroundColor,
           border: Border.all(
             color: Color(0xffe8e8e8),
-            width: 1,
+            width: 0.5,
           ),
         ),
         child: Row(children: <Widget>[
+          SizedBox(width: 15),
           itemInfo,
           buildW(15 * pt),
           buildPreview(
@@ -45,6 +50,7 @@ class CardBase {
             dataId: dataId,
             userId: userId,
             heartFor: heartFor,
+            token: token,
           )
         ]));
   }
@@ -82,7 +88,10 @@ class CardBase {
     );
   }
 
-  Text buildPlace(String place) {
+  Widget buildPlace(String? place) {
+    if (place == null) {
+      return SizedBox();
+    }
     return Text(
       place,
       style: TextStyle(
@@ -93,14 +102,10 @@ class CardBase {
     );
   }
 
-  Row buildTags(List<String> tags) {
-    return Row(
-      children: [
-        Flex(
-          children: _generateTags(tags),
-          direction: Axis.horizontal,
-        ),
-      ],
+  Widget buildTags(List<String> tags) {
+    return Wrap(
+      children: _generateTags(tags),
+      direction: Axis.horizontal,
     );
   }
 
@@ -133,6 +138,7 @@ class CardBase {
     bool isHeartSelected = false,
     required int dataId,
     required int userId,
+    required String token,
   }) {
     return ClipRRect(
       borderRadius: BorderRadius.all(Radius.circular(9.0)),
@@ -149,10 +155,12 @@ class CardBase {
             ),
           ),
           HeartButton(
-              isHeartSelected: isHeartSelected,
-              heartFor: heartFor,
-              dataId: dataId,
-              userId: userId),
+            isHeartSelected: isHeartSelected,
+            heartFor: heartFor,
+            dataId: dataId,
+            userId: userId,
+            token: token,
+          ),
         ],
       ),
     );

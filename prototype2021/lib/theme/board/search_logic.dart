@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/simple_storage.dart';
 import 'package:rxdart/subjects.dart';
 
-const String _recentSearchKey = 'recentSearch';
-
 mixin BoardMainViewSearchLogicMixin {
   TextEditingController textEditingController = new TextEditingController();
   StreamController<List<dynamic>> recentSearchController =
@@ -13,7 +11,7 @@ mixin BoardMainViewSearchLogicMixin {
 
   Future<List<dynamic>?> getSearchKeywords() async {
     try {
-      return await SimpleStorage.readList(_recentSearchKey);
+      return await SimpleStorage.readList(SimpleStorageKeys.recentSearch);
     } catch (error) {
       return null;
     }
@@ -37,7 +35,7 @@ mixin BoardMainViewSearchLogicMixin {
       current = current.where((word) => word != keyword).toList();
       current.add(keyword);
     }
-    SimpleStorage.writeList(_recentSearchKey, current);
+    SimpleStorage.writeList(SimpleStorageKeys.recentSearch, current);
     recentSearchController.add(current);
   }
 
@@ -45,12 +43,12 @@ mixin BoardMainViewSearchLogicMixin {
     List<dynamic>? current = await getSearchKeywords();
     if (current != null) {
       current.remove(keyword);
-      SimpleStorage.writeList(_recentSearchKey, current);
+      SimpleStorage.writeList(SimpleStorageKeys.recentSearch, current);
       recentSearchController.add(current);
     }
   }
 
   Future<void> resetSearchKeyword() async {
-    await SimpleStorage.writeList(_recentSearchKey, []);
+    await SimpleStorage.writeList(SimpleStorageKeys.recentSearch, []);
   }
 }
