@@ -10,8 +10,8 @@ import 'package:prototype2021/settings/constants.dart';
 
 void printHTTPLog(http.Response res) {
   if (SAFE_HTTP_DEBUG) {
-    print(res.body);
-    print(res.statusCode);
+    print("[ Response Body ] : ${res.body.toString()}");
+    print("[ Status Code ] : ${res.statusCode.toString()}");
   }
 }
 
