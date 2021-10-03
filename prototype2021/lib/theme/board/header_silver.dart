@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/dto/contents/content_type.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
@@ -9,6 +10,7 @@ mixin BoardMainSilverMixin {
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder({
     required void Function() onLeadingPressed,
     required void Function(int) onTabBarPressed,
+    required void Function(ContentType?) onFilterBarPressed,
     required int tabIndex,
     required Map<String, String> location,
     required BoardMainViewMode viewMode,
@@ -35,10 +37,10 @@ mixin BoardMainSilverMixin {
             forceElevated: true,
             pinned: true,
             backgroundColor: Colors.white,
-            title: buildFilterBar(),
+            title: buildFilterBar(onFilterChange: onFilterBarPressed),
           )
         ];
-        if (tabIndex == 1) slivers.removeAt(2);
+        // if (tabIndex == 1) slivers.removeAt(2);
         if (viewMode == BoardMainViewMode.search) slivers = [];
         if (viewMode == BoardMainViewMode.result) slivers.removeAt(0);
         return slivers;
@@ -61,13 +63,27 @@ mixin BoardMainSilverMixin {
    * 이때 titleNameIndex는 index가 짝수일 때만 이용되므로 나머지에 대한 생각을 하지 않아도 됩니다
    * 이런식으로 ListView.seperated 와 같은 로직이 구현되는 것입니다
    */
-  SingleChildScrollView buildFilterBar() {
+  SingleChildScrollView buildFilterBar(
+      {void Function(ContentType?)? onFilterChange}) {
     /* 
      * This is a temporary implementation. 
      * focusedIndex should be handled as state at root widget(BoardMainView)
      */
     final int focusedIndex = 0;
     const List<String> titleNames = ["모두보기", "여행지", "카페", "음식점", "숙소", "기타"];
+    ContentType? titleToContentType(String title) {
+      switch (title) {
+        case "여행지":
+          return ContentType.spot;
+        case "숙소":
+          return ContentType.accomodations;
+        case "음식점":
+          return ContentType.restaurants;
+        default:
+          return null;
+      }
+    }
+
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
@@ -77,7 +93,10 @@ mixin BoardMainSilverMixin {
             ? TBSelectableTextButton(
                 isChecked: titleNameIndex == focusedIndex,
                 titleName: titleNames[titleNameIndex],
-                onPressed: () {},
+                onPressed: onFilterChange == null
+                    ? null
+                    : () => onFilterChange(
+                        titleToContentType(titleNames[titleNameIndex])),
               )
             : SizedBox(width: 8 * pt);
       })),

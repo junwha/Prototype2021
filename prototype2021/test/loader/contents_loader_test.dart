@@ -49,11 +49,27 @@ void testContentsList() {
     SafeQueryOutput<ContentsListOutput> result =
         await contentsLoader!.contentsList(dto);
     print(result.error?.message);
+    print(result.data?.results);
     expect(result.data?.results != null, true);
     expect(result.data!.results is List<ContentPreview>, true);
     expect(result.data!.count > 0, true);
     expect(result.data!.previous, null);
     sampleData = result.data!.results;
+  });
+
+  test('should get a list of contents with keywords related', () async {
+    String keyword = "대구";
+    ContentsListInput params = new ContentsListInput(keyword: keyword);
+    SafeQueryInput<ContentsListInput> dto = new SafeQueryInput(
+        url: contentsLoader!.contentsListUrl, params: params, token: token);
+    SafeQueryOutput<ContentsListOutput> result =
+        await contentsLoader!.contentsList(dto);
+    print(result.error?.message);
+    print(result.data?.results);
+    expect(result.data?.results != null, true);
+    expect(result.data!.results is List<ContentPreview>, true);
+    expect(result.data!.count > 0, true);
+    expect(result.data!.previous, null);
   });
 }
 

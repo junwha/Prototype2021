@@ -13,19 +13,22 @@ class ContentsListInput extends SafeHttpDataInput {
   final int? areaDetailCode;
   final String? keyword;
   final ContentType? typeId;
+  final int? page;
 
   ContentsListInput({
     this.areaCode,
     this.areaDetailCode,
     this.keyword,
-    this.typeId,
-  });
+    this.page,
+    ContentType? contentType,
+  }) : typeId = contentType;
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,
         "area_detail_code": areaDetailCode == null ? null : "($areaDetailCode)",
         "keyword": keyword,
-        "typeid": contentTypeId[typeId],
+        "typeid": typeId == null ? null : contentTypeId[typeId],
+        "page": page,
       };
 
   Map<String, String>? getUrlParams() => null;

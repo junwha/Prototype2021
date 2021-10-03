@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:prototype2021/data/dto/contents/content_detail.dart';
+import 'package:prototype2021/data/dto/contents/content_type.dart';
 import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/data/dto/safe_http/common.dart';
 import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
 import 'package:prototype2021/data/dto/safe_http/patch/heart.dart';
 import 'package:prototype2021/loader/safe_http.dart';
@@ -9,6 +11,8 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/cards/contents_card.dart';
 
 class ContentsLoader {
+  PaginationState pagination = PaginationState.start;
+
   // Custom Functions
 
   Future<void> heartContents(String contentsId, String token) async {
@@ -26,12 +30,25 @@ class ContentsLoader {
   Future<List<ContentsCardBaseProps>> getContentsList(
     String token, [
     String? keyword,
+    ContentType? type,
   ]) async {
-    ContentsListInput params = new ContentsListInput(keyword: keyword);
+    if (pagination == PaginationState.end) {
+      return [];
+    }
+    ContentsListInput params =
+        new ContentsListInput(keyword: keyword, contentType: type);
     SafeQueryInput<ContentsListInput> dto =
         new SafeQueryInput(url: contentsListUrl, params: params, token: token);
     SafeQueryOutput<ContentsListOutput> result = await contentsList(dto);
-    if (result.success && result.data?.results != null)
+    if (result.success && result.data?.results != null) {
+      if (result.data!.next == null) {
+        pagination = PaginationState.end;
+        contentsListUrl = "";
+      } else {
+        contentsListUrl = result.data!.next!
+            .replaceFirst("tbserver:8000", "api.tripbuilder.co.kr");
+        pagination = PaginationState.mid;
+      }
       return result.data!.results
           .map<ContentsCardBaseProps>((datum) => ContentsCardBaseProps(
                 id: datum.id,
@@ -45,6 +62,7 @@ class ContentsLoader {
                 hearted: datum.hearted,
               ))
           .toList();
+    }
     throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
