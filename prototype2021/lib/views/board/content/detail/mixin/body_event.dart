@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/event/event_article_model.dart';
+import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/timer_card.dart';
 import 'package:prototype2021/views/event/editor/editor_view.dart';
@@ -36,7 +36,7 @@ mixin ContentDetailViewEventMixin {
   /// 이벤트 위젯의 헤더를 렌더링합니다.(글쓰기 버튼 등)
   Padding buildEventArea(
     BuildContext context,
-    EventArticleModel articleModel,
+    EventArticleHandler articleModel,
   ) {
     return Padding(
       padding: const EdgeInsets.all(25.0),
@@ -96,7 +96,7 @@ mixin ContentDetailViewEventMixin {
 
   /// 이벤트 게시물들을 렌더링합니다
   Widget buildEventArticles(
-      BuildContext context, EventArticleModel eventArticleModel) {
+      BuildContext context, EventArticleHandler eventArticleModel) {
     if (eventArticleModel.isTopEventArticleLoading) return Text("Loading ...");
     return Column(
       children: eventArticleModel.topEventArticleList

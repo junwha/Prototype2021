@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
-import 'package:prototype2021/handler/google_place/search_place_model.dart';
+import 'package:prototype2021/handler/google_place/search_place_handler.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/views/event/map/event_map_view.dart';
 import 'package:provider/provider.dart';
 
 class MapSearchBar extends StatefulWidget {
-  ContentMapModel locationModel;
+  ContentMapHandler locationModel;
   bool backButtonEnabled;
   Widget? leading;
   MapSearchBar(this.locationModel,
@@ -33,7 +33,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     );
   }
 
-  Widget buildChipBar(ContentMapModel locationModel) {
+  Widget buildChipBar(ContentMapHandler locationModel) {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
       child: SizedBox.expand(
@@ -55,7 +55,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
   }
 
   Widget buildPlaceFilterChip(
-      ContentMapModel locationModel, String text, String type, Image icon) {
+      ContentMapHandler locationModel, String text, String type, Image icon) {
     return PlaceFilterChip(
       leading: icon,
       text: text,
@@ -77,7 +77,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     final controller = FloatingSearchBarController();
     final _applyKey = GlobalKey<FormState>();
     double leftMargin = this.widget.backButtonEnabled ? 50 : 10;
-    return Consumer(builder: (context, ContentMapModel locationModel, child) {
+    return Consumer(builder: (context, ContentMapHandler locationModel, child) {
       return ChangeNotifierProvider(
         create: (context) => SearchPlaceModel(locationModel),
         child: Consumer(

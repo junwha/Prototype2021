@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
-import 'package:prototype2021/handler/event/event_article_model.dart';
-import 'package:prototype2021/handler/user/user_info_model.dart';
+import 'package:prototype2021/handler/event/event_article_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body_event.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/header.dart';
@@ -44,7 +44,8 @@ class ContentDetailViewState extends State<ContentDetailView>
 
   Future<void> fetchDetail() async {
     try {
-      UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+      UserInfoHandler model =
+          Provider.of<UserInfoHandler>(context, listen: false);
       setProps(await getContentDetail(widget.id, model.token!));
       setOnError(false);
     } catch (error) {
@@ -91,9 +92,9 @@ class ContentDetailViewState extends State<ContentDetailView>
       body: SafeArea(
         child: SingleChildScrollView(
             child: ChangeNotifierProvider(
-          create: (context) => EventArticleModel.main(),
+          create: (context) => EventArticleHandler.main(),
           child: Consumer(
-              builder: (context, EventArticleModel eventArticleModel, child) {
+              builder: (context, EventArticleHandler eventArticleModel, child) {
             void onImageChanged(int i, CarouselPageChangedReason reason) {
               setState(() {
                 imageIndex = i.toDouble();

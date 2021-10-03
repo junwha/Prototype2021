@@ -4,7 +4,7 @@ import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/settings/constants.dart';
 
-class SearchArticleModel with ChangeNotifier {
+class SearchArticleHandler with ChangeNotifier {
   ArticleLoader articleLoader = ArticleLoader();
   List<EventPreviewData> eventArticleList = [];
   List<EventPreviewData> companionArticleList = [];

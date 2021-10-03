@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:provider/provider.dart';
 
 mixin SigninViewHelper {
   void navigateToNext(BuildContext context,
-      {required SignInModel model, required Widget child}) {
+      {required SignInHandler model, required Widget child}) {
     Navigator.push(
       context,
       MaterialPageRoute(

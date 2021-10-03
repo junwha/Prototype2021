@@ -3,7 +3,7 @@ import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/handler/state_manager.dart';
 import 'package:prototype2021/views/signin/signin_term_view.dart';
 
-class SignInModel extends StateManager {
+class SignInHandler extends StateManager {
   String _username = "";
   String _password = "";
   XFile? _photo;
@@ -75,5 +75,5 @@ class SignInModel extends StateManager {
    * Use this when you need to pass the change notifier model
    * to next page route
   */
-  SignInModel inherit() => this;
+  SignInHandler inherit() => this;
 }

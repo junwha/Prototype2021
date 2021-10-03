@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/contants.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/data_handler.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart';
@@ -75,7 +75,7 @@ class PlanListItemState extends State<PlanListItem>
    * 위젯트리 상으로 가장 가까운 PlanListItem 클래스에 아래와 같은 메소드를 정의해 놓은 것입니다. 
   */
   void Function() Function(int) deleteSelfFuncFactory(
-      PlanMakeCalendarModel calendarHandler) {
+      PlanMakeCalendarHandler calendarHandler) {
     return (int order) {
       return () {
         calendarHandler.deletePlaceData(dateIndex, order);
@@ -129,8 +129,8 @@ class PlanListItemState extends State<PlanListItem>
     PlanMakeHomeViewState? parent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
 
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     bool onDrag = parent?.onDrag ?? false;

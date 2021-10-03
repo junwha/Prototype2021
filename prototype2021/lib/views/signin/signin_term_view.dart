@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
@@ -145,7 +145,7 @@ class _SigninTermViewState extends State<SigninTermView>
   TextButton buildNextButton(BuildContext context) {
     String methodToString =
         verificationMethod == VerificationMethod.Email ? "이메일" : "휴대폰";
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+    SignInHandler signInModel = Provider.of<SignInHandler>(context);
     void onPressed() {
       if (processToNext(signInModel)) {
         navigateToNext(context,
@@ -191,7 +191,7 @@ class _SigninTermViewState extends State<SigninTermView>
     );
   }
 
-  bool processToNext(SignInModel signInModel) {
+  bool processToNext(SignInHandler signInModel) {
     signInModel.setMethod(verificationMethod);
     if (firstTermChecked && secondTermChecked) {
       signInModel.setAgreeRequiredTerms(true);

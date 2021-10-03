@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
@@ -53,8 +53,8 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
   }
 
   Container buildHeaderActions(BuildContext context) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     return Container(
       child: Row(
         children: [

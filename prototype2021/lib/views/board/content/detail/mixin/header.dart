@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/contents/content_detail.dart';
-import 'package:prototype2021/handler/user/user_info_model.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:provider/provider.dart';
 
@@ -40,7 +40,8 @@ mixin ContentDetailViewHeaderMixin {
 
   /// 제목과 하트 버튼을 렌더링합니다
   Widget buildTitle(BuildContext context, ContentsDetail props) {
-    UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+    UserInfoHandler model =
+        Provider.of<UserInfoHandler>(context, listen: false);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [

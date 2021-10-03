@@ -13,14 +13,14 @@ enum CalendarTouchPhase {
   RANGE,
 }
 
-class PlanMakeCalendarModel with ChangeNotifier {
+class PlanMakeCalendarHandler with ChangeNotifier {
   CalendarTouchPhase _phase = CalendarTouchPhase.PENDING;
   DateTime _now;
   List<DateTime?> _datePoints = [null, null];
   int? _dateDifference;
   List<List<PlaceDataProps>>? _planListItems;
 
-  PlanMakeCalendarModel({DateTime? now}) : _now = now ?? new DateTime.now();
+  PlanMakeCalendarHandler({DateTime? now}) : _now = now ?? new DateTime.now();
 
   /* 
   * 캘린더의 터치 상태인 enum CalenderTouchPhase를 가져옵니다. 
@@ -111,7 +111,7 @@ class PlanMakeCalendarModel with ChangeNotifier {
     notifyListeners();
   }
 
-  PlanMakeCalendarModel inherit() {
+  PlanMakeCalendarHandler inherit() {
     return this;
   }
 

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/handler/event/event_map_model.dart';
+import 'package:prototype2021/handler/event/event_map_handler.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
 import 'package:provider/provider.dart';
 
@@ -20,10 +20,10 @@ class _EventMapViewState extends State<EventMapView> {
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: ChangeNotifierProvider(
-        create: (context) => EventMapModel(
+        create: (context) => EventMapHandler(
             center: this.widget.center), // Test: LatLng(37.33023, -122.02367
         child: Consumer(
-          builder: (context, EventMapModel mapModel, child) {
+          builder: (context, EventMapHandler mapModel, child) {
             return Stack(
               children: [
                 //initial position

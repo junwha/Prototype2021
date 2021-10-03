@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 
@@ -15,7 +15,7 @@ class SearchPlaceModel with ChangeNotifier {
   List<GooglePlaceData> searchResult = []; // save search result data
   List<LocationResultCard> resultCards = []; // save resultCards UI's
 
-  ContentMapModel locationModel;
+  ContentMapHandler locationModel;
 
   SearchPlaceModel(this.locationModel);
 

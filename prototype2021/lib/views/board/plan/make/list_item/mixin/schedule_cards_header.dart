@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/handler/board/plan/calendar.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/memo_dialog.dart';
@@ -48,8 +48,8 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
 
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     DateTime date =
         calendarHandler.datePoints[0]!.add(Duration(days: dateIndex));
     return Container(
@@ -62,8 +62,8 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   }
 
   Container buildLeading(BuildContext context, DateTime date) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     PlanListItemState? parent =
@@ -114,8 +114,8 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   }
 
   Container buildActions(BuildContext context) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     void _createMemo() =>
         calendarHandler.addPlaceData(dateIndex, new MemoData(memo: _memo));
     PlanListItemState? parent =

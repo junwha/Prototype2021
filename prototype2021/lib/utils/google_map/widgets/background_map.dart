@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 
 class BackgroundMap extends StatefulWidget {
   LatLng center;

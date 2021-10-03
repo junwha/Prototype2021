@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/board/plan/calendar.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/mixin/bottom_calendar_button.dart';
 import 'package:prototype2021/views/board/plan/make/mixin/plan_make_appbar_base.dart';
 import 'package:provider/provider.dart';
@@ -19,8 +19,8 @@ class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
   }
 
   Container buildBody(BuildContext context) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     DateTime _now = new DateTime.now();
     return Container(
       child: Column(
@@ -65,7 +65,7 @@ class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
   }
 
   Widget buildCalendars(
-      PlanMakeCalendarModel calendarHandler, int year, int month) {
+      PlanMakeCalendarHandler calendarHandler, int year, int month) {
     List<int> months = List.generate(3, (index) => month + index);
     return Expanded(
       child: ListView(
@@ -78,7 +78,7 @@ class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
   }
 
   Container buildMonthlyCalendar(
-      PlanMakeCalendarModel calendarHandler, int year, int month) {
+      PlanMakeCalendarHandler calendarHandler, int year, int month) {
     DateTime _convertedDateTime = new DateTime(year, month);
     List<DateTime?> _calendar = Calendar()
         .generateCalendar(_convertedDateTime.year, _convertedDateTime.month);
@@ -149,7 +149,7 @@ class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
     );
   }
 
-  Container buildPlaceholder(PlanMakeCalendarModel calendarHandler,
+  Container buildPlaceholder(PlanMakeCalendarHandler calendarHandler,
       int dateIndex, int year, int month) {
     Color _backgroundColor = Colors.white;
     if (calendarHandler.phase == CalendarTouchPhase.RANGE) {
@@ -176,7 +176,7 @@ class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
   }
 
   TextButton buildCalendarDate(
-      PlanMakeCalendarModel calendarHandler, DateTime date) {
+      PlanMakeCalendarHandler calendarHandler, DateTime date) {
     TextDecoration textDecoration;
     Color textColor;
     bool disabled;

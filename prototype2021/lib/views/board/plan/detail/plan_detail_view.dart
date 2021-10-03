@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
-import 'package:prototype2021/handler/board/plan/plan_map_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
@@ -34,11 +34,11 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   late PlanDataProps planData;
 
   // Flatten the place data double list
-  late PlanMapModel mapModel;
+  late PlanMapHandler mapModel;
 
   Future<void> loadPlanDetail() async {
     planData = getPlanDetail(this.widget.pid);
-    mapModel = PlanMapModel(planData.planItemList[0][0].location);
+    mapModel = PlanMapHandler(planData.planItemList[0][0].location);
     // Update PlaceData and polyline when map is completely loaded
     mapModel.setMapLoadListener(
         () => {mapModel.updatePlaceData(planData.planItemList)});
@@ -196,13 +196,13 @@ class _PlanDetailViewState extends State<PlanDetailView> {
    * initState에서 생성한 PlanMapModel을 사용합니다
    */
   Widget buildMap() {
-    return ChangeNotifierProvider<PlanMapModel>.value(
+    return ChangeNotifierProvider<PlanMapHandler>.value(
         value: mapModel,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Consumer<PlanMapModel>(
-                builder: (BuildContext ctx, PlanMapModel model, Widget? _) {
+            Consumer<PlanMapHandler>(
+                builder: (BuildContext ctx, PlanMapHandler model, Widget? _) {
               return Container(
                 height: 200,
                 child: mapModel.mapLoaded ? PlanMap() : SizedBox(height: 200),

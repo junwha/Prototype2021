@@ -1,7 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/signin/http/signup.dart';
-import 'package:prototype2021/handler/event/event_article_model.dart';
+import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/timer_card.dart';
 import 'package:prototype2021/views/event/main/mixin/event_articles.dart';
@@ -59,9 +59,9 @@ class _EventMainViewState extends State<EventMainView>
       bottomNavigationBar: buildBottomNavigationBar(),
       body: SingleChildScrollView(
         child: ChangeNotifierProvider(
-          create: (context) => EventArticleModel.main(),
+          create: (context) => EventArticleHandler.main(),
           child: Consumer(
-            builder: (context, EventArticleModel eventArticleModel, child) {
+            builder: (context, EventArticleHandler eventArticleModel, child) {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -83,7 +83,7 @@ class _EventMainViewState extends State<EventMainView>
     );
   }
 
-  Widget buildArticleList(EventArticleModel eventArticleModel) {
+  Widget buildArticleList(EventArticleHandler eventArticleModel) {
     return Column(
       children: [
         Container(
@@ -114,7 +114,7 @@ class _EventMainViewState extends State<EventMainView>
     );
   }
 
-  Widget buildEventArticles(EventArticleModel eventArticleModel) {
+  Widget buildEventArticles(EventArticleHandler eventArticleModel) {
     if (eventArticleModel.isTopEventArticleLoading) return Text("Loading ...");
     return Column(
       children: eventArticleModel.topEventArticleList
@@ -179,7 +179,7 @@ class _EventMainViewState extends State<EventMainView>
     );
   }
 
-  Padding buildSelectSection(EventArticleModel articleModel) {
+  Padding buildSelectSection(EventArticleHandler articleModel) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15 * pt, 12 * pt, 15 * pt, 30 * pt),
       child: Row(

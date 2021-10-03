@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
@@ -169,7 +169,7 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
   }
 
   Padding buildNextButton(BuildContext context) {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+    SignInHandler signInModel = Provider.of<SignInHandler>(context);
     return Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: buildSigninButton(context, onPressed: () {

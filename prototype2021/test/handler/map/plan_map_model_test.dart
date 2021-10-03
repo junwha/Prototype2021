@@ -4,7 +4,7 @@ import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
-import 'package:prototype2021/handler/board/plan/plan_map_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 
 void main() {
   group("PlanMapModel:", testPlanMapModel);
@@ -35,7 +35,7 @@ void testPlanMapModel() {
   ];
 
   test('update polyline', () async {
-    final model = PlanMapModel(LatLng(0, 0));
+    final model = PlanMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
     // polyline is null at the initial point
     expect(model.polyline, null);
@@ -75,7 +75,7 @@ void testPlanMapModel() {
   });
 
   test('day selection', () async {
-    final model = PlanMapModel(LatLng(0, 0));
+    final model = PlanMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     model.updatePlaceData([

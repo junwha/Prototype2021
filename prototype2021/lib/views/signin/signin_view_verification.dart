@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/signin/signin_loader.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
@@ -96,7 +96,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
 
   @override
   Widget build(BuildContext context) {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+    SignInHandler signInModel = Provider.of<SignInHandler>(context);
     String modeToString = signInModel.method == VerificationMethod.Email
         ? "이메일을 입력해주세요"
         : "전화번호를 입력해주세요(010-xxxx-xxxx 형식)";
@@ -165,7 +165,7 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   }
 
   Container buildButtonRow() {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+    SignInHandler signInModel = Provider.of<SignInHandler>(context);
     return Container(
       width: 410,
       height: 70,

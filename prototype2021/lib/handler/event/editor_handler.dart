@@ -9,7 +9,7 @@ import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
 
-class EditorModel with ChangeNotifier {
+class EditorHandler with ChangeNotifier {
   /* General Arguments */
   String title = "";
   String content = "";
@@ -37,10 +37,10 @@ class EditorModel with ChangeNotifier {
   /* For PATCH, PUT and TEMP */
   int? articleId;
 
-  EditorModel();
-  EditorModel.location(this.location);
+  EditorHandler();
+  EditorHandler.location(this.location);
 
-  EditorModel.edit(ArticleDetailData data) {
+  EditorHandler.edit(ArticleDetailData data) {
     this.articleId = data.id;
     this.writeType = WriteType.PUT;
 

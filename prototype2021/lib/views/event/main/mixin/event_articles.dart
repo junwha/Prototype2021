@@ -1,4 +1,4 @@
-import 'package:prototype2021/handler/event/event_article_model.dart';
+import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
@@ -7,7 +7,7 @@ import 'package:prototype2021/views/event/detail/event_detail_view.dart';
 import 'package:provider/provider.dart';
 
 class EventArticles extends StatefulWidget {
-  EventArticleModel eventArticleModel;
+  EventArticleHandler eventArticleModel;
   EventArticles(this.eventArticleModel);
 
   @override
@@ -25,7 +25,7 @@ class _EventArticlesState extends State<EventArticles> {
     return ChangeNotifierProvider.value(
       value: this.widget.eventArticleModel,
       child: Consumer(
-          builder: (context, EventArticleModel eventArticlesModel, child) {
+          builder: (context, EventArticleHandler eventArticlesModel, child) {
         return SingleChildScrollView(
           child: buildArticles(eventArticlesModel),
         );
@@ -33,7 +33,7 @@ class _EventArticlesState extends State<EventArticles> {
     );
   }
 
-  Widget buildArticles(EventArticleModel eventArticlesModel) {
+  Widget buildArticles(EventArticleHandler eventArticlesModel) {
     if (eventArticlesModel.isEventArticleLoading) return Text("Loading ...");
     return Padding(
       padding: const EdgeInsets.only(top: 0, bottom: 30),

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/event/event_article_model.dart';
+import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/event/editor/editor_view.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
   final int id;
-  EventArticleModel eventArticleModel;
+  EventArticleHandler eventArticleModel;
   ArticleType articleType;
   EventDetailView(this.id, this.eventArticleModel, this.articleType);
 
@@ -31,7 +31,7 @@ class _EventDetailViewState extends State<EventDetailView> {
       body: ChangeNotifierProvider.value(
         value: this.widget.eventArticleModel,
         child: Consumer(
-            builder: (context, EventArticleModel eventArticleModel, child) {
+            builder: (context, EventArticleHandler eventArticleModel, child) {
           return SingleChildScrollView(
             child: eventArticleModel.detailData == null
                 ? Text("Loading ...")
@@ -101,7 +101,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Row buildProfile(EventArticleModel eventArticleModel) {
+  Row buildProfile(EventArticleHandler eventArticleModel) {
     return Row(
       children: [
         Container(
@@ -135,7 +135,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Column buildDetail(EventArticleModel eventArticleModel) {
+  Column buildDetail(EventArticleHandler eventArticleModel) {
     return Column(
       children: [
         Padding(
@@ -187,7 +187,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  PopupMenuButton bulidPopupMenuButton(EventArticleModel articleModel) {
+  PopupMenuButton bulidPopupMenuButton(EventArticleHandler articleModel) {
     return PopupMenuButton(
       icon: Icon(
         Icons.more_vert,
@@ -225,7 +225,7 @@ class _EventDetailViewState extends State<EventDetailView> {
     );
   }
 
-  Widget bulidContent(EventArticleModel eventArticleModel) {
+  Widget bulidContent(EventArticleHandler eventArticleModel) {
     return Container(
       width: double.infinity,
       child: Column(

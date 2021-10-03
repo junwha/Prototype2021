@@ -3,9 +3,9 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 
-@GenerateMocks([PlanMakeCalendarModel])
+@GenerateMocks([PlanMakeCalendarHandler])
 void main() {
   group('[Class] PlanMakeCalendarModel', testPlanMakeCalendarModel);
 }
@@ -35,7 +35,7 @@ void testPlanMakeCalendarModel() {
   final int dataListIndex = 0;
 
   group('[Method] handleTap', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
     test('should expect initial state as PENDING', () {
       expect(model.phase, CalendarTouchPhase.PENDING);
     });
@@ -75,7 +75,7 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Property] dateDifference', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
 
     test('should return 1 if the phase is POINT', () {
       model.handleTap(firstTappedDate);
@@ -88,7 +88,7 @@ void testPlanMakeCalendarModel() {
     });
   });
   group('[Method] generatePlanListItems', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
 
     model.handleTap(firstTappedDate);
     model.handleTap(secondTappedDate);
@@ -105,7 +105,7 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] addPlaceData', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
 
     model.handleTap(firstTappedDate);
     model.handleTap(secondTappedDate);
@@ -117,7 +117,7 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] deletePlaceData', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
 
     model.handleTap(firstTappedDate);
     model.handleTap(secondTappedDate);
@@ -132,7 +132,7 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] swapPlaceData', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
 
     model.handleTap(firstTappedDate);
     model.handleTap(secondTappedDate);
@@ -151,7 +151,7 @@ void testPlanMakeCalendarModel() {
   });
 
   group('[Method] insertPlaceData', () {
-    final PlanMakeCalendarModel model = new PlanMakeCalendarModel();
+    final PlanMakeCalendarHandler model = new PlanMakeCalendarHandler();
 
     model.handleTap(firstTappedDate);
     model.handleTap(secondTappedDate);

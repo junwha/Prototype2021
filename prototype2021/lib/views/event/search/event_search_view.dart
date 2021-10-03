@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
-import 'package:prototype2021/handler/event/search_article_model.dart';
+import 'package:prototype2021/handler/event/search_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/recruit_card.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +26,10 @@ class _EventSearchViewState extends State<EventSearchView> {
           initialIndex: 0,
           length: 2,
           child: ChangeNotifierProvider(
-              create: (context) => SearchArticleModel(),
+              create: (context) => SearchArticleHandler(),
               child: Consumer(
                 builder:
-                    (context, SearchArticleModel searchArticleModel, child) {
+                    (context, SearchArticleHandler searchArticleModel, child) {
                   return Column(
                     children: [
                       // Search Bar
@@ -78,7 +78,7 @@ class _EventSearchViewState extends State<EventSearchView> {
     );
   }
 
-  Container buildArticleSection(SearchArticleModel searchArticleModel) {
+  Container buildArticleSection(SearchArticleHandler searchArticleModel) {
     return Container(
         padding: EdgeInsets.only(top: 20),
         child: TabBarView(children: [
@@ -126,7 +126,7 @@ class _EventSearchViewState extends State<EventSearchView> {
         ]));
   }
 
-  Widget buildFloatingSearchBar(SearchArticleModel searchArticleModel) {
+  Widget buildFloatingSearchBar(SearchArticleHandler searchArticleModel) {
     final isPortrait =
         MediaQuery.of(context).orientation == Orientation.portrait;
     final controller = FloatingSearchBarController();

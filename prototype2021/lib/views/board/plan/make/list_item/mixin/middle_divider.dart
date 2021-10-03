@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart';
 import 'package:prototype2021/widgets/shapes/tb_distance_icon.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
@@ -45,9 +45,9 @@ class PlanListMiddleDivider extends StatelessWidget with PlanListItemHelper {
     PlanMakeHomeViewState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
     bool onDrag = grandParent?.onDrag ?? false;
-    PlanMakeCalendarModel? calendarHandler;
+    PlanMakeCalendarHandler? calendarHandler;
     try {
-      calendarHandler = Provider.of<PlanMakeCalendarModel>(context);
+      calendarHandler = Provider.of<PlanMakeCalendarHandler>(context);
     } catch (e) {
       calendarHandler = null;
     }

@@ -7,7 +7,7 @@ import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/utils/aws_s3_uploader/s3_uploader.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/signin/signin_term_view.dart';
 
@@ -66,7 +66,7 @@ class SigninLoader {
     throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 
-  Future<int> requestSignup(SignInModel signInModel) async {
+  Future<int> requestSignup(SignInHandler signInModel) async {
     String? photoUrl;
 
     if (signInModel.photo != null) {

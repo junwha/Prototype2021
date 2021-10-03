@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
-import 'package:prototype2021/handler/event/editor_model.dart';
+import 'package:prototype2021/handler/event/editor_handler.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
@@ -56,8 +56,9 @@ class _EditorViewState extends State<EditorView> {
           child: ChangeNotifierProvider(
             create: (context) => targetLocation == null
                 ? getEditorModel(this.widget.writeType)
-                : EditorModel.location(targetLocation),
-            child: Consumer(builder: (context, EditorModel editorModel, child) {
+                : EditorHandler.location(targetLocation),
+            child:
+                Consumer(builder: (context, EditorHandler editorModel, child) {
               return Padding(
                 padding: const EdgeInsets.fromLTRB(
                     20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
@@ -111,7 +112,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Column buildBottom(EditorModel editorModel, BuildContext context) {
+  Column buildBottom(EditorHandler editorModel, BuildContext context) {
     return Column(
       children: [
         buildCheckBox(editorModel),
@@ -135,7 +136,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildDropdown(EditorModel editorModel) {
+  Widget buildDropdown(EditorHandler editorModel) {
     if (!editorModel.hasGender && !editorModel.hasAge) {
       return buildRecruitmentNumber(editorModel);
     } else if (!editorModel.hasGender) {
@@ -161,7 +162,7 @@ class _EditorViewState extends State<EditorView> {
     }
   }
 
-  Widget buildGenderRecruitment(EditorModel editorModel) {
+  Widget buildGenderRecruitment(EditorHandler editorModel) {
     return Row(
       children: [
         Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
@@ -217,7 +218,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildAgeSelection(EditorModel editorModel) {
+  Widget buildAgeSelection(EditorHandler editorModel) {
     return Row(
       children: [
         Text("나이", style: TextStyle(fontSize: 13 * pt)),
@@ -262,7 +263,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildRecruitmentNumber(EditorModel editorModel) {
+  Widget buildRecruitmentNumber(EditorHandler editorModel) {
     return Row(children: [
       Text("모집인원", style: TextStyle(fontSize: 13 * pt)),
       SizedBox(
@@ -292,7 +293,7 @@ class _EditorViewState extends State<EditorView> {
     ]);
   }
 
-  Row buildCheckBox(EditorModel editorModel) {
+  Row buildCheckBox(EditorHandler editorModel) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
@@ -329,17 +330,17 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  EditorModel getEditorModel(WriteType writeType) {
+  EditorHandler getEditorModel(WriteType writeType) {
     if (writeType == WriteType.POST)
-      return EditorModel();
+      return EditorHandler();
     else {
       //else if (writeType == WriteType.PUT) {
       if (this.widget.data == null) Navigator.pop(context);
-      return EditorModel.edit(this.widget.data!);
+      return EditorHandler.edit(this.widget.data!);
     }
   }
 
-  TextButton buildLocationSelect(EditorModel editorModel) {
+  TextButton buildLocationSelect(EditorHandler editorModel) {
     return TextButton(
         child: Text("지도 선택하기",
             style: TextStyle(
@@ -351,7 +352,7 @@ class _EditorViewState extends State<EditorView> {
         });
   }
 
-  Widget buildDateSelect(EditorModel editorModel, BuildContext context) {
+  Widget buildDateSelect(EditorHandler editorModel, BuildContext context) {
     return Column(
       children: [
         Row(
@@ -441,7 +442,7 @@ class _EditorViewState extends State<EditorView> {
     return SizedBox();
   }
 
-  Widget buildTypeToggle(EditorModel editorModel) {
+  Widget buildTypeToggle(EditorHandler editorModel) {
     if (this.widget.data == null)
       return Row(
         children: [
@@ -484,7 +485,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildHeaderBar(EditorModel editorModel) {
+  Widget buildHeaderBar(EditorHandler editorModel) {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
       Row(
         children: [
@@ -561,7 +562,7 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  void loadLocation(EditorModel editorModel) async {
+  void loadLocation(EditorHandler editorModel) async {
     Location? location =
         (await Navigator.pushNamed(context, "select_location")) as Location?;
 

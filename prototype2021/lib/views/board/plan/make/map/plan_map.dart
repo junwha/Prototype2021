@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/handler/board/plan/plan_map_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
 import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
@@ -16,7 +16,7 @@ class PlanMap extends StatefulWidget {
 class _PlanMapState extends State<PlanMap> {
   @override
   Widget build(BuildContext context) {
-    PlanMapModel model = Provider.of<PlanMapModel>(context);
+    PlanMapHandler model = Provider.of<PlanMapHandler>(context);
     return Column(
       children: [
         Expanded(
@@ -38,7 +38,7 @@ class _PlanMapState extends State<PlanMap> {
   }
 
   // Generate Day button by the length of place items
-  Widget buildDayButtonBar(PlanMapModel model) {
+  Widget buildDayButtonBar(PlanMapHandler model) {
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Container(

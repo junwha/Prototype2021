@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/loader/user/auth_loader.dart';
-import 'package:prototype2021/handler/login/login_model.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
-import 'package:prototype2021/handler/user/user_info_model.dart';
+import 'package:prototype2021/handler/login/login_handler.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/widgets/buttons/circle_button.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
 import 'package:prototype2021/widgets/notices/loading.dart';
@@ -59,12 +59,13 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
   }
 
   Future<void> initialize(BuildContext context) async {
-    UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+    UserInfoHandler model =
+        Provider.of<UserInfoHandler>(context, listen: false);
     await model.loadToken();
     await model.loadUserId();
-    setAutoLogin(await LoginModel.loadAutoLogin());
-    setSaveId(await LoginModel.loadDoSaveId());
-    setUsername(await LoginModel.loadSavedId());
+    setAutoLogin(await LoginHandler.loadAutoLogin());
+    setSaveId(await LoginHandler.loadDoSaveId());
+    setUsername(await LoginHandler.loadSavedId());
     bool isValid = await validateToken(model.token);
     bool shouldGoToNext = isValid && autoLogin;
     if (shouldGoToNext) {
@@ -74,15 +75,17 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
   }
 
   Future<void> saveLocalPrefs() async {
-    await LoginModel.writeAutoLogin(autoLogin);
-    await LoginModel.writeDoSaveId(saveId);
-    if (saveId && username.length > 0) await LoginModel.writeSavedId(username);
+    await LoginHandler.writeAutoLogin(autoLogin);
+    await LoginHandler.writeDoSaveId(saveId);
+    if (saveId && username.length > 0)
+      await LoginHandler.writeSavedId(username);
   }
 
   Future<void> onLoginPressed() async {
     try {
       LoginOutput result = await requestToken(username, password);
-      UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
+      UserInfoHandler model =
+          Provider.of<UserInfoHandler>(context, listen: false);
       await model.saveToken(result.token);
       await model.saveId(result.id);
       model.setToken(result.token);
@@ -414,7 +417,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                 context,
                 MaterialPageRoute(
                     builder: (context) => ChangeNotifierProvider(
-                          create: (_) => SignInModel(),
+                          create: (_) => SignInHandler(),
                           child: SigninView(),
                         )),
               );

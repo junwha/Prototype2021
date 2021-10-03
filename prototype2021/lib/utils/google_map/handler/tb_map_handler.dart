@@ -4,7 +4,7 @@ import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/utils/google_map/widgets/marker.dart';
 
-class TBMapModel with ChangeNotifier {
+class TBMapHandler with ChangeNotifier {
   bool mapLoaded = false;
   Function() mapLoadListener = () {};
 
@@ -20,7 +20,7 @@ class TBMapModel with ChangeNotifier {
    * Generally, TBMapModel start with its own plain MarkerList.
    * However, if you have the child implements of MarkerList, inject the MarkerList into this model.
    */
-  TBMapModel(this.center, {MarkerList? markerList}) {
+  TBMapHandler(this.center, {MarkerList? markerList}) {
     if (markerList != null) {
       this.markerList = markerList;
     }

@@ -4,10 +4,10 @@ import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
-import 'package:prototype2021/utils/google_map/handler/tb_map_model.dart';
+import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';
 import 'package:prototype2021/utils/google_map/widgets/plan_marker.dart';
 
-class PlanMapModel extends TBMapModel {
+class PlanMapHandler extends TBMapHandler {
   List<List<PlaceDataProps>> placeItemsPerDay = [];
   int day = 1;
 
@@ -28,7 +28,7 @@ class PlanMapModel extends TBMapModel {
         );
 
   // Initialize TBMapModel with PlanMarker
-  PlanMapModel(LatLng center) : super(center, markerList: PlanMarker());
+  PlanMapHandler(LatLng center) : super(center, markerList: PlanMarker());
 
   /// Please add this method as another model's notifier
   /// Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});

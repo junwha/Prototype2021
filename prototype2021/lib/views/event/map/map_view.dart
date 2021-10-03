@@ -13,7 +13,7 @@ import 'package:prototype2021/widgets/maps/place_info.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
 
 import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -52,9 +52,9 @@ class _MapViewState extends State<MapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider.value(
-              value: ContentMapModel(center: center!),
+              value: ContentMapHandler(center: center!),
               child: Consumer(
-                builder: (context, ContentMapModel mapModel, child) {
+                builder: (context, ContentMapHandler mapModel, child) {
                   return Stack(
                     children: [
                       //initial position
@@ -74,7 +74,7 @@ class _MapViewState extends State<MapView> {
   }
 
   MapSearchBar buildMapSearchBar(
-      ContentMapModel mapModel, BuildContext context) {
+      ContentMapHandler mapModel, BuildContext context) {
     return MapSearchBar(
       mapModel,
       backButtonEnabled: true,
@@ -104,7 +104,7 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  BackgroundMap buildBackgroundMap(ContentMapModel mapModel) {
+  BackgroundMap buildBackgroundMap(ContentMapHandler mapModel) {
     return BackgroundMap(
       center: mapModel.center,
       markers: mapModel.markers,

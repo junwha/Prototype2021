@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/user/user_info_model.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/props/card_base.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
@@ -43,7 +43,7 @@ class ContentsCard extends StatelessWidget with CardBase {
 
   @override
   Widget build(BuildContext context) {
-    UserInfoModel model = Provider.of<UserInfoModel>(context);
+    UserInfoHandler model = Provider.of<UserInfoHandler>(context);
     return buildCard(
       itemInfo: buildContentsCardInfo(),
       backgroundColor: props.backgroundColor,

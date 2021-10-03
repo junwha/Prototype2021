@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/signin/signin_loader.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
@@ -92,7 +92,7 @@ class _SigninViewState extends State<SigninView>
   }
 
   TextButton buildNextButton(BuildContext context) {
-    SignInModel signinModel = Provider.of<SignInModel>(context);
+    SignInHandler signinModel = Provider.of<SignInHandler>(context);
     void onPressed() {
       bool isValid = validate();
       if (isValid) {

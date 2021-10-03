@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
-import 'package:prototype2021/handler/board/plan/plan_map_model.dart';
-import 'package:prototype2021/handler/board/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/ai_dialog.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/bottom_app_bar.dart';
@@ -102,7 +102,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     });
   }
 
-  void insertCopiedData(PlanMakeCalendarModel calendarHandler, int dateIndex,
+  void insertCopiedData(PlanMakeCalendarHandler calendarHandler, int dateIndex,
       PlaceDataProps data, int indexToInsert) {
     calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
@@ -199,8 +199,8 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   Widget buildMain(BuildContext context) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
 
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
@@ -210,9 +210,9 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
-    return ChangeNotifierProvider<PlanMapModel>(
+    return ChangeNotifierProvider<PlanMapHandler>(
       create: (_) {
-        PlanMapModel model = PlanMapModel(LatLng(35.5763,
+        PlanMapHandler model = PlanMapHandler(LatLng(35.5763,
             129.1893)); // TODO: replace this position as current position;
         calendarHandler.addListener(() {
           // Notify to plan map model when the calendar handler has changed.
@@ -239,7 +239,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
             Container(
                 height: isMapEnabled ? 200 : 0,
                 child: Consumer(builder:
-                    (BuildContext context, PlanMapModel model, Widget? _) {
+                    (BuildContext context, PlanMapHandler model, Widget? _) {
                   return model.mapLoaded ? PlanMap() : SizedBox();
                 })),
             buildPlanListItemsHeader(mode, _setMode,
@@ -260,8 +260,8 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   Container buildBottomAppBar(BuildContext context) {
-    PlanMakeCalendarModel calendarHandler =
-        Provider.of<PlanMakeCalendarModel>(context);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
     bool onModeAdd = mode == PlanMakeMode.add;
     void onEditDoneButtonTap() {
       _setMode(PlanMakeMode.add);

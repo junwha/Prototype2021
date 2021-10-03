@@ -7,7 +7,7 @@ import 'package:mockito/mockito.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
-import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 
 import 'content_map_model_test.mocks.dart';
 
@@ -20,7 +20,7 @@ void testContentMapModel() {
   final loader = MockPlaceLoader();
 
   test('initial include types are false', () {
-    final model = ContentMapModel(center: LatLng(0, 0));
+    final model = ContentMapHandler(center: LatLng(0, 0));
     for (MapEntry<String, bool> entry in model.isIncludeType.entries) {
       // Key: Type (String), Value: Whether type is included (bool)
       expect(entry.value, false);
@@ -36,7 +36,7 @@ void testContentMapModel() {
   });
 
   test('move to result', () async {
-    final model = ContentMapModel(center: LatLng(0, 0));
+    final model = ContentMapHandler(center: LatLng(0, 0));
     await model.markerList.loadImage();
 
     Map<String, dynamic> googleExampleMeta = {

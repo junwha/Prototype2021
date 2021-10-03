@@ -1,6 +1,6 @@
 import 'package:prototype2021/utils/simple_storage/simple_storage.dart';
 
-class LoginModel {
+class LoginHandler {
   static Future<bool> loadAutoLogin() async =>
       await SimpleStorage.readBool(SimpleStorageKeys.autoLogin) ?? false;
 

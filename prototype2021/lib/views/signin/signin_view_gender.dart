@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/signin/http/signup.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
 import 'package:prototype2021/views/signin/mixin/widgets.dart';
 import 'package:prototype2021/views/signin/signin_view_birth.dart';
@@ -65,7 +65,7 @@ class _SigninViewGenderState extends State<SigninViewGender>
   }
 
   Padding buildNextButton(BuildContext context) {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+    SignInHandler signInModel = Provider.of<SignInHandler>(context);
     void onPressed() {
       signInModel.setGender(gender);
       navigateToNext(context, model: signInModel, child: SigninViewBirth());

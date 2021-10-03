@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
@@ -42,10 +42,10 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider(
-              create: (context) => ContentMapModel(
+              create: (context) => ContentMapHandler(
                   center: center!), // TODO(junwha): remove center
               child: Consumer(
-                builder: (context, ContentMapModel locationModel, child) {
+                builder: (context, ContentMapHandler locationModel, child) {
                   return Stack(
                     children: [
                       //initial position

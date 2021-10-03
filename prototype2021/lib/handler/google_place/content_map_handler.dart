@@ -3,13 +3,13 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
-import 'package:prototype2021/utils/google_map/handler/tb_map_model.dart';
+import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 
 import 'package:prototype2021/utils/google_map/widgets/marker.dart';
 
-class ContentMapModel extends TBMapModel {
+class ContentMapHandler extends TBMapHandler {
   Location? clickedLocation;
 
   Map<String, bool> isIncludeType = {
@@ -25,7 +25,7 @@ class ContentMapModel extends TBMapModel {
 
   bool placeLoaded = true;
 
-  ContentMapModel({required LatLng center}) : super(center);
+  ContentMapHandler({required LatLng center}) : super(center);
 
   @override
   void init() {

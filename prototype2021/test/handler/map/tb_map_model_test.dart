@@ -5,7 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
-import 'package:prototype2021/utils/google_map/handler/tb_map_model.dart';
+import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';
 
 void main() {
   group("TBMapModel:", testTBMapModel);
@@ -29,14 +29,14 @@ void testTBMapModel() {
   ];
 
   test('change center', () {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
 
     model.updateCenter(LatLng(1, 1));
     expect(LatLng(1, 1), model.center);
   });
 
   test('add locations', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     // initial length check
@@ -50,7 +50,7 @@ void testTBMapModel() {
   });
 
   test('update locations', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     // initial length check
@@ -64,7 +64,7 @@ void testTBMapModel() {
   });
 
   test('remove locations', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     model.addLocations(locationsABC);
@@ -85,7 +85,7 @@ void testTBMapModel() {
   });
 
   test('clear map', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     model.addLocations(locationsABC);
@@ -95,7 +95,7 @@ void testTBMapModel() {
   });
 
   test('update bearing', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     final initialBearing = model.markerList.bearing;
@@ -113,7 +113,7 @@ void testTBMapModel() {
   });
 
   test('redraw map', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
 
     model.addLocations(locationsABC);
@@ -124,7 +124,7 @@ void testTBMapModel() {
   });
 
   test('focus', () async {
-    final model = TBMapModel(LatLng(0, 0));
+    final model = TBMapHandler(LatLng(0, 0));
     await model.markerList.loadImage();
     Location newLocation = Location(LatLng(0, 0), PlaceType.DEFAULT, "new");
 

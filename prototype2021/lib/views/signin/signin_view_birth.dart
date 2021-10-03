@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/signin/signin_loader.dart';
-import 'package:prototype2021/handler/signin/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
 import 'package:prototype2021/views/signin/mixin/widgets.dart';
@@ -82,7 +82,7 @@ class _SigninViewBirthState extends State<SigninViewBirth>
   }
 
   Padding buildNextButton(BuildContext context) {
-    SignInModel signInModel = Provider.of<SignInModel>(context);
+    SignInHandler signInModel = Provider.of<SignInHandler>(context);
     void onPressed() async {
       setLoading(true);
       try {
