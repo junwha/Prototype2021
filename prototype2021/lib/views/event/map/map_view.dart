@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:prototype2021/model/google_place/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_search_bar.dart';

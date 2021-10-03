@@ -9,25 +9,6 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-class GooglePlaceLocation extends Location {
-  late final String placeId;
-  String? description;
-  late String preview;
-
-  GooglePlaceLocation(this.placeId, String? preview, String name,
-      this.description, latLng, String type)
-      : super(latLng, type, name) {
-    this.preview = preview ?? placeHolder;
-  }
-
-  GooglePlaceLocation.fromData(GooglePlaceData placeData)
-      : super(placeData.location, placeData.type, placeData.name) {
-    this.placeId = placeData.placeId;
-    this.preview = placeData.photo ?? placeHolder;
-    this.description = placeData.address;
-  }
-}
-
 class EventLocation extends Location {
   final EventPlaceData data;
   EventLocation.fromData(this.data)

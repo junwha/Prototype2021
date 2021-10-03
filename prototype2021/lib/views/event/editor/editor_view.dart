@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/handler/event/editor_model.dart';
+import 'package:prototype2021/model/google_place/location.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
