@@ -10,7 +10,7 @@ class LoginLoader {
 
   Future<SafeMutationOutput<LoginOutput>> login(
           SafeMutationInput<LoginInput> dto) async =>
-      await safePOST<LoginInput, LoginOutput>(dto);
+      await safePOST<LoginInput, LoginOutput>(dto, 200);
 
   // Endpoints
 
