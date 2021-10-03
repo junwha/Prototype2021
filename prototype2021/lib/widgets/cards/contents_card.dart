@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/user_info_model.dart';
+import 'package:prototype2021/model/user/user_info_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/props/card_base.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';

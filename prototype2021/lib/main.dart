@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/user_info_model.dart';
+import 'package:prototype2021/model/user/user_info_model.dart';
 import 'package:prototype2021/views/event/editor/editor_view.dart';
 import 'package:prototype2021/views/login/login_view.dart';
 import 'package:prototype2021/views/event/map/map_view.dart';

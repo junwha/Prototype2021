@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/contents/content_detail.dart';
-import 'package:prototype2021/model/user_info_model.dart';
+import 'package:prototype2021/model/user/user_info_model.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:provider/provider.dart';
 

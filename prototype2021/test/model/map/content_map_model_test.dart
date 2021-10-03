@@ -5,8 +5,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:prototype2021/data/place_data.dart';
-import 'package:prototype2021/loader/google_place_loader.dart';
-import 'package:prototype2021/model/map/content_map_model.dart';
+import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/model/google_place/content_map_model.dart';
 
 import 'content_map_model_test.mocks.dart';
 

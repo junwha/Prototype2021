@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/plan/calendar.dart';
-import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/model/board/plan/calendar.dart';
+import 'package:prototype2021/model/board/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/mixin/bottom_calendar_button.dart';
 import 'package:prototype2021/views/board/plan/make/mixin/plan_make_appbar_base.dart';
 import 'package:provider/provider.dart';

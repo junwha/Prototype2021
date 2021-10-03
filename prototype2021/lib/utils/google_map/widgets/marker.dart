@@ -2,7 +2,7 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:flutter/material.dart';
 

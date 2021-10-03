@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
-import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
+import 'package:prototype2021/model/board/plan/plan_make_calendar_model.dart';
 
 @GenerateMocks([PlanMakeCalendarModel])
 void main() {

@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/simple_storage.dart';
+import 'package:prototype2021/utils/simple_storage/simple_storage.dart';
 
 class LoginModel {
   static Future<bool> loadAutoLogin() async =>

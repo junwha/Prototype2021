@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/data/event_dto.dart';
+import 'package:prototype2021/data/dto/event/event_dto.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/loader/article_loader.dart';
-import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/loader/event/article_loader.dart';
+import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/data/dto/contents/content_preview.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
 

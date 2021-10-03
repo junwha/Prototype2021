@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/simple_storage.dart';
+import 'package:prototype2021/utils/simple_storage/simple_storage.dart';
 
 class UserInfoModel with ChangeNotifier {
   String? _jwtToken;

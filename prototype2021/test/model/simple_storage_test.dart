@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:prototype2021/model/simple_storage.dart';
+import 'package:prototype2021/utils/simple_storage/simple_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {

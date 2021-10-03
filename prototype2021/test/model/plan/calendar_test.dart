@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
-import 'package:prototype2021/model/plan/calendar.dart';
+import 'package:prototype2021/model/board/plan/calendar.dart';
 
 @GenerateMocks([Calendar])
 void main() {
