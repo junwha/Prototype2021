@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/event_dto.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/data/place_data_props.dart';
+import 'package:prototype2021/loader/article_loader.dart';
+import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/data/dto/contents/content_preview.dart';
+import 'package:prototype2021/data/dto/safe_http/common.dart';
 
 const Map<int, String> expenseCodeToString = {
   1: "10만원 미만",
@@ -14,49 +18,48 @@ const Map<int, String> expenseCodeToString = {
 class PlanProps {
   final int id;
   final String title;
-  final List<int> area;
+  final List<int> areaCodes;
   final String? photo; // url
   final List<String> types;
   final int expense;
   final DateTimeRange period;
-  final int expense_style;
-  final int fatigue_style;
+  final int expenseStyle;
+  final int fatigueStyle;
 
   PlanProps(
     this.id,
     this.title,
-    this.area,
+    this.areaCodes,
     this.photo,
     this.types,
     this.expense,
     this.period,
-    this.expense_style,
-    this.fatigue_style,
+    this.expenseStyle,
+    this.fatigueStyle,
   );
 
   PlanProps.fromJson({required Map<String, dynamic> json})
       : id = json["id"],
         title = json["title"],
-        area =
-            (json["area_code"] as List<dynamic>).map((e) => e as int).toList(),
-        photo = json["photo"],
-        types =
-            (json["type"] as List<dynamic>).map((e) => e as String).toList(),
+        areaCodes = dynamicListToTList<int>(json["area_code"]),
+        photo = nullable<String>(json["photo"]),
+        types = dynamicListToTList<String>(json["type"]),
         expense = json["expense"],
-        expense_style = json["expense_style"],
-        fatigue_style = json["fatigue_style"],
+        expenseStyle = json["expense_style"],
+        fatigueStyle = json["fatigue_style"],
         period = DateTimeRange(
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"]));
 
-  String get areaText => area.map((e) => areaCodeToAreaName[e]).join(", ");
+  String get areaText =>
+      areaCodes.map((code) => areaCodeToAreaName[code]).join(", ");
   String get expenseText => expenseCodeToString[expense] ?? "";
 }
 
 class PlanPreview extends PlanProps {
   final bool? hearted;
   PlanPreview.fromJson({required Map<String, dynamic> json})
-      : hearted = json["hearted"],
+      : hearted = nullable<bool>(json["hearted"]),
         super.fromJson(json: json);
 }
 
@@ -67,9 +70,9 @@ class PlanDetail extends PlanProps {
 
   //user
   PlanDetail.fromJson({required Map<String, dynamic> json})
-      : hearted = json["hearted"],
-        contents = (json["contents"] as List<dynamic>)
-            .map((day) => (day as List<dynamic>)
+      : hearted = nullable<bool>(json["hearted"]),
+        contents = dynamicListToTList<List<dynamic>>(json["contents"])
+            .map((day) => (day)
                 .map(
                   (entry) => entry["type"] == "C"
                       ? int.parse(entry["data"])
@@ -78,7 +81,7 @@ class PlanDetail extends PlanProps {
                 .toList())
             .toList(),
         userData = UserData(json["user"]["id"], json["user"]["name"],
-            null), // TODO: 유저 모델 수정 필요
+            nullable<String>(json["user"]["photo"])), // TODO: 유저 모델 수정 필요
         super.fromJson(json: json);
 }
 
@@ -93,9 +96,9 @@ class PlanData extends PlanProps {
     List<String> types,
     int expense,
     DateTimeRange period,
-    int expense_style,
-    int fatigue_style,
+    int expenseStyle,
+    int fatigueStyle,
     this.contents,
-  ) : super(id, title, areaCode, photo, types, expense, period, expense_style,
-            fatigue_style);
+  ) : super(id, title, areaCode, photo, types, expense, period, expenseStyle,
+            fatigueStyle);
 }

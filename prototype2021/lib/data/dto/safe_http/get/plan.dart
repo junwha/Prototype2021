@@ -28,7 +28,7 @@ class PlanListOutput extends PaginationOutput
 class PlanIdInput extends SafeHttpDataInput {
   final int id;
 
-  PlanIdInput(this.id);
+  PlanIdInput({required this.id});
 
   Map<String, dynamic>? toJson() => null;
 
@@ -55,7 +55,7 @@ class PlanDeleteOutput extends SafeHttpDataOutput {
 /*---------------- Plan Create ----------------*/
 class PlanCreateInput extends SafeHttpDataInput {
   final PlanData data;
-  PlanCreateInput(this.data);
+  PlanCreateInput({required this.data});
 
   Map<String, dynamic>? toJson() => {
         "title": data.title,
@@ -65,12 +65,12 @@ class PlanCreateInput extends SafeHttpDataInput {
                     item is MemoData ? "M:" + item.memo : "C" + item.placeId)
                 .toList())
             .toList(),
-        "area_code": data.area,
+        "area_code": data.areaCodes,
         "photo_url": data.photo,
         "type": data.types,
         "expenses": data.expense,
-        "expense_style": data.expense_style,
-        "fatigue_style": data.fatigue_style,
+        "expense_style": data.expenseStyle,
+        "fatigue_style": data.fatigueStyle,
       };
 
   Map<String, String>? getUrlParams() => null;

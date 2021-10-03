@@ -58,7 +58,7 @@ class PlanLoader {
 
   /// Plan Detail DTO를 반환한다.
   Future<PlanDetail> getPlanDetail({required int id, String? token}) async {
-    PlanIdInput params = PlanIdInput(id);
+    PlanIdInput params = PlanIdInput(id: id);
     SafeQueryInput<PlanIdInput> dto = SafeQueryInput<PlanIdInput>(
         params: params, url: planIdUrl, token: token);
     SafeQueryOutput<PlanDetailOutput> result = await planDetail(dto);
@@ -72,7 +72,7 @@ class PlanLoader {
 
   /// Plan을 삭제하고 성공시 true를 반환한다.
   Future<bool> deletePlan({required int id, String? token}) async {
-    PlanIdInput params = PlanIdInput(id);
+    PlanIdInput params = PlanIdInput(id: id);
     SafeQueryInput<PlanIdInput> dto = SafeQueryInput<PlanIdInput>(
         params: params, url: planIdUrl, token: token);
     SafeQueryOutput<PlanDeleteOutput> result = await planDelete(dto);
@@ -83,7 +83,7 @@ class PlanLoader {
 
   /// data로부터 json을 구성해 플랜을 생성하고, 성공 여부를 반환한다.
   Future<bool> createPlan(String token, PlanData data) async {
-    PlanCreateInput planInputData = PlanCreateInput(data);
+    PlanCreateInput planInputData = PlanCreateInput(data: data);
     SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
         data: planInputData, url: planGeneralUrl, token: token);
     SafeMutationOutput<PlanCreateOutput> result = await planCreate(dto);
@@ -95,7 +95,7 @@ class PlanLoader {
   /// data로부터 json을 구성해 플랜을 수정하고, 성공 여부를 반환한다.
   /// **컨텐츠는 수정 불가능!
   Future<bool> editPlan(String token, PlanData data) async {
-    PlanCreateInput planInputData = PlanCreateInput(data);
+    PlanCreateInput planInputData = PlanCreateInput(data: data);
     SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
         data: planInputData, url: planGeneralUrl, token: token);
     SafeMutationOutput<PlanCreateOutput> result = await planEdit(dto);
@@ -137,7 +137,7 @@ class PlanLoader {
   /// PlanLoaderMode.board: 게시판 목록 Pagination
   /// PlanLoaderMode.wishlist: 위시리스트 Pagination
   /// PlanLoaderMode.mylist: 내가 쓴 플랜 Pagination
-  PlanLoader.withMode(PlanLoaderMode mode) {
+  PlanLoader.withMode({required PlanLoaderMode mode}) {
     if (mode == PlanLoaderMode.board) {
       planListUrl = "$apiBaseUrl/plans";
     } else if (mode == PlanLoaderMode.mylist) {

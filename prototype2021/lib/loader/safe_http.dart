@@ -10,8 +10,8 @@ import 'package:prototype2021/settings/constants.dart';
 
 void printHTTPLog(http.Response res) {
   if (SAFE_HTTP_DEBUG) {
-    print(res.body);
-    print(res.statusCode);
+    print("[ Response Body ] : ${res.body.toString()}");
+    print("[ Status Code ] : ${res.statusCode.toString()}");
   }
 }
 
@@ -99,6 +99,7 @@ Future<SafeMutationOutput<O>>
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
     }
+
     throw generateHttpException(res);
   } catch (error) {
     return new SafeMutationOutput<O>(
@@ -169,6 +170,7 @@ Future<SafeQueryOutput<O>>
   bool fromBytes = false,
 ]) async {
   try {
+    print(dto.getUrlWithParams());
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
     printHTTPLog(res);
