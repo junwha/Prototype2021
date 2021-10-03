@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/event_article_model.dart';
+import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/ui/event/editor_view.dart';
 import 'package:provider/provider.dart';

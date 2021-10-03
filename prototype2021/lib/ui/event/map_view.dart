@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
 import 'package:prototype2021/theme/map/map_search_bar.dart';
+import 'package:prototype2021/ui/event/event_map_view.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:prototype2021/theme/cards/card.dart';
 import 'package:prototype2021/theme/map/place_info.dart';
 import 'package:prototype2021/theme/map/background_map.dart';
 
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/model/map/location_model.dart';
+import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/model/map/content_map_model.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -50,27 +51,77 @@ class _MapViewState extends State<MapView> {
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider.value(
-              value: LocationModel(center: center!),
+              value: ContentMapModel(center: center!),
               child: Consumer(
-                builder: (context, LocationModel locationModel, child) {
+                builder: (context, ContentMapModel mapModel, child) {
                   return Stack(
                     children: [
                       //initial position
-                      BackgroundMap(
-                        center: locationModel.center,
-                        model: locationModel,
-                      ), //TODO(junwha): change to dynamic location
+                      buildBackgroundMap(
+                          mapModel), //TODO(junwha): change to dynamic location
                       PlaceInfo(),
                       buildBackButton(context),
                       buildWriteButton(maxHeight),
-                      buildContentInfo(
-                          locationModel.markerList.focusedLocation),
-                      MapSearchBar(locationModel, backButtonEnabled: true),
+                      buildContentInfo(mapModel.markerList.focusedLocation),
+                      buildMapSearchBar(mapModel, context),
                     ],
                   );
                 },
               ),
             ),
+    );
+  }
+
+  MapSearchBar buildMapSearchBar(
+      ContentMapModel mapModel, BuildContext context) {
+    return MapSearchBar(
+      mapModel,
+      backButtonEnabled: true,
+      leading: PlaceFilterChip(
+        leading: Image.asset("assets/icons/event.png"),
+        text: "내 주변 이벤트",
+        onSelected: (bool _isSelected) {
+          double zoomLevel = 14.0;
+          mapModel.mapController?.getZoomLevel().then((value) {
+            zoomLevel = value;
+          });
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => EventMapView(
+                center: mapModel.center,
+                initialCameraPosition: CameraPosition(
+                  target: mapModel.center,
+                  zoom: zoomLevel,
+                ),
+              ),
+            ),
+          );
+        },
+        isSelected: false,
+      ),
+    );
+  }
+
+  BackgroundMap buildBackgroundMap(ContentMapModel mapModel) {
+    return BackgroundMap(
+      center: mapModel.center,
+      markers: mapModel.markers,
+      load: mapModel.mapLoaded,
+      onCameraMove: (CameraPosition cameraPostion) {
+        mapModel.updateBearing(cameraPostion.bearing);
+        mapModel.center = cameraPostion.target;
+      },
+      onTap: (LatLng pos) {
+        if (mapModel.isFocused()) {
+          mapModel.removeFocus();
+        } else {
+          mapModel.findPlace(pos);
+        }
+      },
+      onMapCreated: (GoogleMapController controller) {
+        mapModel.mapController = controller;
+      },
     );
   }
 
@@ -161,16 +212,20 @@ class _MapViewState extends State<MapView> {
             ),
             Container(
               color: Color(0xFFF3F3F3),
-              child: ContentsCard(
-                preview: location.preview,
-                title: location.name,
-                place: "TEMP",
-                explanation: "TEMP",
-                rating: 1,
-                ratingNumbers: 5,
-                tags: ["액티비티", "인생사진", "sns핫플"],
-                clickable: false,
-                margin: const EdgeInsets.symmetric(vertical: 0),
+              child: ContentsCard.fromProps(
+                props: new ContentsCardBaseProps(
+                  hearted: false,
+                  heartCount: 3,
+                  id: 0,
+                  preview: location.preview,
+                  title: location.name,
+                  place: "TEMP",
+                  explanation: "TEMP",
+                  rating: 1,
+                  ratingNumbers: 5,
+                  tags: ["액티비티", "인생사진", "sns핫플"],
+                  margin: const EdgeInsets.symmetric(vertical: 0),
+                ),
               ),
             ),
             Container(

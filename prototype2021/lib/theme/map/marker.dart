@@ -2,8 +2,8 @@ import 'dart:typed_data';
 import 'dart:ui';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/map_place.dart';
-import 'package:prototype2021/model/map/location.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/data/location.dart';
 import 'package:flutter/material.dart';
 
 class MarkerList {
@@ -20,6 +20,7 @@ class MarkerList {
   Set<Marker> get markerList => Set<Marker>.of(markers.values);
 
   MarkerList();
+
   /*
   * Initialize marker image. if image loaded completely, call notifyListeners
   */
@@ -27,15 +28,16 @@ class MarkerList {
     try {
       markerIconMap[PlaceType.DEFAULT] =
           await MarkerImage.createIcon('assets/images/map/marker.png', 100);
-      markerIconMap[PlaceType.CAFFEE] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.CAFE] = await MarkerImage.createIcon(
           'assets/images/map/caffee_marker.png', 100);
       markerIconMap[PlaceType.RESTAURANT] = await MarkerImage.createIcon(
           'assets/images/map/restaurant_marker.png', 100);
-      markerIconMap['E'] = await MarkerImage.createIcon(
+      markerIconMap[PlaceType.EVENT] = await MarkerImage.createIcon(
           'assets/images/map/event_marker.png', 100);
 
       return true;
     } catch (e) {
+      print(e);
       return false;
     }
   }
@@ -43,19 +45,24 @@ class MarkerList {
   /*
   * Add markers on the locations in location list
   */
-  void addMarkerList(List<Location> locationList) {
+  void addMarkers(Iterable<Location> locationList) {
+    print("Draw marker start");
     // print(markerIcon);
     for (Location location in locationList) {
       if (location is GooglePlaceLocation) {
         addMarker(location);
+      } else {
+        addMarker(location);
       }
     }
+    print("Draw marker end");
   }
 
   /*
   * Add new marker on the location
   */
-  void addMarker(Location location, {bool clickable = true}) {
+  void addMarker(Location location,
+      {bool clickable = true, BitmapDescriptor? externalMarkerIcon}) {
     final int markerCount = markers.length;
 
     //Set maximum of marker
@@ -69,8 +76,10 @@ class MarkerList {
     // _markerIdCounter++;
     // final MarkerId markerId = MarkerId(markerIdVal);
 
-    BitmapDescriptor markerIcon = markerIconMap[PlaceType.DEFAULT]!;
-    if (markerIconMap.containsKey(location.type)) {
+    BitmapDescriptor markerIcon =
+        externalMarkerIcon ?? markerIconMap[PlaceType.DEFAULT]!;
+    if (externalMarkerIcon == null &&
+        markerIconMap.containsKey(location.type)) {
       markerIcon = markerIconMap[location.type]!;
     }
     //Create Marker
@@ -91,7 +100,15 @@ class MarkerList {
     markers[location] = marker;
   }
 
-  void removeMarker(int id) {}
+  void removeMarker(Location location) {
+    markers.remove(location);
+  }
+
+  void removeMarkers(Iterable<Location> locations) {
+    for (Location location in locations) {
+      removeMarker(location);
+    }
+  }
 
   void removeAll() {
     markers = <Location, Marker>{};
@@ -101,9 +118,10 @@ class MarkerList {
   * Change focus with Location
   */
   void changeFocus(Location? location) {
-    if (location != null) {
+    if (location != null && markers.keys.contains(location)) {
       this.focusedLocation = location;
-    } else {
+      print(location.latLng);
+    } else if (location == null) {
       this.focusedLocation = null;
     }
   }
@@ -114,8 +132,13 @@ class MarkerImage {
   * Return marker icon from asset path
   */
   static Future<BitmapDescriptor> createIcon(String path, int size) async {
-    Uint8List bytes = await getBytesFromAsset(path, size);
-    return BitmapDescriptor.fromBytes(bytes);
+    try {
+      Uint8List bytes = await getBytesFromAsset(path, size);
+      return BitmapDescriptor.fromBytes(bytes);
+    } catch (e) {
+      // print(e);
+      return BitmapDescriptor.defaultMarker;
+    }
   }
 
   /*

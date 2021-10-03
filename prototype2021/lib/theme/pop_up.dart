@@ -1,89 +1,264 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
 
-class PopButton extends StatefulWidget {
-  String buttonTitle;
-  ListBody listBody;
-
-  PopButton({required this.buttonTitle, required this.listBody});
-  @override
-  _PopButtonState createState() => _PopButtonState();
+void tbShowTextDialog(BuildContext context, String content) {
+  tbShowDialog(
+      context,
+      TBSimpleDialog(
+        title: "알림",
+        body: Text(content,
+            style: const TextStyle(
+                color: const Color(0xbf707070),
+                fontWeight: FontWeight.w400,
+                fontFamily: "Roboto",
+                fontStyle: FontStyle.normal,
+                fontSize: 14.0),
+            textAlign: TextAlign.center),
+        isBackEnabled: false,
+      ));
 }
 
-class _PopButtonState extends State<PopButton> {
+void tbShowDialog(BuildContext context, Widget dialog) {
+  showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return dialog;
+      });
+}
+
+class TBSimpleDialog extends StatefulWidget {
+  String title;
+  Widget body;
+  bool isBackEnabled;
+  String backButtonText;
+  String submitButtonText;
+  Function()? onSubmitPressed;
+  Function()? onBackPressed;
+
+  TBSimpleDialog(
+      {required this.title,
+      required this.body,
+      this.isBackEnabled = true,
+      this.backButtonText = "취소",
+      this.submitButtonText = "확인",
+      this.onSubmitPressed,
+      this.onBackPressed});
+
+  @override
+  _TBSimpleDialogState createState() => _TBSimpleDialogState();
+}
+
+class _TBSimpleDialogState extends State<TBSimpleDialog> {
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
-      style: ElevatedButton.styleFrom(
-        primary: Colors.grey, // background
-        onPrimary: Colors.black, // foreground
-      ),
-      onPressed: () {
-        showDialog(
-            context: context,
-            barrierDismissible: false,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Column(
-                  children: [
-                    Text(
-                      this.widget.buttonTitle,
+    return SimpleDialog(
+      contentPadding: EdgeInsets.all(0),
+      titlePadding: EdgeInsets.all(0),
+      backgroundColor: Colors.white,
+      children: [
+        Container(
+          padding: EdgeInsets.all(15),
+          alignment: Alignment.center,
+          height: 50,
+          child: Text(
+            this.widget.title,
+            style: TextStyle(
+              color: Color(0xbf707070),
+              fontSize: 16,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        Container(
+          height: 1,
+          width: double.infinity,
+          color: Colors.grey,
+        ),
+        Container(
+          padding: EdgeInsets.all(15),
+          alignment: Alignment.center,
+          child: this.widget.body,
+        ),
+        // Container(
+        //   height: 1,
+        //   width: double.infinity,
+        //   color: Colors.grey,
+        // ),
+        Row(
+          children: this.widget.isBackEnabled
+              ? [
+                  Expanded(
+                    child: OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        fixedSize: Size(double.infinity, 45),
+                        shape: BeveledRectangleBorder(),
+                      ),
+                      child: Text(
+                        this.widget.backButtonText,
+                        style: TextStyle(
+                          color: Color(0xbf707070),
+                          fontSize: 13,
+                          fontFamily: 'Roboto',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      onPressed: () {
+                        if (this.widget.onBackPressed != null) {
+                          this.widget.onBackPressed!.call();
+                        }
+                        Navigator.pop(context);
+                      },
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Container(
-                      height: 1,
-                      width: double.infinity,
-                      color: Colors.grey,
-                    ),
-                  ],
-                ),
-                content: SingleChildScrollView(
-                    child: Column(children: [
-                  this.widget.listBody,
-                  Container(
-                    height: 1,
-                    width: double.infinity,
-                    color: Colors.grey,
                   ),
-                ])),
-                actions: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: 45.5 * pt,
-                        width: 60 * pt,
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              '취소',
-                              style: TextStyle(fontSize: 13 * pt),
-                            )),
-                      ),
-                      Container(
-                        height: 45.5 * pt,
-                        width: 60 * pt,
-                        child: TextButton(
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Text(
-                              '확인',
-                              style: TextStyle(fontSize: 13 * pt),
-                            )),
-                      ),
-                    ],
-                  )
+                  buildSubmitButton(context),
+                ]
+              : [
+                  buildSubmitButton(context),
                 ],
-              );
-            });
-      },
-      child: Text(this.widget.buttonTitle,
-          style: TextStyle(fontSize: 13 * pt, fontWeight: FontWeight.bold)),
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        )
+      ],
+    );
+  }
+
+  Expanded buildSubmitButton(BuildContext context) {
+    return Expanded(
+      child: OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          fixedSize: Size(double.infinity, 45),
+          shape: BeveledRectangleBorder(),
+        ),
+        child: Text(
+          this.widget.submitButtonText,
+          style: TextStyle(
+            color: Color(0xbf707070),
+            fontSize: 13,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onPressed: () {
+          if (this.widget.onSubmitPressed != null) {
+            this.widget.onSubmitPressed!.call();
+          }
+          Navigator.pop(context);
+        },
+      ),
+    );
+  }
+}
+
+class TBLargeDialog extends StatefulWidget {
+  String title;
+  Widget body;
+  bool isBackEnabled;
+  String backButtonText;
+  String submitButtonText;
+  Function()? onSubmitPressed;
+  EdgeInsets padding;
+  EdgeInsets insetsPadding;
+
+  TBLargeDialog({
+    required this.title,
+    required this.body,
+    this.isBackEnabled = true,
+    this.backButtonText = "취소",
+    this.submitButtonText = "확인",
+    this.onSubmitPressed,
+    this.padding = const EdgeInsets.all(15),
+    this.insetsPadding = const EdgeInsets.all(35),
+  });
+
+  @override
+  _TBLargeDialogState createState() => _TBLargeDialogState();
+}
+
+class _TBLargeDialogState extends State<TBLargeDialog> {
+  @override
+  Widget build(BuildContext context) {
+    return Dialog(
+      insetPadding: this.widget.insetsPadding,
+      backgroundColor: Colors.transparent,
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(30))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Expanded(
+              child: Container(
+                padding: this.widget.padding,
+                alignment: Alignment.center,
+                child: this.widget.body,
+              ),
+            ),
+            Container(
+              height: 50 * pt,
+              color: Colors.grey,
+              child: Row(
+                children: this.widget.isBackEnabled
+                    ? [
+                        buildButton(
+                          this.widget.backButtonText,
+                          Color(0xff5890ff),
+                          () {
+                            Navigator.pop(context);
+                          },
+                        ),
+                        buildButton(
+                          this.widget.submitButtonText,
+                          Color(0xff4080ff),
+                          () {
+                            if (this.widget.onSubmitPressed != null) {
+                              this.widget.onSubmitPressed!.call();
+                            }
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ]
+                    : [
+                        buildButton(
+                          this.widget.submitButtonText,
+                          Color(0xff4080ff),
+                          () {
+                            if (this.widget.onSubmitPressed != null) {
+                              this.widget.onSubmitPressed!.call();
+                            }
+                            Navigator.pop(context);
+                          },
+                        ),
+                      ],
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+              ),
+            )
+          ],
+        ),
+      ),
+    );
+  }
+
+  Expanded buildButton(String text, Color color, Function() onPressed) {
+    return Expanded(
+      child: TextButton(
+        style: TextButton.styleFrom(
+          fixedSize: Size(double.infinity, 50 * pt),
+          shape: BeveledRectangleBorder(),
+          backgroundColor: color,
+        ),
+        child: Text(
+          text,
+          style: TextStyle(
+            color: Colors.white,
+            fontSize: 20,
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        onPressed: onPressed,
+      ),
     );
   }
 }

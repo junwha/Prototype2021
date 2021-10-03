@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:prototype2021/model/article_loader.dart';
+import 'package:prototype2021/data/event_dto.dart';
+import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/theme/cards/card.dart';
+import 'package:prototype2021/data/location.dart';
+import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/theme/editor/event_custom_text_field.dart';
 import 'package:prototype2021/theme/map/map_preview.dart';
 import 'package:prototype2021/theme/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/theme/selectable_text_button.dart';
-import 'package:prototype2021/theme/editor/custom_text_field.dart';
 import 'package:provider/provider.dart';
 
 class EditorView extends StatefulWidget {
@@ -72,7 +73,8 @@ class _EditorViewState extends State<EditorView> {
                     Container(height: 1, width: 500, color: Colors.grey),
                     Container(
                         height: 61 * pt,
-                        child: CustomTextField(
+                        child: EventCustomTextField(
+                          height: 75,
                           hintText: "제목",
                           onChanged: (String text) {
                             editorModel.title = text;
@@ -86,7 +88,8 @@ class _EditorViewState extends State<EditorView> {
                         width: 500,
                         color: Colors.white,
                         child: SingleChildScrollView(
-                          child: CustomTextField(
+                          child: EventCustomTextField(
+                            height: 300,
                             hintText: "내용을 입력하세요.",
                             onChanged: (String text) {
                               editorModel.content = text;
@@ -419,7 +422,11 @@ class _EditorViewState extends State<EditorView> {
   Widget buildContentsCard(Location? targetLocation) {
     if (targetLocation is GooglePlaceLocation) {
       GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
-      return ContentsCard(
+      return ContentsCard.fromProps(
+          props: new ContentsCardBaseProps(
+        hearted: false,
+        heartCount: 3,
+        id: 0,
         preview: location.preview,
         title: location.name,
         place: "TEMP",
@@ -427,9 +434,8 @@ class _EditorViewState extends State<EditorView> {
         rating: 1,
         ratingNumbers: 5,
         tags: ["asdf"],
-        clickable: false,
         margin: const EdgeInsets.symmetric(vertical: 0),
-      );
+      ));
     }
     return SizedBox();
   }
@@ -438,7 +444,7 @@ class _EditorViewState extends State<EditorView> {
     if (this.widget.data == null)
       return Row(
         children: [
-          SelectableTextButton(
+          TBSelectableTextButton(
               titleName: "내 주변 이벤트",
               isChecked: articleType[0],
               onPressed: () {
@@ -449,7 +455,7 @@ class _EditorViewState extends State<EditorView> {
                 });
               }),
           SizedBox(width: 10),
-          SelectableTextButton(
+          TBSelectableTextButton(
               titleName: "동행찾기",
               isChecked: articleType[1],
               onPressed: () {
@@ -466,7 +472,7 @@ class _EditorViewState extends State<EditorView> {
       width: double.maxFinite,
       child: Row(
         children: [
-          SelectableTextButton(
+          TBSelectableTextButton(
             titleName: editorModel.articleType == ArticleType.EVENT
                 ? "내 주변 이벤트"
                 : "동행찾기",
@@ -497,17 +503,20 @@ class _EditorViewState extends State<EditorView> {
         children: [
           this.widget.data != null
               ? SizedBox()
-              : PopButton(
-                  buttonTitle: "임시저장",
-                  listBody: ListBody(
-                    children: [
-                      Container(
-                        width: 291 * pt,
-                        height: 250 * pt,
-                        child: buildListBodyText(),
-                      ),
-                    ],
+              : ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.blue, // background
+                    onPrimary: Colors.white, // foreground
                   ),
+                  onPressed: () {
+                    tbShowDialog(
+                        context,
+                        TBSimpleDialog(
+                            title: "임시 저장하시겠습니까?", body: buildListBodyText()));
+                  },
+                  child: Text('임시저장',
+                      style: TextStyle(
+                          fontSize: 13 * pt, fontWeight: FontWeight.bold)),
                 ),
           SizedBox(
             width: 10 * pt,
@@ -534,21 +543,20 @@ class _EditorViewState extends State<EditorView> {
   }
 
   Widget buildListBodyText() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text("임시 저장하시겠습니까?", style: TextStyle(fontSize: 17 * pt)),
-        SizedBox(
-          height: 15,
-        ),
-        Text('임시 저장한 글은',
-            style: TextStyle(
-              fontSize: 14 * pt,
-            )),
-        Text('\'내 정보 > 임시 저장한 글\'',
-            style: TextStyle(fontSize: 14 * pt, fontWeight: FontWeight.bold)),
-        Text('에서 볼 수 있어요.', style: TextStyle(fontSize: 14 * pt))
-      ],
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 40.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text('임시 저장한 글은',
+              style: TextStyle(
+                fontSize: 14 * pt,
+              )),
+          Text('\'내 정보 > 임시 저장한 글\'',
+              style: TextStyle(fontSize: 14 * pt, fontWeight: FontWeight.bold)),
+          Text('에서 볼 수 있어요.', style: TextStyle(fontSize: 14 * pt))
+        ],
+      ),
     );
   }
 

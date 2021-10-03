@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/map/location_model.dart';
-import 'package:prototype2021/model/map/map_place.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/map/content_map_model.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 
 import 'package:prototype2021/model/map/search_place_model.dart';
-import 'package:prototype2021/model/map/map_place.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
+import 'package:prototype2021/ui/event/event_map_view.dart';
 import 'package:provider/provider.dart';
 
 class MapSearchBar extends StatefulWidget {
-  LocationModel locationModel;
+  ContentMapModel locationModel;
   bool backButtonEnabled;
-  MapSearchBar(this.locationModel, {this.backButtonEnabled = false});
+  Widget? leading;
+  MapSearchBar(this.locationModel,
+      {this.backButtonEnabled = false, this.leading});
 
   @override
   _MapSearchBarState createState() => _MapSearchBarState();
@@ -29,7 +33,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     );
   }
 
-  Widget buildChipBar(LocationModel locationModel) {
+  Widget buildChipBar(ContentMapModel locationModel) {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
       child: SizedBox.expand(
@@ -37,15 +41,10 @@ class _MapSearchBarState extends State<MapSearchBar> {
           direction: Axis.horizontal,
           alignment: WrapAlignment.spaceEvenly,
           children: [
-            buildPlaceFilterChip(
-                locationModel,
-                "호텔",
-                PlaceType.HOTEL,
-                Image.asset(
-                    "assets/icons/event.png")), // TODO: replace to event
+            this.widget.leading ?? SizedBox(),
             buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
                 Image.asset("assets/icons/place.png")),
-            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFFEE,
+            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFE,
                 Image.asset("assets/icons/caffe.png")),
             buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT,
                 Image.asset("assets/icons/restaurant.png")),
@@ -56,7 +55,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
   }
 
   Widget buildPlaceFilterChip(
-      LocationModel locationModel, String text, String type, Image icon) {
+      ContentMapModel locationModel, String text, String type, Image icon) {
     return PlaceFilterChip(
       leading: icon,
       text: text,
@@ -78,7 +77,7 @@ class _MapSearchBarState extends State<MapSearchBar> {
     final controller = FloatingSearchBarController();
     final _applyKey = GlobalKey<FormState>();
     double leftMargin = this.widget.backButtonEnabled ? 50 : 10;
-    return Consumer(builder: (context, LocationModel locationModel, child) {
+    return Consumer(builder: (context, ContentMapModel locationModel, child) {
       return ChangeNotifierProvider(
         create: (context) => SearchPlaceModel(locationModel),
         child: Consumer(
