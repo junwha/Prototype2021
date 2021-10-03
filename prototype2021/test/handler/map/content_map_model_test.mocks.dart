@@ -6,9 +6,9 @@ import 'dart:async' as _i4;
 
 import 'package:google_maps_flutter/google_maps_flutter.dart' as _i2;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:prototype2021/model/google_place/place_data.dart' as _i5;
 import 'package:prototype2021/loader/google_place/google_place_loader.dart'
     as _i3;
+import 'package:prototype2021/model/google_place/place_data.dart' as _i5;
 
 // ignore_for_file: avoid_redundant_argument_values
 // ignore_for_file: avoid_setters_without_getters

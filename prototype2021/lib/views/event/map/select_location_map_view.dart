@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/handler/google_place/content_map_model.dart';
+import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_search_bar.dart';

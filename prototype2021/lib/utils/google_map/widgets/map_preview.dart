@@ -5,6 +5,7 @@ import 'package:flutter/gestures.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/handler/google_place/content_map_model.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/utils/google_map/widgets/marker.dart';
 
 class MapPreview extends StatefulWidget {

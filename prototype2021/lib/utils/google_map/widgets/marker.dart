@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/utils/google_map/handler/location.dart';
 
 class MarkerList {
   //TODO(junwha): generalize with CID and EID
