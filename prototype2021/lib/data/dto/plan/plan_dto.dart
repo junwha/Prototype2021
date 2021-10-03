@@ -55,14 +55,15 @@ class PlanProps {
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"]));
 
-  String get areaText => areaCodes.map((e) => areaCodeToAreaName[e]).join(", ");
+  String get areaText =>
+      areaCodes.map((code) => areaCodeToAreaName[code]).join(", ");
   String get expenseText => expenseCodeToString[expense] ?? "";
 }
 
 class PlanPreview extends PlanProps {
   final bool? hearted;
   PlanPreview.fromJson({required Map<String, dynamic> json})
-      : hearted = json["hearted"],
+      : hearted = nullable<bool>(json["hearted"]),
         super.fromJson(json: json);
 }
 
