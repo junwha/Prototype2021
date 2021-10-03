@@ -1,28 +1,26 @@
 import 'package:prototype2021/model/safe_http_dto/base.dart';
 
-class PhoneAuthInput implements SafeHttpDataInput {
+class PhoneAuthInput extends SafeHttpDataInput {
   final String phoneNumber;
 
   PhoneAuthInput({required this.phoneNumber});
 
+  @override
   Map<String, dynamic> toJson() => {
         "phone_number": phoneNumber,
       };
-
-  Map<String, String>? getUrlParams() => null;
 }
 
-class EmailAuthInput implements SafeHttpDataInput {
+class EmailAuthInput extends SafeHttpDataInput {
   final String email;
 
   EmailAuthInput({required this.email});
 
+  @override
   Map<String, dynamic> toJson() => {"email": email};
-
-  Map<String, String>? getUrlParams() => null;
 }
 
-class AuthOutput implements SafeHttpDataOutput {
+class AuthOutput extends SafeHttpDataOutput {
   final String token;
   final DateTime expiringTime;
 
