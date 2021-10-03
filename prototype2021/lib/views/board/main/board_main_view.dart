@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/contents/content_type.dart';
-import 'package:prototype2021/loader/contents_loader.dart';
+import 'package:prototype2021/views/board/loader/contents_loader.dart';
 import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/model/user_info_model.dart';
 import 'package:prototype2021/settings/constants.dart';

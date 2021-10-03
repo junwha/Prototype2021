@@ -3,8 +3,8 @@ import 'package:prototype2021/data/dto/contents/content_preview.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
 import 'package:prototype2021/data/dto/safe_http/post/login.dart';
-import 'package:prototype2021/loader/contents_loader.dart';
-import 'package:prototype2021/loader/login_loader.dart';
+import 'package:prototype2021/views/board/loader/contents_loader.dart';
+import 'package:prototype2021/views/login/loader/login_loader.dart';
 
 class _Credentials {
   static String username = "test2";

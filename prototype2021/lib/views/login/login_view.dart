@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/safe_http/post/login.dart';
-import 'package:prototype2021/loader/auth_loader.dart';
+import 'package:prototype2021/views/login/loader/auth_loader.dart';
 import 'package:prototype2021/model/login/login_model.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/model/user_info_model.dart';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/data/event_dto.dart';
-import 'package:prototype2021/loader/article_loader.dart';
+import 'package:prototype2021/views/event/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
