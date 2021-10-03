@@ -3,13 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
 import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/timer_card.dart';
+import 'package:prototype2021/widgets/cards/timer_card.dart';
 import 'package:prototype2021/views/event/main/mixin/event_articles.dart';
 import 'package:prototype2021/views/event/main/mixin/event_filter.dart';
-import 'package:prototype2021/theme/pop_up.dart';
-import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
+import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:prototype2021/theme/tb_event_more_button.dart';
+import 'package:prototype2021/widgets/buttons/tb_event_more_button.dart';
 import 'package:prototype2021/views/board/main/location/select_location_toggle_view.dart';
 import 'package:prototype2021/views/event/editor/editor_view.dart';
 import 'package:prototype2021/views/event/detail/event_detail_view.dart';
@@ -17,7 +17,7 @@ import 'package:prototype2021/views/event/search/event_search_view.dart';
 import 'package:prototype2021/views/board/main/filter/filter_view.dart';
 import 'package:prototype2021/views/mypage/my_page_view.dart';
 import 'package:provider/provider.dart';
-import 'package:prototype2021/theme/top_notice.dart';
+import 'package:prototype2021/widgets/notices/top_notice.dart';
 
 class EventMainView extends StatefulWidget {
   @override

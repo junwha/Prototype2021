@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/heart_button.dart';
+import 'package:prototype2021/widgets/buttons/heart_button.dart';
 
 class CardBaseProps implements CommonObject {
   final int id;

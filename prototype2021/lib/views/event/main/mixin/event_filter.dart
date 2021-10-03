@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
 
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 
 /// 이벤트 필터 뷰를 구성하는
 mixin EventFilter<T extends StatefulWidget> on State<T> {

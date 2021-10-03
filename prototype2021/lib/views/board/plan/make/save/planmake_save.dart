@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/custom_plan_textfield.dart';
+import 'package:prototype2021/widgets/textfields/custom_plan_textfield.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_pw_textfield.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
-import 'package:prototype2021/theme/pop_up.dart';
-import 'package:prototype2021/theme/selectable_text_button.dart';
-import 'package:prototype2021/theme/tb_contenttag.dart';
-import 'package:prototype2021/theme/tb_radio_bar.dart';
-import 'package:prototype2021/theme/tb_save_button.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
+import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
+import 'package:prototype2021/widgets/shapes/tb_contenttag.dart';
+import 'package:prototype2021/widgets/radio/tb_radio_bar.dart';
+import 'package:prototype2021/widgets/buttons/tb_save_button.dart';
 import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

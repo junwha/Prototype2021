@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:prototype2021/theme/filter_checkbox.dart';
-import 'package:prototype2021/theme/tb_radio_bar.dart';
-import 'package:prototype2021/theme/tb_plus_minus_button.dart';
-import 'package:prototype2021/theme/tb_drop_down_button.dart';
+import 'package:prototype2021/widgets/checkboxes/filter_checkbox.dart';
+import 'package:prototype2021/widgets/radio/tb_radio_bar.dart';
+import 'package:prototype2021/widgets/buttons/tb_plus_minus_button.dart';
+import 'package:prototype2021/widgets/buttons/tb_drop_down_button.dart';
 
 class FilterView extends StatefulWidget {
   const FilterView({Key? key}) : super(key: key);

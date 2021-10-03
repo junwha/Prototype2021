@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/model/plan/plan_make_calendar_model.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart';
-import 'package:prototype2021/theme/tb_distance_icon.dart';
+import 'package:prototype2021/widgets/shapes/tb_distance_icon.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
 import 'package:provider/provider.dart';

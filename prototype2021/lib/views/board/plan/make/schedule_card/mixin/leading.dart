@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/place_data_props.dart';
-import 'package:prototype2021/theme/circular_wrapper.dart';
+import 'package:prototype2021/widgets/shapes/circular_wrapper.dart';
 
 mixin ScheduleCardLeadingMixin on StatelessWidget {
   CircularWrapper buildLeading(String types, int order, Color backgroundColor) {

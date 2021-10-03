@@ -4,12 +4,12 @@ import 'package:prototype2021/data/event_dto.dart';
 import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/editor_model.dart';
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/views/event/editor/mixin/event_custom_text_field.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_preview.dart';
-import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:provider/provider.dart';
 
 class EditorView extends StatefulWidget {

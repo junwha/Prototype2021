@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 
 mixin PlanListItemMemoDialogMixin {
   Future<void> displayMemoInputDialog(

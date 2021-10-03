@@ -4,7 +4,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
 import 'package:prototype2021/views/signin/mixin/widgets.dart';
 import 'package:prototype2021/views/signin/signin_view_gender.dart';

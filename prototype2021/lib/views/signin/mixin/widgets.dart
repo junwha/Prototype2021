@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
-import 'package:prototype2021/theme/loading.dart';
+import 'package:prototype2021/widgets/notices/loading.dart';
 import 'package:prototype2021/views/login/login_view.dart';
 import 'package:prototype2021/views/signin/signin_term_view.dart';
 import 'package:prototype2021/views/signin/signin_view.dart';

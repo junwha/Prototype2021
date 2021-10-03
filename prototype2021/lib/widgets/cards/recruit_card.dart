@@ -1,6 +1,6 @@
 import "package:flutter/material.dart";
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/tag.dart';
+import 'package:prototype2021/widgets/shapes/tag.dart';
 
 // TODO(MINA): specify design
 class RecruitCard extends StatelessWidget {

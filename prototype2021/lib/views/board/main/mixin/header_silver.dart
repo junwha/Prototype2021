@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/contents/content_type.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/pop_up.dart';
-import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
+import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:prototype2021/views/board/main/board_main_view.dart';
 import 'package:prototype2021/views/board/main/filter/filter_view.dart';
 

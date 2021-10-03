@@ -7,7 +7,7 @@ import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/data/place_data.dart';
 
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/map/location_result_card.dart';
+import 'package:prototype2021/widgets/maps/location_result_card.dart';
 
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 

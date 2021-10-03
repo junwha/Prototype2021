@@ -1,8 +1,8 @@
 import 'package:prototype2021/model/event/event_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/recruit_card.dart';
+import 'package:prototype2021/widgets/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/theme/selectable_text_button.dart';
+import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:prototype2021/views/event/detail/event_detail_view.dart';
 import 'package:provider/provider.dart';
 

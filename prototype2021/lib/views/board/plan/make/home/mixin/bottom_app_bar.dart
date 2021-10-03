@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
-import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'dart:io' show Platform;
 
 mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHomeView> {

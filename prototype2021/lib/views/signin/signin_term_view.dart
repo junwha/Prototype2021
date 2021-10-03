@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/pop_up.dart';
+import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
 import 'package:prototype2021/views/signin/mixin/widgets.dart';
 import 'package:prototype2021/views/signin/signin_view.dart';

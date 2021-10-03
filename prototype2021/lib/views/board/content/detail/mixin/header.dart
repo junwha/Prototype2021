@@ -3,7 +3,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/contents/content_detail.dart';
 import 'package:prototype2021/model/user_info_model.dart';
-import 'package:prototype2021/theme/heart_button.dart';
+import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:provider/provider.dart';
 
 /// 제목부터 이미지 슬라이드를 담당하는 믹스인

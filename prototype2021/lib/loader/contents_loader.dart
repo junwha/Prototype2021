@@ -8,7 +8,7 @@ import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
 import 'package:prototype2021/data/dto/safe_http/patch/heart.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/contents_card.dart';
+import 'package:prototype2021/widgets/cards/contents_card.dart';
 
 class ContentsLoader {
   PaginationState pagination = PaginationState.start;

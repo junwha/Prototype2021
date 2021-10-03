@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/cards/product_card.dart';
+import 'package:prototype2021/widgets/cards/contents_card.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 
 mixin BoardMainViewHelpers {
   /* 

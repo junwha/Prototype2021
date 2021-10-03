@@ -8,8 +8,8 @@ import 'package:prototype2021/views/board/content/detail/mixin/body.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body_event.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/header.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/helpers.dart';
-import 'package:prototype2021/theme/center_notice.dart';
-import 'package:prototype2021/theme/loading.dart';
+import 'package:prototype2021/widgets/notices/center_notice.dart';
+import 'package:prototype2021/widgets/notices/loading.dart';
 import 'package:prototype2021/views/event/main/event_main_view.dart';
 import 'package:provider/provider.dart';
 

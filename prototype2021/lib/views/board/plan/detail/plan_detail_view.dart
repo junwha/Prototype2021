@@ -4,10 +4,10 @@ import 'package:prototype2021/data/pseudo_place_data.dart';
 import 'package:prototype2021/model/map/plan_map_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
-import 'package:prototype2021/theme/cards/contents_card.dart';
-import 'package:prototype2021/theme/tb_contenttag.dart';
-import 'package:prototype2021/theme/tb_foldable_card.dart';
-import 'package:prototype2021/theme/tb_radio_bar.dart';
+import 'package:prototype2021/widgets/cards/contents_card.dart';
+import 'package:prototype2021/widgets/shapes/tb_contenttag.dart';
+import 'package:prototype2021/widgets/cards/tb_foldable_card.dart';
+import 'package:prototype2021/widgets/radio/tb_radio_bar.dart';
 import 'package:provider/provider.dart';
 
 class PlanDetailView extends StatefulWidget {

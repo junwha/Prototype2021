@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/views/board/main/mixin/board_list_view.dart';
-import 'package:prototype2021/theme/loading.dart';
+import 'package:prototype2021/widgets/notices/loading.dart';
 
 class BoardMainViewStreamList<T> extends StatelessWidget {
   final Stream<List<T>> stream;
