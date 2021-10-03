@@ -1,8 +1,6 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:image_picker/image_picker.dart';
-import 'package:prototype2021/model/safe_http_dto/output_dto_factory.dart';
+import 'package:prototype2021/data/dto/safe_http/output_dto_factory.dart';
 
 const Map<String, String> defaultHeaders = {
   "accept": "application/json",
@@ -117,7 +115,6 @@ class SafeMutationInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   Map<String, dynamic>? getJson() => data.toJson();
   Map<String, dynamic>? getFiles() => data.getFiles();
   String getJsonString() => jsonEncode(getJson());
-
 
   Uri getUrlWithParams() {
     String urlWithUrlParams = url;

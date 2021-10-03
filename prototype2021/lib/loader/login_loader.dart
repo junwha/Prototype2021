@@ -1,6 +1,6 @@
+import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/data/dto/safe_http/post/login.dart';
 import 'package:prototype2021/loader/safe_http.dart';
-import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/post/login.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class LoginLoader {

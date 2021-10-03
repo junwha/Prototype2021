@@ -1,11 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:prototype2021/data/dto/contents/content_preview.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
+import 'package:prototype2021/data/dto/safe_http/post/login.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/loader/login_loader.dart';
-import 'package:prototype2021/loader/signin_loader.dart';
-import 'package:prototype2021/model/contents_dto/content_preview.dart';
-import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/get/contents.dart';
-import 'package:prototype2021/model/safe_http_dto/post/login.dart';
 
 class _Credentials {
   static String username = "test2";

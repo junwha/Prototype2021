@@ -1,12 +1,12 @@
 import 'dart:io';
 
+import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/data/dto/safe_http/get/verification.dart';
+import 'package:prototype2021/data/dto/safe_http/post/authentication.dart';
+import 'package:prototype2021/data/dto/safe_http/post/login.dart';
+import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
 import 'package:prototype2021/loader/s3_uploader.dart';
 import 'package:prototype2021/loader/safe_http.dart';
-import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/post/signup.dart';
-import 'package:prototype2021/model/safe_http_dto/get/verification.dart';
-import 'package:prototype2021/model/safe_http_dto/post/authentication.dart';
-import 'package:prototype2021/model/safe_http_dto/post/login.dart';
 import 'package:prototype2021/model/login/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/ui/signin_page/signin_term_view.dart';

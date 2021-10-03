@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/safe_http_dto/common.dart';
+import 'package:prototype2021/data/dto/safe_http/common.dart';
 
 class ContentPreviewBase {
   final int id;
