@@ -4,7 +4,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:prototype2021/data/dto/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
-import 'package:prototype2021/model/event/search_article_model.dart';
+import 'package:prototype2021/handler/event/search_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/recruit_card.dart';
 import 'package:provider/provider.dart';

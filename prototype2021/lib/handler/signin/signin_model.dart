@@ -1,6 +1,6 @@
 import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
-import 'package:prototype2021/model/state_manager.dart';
+import 'package:prototype2021/handler/state_manager.dart';
 import 'package:prototype2021/views/signin/signin_term_view.dart';
 
 class SignInModel extends StateManager {

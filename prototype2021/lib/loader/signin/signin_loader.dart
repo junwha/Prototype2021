@@ -7,7 +7,7 @@ import 'package:prototype2021/data/dto/safe_http/post/login.dart';
 import 'package:prototype2021/data/dto/safe_http/post/signup.dart';
 import 'package:prototype2021/utils/aws_s3_uploader/s3_uploader.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
-import 'package:prototype2021/model/login/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/signin/signin_term_view.dart';
 

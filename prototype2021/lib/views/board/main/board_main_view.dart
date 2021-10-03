@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/data/dto/contents/content_type.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/data/common.dart';
-import 'package:prototype2021/model/user/user_info_model.dart';
+import 'package:prototype2021/handler/user/user_info_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/main/mixin/app_bar.dart';
 import 'package:prototype2021/views/board/main/mixin/header_silver.dart';

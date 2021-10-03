@@ -12,7 +12,7 @@ import 'package:prototype2021/widgets/maps/place_info.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
 
 import 'package:prototype2021/data/location.dart';
-import 'package:prototype2021/model/google_place/content_map_model.dart';
+import 'package:prototype2021/handler/google_place/content_map_model.dart';
 
 class MapView extends StatefulWidget {
   @override

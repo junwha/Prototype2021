@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/login/signin_model.dart';
+import 'package:prototype2021/handler/signin/signin_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
 import 'package:prototype2021/widgets/notices/loading.dart';
