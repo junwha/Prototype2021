@@ -3,7 +3,7 @@ import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:prototype2021/data/event_dto.dart';
-import 'package:prototype2021/views/event/loader/article_loader.dart';
+import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/model/event/search_article_model.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/recruit_card.dart';

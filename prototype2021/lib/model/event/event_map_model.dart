@@ -1,5 +1,5 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/views/event/loader/event_place_loader.dart';
+import 'package:prototype2021/loader/event_place_loader.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/utils/google_map/model/tb_map_model.dart';
 

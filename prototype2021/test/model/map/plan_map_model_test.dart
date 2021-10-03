@@ -3,7 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/location.dart';
 import 'package:prototype2021/data/place_data_props.dart';
 import 'package:prototype2021/data/pseudo_place_data.dart';
-import 'package:prototype2021/views/event/loader/google_place_loader.dart';
+import 'package:prototype2021/loader/google_place_loader.dart';
 import 'package:prototype2021/model/map/plan_map_model.dart';
 
 void main() {

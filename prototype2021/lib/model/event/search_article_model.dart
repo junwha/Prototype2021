@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/data/event_dto.dart';
-import 'package:prototype2021/views/event/loader/article_loader.dart';
+import 'package:prototype2021/loader/article_loader.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class SearchArticleModel with ChangeNotifier {
