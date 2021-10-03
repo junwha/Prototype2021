@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/model/contents_dto/content_detail.dart';
+import 'package:prototype2021/data/dto/contents/content_detail.dart';
 import 'package:prototype2021/theme/board/contents_detail/helpers.dart';
 
 /// 페이지의 내용물 렌더링을 담당하는 믹스인

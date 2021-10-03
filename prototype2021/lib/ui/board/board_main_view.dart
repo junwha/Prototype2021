@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/dto/contents/content_type.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/model/user_info_model.dart';
@@ -70,6 +71,11 @@ class _BoardMainViewState extends State<BoardMainView>
         tabIndex = _tabIndex;
       });
 
+  ContentType? currentFilter = null;
+  void setCurrentFilter(ContentType? newFilter) => setState(() {
+        currentFilter = newFilter;
+      });
+
   // The types inside Lists are temporary implementation.
   // If needed, this types can be changed.
   StreamController<List<ProductCardBaseProps>> planDataController =
@@ -81,12 +87,18 @@ class _BoardMainViewState extends State<BoardMainView>
   late Stream<List<ContentsCardBaseProps>> contentsDataStream;
   late Stream<List<dynamic>> recentSearchesStream;
 
-  Future<void> callApi([String? keyword]) async {
-    getPlanData(keyword);
-    getContentsData(keyword);
+  Future<void> callApi([
+    String? keyword,
+    ContentType? type,
+  ]) async {
+    getPlanData(keyword, type);
+    getContentsData(keyword, type);
   }
 
-  Future<void> getPlanData([String? keyword]) async {
+  Future<void> getPlanData([
+    String? keyword,
+    ContentType? type,
+  ]) async {
     try {
       // Code below is just a simulation of api calls
       planDataController.sink.add(await getPseudoPlanData());
@@ -96,13 +108,17 @@ class _BoardMainViewState extends State<BoardMainView>
     }
   }
 
-  Future<void> getContentsData([String? keyword]) async {
+  Future<void> getContentsData([
+    String? keyword,
+    ContentType? type,
+  ]) async {
     try {
       UserInfoModel model = Provider.of<UserInfoModel>(context, listen: false);
       if (model.token != null) {
         contentsDataController.sink.add(await getContentsList(
           model.token!,
           keyword != null && keyword.length > 0 ? keyword : null,
+          type,
         ));
       }
     } catch (error) {
@@ -131,8 +147,7 @@ class _BoardMainViewState extends State<BoardMainView>
       print('onSearch');
       textEditingController.text = "";
     } else {
-      print('onResultOfMAin');
-      callApi(searchInput);
+      callApi(searchInput, currentFilter);
     }
   }
 
@@ -162,51 +177,6 @@ class _BoardMainViewState extends State<BoardMainView>
   void initState() {
     super.initState();
     initData();
-  }
-
-  SingleChildScrollView buildFilterBar() {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        children: [
-          TBSelectableTextButton(
-            isChecked: true,
-            titleName: "모두보기",
-            onPressed: () {},
-          ),
-          SizedBox(width: 8 * pt),
-          TBSelectableTextButton(
-            isChecked: false,
-            titleName: "여행지",
-            onPressed: () {},
-          ),
-          SizedBox(width: 8 * pt),
-          TBSelectableTextButton(
-            isChecked: false,
-            titleName: "카페",
-            onPressed: () {},
-          ),
-          SizedBox(width: 8 * pt),
-          TBSelectableTextButton(
-            isChecked: false,
-            titleName: "음식점",
-            onPressed: () {},
-          ),
-          SizedBox(width: 8 * pt),
-          TBSelectableTextButton(
-            isChecked: false,
-            titleName: "숙소",
-            onPressed: () {},
-          ),
-          SizedBox(width: 8 * pt),
-          TBSelectableTextButton(
-            isChecked: false,
-            titleName: "기타",
-            onPressed: () {},
-          ),
-        ],
-      ),
-    );
   }
 
   @override
@@ -335,10 +305,11 @@ class _BoardMainViewState extends State<BoardMainView>
 
     return buildHeaderSilverBuilder(
       location: location,
-      onLeadingPressed: onLeadingPressed,
       viewMode: viewMode,
-      onTabBarPressed: setTabIndex,
       tabIndex: tabIndex,
+      onLeadingPressed: onLeadingPressed,
+      onTabBarPressed: setTabIndex,
+      onFilterBarPressed: (type) => setCurrentFilter(type),
     );
   }
 
@@ -380,7 +351,7 @@ class _BoardMainViewState extends State<BoardMainView>
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: getPlanData,
+        onActionPressed: () => getPlanData(searchInput, currentFilter),
       ),
     );
   }
@@ -396,7 +367,7 @@ class _BoardMainViewState extends State<BoardMainView>
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: _handleContentsData,
+        onActionPressed: () => getContentsData(searchInput, currentFilter),
       ),
     );
   }

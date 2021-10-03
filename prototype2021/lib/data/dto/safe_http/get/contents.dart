@@ -1,8 +1,10 @@
-import 'package:prototype2021/model/contents_dto/content_detail.dart';
-import 'package:prototype2021/model/contents_dto/content_preview.dart';
-import 'package:prototype2021/model/contents_dto/content_type.dart';
-import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/common.dart';
+import 'dart:io';
+
+import 'package:prototype2021/data/dto/contents/content_detail.dart';
+import 'package:prototype2021/data/dto/contents/content_preview.dart';
+import 'package:prototype2021/data/dto/contents/content_type.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/data/dto/safe_http/common.dart';
 
 // ========================= ContentsList ========================= //
 
@@ -11,19 +13,22 @@ class ContentsListInput extends SafeHttpDataInput {
   final int? areaDetailCode;
   final String? keyword;
   final ContentType? typeId;
+  final int? page;
 
   ContentsListInput({
     this.areaCode,
     this.areaDetailCode,
     this.keyword,
-    this.typeId,
-  });
+    this.page,
+    ContentType? contentType,
+  }) : typeId = contentType;
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,
         "area_detail_code": areaDetailCode == null ? null : "($areaDetailCode)",
         "keyword": keyword,
-        "typeid": contentTypeId[typeId],
+        "typeid": typeId == null ? null : contentTypeId[typeId],
+        "page": page,
       };
 
   Map<String, String>? getUrlParams() => null;

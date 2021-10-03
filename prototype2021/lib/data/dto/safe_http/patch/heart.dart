@@ -1,4 +1,4 @@
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
 
 class PlanHeartInput extends SafeHttpDataInput {
   final String planId;

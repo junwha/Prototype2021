@@ -1,4 +1,10 @@
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
+
+enum PaginationState {
+  start,
+  mid,
+  end,
+}
 
 abstract class Pagination<T> {
   abstract final int count;

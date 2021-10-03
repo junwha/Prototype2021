@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:http/http.dart' show Response;
 import 'package:http/http.dart' as http;
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
 
 Future<bool> legacyPOST(String url, Map? bodyMap) async {
   try {

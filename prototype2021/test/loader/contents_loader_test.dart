@@ -1,11 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:prototype2021/data/dto/contents/content_preview.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
+import 'package:prototype2021/data/dto/safe_http/get/contents.dart';
+import 'package:prototype2021/data/dto/safe_http/post/login.dart';
 import 'package:prototype2021/loader/contents_loader.dart';
 import 'package:prototype2021/loader/login_loader.dart';
-import 'package:prototype2021/loader/signin_loader.dart';
-import 'package:prototype2021/model/contents_dto/content_preview.dart';
-import 'package:prototype2021/model/safe_http_dto/base.dart';
-import 'package:prototype2021/model/safe_http_dto/get/contents.dart';
-import 'package:prototype2021/model/safe_http_dto/post/login.dart';
 
 class _Credentials {
   static String username = "test2";
@@ -50,11 +49,27 @@ void testContentsList() {
     SafeQueryOutput<ContentsListOutput> result =
         await contentsLoader!.contentsList(dto);
     print(result.error?.message);
+    print(result.data?.results);
     expect(result.data?.results != null, true);
     expect(result.data!.results is List<ContentPreview>, true);
     expect(result.data!.count > 0, true);
     expect(result.data!.previous, null);
     sampleData = result.data!.results;
+  });
+
+  test('should get a list of contents with keywords related', () async {
+    String keyword = "대구";
+    ContentsListInput params = new ContentsListInput(keyword: keyword);
+    SafeQueryInput<ContentsListInput> dto = new SafeQueryInput(
+        url: contentsLoader!.contentsListUrl, params: params, token: token);
+    SafeQueryOutput<ContentsListOutput> result =
+        await contentsLoader!.contentsList(dto);
+    print(result.error?.message);
+    print(result.data?.results);
+    expect(result.data?.results != null, true);
+    expect(result.data!.results is List<ContentPreview>, true);
+    expect(result.data!.count > 0, true);
+    expect(result.data!.previous, null);
   });
 }
 

@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart'
     show Response, MultipartFile, MultipartRequest, StreamedResponse;
 import 'package:image_picker/image_picker.dart';
-import 'package:prototype2021/model/safe_http_dto/base.dart';
+import 'package:prototype2021/data/dto/safe_http/base.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 void printHTTPLog(http.Response res) {
