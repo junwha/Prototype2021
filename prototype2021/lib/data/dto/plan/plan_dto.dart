@@ -81,7 +81,7 @@ class PlanDetail extends PlanProps {
                 .toList())
             .toList(),
         userData = UserData(json["user"]["id"], json["user"]["name"],
-            json["user"]["photo"]), // TODO: 유저 모델 수정 필요
+            nullable<String>(json["user"]["photo"])), // TODO: 유저 모델 수정 필요
         super.fromJson(json: json);
 }
 
