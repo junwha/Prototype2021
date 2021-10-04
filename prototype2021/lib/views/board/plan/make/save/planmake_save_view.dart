@@ -1,25 +1,27 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/widgets/textfields/custom_plan_textfield.dart';
-import 'package:prototype2021/views/event/editor/mixin/custom_pw_textfield.dart';
-import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
-import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:prototype2021/widgets/shapes/tb_contenttag.dart';
 import 'package:prototype2021/widgets/radio/tb_radio_bar.dart';
 import 'package:prototype2021/widgets/buttons/tb_save_button.dart';
-import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
-  const PlanmakeSaveView({Key? key}) : super(key: key);
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+  const PlanmakeSaveView({Key? key, required this.navigator}) : super(key: key);
 
   @override
-  _PlanmakeSaveViewState createState() => _PlanmakeSaveViewState();
+  _PlanmakeSaveViewState createState() =>
+      _PlanmakeSaveViewState(navigator: navigator);
 }
 
 class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+
+  _PlanmakeSaveViewState({required this.navigator});
+
   int selectedRadio1 = 1;
   int selectedRadio2 = 1;
   int _selectedValue = 0;

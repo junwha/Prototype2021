@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/handler/user/user_info_handler.dart';
-import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/views/board/base/board.dart';
-import 'package:prototype2021/views/board/base/mixin/stream_list.dart';
-import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
-import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
-import 'package:prototype2021/widgets/cards/contents_card.dart';
-import 'package:prototype2021/widgets/cards/product_card.dart';
-import 'package:prototype2021/widgets/notices/center_notice.dart';
-import 'package:provider/provider.dart';
+import 'package:prototype2021/views/board/base/mixin/app_bar_text_button.dart';
 
 class BoardMainView extends StatefulWidget {
   const BoardMainView({Key? key}) : super(key: key);
@@ -29,39 +21,7 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
   /* =================================/================================= */
 
   @override
-  Future<void> getPlanData([
-    String? keyword,
-    ContentType? type,
-  ]) async {
-    try {
-      // Code below is just a simulation of api calls
-      planDataController.sink.add(await getPseudoPlanData());
-    } catch (error) {
-      print(error);
-      // error handle
-    }
-  }
-
-  @override
-  Future<void> getContentsData([
-    String? keyword,
-    ContentType? type,
-  ]) async {
-    try {
-      UserInfoHandler model =
-          Provider.of<UserInfoHandler>(context, listen: false);
-      if (model.token != null) {
-        contentsDataController.sink.add(await contentsLoader.getContentsList(
-          model.token!,
-          keyword != null && keyword.length > 0 ? keyword : null,
-          type,
-        ));
-      }
-    } catch (error) {
-      print("Error from getContentsData: $error");
-      // error handle
-    }
-  }
+  Future<void> initData() async => await callApi(searchInput);
 
   @override
   void onBackButtonPressed() {
@@ -81,31 +41,90 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
     }
   }
 
-  @override
-  List<SliverAppBar> processHeaderItems({
-    required List<SliverAppBar> defaultSlivers,
-    required BoardMode mode,
-    required int tabIndex,
-  }) {
-    // if (tabIndex == 1) defaultSlivers.removeAt(2);
-    if (mode == BoardMode.search) defaultSlivers = [];
-    if (mode == BoardMode.result) defaultSlivers.removeAt(0);
-    return defaultSlivers;
-  }
-
   /* =================================/================================= */
   /* ==============================WIDGETS============================== */
   /* =================================/================================= */
 
   @override
-  Widget buildBody(BuildContext context) {
-    switch (viewMode) {
-      case BoardMode.search:
-        return buildSearchBody();
-      default:
-        return buildDefaultBody(context);
-    }
+  IconButton buildLeading() {
+    Image leadingIcon = viewMode == BoardMode.search
+        ? Image.asset('assets/icons/ic_arrow_left_back.png')
+        : Image.asset("assets/icons/ic_remove_x.png");
+
+    return IconButton(
+      color: Colors.black,
+      icon: leadingIcon,
+      onPressed: onBackButtonPressed,
+    );
   }
+
+  @override
+  Widget buildTitle() {
+    return buildTextField(
+      textEditingController,
+      viewMode: viewMode,
+      onChanged: setSearchInput,
+      onSubmitted: searchOnSubmitted,
+      onTap: () => updateViewMode(BoardMode.search),
+    );
+  }
+
+  @override
+  List<Widget> buildActions() {
+    List<Widget> actions = [
+      TBAppBarTextButton(
+          onPressed: () => setViewMode(BoardMode.search),
+          icon: Image.asset("assets/icons/ic_main_search.png"),
+          text: "검색"),
+      TBAppBarTextButton(
+          onPressed: () {},
+          icon: Image.asset("assets/icons/ic_main_heart_default.png"),
+          text: "찜목록"),
+      TBAppBarTextButton(
+          onPressed: () {},
+          icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
+          text: "메뉴"),
+    ];
+    if (viewMode == BoardMode.search) actions = [];
+    if (viewMode == BoardMode.result) actions.removeAt(0);
+    return actions;
+  }
+
+  @override
+  List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder() =>
+      (BuildContext context, bool innerBoxIsScrolled) {
+        if (viewMode == BoardMode.search) return [];
+        List<SliverAppBar> slivers = <SliverAppBar>[
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: false,
+            backgroundColor: Colors.white,
+            title: buildCurrentLocation(context,
+                location: location, onLeadingPressed: onLeadingPressed),
+          ),
+          SliverAppBar(
+            automaticallyImplyLeading: false,
+            elevation: 0,
+            pinned: true,
+            backgroundColor: Colors.white,
+            title: buildTabBar(onTap: setTabIndex),
+          ),
+          SliverAppBar(
+              automaticallyImplyLeading: false,
+              shadowColor: Color(0x29000000),
+              forceElevated: true,
+              elevation: 3,
+              pinned: true,
+              backgroundColor: Colors.white,
+              title: buildThemeBar(
+                onFilterChange: (type) => setCurrentFilter(type),
+              )),
+        ];
+        slivers.removeAt(3);
+        // if (tabIndex == 1) slivers.removeAt(2);
+        if (viewMode == BoardMode.result) slivers.removeAt(0);
+        return slivers;
+      };
 
   @override
   Container? buildBottomNavigationBar() {
@@ -116,38 +135,6 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
     } else {
       return null;
     }
-  }
-
-  @override
-  BoardStreamList buildPlanListView(BuildContext context) {
-    return BoardStreamList<ProductCardBaseProps>(
-      stream: planDataStream,
-      builder: (props) => ProductCard.fromProps(props: props),
-      routeBuilder: (_, __) => PlanMakeView(),
-      emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
-      errorWidget: CenterNotice(
-        text: '예기치 못한 오류가 발생했습니다',
-        actionText: "다시 시도",
-        onActionPressed: () => getPlanData(searchInput, currentFilter),
-      ),
-    );
-  }
-
-  @override
-  BoardStreamList buildContentListView(BuildContext context) {
-    return BoardStreamList<ContentsCardBaseProps>(
-      stream: contentsDataStream,
-      builder: (props) => ContentsCard.fromProps(props: props),
-      routeBuilder: (_, id) => ContentDetailView(
-        id: id!,
-      ),
-      emptyWidget: CenterNotice(text: "불러올 수 있는 컨텐츠가 없습니다"),
-      errorWidget: CenterNotice(
-        text: '예기치 못한 오류가 발생했습니다',
-        actionText: "다시 시도",
-        onActionPressed: () => getContentsData(searchInput, currentFilter),
-      ),
-    );
   }
 
   @override

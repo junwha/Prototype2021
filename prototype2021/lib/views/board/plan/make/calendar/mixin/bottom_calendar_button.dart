@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
-import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar.dart';
-import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
+import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
@@ -60,8 +59,8 @@ class BottomCalendarButton extends StatelessWidget {
             ? null
             : () {
                 calendarHandler.generatePlanListItems();
-                PlanMakeCalendar? parent =
-                    context.findAncestorWidgetOfExactType<PlanMakeCalendar>();
+                PlanMakeCalendarView? parent = context
+                    .findAncestorWidgetOfExactType<PlanMakeCalendarView>();
                 if (parent != null) {
                   parent.navigator(Navigate.forward);
                 }

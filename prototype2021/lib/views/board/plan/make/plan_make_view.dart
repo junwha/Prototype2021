@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
-import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar.dart';
+import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
+import 'package:prototype2021/views/board/plan/make/save/planMake.saved.0_view.dart';
+import 'package:prototype2021/views/board/plan/make/save/planmake_save_view.dart';
+import 'package:prototype2021/views/board/plan/make/select/plan_make_select_view.dart';
 import 'package:provider/provider.dart';
 
 enum Navigate {
   backward,
   forward,
+  custom,
 }
 
 enum PlanMakeViewMode {
@@ -53,11 +57,15 @@ class _PlanMakeViewState extends State<PlanMakeView> {
   void setViewMode(PlanMakeViewMode _viewMode) => setState(() {
         viewMode = _viewMode;
       });
-  void Function(Navigate) navigatorFactory({
+  void Function(Navigate, [PlanMakeViewMode?]) navigatorFactory({
     PlanMakeViewMode? backward,
     PlanMakeViewMode? forward,
   }) {
-    return (Navigate navigateDirection) {
+    return (Navigate navigateDirection, [PlanMakeViewMode? customMode]) {
+      if (navigateDirection == Navigate.custom && customMode != null) {
+        setViewMode(customMode);
+        return;
+      }
       if (navigateDirection == Navigate.backward) {
         if (backward == null) {
           Navigator.pop(context);
@@ -85,14 +93,31 @@ class _PlanMakeViewState extends State<PlanMakeView> {
   Widget buildPage() {
     switch (viewMode) {
       case PlanMakeViewMode.calendar:
-        return PlanMakeCalendar(
+        return PlanMakeCalendarView(
           navigator: navigatorFactory(forward: PlanMakeViewMode.home),
         );
       case PlanMakeViewMode.home:
         return PlanMakeHomeView(
           navigator: navigatorFactory(
             backward: PlanMakeViewMode.calendar,
-            forward: PlanMakeViewMode.select,
+            forward: PlanMakeViewMode.save,
+          ),
+        );
+      case PlanMakeViewMode.select:
+        return PlanMakeSelectView(
+          navigator: navigatorFactory(backward: PlanMakeViewMode.home),
+        );
+      case PlanMakeViewMode.save:
+        return PlanmakeSaveView(
+          navigator: navigatorFactory(
+            backward: PlanMakeViewMode.home,
+            forward: PlanMakeViewMode.result,
+          ),
+        );
+      case PlanMakeViewMode.result:
+        return PlanSavedView(
+          navigator: navigatorFactory(
+            backward: PlanMakeViewMode.save,
           ),
         );
       default:

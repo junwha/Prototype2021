@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 
 class PlanSavedView extends StatefulWidget {
-  PlanSavedView({Key? key}) : super(key: key);
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+  PlanSavedView({Key? key, required this.navigator}) : super(key: key);
 
   @override
-  _PlanSavedViewState createState() => _PlanSavedViewState();
+  _PlanSavedViewState createState() =>
+      _PlanSavedViewState(navigator: navigator);
 }
 
 class _PlanSavedViewState extends State<PlanSavedView> {
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+
+  _PlanSavedViewState({required this.navigator});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

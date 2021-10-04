@@ -2,75 +2,48 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/settings/annotations.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
-import 'package:prototype2021/views/board/base/board.dart';
-import 'package:prototype2021/views/board/base/filter/filter_view.dart';
 
 abstract class BoardMainSilverMixin {
-  List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder({
-    required void Function() onLeadingPressed,
-    required void Function(int) onTabBarPressed,
-    required void Function(ContentType?) onFilterBarPressed,
-    required int tabIndex,
-    required Map<String, String> location,
-    required BoardMode viewMode,
-  }) =>
-      (BuildContext context, bool innerBoxIsScrolled) {
-        List<SliverAppBar> slivers = <SliverAppBar>[
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            centerTitle: false,
-            backgroundColor: Colors.white,
-            title: buildCurrentLocation(context,
-                location: location, onLeadingPressed: onLeadingPressed),
-          ),
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            pinned: true,
-            backgroundColor: Colors.white,
-            title: buildTabBar(onTap: onTabBarPressed),
-          ),
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            shadowColor: Color(0x29000000),
-            forceElevated: true,
-            pinned: true,
-            backgroundColor: Colors.white,
-            title: buildThemeBar(onFilterChange: onFilterBarPressed),
-          )
-        ];
-        return slivers;
-      };
-
-  /// 헤더에서 필요한 컴포넌트만을 뽑는 메소드입니다.
-  /// 예를 들어 [BoardMainView]에서는 [BoardMode.search] 일때는 빈 리스트를 반환토록 하고,
-  /// [BoardMode.result] 일때는 [defaultSilvers]의 첫번재 아이템을 지워
-  /// [buildCurrentLocation] 이 나오지 않도록 합니다.
-  ///
-  /// 아래는 [defaultSilvers]의 각 인덱스별로 대응되는 위젯입니다.
-  ///
-  /// 0: [buildCurrentLocation]
-  ///
-  /// 1: [buildTabBar]
-  ///
-  /// 2: [buildThemeBar]
-  ///
-  /// 아래는 BoardMainView에서 [override]된 [processHeaderItems]의 예시입니다.
-  ///
-  /// ```dart
-  /// // if (tabIndex == 1) defaultSlivers.removeAt(2);
-  /// if (mode == BoardMode.search) defaultSlivers = [];
-  /// if (mode == BoardMode.result) defaultSlivers.removeAt(0);
-  /// return defaultSlivers;
-  /// ```
   @needsImplement
-  List<SliverAppBar> processHeaderItems({
-    required List<SliverAppBar> defaultSlivers,
-    required BoardMode mode,
-    required int tabIndex,
-  });
+  List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder();
+
+  /// 플랜 만들기에서 컨텐츠 리스트에 들어가는 헤더입니다
+  ///
+  /// titleText를 넣으면 이에 해당하는 title 위젯을 생성합니다
+  ///
+  /// title이 주어졌다면 titleText로 생성되는 위젯을 오버라이딩합니다
+  Container buildListHeader({
+    Widget? title,
+    Widget? actions,
+    String? titleText,
+  }) {
+    Text defaultTitle = Text(titleText ?? "",
+        style: const TextStyle(
+            color: const Color(0xffbdbdbd),
+            fontWeight: FontWeight.w400,
+            fontFamily: "Roboto",
+            fontStyle: FontStyle.normal,
+            fontSize: 12.0),
+        textAlign: TextAlign.left);
+    List<Widget> children = [];
+    if (title != null) children.add(title);
+    if (titleText != null && title == null) {
+      children.add(defaultTitle);
+    }
+    if (actions != null) children.add(actions);
+    return Container(
+      height: 40,
+      child: Row(
+        mainAxisAlignment: children.length == 1
+            ? MainAxisAlignment.start
+            : MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: children,
+      ),
+      padding: const EdgeInsets.all(14),
+    );
+  }
 
   /* 
    * ListView.seperated 와 본질적으로 같은 로직을 공유합니다

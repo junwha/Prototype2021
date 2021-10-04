@@ -17,7 +17,7 @@ import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 class PlanMakeHomeView extends StatefulWidget {
-  final void Function(Navigate) navigator;
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
 
   const PlanMakeHomeView({required this.navigator});
 
@@ -46,7 +46,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
 
-  final void Function(Navigate) navigator;
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
 
   bool _onTop = true;
   void Function(bool)? _setOnTop(bool isOnTop) {

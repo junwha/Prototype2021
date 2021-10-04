@@ -12,11 +12,11 @@ import 'package:prototype2021/views/board/base/mixin/search_logic.dart';
 import 'package:prototype2021/views/board/base/mixin/search_widget.dart';
 import 'package:prototype2021/views/board/base/mixin/stream_list.dart';
 import 'package:prototype2021/views/board/base/location/select_location_toggle_view.dart';
+import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/widgets/cards/product_card.dart';
 import 'package:prototype2021/widgets/notices/center_notice.dart';
-import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
-import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 import 'package:rxdart/subjects.dart';
 
@@ -73,11 +73,13 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       });
 
   BoardMode viewMode;
-  Future<void> setViewMode(BoardMode _viewMode) async {
-    setState(() {
-      viewMode = _viewMode;
-      refetchCount = 0;
-    });
+  @defaultImplementation
+  void setViewMode(BoardMode _viewMode) => setState(() {
+        viewMode = _viewMode;
+        refetchCount = 0;
+      });
+  Future<void> updateViewMode(BoardMode _viewMode) async {
+    setViewMode(_viewMode);
     handleModeChange(_viewMode);
   }
 
@@ -86,6 +88,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
         searchInput = _searchInput;
       });
 
+  final int initialTabIndex;
   int tabIndex = 0;
   void setTabIndex(int _tabIndex) => setState(() {
         tabIndex = _tabIndex;
@@ -117,22 +120,45 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     getContentsData(keyword, type);
   }
 
-  @needsImplement
+  @defaultImplementation
   Future<void> getPlanData([
     String? keyword,
     ContentType? type,
-  ]);
+  ]) async {
+    try {
+      // Code below is just a simulation of api calls
+      planDataController.sink.add(await getPseudoPlanData());
+    } catch (error) {
+      print(error);
+      // error handle
+    }
+  }
 
-  @needsImplement
+  @defaultImplementation
   Future<void> getContentsData([
     String? keyword,
     ContentType? type,
-  ]);
+  ]) async {
+    try {
+      UserInfoHandler model =
+          Provider.of<UserInfoHandler>(context, listen: false);
+      if (model.token != null) {
+        contentsDataController.sink.add(await contentsLoader.getContentsList(
+          model.token!,
+          keyword != null && keyword.length > 0 ? keyword : null,
+          type,
+        ));
+      }
+    } catch (error) {
+      print("Error from getContentsData: $error");
+      // error handle
+    }
+  }
 
   Future<void> searchOnSubmitted(String? keyword) async {
     if (keyword != null && keyword.length > 0) {
       await addSearchKeyword(keyword);
-      setViewMode(BoardMode.result);
+      updateViewMode(BoardMode.result);
     }
   }
 
@@ -141,7 +167,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     loadSearchKeywords();
   }
 
-  Future<void> initData() async => await callApi(searchInput);
+  @needsImplement
+  Future<void> initData();
 
   void handleModeChange(BoardMode _viewMode) {
     if (_viewMode == BoardMode.search) {
@@ -170,17 +197,20 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   /* ===================CONSTRUCTORS & Widget METHODS=================== */
   /* =================================/================================= */
 
-  BoardState() : viewMode = BoardMode.main {
+  BoardState()
+      : viewMode = BoardMode.main,
+        initialTabIndex = 0 {
     _mapControllerToStream();
   }
 
-  BoardState.build({required this.viewMode}) {
+  BoardState.build({required this.viewMode, this.initialTabIndex = 0}) {
     _mapControllerToStream();
   }
 
   @override
   void initState() {
     super.initState();
+    setTabIndex(initialTabIndex);
     initData();
   }
 
@@ -203,10 +233,10 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
       body: DefaultTabController(
-        initialIndex: 0,
+        initialIndex: initialTabIndex,
         length: 2,
         child: NestedScrollView(
-          headerSliverBuilder: buildHeaderBuilder(context),
+          headerSliverBuilder: buildHeaderSilverBuilder(),
           body: buildBody(context),
         ),
       ),
@@ -214,31 +244,31 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     );
   }
 
-  @needsImplement
-  Widget buildBody(BuildContext context);
+  @defaultImplementation
+  Widget buildBody(BuildContext context) {
+    switch (viewMode) {
+      case BoardMode.search:
+        return buildSearchBody();
+      default:
+        return buildDefaultBody(context);
+    }
+  }
 
   @needsImplement
   void onBackButtonPressed();
+
+  @needsImplement
+  Widget buildTitle();
 
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
-      leading: buildLeading(
-        context,
-        viewMode: viewMode,
-        onPressed: onBackButtonPressed,
-      ),
-      title: buildTextField(
-        textEditingController,
-        viewMode: viewMode,
-        onChanged: setSearchInput,
-        onSubmitted: searchOnSubmitted,
-        onTap: () => setViewMode(BoardMode.search),
-      ),
+      leading: buildLeading(),
+      title: buildTitle(),
       toolbarHeight: _toolbarHeight,
-      actions: buildActions(setViewMode: setViewMode, viewMode: viewMode),
+      actions: buildActions(),
     );
   }
 
@@ -276,45 +306,58 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
             }));
   }
 
-  List<SliverAppBar> Function(BuildContext, bool) buildHeaderBuilder(
-      BuildContext context) {
-    // Need Refactor
-    void onLeadingPressed() {
-      Navigator.push(
-          context,
-          MaterialPageRoute<void>(
-              builder: (context) => SelectLocationToggleView(
-                    mainLocation: location["mainLocation"] ?? "",
-                    subLocation: location["subLocation"] ?? "",
-                  ))).then((value) {
-        setState(() {
-          Map<String, String> _location = value as Map<String, String>;
-          if (_location.containsKey("mainLocation") &&
-              _location.containsKey("subLocation")) {
-            location = _location;
-          }
-        });
+  void onLeadingPressed() {
+    Navigator.push(
+        context,
+        MaterialPageRoute<void>(
+            builder: (context) => SelectLocationToggleView(
+                  mainLocation: location["mainLocation"] ?? "",
+                  subLocation: location["subLocation"] ?? "",
+                ))).then((value) {
+      setState(() {
+        Map<String, String> _location = value as Map<String, String>;
+        if (_location.containsKey("mainLocation") &&
+            _location.containsKey("subLocation")) {
+          location = _location;
+        }
       });
-    }
-
-    return buildHeaderSilverBuilder(
-      location: location,
-      viewMode: viewMode,
-      tabIndex: tabIndex,
-      onLeadingPressed: onLeadingPressed,
-      onTabBarPressed: setTabIndex,
-      onFilterBarPressed: (type) => setCurrentFilter(type),
-    );
+    });
   }
 
   @needsImplement
   Widget? buildBottomNavigationBar();
 
-  @needsImplement
-  Widget buildPlanListView(BuildContext context);
+  @defaultImplementation
+  Widget buildPlanListView(BuildContext context) {
+    return BoardStreamList<ProductCardBaseProps>(
+      stream: planDataStream,
+      builder: (props) => ProductCard.fromProps(props: props),
+      routeBuilder: (_, __) => PlanMakeView(),
+      emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
+      errorWidget: CenterNotice(
+        text: '예기치 못한 오류가 발생했습니다',
+        actionText: "다시 시도",
+        onActionPressed: () => getPlanData(searchInput, currentFilter),
+      ),
+    );
+  }
 
-  @needsImplement
-  Widget buildContentListView(BuildContext context);
+  @defaultImplementation
+  Widget buildContentListView(BuildContext context) {
+    return BoardStreamList<ContentsCardBaseProps>(
+      stream: contentsDataStream,
+      builder: (props) => ContentsCard.fromProps(props: props),
+      routeBuilder: (_, id) => ContentDetailView(
+        id: id!,
+      ),
+      emptyWidget: CenterNotice(text: "불러올 수 있는 컨텐츠가 없습니다"),
+      errorWidget: CenterNotice(
+        text: '예기치 못한 오류가 발생했습니다',
+        actionText: "다시 시도",
+        onActionPressed: () => getContentsData(searchInput, currentFilter),
+      ),
+    );
+  }
 
   @needsImplement
   Widget? buildContentsDetail(BuildContext context);

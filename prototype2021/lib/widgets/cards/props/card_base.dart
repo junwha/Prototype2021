@@ -30,6 +30,7 @@ class CardBase {
     required String preview,
     required String token,
     Widget? footer,
+    Widget? header,
   }) {
     return Container(
         padding: EdgeInsets.all(10 * pt),
@@ -43,6 +44,7 @@ class CardBase {
         ),
         child: Column(
           children: [
+            header == null ? SizedBox() : header,
             Row(children: <Widget>[
               SizedBox(width: 15),
               itemInfo,

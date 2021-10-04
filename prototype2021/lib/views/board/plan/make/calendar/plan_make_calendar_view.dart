@@ -9,11 +9,11 @@ import 'package:provider/provider.dart';
 
 const double CalendarHorizontalPadding = 10;
 
-class PlanMakeCalendar extends StatelessWidget
+class PlanMakeCalendarView extends StatelessWidget
     with PlanMakeAppBarBase
     implements PlanMakeNavigator {
-  final void Function(Navigate) navigator;
-  const PlanMakeCalendar({required this.navigator});
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+  const PlanMakeCalendarView({required this.navigator});
 
   @override
   Widget build(BuildContext context) {

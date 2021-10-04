@@ -7,6 +7,7 @@ import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart'
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/memo_dialog.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleCardsHeader extends StatefulWidget {
@@ -123,31 +124,30 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
     PlanMakeHomeViewState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
+    List<IconButton> children = [];
+    if (mode == PlanMakeMode.add) {
+      children = [
+        IconButton(
+            onPressed: () async {
+              await displayMemoInputDialog(
+                  context, _textEditingController, _setMemo, _createMemo);
+              if (parent?.expanded != null && !parent!.expanded) {
+                parent.setExpanded(true);
+              }
+            },
+            icon: Image.asset('assets/icons/ic_calender_memo_gray.png')),
+        IconButton(
+            onPressed: () {
+              if (grandParent != null) {
+                grandParent.navigator(Navigate.custom, PlanMakeViewMode.select);
+              }
+            },
+            icon: Image.asset('assets/icons/ic_calender_plus.png')),
+      ];
+    }
     return Container(
       child: Row(
-        children: mode == PlanMakeMode.add
-            ? [
-                IconButton(
-                    onPressed: () async {
-                      await displayMemoInputDialog(context,
-                          _textEditingController, _setMemo, _createMemo);
-                      if (parent?.expanded != null && !parent!.expanded) {
-                        parent.setExpanded(true);
-                      }
-                    },
-                    icon:
-                        Image.asset('assets/icons/ic_calender_memo_gray.png')),
-                IconButton(
-                    onPressed: () {
-                      calendarHandler.addPlaceData(
-                          dateIndex, randomPlaceData());
-                      if (parent?.expanded != null && !parent!.expanded) {
-                        parent.setExpanded(true);
-                      }
-                    },
-                    icon: Image.asset('assets/icons/ic_calender_plus.png')),
-              ]
-            : [],
+        children: children,
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
