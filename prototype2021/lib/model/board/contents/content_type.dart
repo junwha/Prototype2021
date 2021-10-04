@@ -45,3 +45,14 @@ Map<int, ContentType> idContentType = {
   38: ContentType.shopping,
   39: ContentType.restaurants,
 };
+
+Map<String, ContentType> titleContentType = {
+  "모두 보기": ContentType.unknown,
+  "관광지": ContentType.spot,
+  "문화 시설": ContentType.cultureInfra,
+  "행사/공연/축제": ContentType.events,
+  "레포츠": ContentType.leisureSports,
+  "숙박": ContentType.accomodations,
+  "쇼핑": ContentType.shopping,
+  "음식점": ContentType.restaurants,
+};

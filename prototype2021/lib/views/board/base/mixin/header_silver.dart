@@ -38,7 +38,7 @@ abstract class BoardMainSilverMixin {
             forceElevated: true,
             pinned: true,
             backgroundColor: Colors.white,
-            title: buildFilterBar(onFilterChange: onFilterBarPressed),
+            title: buildThemeBar(onFilterChange: onFilterBarPressed),
           )
         ];
         return slivers;
@@ -55,7 +55,7 @@ abstract class BoardMainSilverMixin {
   ///
   /// 1: [buildTabBar]
   ///
-  /// 2: [buildFilterBar]
+  /// 2: [buildThemeBar]
   ///
   /// 아래는 BoardMainView에서 [override]된 [processHeaderItems]의 예시입니다.
   ///
@@ -89,40 +89,31 @@ abstract class BoardMainSilverMixin {
    * 이때 titleNameIndex는 index가 짝수일 때만 이용되므로 나머지에 대한 생각을 하지 않아도 됩니다
    * 이런식으로 ListView.seperated 와 같은 로직이 구현되는 것입니다
    */
-  SingleChildScrollView buildFilterBar(
+  SingleChildScrollView buildThemeBar(
       {void Function(ContentType?)? onFilterChange}) {
     /* 
      * This is a temporary implementation. 
      * focusedIndex should be handled as state at root widget(Board)
      */
     final int focusedIndex = 0;
-    const List<String> titleNames = ["모두보기", "여행지", "카페", "음식점", "숙소", "기타"];
-    ContentType? titleToContentType(String title) {
-      switch (title) {
-        case "여행지":
-          return ContentType.spot;
-        case "숙소":
-          return ContentType.accomodations;
-        case "음식점":
-          return ContentType.restaurants;
-        default:
-          return null;
-      }
-    }
+    List<String> titleNames = titleContentType.keys.toList();
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
           children: List.generate(titleNames.length * 2 - 1, (index) {
         int titleNameIndex = index ~/ 2;
+        String titleName = titleNames[titleNameIndex];
+        bool isChecked = titleNameIndex == focusedIndex;
         return index % 2 == 0
             ? TBSelectableTextButton(
-                isChecked: titleNameIndex == focusedIndex,
-                titleName: titleNames[titleNameIndex],
+                isChecked: isChecked,
+                titleName: titleName,
                 onPressed: onFilterChange == null
                     ? null
                     : () => onFilterChange(
-                        titleToContentType(titleNames[titleNameIndex])),
+                          titleContentType[titleName],
+                        ),
               )
             : SizedBox(width: 8 * pt);
       })),
@@ -163,9 +154,11 @@ abstract class BoardMainSilverMixin {
     );
   }
 
-  Widget buildCurrentLocation(BuildContext context,
-      {required Map<String, String> location,
-      required void Function() onLeadingPressed}) {
+  Widget buildCurrentLocation(
+    BuildContext context, {
+    required Map<String, String> location,
+    required void Function() onLeadingPressed,
+  }) {
     return Container(
       color: Colors.white,
       child: Padding(
@@ -195,20 +188,20 @@ abstract class BoardMainSilverMixin {
               ),
               onPressed: onLeadingPressed,
             ),
-            IconButton(
-              onPressed: () {
-                tbShowDialog(
-                    context,
-                    TBLargeDialog(
-                      title: "",
-                      insetsPadding:
-                          EdgeInsets.symmetric(horizontal: 25, vertical: 25),
-                      padding: EdgeInsets.all(20),
-                      body: SingleChildScrollView(child: FilterView()),
-                    ));
-              },
-              icon: Image.asset("assets/icons/ic_filter_gray.png"),
-            ),
+            // IconButton(
+            //   onPressed: () {
+            //     tbShowDialog(
+            //         context,
+            //         TBLargeDialog(
+            //           title: "",
+            //           insetsPadding:
+            //               EdgeInsets.symmetric(horizontal: 25, vertical: 25),
+            //           padding: EdgeInsets.all(20),
+            //           body: SingleChildScrollView(child: FilterView()),
+            //         ));
+            //   },
+            //   icon: Image.asset("assets/icons/ic_filter_gray.png"),
+            // ),
           ],
         ),
       ),
