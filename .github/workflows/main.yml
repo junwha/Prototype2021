@@ -2,8 +2,11 @@ name: Merge Tests
 on:
   push:
     branches:
-      - master
+      - main
   pull_request:
+    branches:
+     - main
+     - dev
 
 jobs:
   unit-test:
