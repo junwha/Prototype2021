@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 
 class BackgroundMap extends StatefulWidget {
   LatLng center;
@@ -35,7 +34,6 @@ class _BackgroundMapState extends State<BackgroundMap> {
   //Save positions of last tapped and pressed
   // LatLng? _lastTap;
   // LatLng? _lastLongPress;
-  // TODO(junwha): after all test, place marks here
 
   @override
   Widget build(BuildContext context) {

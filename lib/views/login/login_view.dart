@@ -13,11 +13,6 @@ import 'package:prototype2021/views/signin/signin_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/settings/constants.dart';
 
-class _TestCredentials {
-  static String username = "test1";
-  static String password = "test123";
-}
-
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);
 

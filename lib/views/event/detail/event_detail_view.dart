@@ -15,9 +15,9 @@ class EventDetailView extends StatefulWidget {
 }
 
 class _EventDetailViewState extends State<EventDetailView> {
-  int _pageIndex = 0;
   @override
   void initState() {
+    super.initState();
     this
         .widget
         .eventArticleModel
