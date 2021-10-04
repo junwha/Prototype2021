@@ -12,11 +12,18 @@ import 'package:prototype2021/views/board/plan/make/home/mixin/helper.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/main.dart';
 import 'package:prototype2021/views/board/plan/make/mixin/plan_make_appbar_base.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
+import 'package:prototype2021/views/board/plan/make/mixin/plan_make_navigator.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 class PlanMakeHomeView extends StatefulWidget {
+  final void Function(Navigate) navigator;
+
+  const PlanMakeHomeView({required this.navigator});
+
   @override
-  PlanMakeHomeViewState createState() => PlanMakeHomeViewState();
+  PlanMakeHomeViewState createState() =>
+      PlanMakeHomeViewState(navigator: navigator);
 }
 
 class PlanMakeHomeViewState extends State<PlanMakeHomeView>
@@ -32,10 +39,14 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         PlanMakeHomeBottomAppBarMixin,
         PlanMakeHomeHeaderMixin,
         PlanMakeHomeMainMixin,
-        PlanMakeHomeHelper {
+        PlanMakeHomeHelper
+    implements
+        PlanMakeNavigator {
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
+
+  final void Function(Navigate) navigator;
 
   bool _onTop = true;
   void Function(bool)? _setOnTop(bool isOnTop) {
@@ -132,7 +143,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  PlanMakeHomeViewState() {
+  PlanMakeHomeViewState({required this.navigator}) {
     _scrollController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _sizeController =
@@ -179,7 +190,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff6f6f6),
-      appBar: buildAppBar(context, _appBarColor, _appBarElevation),
+      appBar: buildAppBar(
+        context,
+        backgroundColor: _appBarColor,
+        elevation: _appBarElevation,
+        navigator: () => navigator(Navigate.backward),
+      ),
       body: buildBody(context),
       bottomNavigationBar: buildBottomAppBar(context),
     );
@@ -193,7 +209,13 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         child: SingleChildScrollView(
             child: Container(
           child: Column(
-            children: [buildHeader(context), buildMain(context)],
+            children: [
+              buildHeader(
+                context,
+                backNavigator: () => navigator(Navigate.backward),
+              ),
+              buildMain(context),
+            ],
           ),
         )));
   }

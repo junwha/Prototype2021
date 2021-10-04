@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
-import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/widgets/shapes/circular_wrapper.dart';
 import 'package:provider/provider.dart';
@@ -13,10 +12,19 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
    */
   void onMapButtonTap();
 
-  Container buildHeader(BuildContext context) {
+  Container buildHeader(
+    BuildContext context, {
+    required void Function() backNavigator,
+  }) {
     return Container(
       child: Row(
-        children: [buildHeaderLeading(), buildHeaderActions(context)],
+        children: [
+          buildHeaderLeading(),
+          buildHeaderActions(
+            context,
+            navigator: backNavigator,
+          )
+        ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
@@ -52,7 +60,10 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
     );
   }
 
-  Container buildHeaderActions(BuildContext context) {
+  Container buildHeaderActions(
+    BuildContext context, {
+    required void Function() navigator,
+  }) {
     PlanMakeCalendarHandler calendarHandler =
         Provider.of<PlanMakeCalendarHandler>(context);
     return Container(
@@ -69,15 +80,7 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
           ),
           CircularWrapper(
             icon: Image.asset('assets/icons/ic_calender_calender.png'),
-            onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (BuildContext context) {
-                return ChangeNotifierProvider(
-                  create: (_) => calendarHandler.inherit(),
-                  child: PlanMakeCalendar(),
-                );
-              }));
-            },
+            onTap: navigator,
             size: 34,
             shadow: true,
           )

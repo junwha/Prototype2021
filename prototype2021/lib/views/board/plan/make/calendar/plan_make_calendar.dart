@@ -3,16 +3,27 @@ import 'package:prototype2021/handler/board/plan/calendar.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/mixin/bottom_calendar_button.dart';
 import 'package:prototype2021/views/board/plan/make/mixin/plan_make_appbar_base.dart';
+import 'package:prototype2021/views/board/plan/make/mixin/plan_make_navigator.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 const double CalendarHorizontalPadding = 10;
 
-class PlanMakeCalendar extends StatelessWidget with PlanMakeAppBarBase {
+class PlanMakeCalendar extends StatelessWidget
+    with PlanMakeAppBarBase
+    implements PlanMakeNavigator {
+  final void Function(Navigate) navigator;
+  const PlanMakeCalendar({required this.navigator});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: buildAppBar(context, const Color(0xfff6f6f6)),
+      appBar: buildAppBar(
+        context,
+        backgroundColor: const Color(0xfff6f6f6),
+        navigator: () => navigator(Navigate.backward),
+      ),
       body: buildBody(context),
       bottomNavigationBar: BottomCalendarButton(),
     );
