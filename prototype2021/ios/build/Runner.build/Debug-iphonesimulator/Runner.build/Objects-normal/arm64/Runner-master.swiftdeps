@@ -1,0 +1,5 @@
+version: "Apple Swift version 5.4 (swiftlang-1205.0.26.9 clang-1205.0.19.55)"
+options: "19ebb366bd34e9af363af5a35f2fe515"
+build_time: [1631364131, 155558000]
+inputs:
+  "/Users/qbit/Documents/Prototype2021/prototype2021/ios/Runner/AppDelegate.swift": [1625836636, 170603421]
