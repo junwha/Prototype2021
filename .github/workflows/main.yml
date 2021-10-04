@@ -7,12 +7,13 @@ on:
     branches:
      - main
      - dev
+
 jobs:
   unit-test:
     name: Unit tests on ${{ matrix.os }}
     runs-on: ${{ matrix.operating-system }}
     env:
-      working-directory: ./prototype2021
+      working-directory: prototype2021
     strategy:
       matrix:
         operating-system: [ubuntu-latest, windows-latest, macos-latest] # windows-2019, macos-10.15]
@@ -25,6 +26,4 @@ jobs:
         with:
           flutter-version: '2.2.3'
       - run: flutter pub get
-        working-directory: ${env.working_directory}
       - run: flutter test
-        working-directory: ${env.working_directory}
