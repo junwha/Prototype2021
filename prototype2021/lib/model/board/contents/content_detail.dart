@@ -5,9 +5,8 @@ import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
 
 class ContentsDetail extends ContentPreview {
-  final int? rating;
-  final double? reviewNo;
-
+  final double? rating;
+  final int? reviewNo;
   final ContentType typeId;
 
   /// List of URLs of photos
@@ -24,13 +23,13 @@ class ContentsDetail extends ContentPreview {
   final DetailInfo detailInfo;
 
   ContentsDetail.fromJson({required Map<String, dynamic> json})
-      : typeId =
-            idContentType[nullable<int>(json["typeid"])] ?? ContentType.unknown,
+      : typeId = idContentType[nullable<int>(json["typeid"]) ?? -1] ??
+            ContentType.unknown,
         zipCode = nullable<String>(json["zipcode"]),
         homePage = nullable<String>(json["homepage"]),
         tel = nullable<String>(json["tel"]),
-        rating = nullable<int>(json["rating"]),
-        reviewNo = nullable<double>(json["review_n"]),
+        rating = nullable<double>(json["rating"]),
+        reviewNo = nullable<int>(json["review_n"]),
         photo = (json["photo"] as List<dynamic>)
             .map((url) => url as String)
             .toList(),

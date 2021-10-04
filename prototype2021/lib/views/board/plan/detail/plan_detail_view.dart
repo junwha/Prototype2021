@@ -240,8 +240,6 @@ class _PlanDetailViewState extends State<PlanDetailView> {
             title: "Custom Memo",
             place: "",
             explanation: "${data.memo}",
-            rating: 0,
-            ratingNumbers: 0,
             tags: [],
           ),
         );
@@ -256,8 +254,6 @@ class _PlanDetailViewState extends State<PlanDetailView> {
             title: "${placeData.name}",
             place: "대한민국, 울산",
             explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
-            rating: 5,
-            ratingNumbers: 34,
             tags: ["액티비티", "관광명소", "인생사진"],
           ),
         );

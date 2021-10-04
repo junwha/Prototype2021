@@ -1,9 +1,11 @@
+import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
 
-class ContentPreviewBase {
+class ContentPreview {
   final int id;
   final String title;
   final String overview;
+  final ContentType typeId;
 
   /// URL of the photo
   final String? thumbnail;
@@ -15,32 +17,15 @@ class ContentPreviewBase {
   final int heartNo;
   final bool hearted;
 
-  ContentPreviewBase.fromJson({required Map<String, dynamic> json})
-      : id = int.parse(json["id"] as String), // dart recieves it as String
+  ContentPreview.fromJson({required Map<String, dynamic> json})
+      : id = json["id"] as int,
         title = json["title"] as String,
         overview = json["overview"] as String,
+        typeId = idContentType[nullable<int>(json["typeid"]) ?? -1] ??
+            ContentType.unknown,
         thumbnail = nullable<String>(json["thumbnail"]),
         address = nullable<String>(json["address"]),
         catCode = json["cat_code"] as String,
         heartNo = json["heart_no"] as int,
         hearted = json["hearted"] as bool;
-}
-
-// 이 DTO가 맞지 않는 것 같습니다
-class ContentPreview extends ContentPreviewBase {
-  final int? rating;
-  final double? reviewNo;
-
-  ContentPreview.fromJson({required Map<String, dynamic> json})
-      : rating = nullable<int>(json["rating"]),
-        reviewNo = nullable<double>(json["review_no"]),
-        super.fromJson(json: json);
-}
-
-class WishlistContentPreview extends ContentPreview {
-  final double? ratingNo;
-
-  WishlistContentPreview.fromJson({required Map<String, dynamic> json})
-      : ratingNo = nullable<double>(json["rating_n"]),
-        super.fromJson(json: json);
 }

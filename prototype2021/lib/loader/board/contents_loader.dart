@@ -53,12 +53,10 @@ class ContentsLoader {
           .map<ContentsCardBaseProps>((datum) => ContentsCardBaseProps(
                 id: datum.id,
                 title: datum.title,
-                rating: datum.rating,
                 explanation: datum.overview,
                 preview: datum.thumbnail,
                 heartCount: datum.heartNo,
                 place: datum.address,
-                ratingNumbers: datum.reviewNo,
                 hearted: datum.hearted,
               ))
           .toList();
@@ -97,8 +95,8 @@ class ContentsLoader {
 
   // Endpoints
 
-  String contentsHeartUrl = "$apiBaseUrl/contents/like/:id/";
+  String contentsHeartUrl = "$apiBaseUrl/contents/:id/like/";
   String contentsListUrl = "$apiBaseUrl/contents/";
-  String contentsWishlistUrl = "$apiBaseUrl/contents/wishlists/";
+  String contentsWishlistUrl = "$apiBaseUrl/contents/wishlist/";
   String contentsDetailUrl = "$apiBaseUrl/contents/:id/";
 }
