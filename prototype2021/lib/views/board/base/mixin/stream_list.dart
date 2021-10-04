@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/views/board/main/mixin/board_list_view.dart';
+import 'package:prototype2021/views/board/base/mixin/board_list_view.dart';
 import 'package:prototype2021/widgets/notices/loading.dart';
 
-class BoardMainViewStreamList<T> extends StatelessWidget {
+class BoardStreamList<T> extends StatelessWidget {
   final Stream<List<T>> stream;
   final Widget Function(T) builder;
   final Widget Function(BuildContext, int?)? routeBuilder;
@@ -11,7 +11,7 @@ class BoardMainViewStreamList<T> extends StatelessWidget {
   final Widget? errorWidget;
   final void Function(T)? onTap;
 
-  BoardMainViewStreamList({
+  BoardStreamList({
     required this.stream,
     required this.builder,
     this.routeBuilder,

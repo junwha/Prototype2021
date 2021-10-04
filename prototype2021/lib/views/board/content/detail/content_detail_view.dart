@@ -15,6 +15,14 @@ import 'package:provider/provider.dart';
 
 int _testCid = 128022;
 
+enum ContentsDetailMode {
+  /// 디폴트 [ContentsDetail] 모드입니다
+  board,
+
+  /// [PlanMakeView] 에 쓰이는 모드입니다
+  planMake
+}
+
 class ContentDetailView extends StatefulWidget {
   final int id;
   ContentDetailView({required this.id});

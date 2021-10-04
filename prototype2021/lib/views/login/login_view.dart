@@ -4,19 +4,14 @@ import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/views/board/main/board_main_view.dart';
 import 'package:prototype2021/widgets/buttons/circle_button.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
 import 'package:prototype2021/widgets/notices/loading.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
-import 'package:prototype2021/views/board/main/board_main_view.dart';
 import 'package:prototype2021/views/signin/signin_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/settings/constants.dart';
-
-class _TestCredentials {
-  static String username = "test1";
-  static String password = "test123";
-}
 
 class LoginView extends StatefulWidget {
   const LoginView({Key? key}) : super(key: key);

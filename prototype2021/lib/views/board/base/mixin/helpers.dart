@@ -3,7 +3,7 @@ import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/widgets/cards/product_card.dart';
 
-mixin BoardMainViewHelpers {
+mixin BoardHelpers {
   /* 
    * These functions simulates the api call
   */

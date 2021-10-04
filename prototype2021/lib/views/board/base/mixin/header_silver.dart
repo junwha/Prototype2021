@@ -1,19 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
+import 'package:prototype2021/settings/annotations.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
-import 'package:prototype2021/views/board/main/board_main_view.dart';
-import 'package:prototype2021/views/board/main/filter/filter_view.dart';
+import 'package:prototype2021/views/board/base/board.dart';
+import 'package:prototype2021/views/board/base/filter/filter_view.dart';
 
-mixin BoardMainSilverMixin {
+abstract class BoardMainSilverMixin {
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder({
     required void Function() onLeadingPressed,
     required void Function(int) onTabBarPressed,
     required void Function(ContentType?) onFilterBarPressed,
     required int tabIndex,
     required Map<String, String> location,
-    required BoardMainViewMode viewMode,
+    required BoardMode viewMode,
   }) =>
       (BuildContext context, bool innerBoxIsScrolled) {
         List<SliverAppBar> slivers = <SliverAppBar>[
@@ -40,11 +41,36 @@ mixin BoardMainSilverMixin {
             title: buildFilterBar(onFilterChange: onFilterBarPressed),
           )
         ];
-        // if (tabIndex == 1) slivers.removeAt(2);
-        if (viewMode == BoardMainViewMode.search) slivers = [];
-        if (viewMode == BoardMainViewMode.result) slivers.removeAt(0);
         return slivers;
       };
+
+  /// 헤더에서 필요한 컴포넌트만을 뽑는 메소드입니다.
+  /// 예를 들어 [BoardMainView]에서는 [BoardMode.search] 일때는 빈 리스트를 반환토록 하고,
+  /// [BoardMode.result] 일때는 [defaultSilvers]의 첫번재 아이템을 지워
+  /// [buildCurrentLocation] 이 나오지 않도록 합니다.
+  ///
+  /// 아래는 [defaultSilvers]의 각 인덱스별로 대응되는 위젯입니다.
+  ///
+  /// 0: [buildCurrentLocation]
+  ///
+  /// 1: [buildTabBar]
+  ///
+  /// 2: [buildFilterBar]
+  ///
+  /// 아래는 BoardMainView에서 [override]된 [processHeaderItems]의 예시입니다.
+  ///
+  /// ```dart
+  /// // if (tabIndex == 1) defaultSlivers.removeAt(2);
+  /// if (mode == BoardMode.search) defaultSlivers = [];
+  /// if (mode == BoardMode.result) defaultSlivers.removeAt(0);
+  /// return defaultSlivers;
+  /// ```
+  @needsImplement
+  List<SliverAppBar> processHeaderItems({
+    required List<SliverAppBar> defaultSlivers,
+    required BoardMode mode,
+    required int tabIndex,
+  });
 
   /* 
    * ListView.seperated 와 본질적으로 같은 로직을 공유합니다
@@ -67,7 +93,7 @@ mixin BoardMainSilverMixin {
       {void Function(ContentType?)? onFilterChange}) {
     /* 
      * This is a temporary implementation. 
-     * focusedIndex should be handled as state at root widget(BoardMainView)
+     * focusedIndex should be handled as state at root widget(Board)
      */
     final int focusedIndex = 0;
     const List<String> titleNames = ["모두보기", "여행지", "카페", "음식점", "숙소", "기타"];

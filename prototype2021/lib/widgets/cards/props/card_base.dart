@@ -29,6 +29,7 @@ class CardBase {
     bool isHeartSelected = false,
     required String preview,
     required String token,
+    Widget? footer,
   }) {
     return Container(
         padding: EdgeInsets.all(10 * pt),
@@ -40,19 +41,24 @@ class CardBase {
             width: 0.5,
           ),
         ),
-        child: Row(children: <Widget>[
-          SizedBox(width: 15),
-          itemInfo,
-          buildW(15 * pt),
-          buildPreview(
-            preview,
-            isHeartSelected: isHeartSelected,
-            dataId: dataId,
-            userId: userId,
-            heartFor: heartFor,
-            token: token,
-          )
-        ]));
+        child: Column(
+          children: [
+            Row(children: <Widget>[
+              SizedBox(width: 15),
+              itemInfo,
+              buildW(15 * pt),
+              buildPreview(
+                preview,
+                isHeartSelected: isHeartSelected,
+                dataId: dataId,
+                userId: userId,
+                heartFor: heartFor,
+                token: token,
+              )
+            ]),
+            footer == null ? SizedBox() : footer,
+          ],
+        ));
   }
 
   /* 

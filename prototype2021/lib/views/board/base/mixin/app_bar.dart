@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:prototype2021/views/board/main/mixin/app_bar_text_button.dart';
 import 'package:prototype2021/widgets/textfields/rounded_text_field.dart';
-import 'package:prototype2021/views/board/main/board_main_view.dart';
+import 'package:prototype2021/views/board/base/mixin/app_bar_text_button.dart';
+import 'package:prototype2021/views/board/base/board.dart';
 
-mixin BoardMainViewAppBarMixin {
+mixin BoardAppBarMixin {
   IconButton buildLeading(
     BuildContext context, {
-    required BoardMainViewMode viewMode,
+    required BoardMode viewMode,
     required void Function() onPressed,
   }) {
-    Image leadingIcon = viewMode == BoardMainViewMode.search
+    Image leadingIcon = viewMode == BoardMode.search
         ? Image.asset('assets/icons/ic_arrow_left_back.png')
         : Image.asset("assets/icons/ic_remove_x.png");
 
@@ -21,11 +21,11 @@ mixin BoardMainViewAppBarMixin {
   }
 
   List<Widget> buildActions(
-      {required void Function(BoardMainViewMode) setViewMode,
-      required BoardMainViewMode viewMode}) {
+      {required void Function(BoardMode) setViewMode,
+      required BoardMode viewMode}) {
     List<Widget> actions = [
       TBAppBarTextButton(
-          onPressed: () => setViewMode(BoardMainViewMode.search),
+          onPressed: () => setViewMode(BoardMode.search),
           icon: Image.asset("assets/icons/ic_main_search.png"),
           text: "검색"),
       TBAppBarTextButton(
@@ -37,19 +37,19 @@ mixin BoardMainViewAppBarMixin {
           icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
           text: "메뉴"),
     ];
-    if (viewMode == BoardMainViewMode.search) actions = [];
-    if (viewMode == BoardMainViewMode.result) actions.removeAt(0);
+    if (viewMode == BoardMode.search) actions = [];
+    if (viewMode == BoardMode.result) actions.removeAt(0);
     return actions;
   }
 
   Widget buildTextField(
     TextEditingController textController, {
-    required BoardMainViewMode viewMode,
+    required BoardMode viewMode,
     void Function()? onTap,
     void Function(String?)? onSubmitted,
     void Function(String)? onChanged,
   }) {
-    if (viewMode == BoardMainViewMode.main) {
+    if (viewMode == BoardMode.main) {
       return SizedBox();
     }
     return RoundedTextField(
