@@ -3,9 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
-import 'package:prototype2021/model/common.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
-import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/main/mixin/app_bar.dart';
 import 'package:prototype2021/views/board/main/mixin/header_silver.dart';
 import 'package:prototype2021/views/board/main/mixin/helpers.dart';
@@ -15,7 +13,6 @@ import 'package:prototype2021/views/board/main/mixin/stream_list.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/widgets/cards/product_card.dart';
 import 'package:prototype2021/widgets/notices/center_notice.dart';
-import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/views/board/main/location/select_location_toggle_view.dart';
@@ -71,7 +68,7 @@ class _BoardMainViewState extends State<BoardMainView>
         tabIndex = _tabIndex;
       });
 
-  ContentType? currentFilter = null;
+  ContentType? currentFilter;
   void setCurrentFilter(ContentType? newFilter) => setState(() {
         currentFilter = newFilter;
       });
@@ -153,11 +150,6 @@ class _BoardMainViewState extends State<BoardMainView>
   }
 
   void addError(EventSink sink) => sink.addError("Unexpected Error");
-
-  Future<void> _handlePlanData() async => await getPlanData(searchInput);
-
-  Future<void> _handleContentsData() async =>
-      await getContentsData(searchInput);
 
   Future<void> _handleSearchKeywords() async => await loadSearchKeywords();
 

@@ -13,8 +13,6 @@ import 'package:prototype2021/widgets/notices/loading.dart';
 import 'package:prototype2021/views/event/main/event_main_view.dart';
 import 'package:provider/provider.dart';
 
-int _testCid = 128022;
-
 class ContentDetailView extends StatefulWidget {
   final int id;
   ContentDetailView({required this.id});

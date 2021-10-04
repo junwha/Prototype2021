@@ -1,15 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/textfields/custom_plan_textfield.dart';
-import 'package:prototype2021/views/event/editor/mixin/custom_pw_textfield.dart';
-import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
-import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:prototype2021/widgets/shapes/tb_contenttag.dart';
 import 'package:prototype2021/widgets/radio/tb_radio_bar.dart';
 import 'package:prototype2021/widgets/buttons/tb_save_button.dart';
-import 'package:provider/provider.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
@@ -224,7 +219,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       timeInSecForIosWeb: 1,
                       backgroundColor: Colors.black,
                       textColor: Colors.white,
-                      fontSize: 16.0); // TODO(mina): 토스트 메시지 추가
+                      fontSize: 16.0); 
                 } else {
                   setState(() {
                     isTagsSelected = List.from(_isTagsSelected);

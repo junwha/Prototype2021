@@ -2,7 +2,6 @@
  * 차후 API에서 오는 데이터에 맞게 이 추상 클래스를 바꿔서 이용해주세요!
  * 현재는 PseudoPlaceData가 이 추상 클래스를 implement하고 있습니다
 */
-import 'dart:isolate';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';

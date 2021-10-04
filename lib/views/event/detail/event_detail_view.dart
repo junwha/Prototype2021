@@ -195,11 +195,11 @@ class _EventDetailViewState extends State<EventDetailView> {
       ),
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text("글 삭제하기"), //TODO: popupmenuitem을 눌렀을 때 글 삭제 기능 추가
+          child: Text("글 삭제하기"), 
           value: "DEL",
         ),
         PopupMenuItem(
-          child: Text("정보 수정하기"), //TODO: popupmenuitem을 눌렀을 때 글 수정 기능 추가
+          child: Text("정보 수정하기"), 
           value: "EDIT",
         )
       ],

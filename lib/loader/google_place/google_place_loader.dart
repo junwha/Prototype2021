@@ -94,7 +94,6 @@ class PlaceLoader {
   Future<List<GooglePlaceData>> getGooglePlaces(List typeList,
       {int radius = 1000}) async {
     List<GooglePlaceData> placeList = [];
-    int initialRadius = 500;
     for (String type in typeList) {
       placeList.addAll(await getGooglePlace(type, radius: radius));
     }
