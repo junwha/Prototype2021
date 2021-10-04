@@ -222,8 +222,6 @@ class _MapViewState extends State<MapView> {
                   title: location.name,
                   place: "TEMP",
                   explanation: "TEMP",
-                  rating: 1,
-                  ratingNumbers: 5,
                   tags: ["액티비티", "인생사진", "sns핫플"],
                   margin: const EdgeInsets.symmetric(vertical: 0),
                 ),

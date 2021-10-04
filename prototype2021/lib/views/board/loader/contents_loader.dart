@@ -53,12 +53,10 @@ class ContentsLoader {
           .map<ContentsCardBaseProps>((datum) => ContentsCardBaseProps(
                 id: datum.id,
                 title: datum.title,
-                rating: datum.rating,
                 explanation: datum.overview,
                 preview: datum.thumbnail,
                 heartCount: datum.heartNo,
                 place: datum.address,
-                ratingNumbers: datum.reviewNo,
                 hearted: datum.hearted,
               ))
           .toList();

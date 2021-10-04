@@ -6,8 +6,6 @@ import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:provider/provider.dart';
 
 class ContentsCardBaseProps extends CardBaseProps {
-  final int? rating;
-  final double? ratingNumbers;
   final String explanation;
   final Color backgroundColor;
   final EdgeInsets margin;
@@ -17,8 +15,6 @@ class ContentsCardBaseProps extends CardBaseProps {
   ContentsCardBaseProps({
     required this.hearted,
     this.heartCount,
-    this.rating,
-    this.ratingNumbers,
     this.backgroundColor = Colors.white,
     this.explanation = "",
     this.margin = const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

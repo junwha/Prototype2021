@@ -154,8 +154,6 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
               title: location.name,
               place: "TEMP",
               explanation: "TEMP",
-              rating: 1,
-              ratingNumbers: 5,
               tags: ["asdf"],
               margin: const EdgeInsets.symmetric(vertical: 0),
             )),

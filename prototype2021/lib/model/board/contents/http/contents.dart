@@ -69,13 +69,13 @@ class ContentsWishlistInput extends SafeHttpDataInput {
 }
 
 class ContentsWishlistOutput extends PaginationOutput
-    implements Pagination<WishlistContentPreview> {
-  final List<WishlistContentPreview> results;
+    implements Pagination<ContentPreview> {
+  final List<ContentPreview> results;
 
   ContentsWishlistOutput.fromJson({required Map<String, dynamic> json})
       : results = (json["results"] as List<dynamic>)
-            .map((result) => WishlistContentPreview.fromJson(
-                json: result as Map<String, dynamic>))
+            .map((result) =>
+                ContentPreview.fromJson(json: result as Map<String, dynamic>))
             .toList(),
         super.fromJson(json: json);
 }
