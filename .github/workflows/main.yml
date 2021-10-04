@@ -26,6 +26,4 @@ jobs:
         with:
           flutter-version: '2.2.3'
       - run: flutter pub get
-        working-directory: ${env.working_directory}
       - run: flutter test
-        working-directory: ${env.working_directory}
