@@ -8,7 +8,7 @@ import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';
 import 'package:prototype2021/utils/google_map/widgets/plan_marker.dart';
 
 class PlanMapHandler extends TBMapHandler {
-  List<List<PlaceDataProps>> placeItemsPerDay = [];
+  List<List<PlaceDataInterface>> placeItemsPerDay = [];
   int day = 1;
 
   List<LatLng> get _polylinePoints =>
@@ -33,7 +33,7 @@ class PlanMapHandler extends TBMapHandler {
   /// Please add this method as another model's notifier
   /// Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
   /// This method updates placeItems and call updatePolyline so that the map can be reloaded with new data
-  void updatePlaceData(List<List<PlaceDataProps>> placeItemsPerDay) {
+  void updatePlaceData(List<List<PlaceDataInterface>> placeItemsPerDay) {
     print(placeItemsPerDay.length);
     // Copy PlaceData
     this.placeItemsPerDay = List.generate(
@@ -63,7 +63,7 @@ class PlanMapHandler extends TBMapHandler {
     this.updateLocations([]);
     if (placeItemsPerDay.length == 0) return;
 
-    List<PlaceDataProps> placeItems = placeItemsPerDay[day - 1];
+    List<PlaceDataInterface> placeItems = placeItemsPerDay[day - 1];
 
     if (mapLoaded) {
       // Update Marker with data of placeItems

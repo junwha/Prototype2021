@@ -1,4 +1,7 @@
 enum ContentType {
+  /// 메모: 플랜 생성 뷰에서 메모를 표시하기 위해 쓰입니다 [id: -2]
+  memo,
+
   /// 알 수 없음: typeid가 null일 때를 의미합니다 [id: -1]
   unknown,
 
@@ -25,6 +28,7 @@ enum ContentType {
 }
 
 Map<ContentType, int> contentTypeId = {
+  ContentType.memo: -2,
   ContentType.unknown: -1,
   ContentType.spot: 12,
   ContentType.cultureInfra: 14,
@@ -36,6 +40,7 @@ Map<ContentType, int> contentTypeId = {
 };
 
 Map<int, ContentType> idContentType = {
+  -2: ContentType.memo,
   -1: ContentType.unknown,
   12: ContentType.spot,
   14: ContentType.cultureInfra,

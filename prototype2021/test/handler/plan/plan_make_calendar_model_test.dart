@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/annotations.dart';
+import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
@@ -15,22 +16,31 @@ void testPlanMakeCalendarModel() {
   final DateTime secondTappedDate = new DateTime(2021, 1, 5);
   final int dateDifference = 5;
 
-  final List<PlaceDataProps> dataSamples = [
+  final List<PlaceDataInterface> dataSamples = [
     new PseudoPlaceData(
-        location: new LatLng(0.0, 0.0),
-        name: 'test1',
-        types: 'cafe',
-        address: 'testtesttest'),
+      location: new LatLng(0.0, 0.0),
+      name: 'test1',
+      types: 'cafe',
+      id: 1,
+      contentType: ContentType.restaurants,
+      address: 'testtesttest',
+    ),
     new PseudoPlaceData(
-        location: new LatLng(0.1, 0.1),
-        name: 'test2',
-        types: 'cafe',
-        address: 'testtesttest'),
+      location: new LatLng(0.1, 0.1),
+      name: 'test2',
+      types: 'cafe',
+      id: 2,
+      contentType: ContentType.restaurants,
+      address: 'testtesttest',
+    ),
     new PseudoPlaceData(
-        location: new LatLng(0.2, 0.2),
-        name: 'test3',
-        types: 'cafe',
-        address: 'testtesttest'),
+      location: new LatLng(0.2, 0.2),
+      name: 'test3',
+      types: 'cafe',
+      id: 3,
+      contentType: ContentType.restaurants,
+      address: 'testtesttest',
+    ),
   ];
   final int dataListIndex = 0;
 

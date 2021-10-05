@@ -7,7 +7,7 @@ import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/helper.d
 import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/leading.dart';
 
 // class ScheduleCard extends StatefulWidget {
-//   final PlaceDataProps data;
+//   final PlaceDataInterface data;
 //   final int dateIndex;
 //   final int order;
 //   final Key? key;
@@ -38,7 +38,7 @@ class ScheduleCard extends StatelessWidget
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
 
-  final PlaceDataProps data;
+  final PlaceDataInterface data;
   final int dateIndex;
   final int order;
   final Key? key;

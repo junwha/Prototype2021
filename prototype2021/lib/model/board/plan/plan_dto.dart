@@ -86,7 +86,7 @@ class PlanDetail extends PlanProps {
 }
 
 class PlanData extends PlanProps {
-  final List<List<PlaceDataProps>> contents; // day -> cid and memo
+  final List<List<PlaceDataInterface>> contents; // day -> cid and memo
 
   PlanData(
     int id,

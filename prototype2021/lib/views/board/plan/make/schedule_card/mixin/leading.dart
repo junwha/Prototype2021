@@ -19,7 +19,7 @@ mixin ScheduleCardLeadingMixin on StatelessWidget {
         backgroundColor: backgroundColor);
   }
 
-  Container buildInfo(PlaceDataProps data) {
+  Container buildInfo(PlaceDataInterface data) {
     List<Widget> infoWidgets = data.types == "memo"
         ? [
             Text(data.memo,

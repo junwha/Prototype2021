@@ -105,8 +105,8 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   String? copiedDataId;
-  PlaceDataProps? copiedData;
-  void setCopiedData(String? dataId, PlaceDataProps? data) {
+  PlaceDataInterface? copiedData;
+  void setCopiedData(String? dataId, PlaceDataInterface? data) {
     setState(() {
       copiedDataId = dataId;
       copiedData = data;
@@ -114,7 +114,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   void insertCopiedData(PlanMakeCalendarHandler calendarHandler, int dateIndex,
-      PlaceDataProps data, int indexToInsert) {
+      PlaceDataInterface data, int indexToInsert) {
     calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
 
@@ -285,12 +285,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     PlanMakeCalendarHandler calendarHandler =
         Provider.of<PlanMakeCalendarHandler>(context);
     bool onModeAdd = mode == PlanMakeMode.add;
-    void onEditDoneButtonTap() {
+    void _onEditDoneButtonTap() {
       _setMode(PlanMakeMode.add);
       setCopiedData(null, null);
     }
 
-    void onResetButtonTap() {
+    void _onResetButtonTap() {
       calendarHandler.resetPlanListItems();
       _setMode(PlanMakeMode.add);
       _sizeController.reverse();
@@ -310,12 +310,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
                 flex: onModeAdd ? 6 : 4,
                 child: onModeAdd
                     ? buildAIButton(context, buildAIDialog(context))
-                    : buildResetButton(onResetButtonTap)),
+                    : buildResetButton(_onResetButtonTap)),
             Expanded(
                 flex: onModeAdd ? 4 : 6,
                 child: onModeAdd
                     ? buildSaveButton()
-                    : buildEditDoneButton(onEditDoneButtonTap)),
+                    : buildEditDoneButton(_onEditDoneButtonTap)),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,

@@ -227,7 +227,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /*
    * placeList로부터 일자마다 foldable한 컨텐츠/메모 칼럼을 생성합니다
    */
-  Widget buildDailyPlan(List<PlaceDataProps> placeList) {
+  Widget buildDailyPlan(List<PlaceDataInterface> placeList) {
     return Column(
         children: placeList.map((data) {
       if (data is MemoData) {

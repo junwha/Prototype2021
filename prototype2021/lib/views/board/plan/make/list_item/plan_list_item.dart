@@ -131,7 +131,8 @@ class PlanListItemState extends State<PlanListItem>
 
     PlanMakeCalendarHandler calendarHandler =
         Provider.of<PlanMakeCalendarHandler>(context);
-    List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
+    List<PlaceDataInterface> data =
+        calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     bool onDrag = parent?.onDrag ?? false;
     PlanMakeMode mode = parent?.mode ?? PlanMakeMode.add;
@@ -143,7 +144,7 @@ class PlanListItemState extends State<PlanListItem>
     }
 
     void _pasteData() {
-      PlaceDataProps? data = parent?.copiedData;
+      PlaceDataInterface? data = parent?.copiedData;
       if (data != null) {
         int indexToInsert = 0;
         parent?.insertCopiedData(
@@ -162,9 +163,7 @@ class PlanListItemState extends State<PlanListItem>
       child: Container(
           child: Column(
             children: [
-              ScheduleCardsHeader(
-                dateIndex: dateIndex,
-              ),
+              ScheduleCardsHeader(dateIndex: dateIndex),
               buildScheduleCardsSubHeader(mode, hasItem, onDrag, _pasteData),
               SizeTransition(
                   sizeFactor: _mainExpandAnimation,
@@ -173,8 +172,11 @@ class PlanListItemState extends State<PlanListItem>
                     child: ReorderableListView(
                       onReorder: _onReorder,
                       buildDefaultDragHandles: false,
-                      children: placeDataToWidgets(data, dateIndex,
-                          deleteSelfFuncFactory(calendarHandler)),
+                      children: placeDataToWidgets(
+                        data,
+                        dateIndex,
+                        deleteSelfFuncFactory(calendarHandler),
+                      ),
                       shrinkWrap: true,
                       physics: new NeverScrollableScrollPhysics(),
                     ),

@@ -52,7 +52,7 @@ class PlanListMiddleDivider extends StatelessWidget with PlanListItemHelper {
       calendarHandler = null;
     }
     void pasteData() {
-      PlaceDataProps? data = grandParent?.copiedData;
+      PlaceDataInterface? data = grandParent?.copiedData;
       if (data != null && calendarHandler != null) {
         int indexToInsert = (index + 1) ~/ 2;
         grandParent?.insertCopiedData(

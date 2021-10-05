@@ -65,7 +65,8 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   Container buildLeading(BuildContext context, DateTime date) {
     PlanMakeCalendarHandler calendarHandler =
         Provider.of<PlanMakeCalendarHandler>(context);
-    List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
+    List<PlaceDataInterface> data =
+        calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     PlanListItemState? parent =
         context.findAncestorStateOfType<PlanListItemState>();
@@ -130,7 +131,11 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
         IconButton(
             onPressed: () async {
               await displayMemoInputDialog(
-                  context, _textEditingController, _setMemo, _createMemo);
+                context,
+                _textEditingController,
+                _setMemo,
+                _createMemo,
+              );
               if (parent?.expanded != null && !parent!.expanded) {
                 parent.setExpanded(true);
               }
@@ -138,6 +143,7 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
             icon: Image.asset('assets/icons/ic_calender_memo_gray.png')),
         IconButton(
             onPressed: () {
+              calendarHandler.setCurrentIndex(dateIndex);
               if (grandParent != null) {
                 grandParent.navigator(Navigate.custom, PlanMakeViewMode.select);
               }

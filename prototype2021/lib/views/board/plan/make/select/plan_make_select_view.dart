@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/model/board/contents/content_detail.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/views/board/base/board.dart';
 import 'package:prototype2021/views/board/base/mixin/stream_list.dart';
 import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/widgets/notices/center_notice.dart';
+import 'package:provider/provider.dart';
 
 class PlanMakeSelectView extends StatefulWidget {
   final void Function(Navigate) navigator;
@@ -137,6 +142,7 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder() =>
       (BuildContext context, bool innerBoxIsScrolled) {
         if (viewMode == BoardMode.search) return [];
+        _countContents();
         List<SliverAppBar> slivers = <SliverAppBar>[
           SliverAppBar(
               automaticallyImplyLeading: false,
@@ -188,8 +194,25 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
   }
 
   TextButton buildAddToPlanButton(int id) {
+    UserInfoHandler userInfoHandler =
+        Provider.of<UserInfoHandler>(context, listen: false);
+    PlanMakeCalendarHandler calendarHandler =
+        Provider.of<PlanMakeCalendarHandler>(context);
+    void onPressed() async {
+      try {
+        ContentsDetail result = await contentsLoader.getContentDetail(
+            id, userInfoHandler.token ?? "");
+        calendarHandler.addPlaceData(
+          calendarHandler.currentIndex,
+          PlaceDataProps.fromContentsDetail(source: result),
+        );
+      } catch (error) {
+        print(error);
+      }
+    }
+
     return TextButton(
-      onPressed: () {},
+      onPressed: onPressed,
       child: Container(
         alignment: Alignment.center,
         height: 50,
