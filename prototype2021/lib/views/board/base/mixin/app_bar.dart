@@ -10,6 +10,7 @@ mixin BoardAppBarMixin {
   @needsImplement
   List<Widget> buildActions();
 
+  @defaultImplementation
   Widget buildTextField(
     TextEditingController textController, {
     required BoardMode viewMode,
@@ -17,9 +18,6 @@ mixin BoardAppBarMixin {
     void Function(String?)? onSubmitted,
     void Function(String)? onChanged,
   }) {
-    if (viewMode == BoardMode.main) {
-      return SizedBox();
-    }
     return RoundedTextField(
       textController: textController,
       onSubmitted: onSubmitted,

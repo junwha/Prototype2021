@@ -70,6 +70,26 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
   }
 
   @override
+  Widget buildTextField(
+    TextEditingController textController, {
+    required BoardMode viewMode,
+    void Function()? onTap,
+    void Function(String?)? onSubmitted,
+    void Function(String)? onChanged,
+  }) {
+    if (viewMode == BoardMode.main) {
+      return SizedBox();
+    }
+    return super.buildTextField(
+      textController,
+      viewMode: viewMode,
+      onTap: onTap,
+      onSubmitted: onSubmitted,
+      onChanged: onChanged,
+    );
+  }
+
+  @override
   List<Widget> buildActions() {
     List<Widget> actions = [
       TBAppBarTextButton(
@@ -118,9 +138,9 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
               backgroundColor: Colors.white,
               title: buildThemeBar(
                 onFilterChange: (type) => setCurrentFilter(type),
+                currentFilter: currentFilter,
               )),
         ];
-        slivers.removeAt(3);
         // if (tabIndex == 1) slivers.removeAt(2);
         if (viewMode == BoardMode.result) slivers.removeAt(0);
         return slivers;

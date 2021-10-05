@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
+import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/save/planMake.saved.0_view.dart';
@@ -46,13 +48,51 @@ enum PlanMakeViewMode {
   result,
 }
 
-class PlanMakeView extends StatefulWidget {
-  const PlanMakeView();
-
-  _PlanMakeViewState createState() => _PlanMakeViewState();
+class PlanMakeView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    DateTime now = new DateTime.now();
+    return ChangeNotifierProvider<PlanMakeHandler>(
+      create: (_) => PlanMakeHandler(now: now),
+      child: Consumer<PlanMakeHandler>(
+        builder: (context, calendarHandler, child) {
+          return ChangeNotifierProvider<PlanMapHandler>(
+            create: (_) {
+              PlanMapHandler model = PlanMapHandler(LatLng(35.5763,
+                  129.1893)); // TODO: replace this position as current position;
+              calendarHandler.addListener(() {
+                // Notify to plan map model when the calendar handler has changed.
+                try {
+                  if (calendarHandler.planListItems != null)
+                    model.updatePlaceData(calendarHandler.planListItems!);
+                  else {
+                    // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
+                    model.updatePlaceData(List.generate(
+                        calendarHandler.dateDifference!, (index) => []));
+                  }
+                } catch (e) {
+                  print(e);
+                }
+              });
+              return model;
+            },
+            child: child,
+          );
+        },
+        child: _PlanMakeViewContent(),
+      ),
+    );
+  }
 }
 
-class _PlanMakeViewState extends State<PlanMakeView> {
+class _PlanMakeViewContent extends StatefulWidget {
+  const _PlanMakeViewContent();
+
+  _PlanMakeViewContentState createState() => _PlanMakeViewContentState();
+}
+
+class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
+    with ChangeNotifier {
   PlanMakeViewMode viewMode = PlanMakeViewMode.calendar;
   void setViewMode(PlanMakeViewMode _viewMode) => setState(() {
         viewMode = _viewMode;
@@ -82,13 +122,7 @@ class _PlanMakeViewState extends State<PlanMakeView> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    DateTime now = new DateTime.now();
-    return ChangeNotifierProvider(
-      create: (_) => PlanMakeCalendarHandler(now: now),
-      child: buildPage(),
-    );
-  }
+  Widget build(BuildContext context) => buildPage();
 
   Widget buildPage() {
     switch (viewMode) {

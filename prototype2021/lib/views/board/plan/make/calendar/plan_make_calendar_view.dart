@@ -30,8 +30,7 @@ class PlanMakeCalendarView extends StatelessWidget
   }
 
   Container buildBody(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     DateTime _now = new DateTime.now();
     return Container(
       child: Column(
@@ -75,8 +74,7 @@ class PlanMakeCalendarView extends StatelessWidget
     );
   }
 
-  Widget buildCalendars(
-      PlanMakeCalendarHandler calendarHandler, int year, int month) {
+  Widget buildCalendars(PlanMakeHandler calendarHandler, int year, int month) {
     List<int> months = List.generate(3, (index) => month + index);
     return Expanded(
       child: ListView(
@@ -89,7 +87,7 @@ class PlanMakeCalendarView extends StatelessWidget
   }
 
   Container buildMonthlyCalendar(
-      PlanMakeCalendarHandler calendarHandler, int year, int month) {
+      PlanMakeHandler calendarHandler, int year, int month) {
     DateTime _convertedDateTime = new DateTime(year, month);
     List<DateTime?> _calendar = Calendar()
         .generateCalendar(_convertedDateTime.year, _convertedDateTime.month);
@@ -160,8 +158,8 @@ class PlanMakeCalendarView extends StatelessWidget
     );
   }
 
-  Container buildPlaceholder(PlanMakeCalendarHandler calendarHandler,
-      int dateIndex, int year, int month) {
+  Container buildPlaceholder(
+      PlanMakeHandler calendarHandler, int dateIndex, int year, int month) {
     Color _backgroundColor = Colors.white;
     if (calendarHandler.phase == CalendarTouchPhase.RANGE) {
       List<DateTime?> _datePoints = calendarHandler.datePoints;
@@ -186,8 +184,7 @@ class PlanMakeCalendarView extends StatelessWidget
         decoration: BoxDecoration(color: _backgroundColor));
   }
 
-  TextButton buildCalendarDate(
-      PlanMakeCalendarHandler calendarHandler, DateTime date) {
+  TextButton buildCalendarDate(PlanMakeHandler calendarHandler, DateTime date) {
     TextDecoration textDecoration;
     Color textColor;
     bool disabled;

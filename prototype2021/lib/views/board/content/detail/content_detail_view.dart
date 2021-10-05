@@ -7,7 +7,6 @@ import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
-import 'package:prototype2021/views/board/base/board.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body_event.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/header.dart';
@@ -34,7 +33,10 @@ enum ContentsDetailMode {
 class ContentDetailView extends StatefulWidget {
   final int id;
   final ContentsDetailMode mode;
-  ContentDetailView({required this.id, this.mode = ContentsDetailMode.board});
+  ContentDetailView({
+    required this.id,
+    this.mode = ContentsDetailMode.board,
+  });
 
   @override
   ContentDetailViewState createState() => ContentDetailViewState();
@@ -103,61 +105,108 @@ class ContentDetailViewState extends State<ContentDetailView>
   }
 
   Container? buildBottomNavigationBar() {
-    if (widget.mode == ContentsDetailMode.planMake) {
-      if (props == null) {
-        return Container(
-          height: 60,
-          child: CenterNotice(text: '로딩중...'),
+    if (widget.mode != ContentsDetailMode.planMake) return null;
+    UserInfoHandler userInfoHandler =
+        Provider.of<UserInfoHandler>(context, listen: false);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
+    PlanMakeSelectViewState? parent =
+        context.findAncestorStateOfType<PlanMakeSelectViewState>();
+    void onAddToPlanPressed() {
+      if (props != null) {
+        parent?.setLoading(true);
+        calendarHandler.addPlaceData(
+          calendarHandler.currentIndex,
+          PlaceDataProps.fromContentsDetail(source: props!),
         );
+        parent?.setLoading(false);
       }
-      UserInfoHandler userInfoHandler =
-          Provider.of<UserInfoHandler>(context, listen: false);
-      PlanMakeCalendarHandler calendarHandler =
-          Provider.of<PlanMakeCalendarHandler>(context);
-      PlanMakeSelectView? parent =
-          context.findAncestorWidgetOfExactType<PlanMakeSelectView>();
-      void onAddToPlanPressed() {
-        if (props != null) {
-          calendarHandler.addPlaceData(
-            calendarHandler.currentIndex,
-            PlaceDataProps.fromContentsDetail(source: props!),
-          );
-        }
-        if (parent != null) {
-          parent.navigator(Navigate.backward);
-        }
+      if (parent != null) {
+        parent.navigator(Navigate.backward);
       }
+    }
 
-      return Container(
-        height: 60,
-        alignment: Alignment.center,
-        child: Row(children: [
+    return Container(
+      constraints: const BoxConstraints(maxHeight: 100, minHeight: 60),
+      alignment: Alignment.center,
+      child: Row(
+        children: [
           Flexible(
-            child: HeartButton(
-              isHeartSelected: props!.hearted,
-              heartFor: HeartFor.contentCard,
-              dataId: props!.id,
-              token: userInfoHandler.token ?? "",
-              userId: userInfoHandler.userId ?? -1,
+            child: Container(
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                border: const BorderDirectional(
+                  end: const BorderSide(
+                    color: const Color(0xffe8e8e8),
+                  ),
+                ),
+              ),
+              child: SafeArea(
+                child: HeartButton(
+                  isHeartSelected: props?.hearted ?? false,
+                  heartFor: HeartFor.contentCard,
+                  dataId: props?.id ?? -1,
+                  token: userInfoHandler.token ?? "",
+                  userId: userInfoHandler.userId ?? -1,
+                ),
+              ),
             ),
             flex: 1,
           ),
           Flexible(
+            child: SafeArea(
               child: Container(
-            child: TBRoundedTextButton(
-                text: "내 일정에 담기", onPressed: onAddToPlanPressed),
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-          )),
-        ]),
-      );
-    }
-    return null;
+                child: TBRoundedTextButton(
+                  text: parent?.loading ?? false ? "담는 중..." : "내 일정에 담기",
+                  onPressed: onAddToPlanPressed,
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                alignment: Alignment.center,
+              ),
+            ),
+            flex: 4,
+          ),
+        ],
+      ),
+    );
+  }
+
+  AppBar buildAppBar(BuildContext context) {
+    PlanMakeSelectViewState? parent =
+        context.findAncestorStateOfType<PlanMakeSelectViewState>();
+    return AppBar(
+        actions: [
+          IconButton(
+              onPressed: () {},
+              icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
+        ],
+        backgroundColor: Colors.white,
+        shadowColor: Colors.white,
+        centerTitle: false,
+        leading: IconButton(
+          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
+          onPressed: () {
+            if (widget.mode == ContentsDetailMode.planMake) {
+              parent?.onBackButtonPressed();
+              return;
+            }
+            Navigator.pop(context);
+          },
+        ),
+        title: Text("컨텐츠 정보",
+            style: TextStyle(
+              fontFamily: 'Roboto',
+              color: Color(0xff000000),
+              fontSize: 17,
+              fontWeight: FontWeight.w400,
+              fontStyle: FontStyle.normal,
+            )));
   }
 
   Scaffold buildPage() {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
+      bottomNavigationBar: buildBottomNavigationBar(),
       body: SafeArea(
         child: SingleChildScrollView(
             child: ChangeNotifierProvider(

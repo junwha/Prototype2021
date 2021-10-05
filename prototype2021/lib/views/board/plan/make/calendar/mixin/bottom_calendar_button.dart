@@ -7,8 +7,7 @@ import 'package:provider/provider.dart';
 class BottomCalendarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     return Container(
       child: SafeArea(child: buildButton(context, calendarHandler)),
       width: double.infinity,
@@ -24,7 +23,7 @@ class BottomCalendarButton extends StatelessWidget {
   }
 
   TextButton buildButton(
-      BuildContext context, PlanMakeCalendarHandler calendarHandler) {
+      BuildContext context, PlanMakeHandler calendarHandler) {
     String buttonText;
     Color buttonColor;
     Color textColor;

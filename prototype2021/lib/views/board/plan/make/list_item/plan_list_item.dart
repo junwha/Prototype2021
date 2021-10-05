@@ -75,7 +75,7 @@ class PlanListItemState extends State<PlanListItem>
    * 위젯트리 상으로 가장 가까운 PlanListItem 클래스에 아래와 같은 메소드를 정의해 놓은 것입니다. 
   */
   void Function() Function(int) deleteSelfFuncFactory(
-      PlanMakeCalendarHandler calendarHandler) {
+      PlanMakeHandler calendarHandler) {
     return (int order) {
       return () {
         calendarHandler.deletePlaceData(dateIndex, order);
@@ -129,8 +129,7 @@ class PlanListItemState extends State<PlanListItem>
     PlanMakeHomeViewState? parent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
 
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     List<PlaceDataInterface> data =
         calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;

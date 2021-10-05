@@ -37,8 +37,12 @@ class ContentsLoader {
     }
     ContentsListInput params =
         new ContentsListInput(keyword: keyword, contentType: type);
-    SafeQueryInput<ContentsListInput> dto =
-        new SafeQueryInput(url: contentsListUrl, params: params, token: token);
+    SafeQueryInput<ContentsListInput> dto = new SafeQueryInput(
+      url: contentsListUrl,
+      params: params,
+      token: token,
+      queryStringAppendMode: pagination == PaginationState.start ? false : true,
+    );
     SafeQueryOutput<ContentsListOutput> result = await contentsList(dto);
     if (result.success && result.data?.results != null) {
       if (result.data!.next == null) {

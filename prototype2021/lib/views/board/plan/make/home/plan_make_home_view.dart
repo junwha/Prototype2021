@@ -30,7 +30,6 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     with
         PlanMakeAppBarBase,
         TickerProviderStateMixin,
-        ChangeNotifier,
         /* 
          * These Mixins below have children widgets and helper Functions 
          * PlanMakeHome widget uses 
@@ -113,7 +112,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     });
   }
 
-  void insertCopiedData(PlanMakeCalendarHandler calendarHandler, int dateIndex,
+  void insertCopiedData(PlanMakeHandler calendarHandler, int dateIndex,
       PlaceDataInterface data, int indexToInsert) {
     calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
@@ -205,7 +204,11 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     return NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollNotification) =>
             onScrollNotificationHandler(
-                scrollNotification, _scrollController, _onTop, _setOnTop),
+              scrollNotification,
+              _scrollController,
+              _onTop,
+              _setOnTop,
+            ),
         child: SingleChildScrollView(
             child: Container(
           child: Column(
@@ -221,8 +224,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   Widget buildMain(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
 
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
@@ -232,58 +234,36 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
-    return ChangeNotifierProvider<PlanMapHandler>(
-      create: (_) {
-        PlanMapHandler model = PlanMapHandler(LatLng(35.5763,
-            129.1893)); // TODO: replace this position as current position;
-        calendarHandler.addListener(() {
-          // Notify to plan map model when the calendar handler has changed.
-          try {
-            if (calendarHandler.planListItems != null)
-              model.updatePlaceData(calendarHandler.planListItems!);
-            else {
-              // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
-              model.updatePlaceData(List.generate(
-                  calendarHandler.dateDifference!, (index) => []));
-            }
-          } catch (e) {
-            print(e);
-          }
-        });
-        return model;
-      },
-      child: Container(
-        child: Column(
-          children: [
-            Container(
-              height: 50,
-            ),
-            Container(
-                height: isMapEnabled ? 200 : 0,
-                child: Consumer(builder:
-                    (BuildContext context, PlanMapHandler model, Widget? _) {
-                  return model.mapLoaded ? PlanMap() : SizedBox();
-                })),
-            buildPlanListItemsHeader(mode, _setMode,
-                _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
-            buildTopShadowHidingContainer(_blindContainerColor),
-            Column(children: planListItemWidgets),
-          ],
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-            color: Colors.white),
-        width: MediaQuery.of(context).size.width,
-        constraints:
-            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+    return Container(
+      child: Column(
+        children: [
+          Container(
+            height: 50,
+          ),
+          Container(
+              height: isMapEnabled ? 200 : 0,
+              child: Consumer(builder:
+                  (BuildContext context, PlanMapHandler model, Widget? _) {
+                return model.mapLoaded ? PlanMap() : SizedBox();
+              })),
+          buildPlanListItemsHeader(mode, _setMode,
+              _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
+          buildTopShadowHidingContainer(_blindContainerColor),
+          Column(children: planListItemWidgets),
+        ],
       ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+          color: Colors.white),
+      width: MediaQuery.of(context).size.width,
+      constraints:
+          BoxConstraints(minHeight: MediaQuery.of(context).size.height),
     );
   }
 
   Container buildBottomAppBar(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     bool onModeAdd = mode == PlanMakeMode.add;
     void _onEditDoneButtonTap() {
       _setMode(PlanMakeMode.add);

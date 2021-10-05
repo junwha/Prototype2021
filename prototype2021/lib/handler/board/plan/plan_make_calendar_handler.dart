@@ -13,7 +13,7 @@ enum CalendarTouchPhase {
   RANGE,
 }
 
-class PlanMakeCalendarHandler with ChangeNotifier {
+class PlanMakeHandler with ChangeNotifier {
   CalendarTouchPhase _phase = CalendarTouchPhase.PENDING;
   DateTime _now;
   List<DateTime?> _datePoints = [null, null];
@@ -21,7 +21,7 @@ class PlanMakeCalendarHandler with ChangeNotifier {
   List<List<PlaceDataInterface>>? _planListItems;
   int _currentIndex = 0;
 
-  PlanMakeCalendarHandler({DateTime? now}) : _now = now ?? new DateTime.now();
+  PlanMakeHandler({DateTime? now}) : _now = now ?? new DateTime.now();
 
   int get currentIndex => _currentIndex;
   void setCurrentIndex(int idx) => _currentIndex = idx;
@@ -115,7 +115,7 @@ class PlanMakeCalendarHandler with ChangeNotifier {
     notifyListeners();
   }
 
-  PlanMakeCalendarHandler inherit() {
+  PlanMakeHandler inherit() {
     return this;
   }
 
@@ -158,5 +158,6 @@ class PlanMakeCalendarHandler with ChangeNotifier {
   void insertPlaceData(int index, PlaceDataInterface data, int indexToInsert) {
     int validIndexToInsert = _validateIndex(index, indexToInsert);
     _planListItems![index].insert(validIndexToInsert, data);
+    notifyListeners();
   }
 }

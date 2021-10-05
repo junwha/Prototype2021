@@ -49,13 +49,14 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
 
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
-    DateTime date =
-        calendarHandler.datePoints[0]!.add(Duration(days: dateIndex));
+    PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
+    DateTime date = handler.datePoints[0]!.add(Duration(days: dateIndex));
     return Container(
       child: Row(
-        children: [buildLeading(context, date), buildActions(context)],
+        children: [
+          buildLeading(context, date),
+          buildActions(context),
+        ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
@@ -63,10 +64,9 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   }
 
   Container buildLeading(BuildContext context, DateTime date) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
-    List<PlaceDataInterface> data =
-        calendarHandler.planListItems?[dateIndex] ?? [];
+    PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
+    print(handler.planListItems);
+    List<PlaceDataInterface> data = handler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     PlanListItemState? parent =
         context.findAncestorStateOfType<PlanListItemState>();
@@ -116,10 +116,9 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   }
 
   Container buildActions(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
     void _createMemo() =>
-        calendarHandler.addPlaceData(dateIndex, new MemoData(memo: _memo));
+        handler.addPlaceData(dateIndex, new MemoData(memo: _memo));
     PlanListItemState? parent =
         context.findAncestorStateOfType<PlanListItemState>();
     PlanMakeHomeViewState? grandParent =
@@ -143,7 +142,7 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
             icon: Image.asset('assets/icons/ic_calender_memo_gray.png')),
         IconButton(
             onPressed: () {
-              calendarHandler.setCurrentIndex(dateIndex);
+              handler.setCurrentIndex(dateIndex);
               if (grandParent != null) {
                 grandParent.navigator(Navigate.custom, PlanMakeViewMode.select);
               }

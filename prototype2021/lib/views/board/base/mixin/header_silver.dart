@@ -62,13 +62,10 @@ abstract class BoardMainSilverMixin {
    * 이때 titleNameIndex는 index가 짝수일 때만 이용되므로 나머지에 대한 생각을 하지 않아도 됩니다
    * 이런식으로 ListView.seperated 와 같은 로직이 구현되는 것입니다
    */
-  SingleChildScrollView buildThemeBar(
-      {void Function(ContentType?)? onFilterChange}) {
-    /* 
-     * This is a temporary implementation. 
-     * focusedIndex should be handled as state at root widget(Board)
-     */
-    final int focusedIndex = 0;
+  SingleChildScrollView buildThemeBar({
+    void Function(ContentType)? onFilterChange,
+    ContentType? currentFilter,
+  }) {
     List<String> titleNames = titleContentType.keys.toList();
 
     return SingleChildScrollView(
@@ -77,16 +74,18 @@ abstract class BoardMainSilverMixin {
           children: List.generate(titleNames.length * 2 - 1, (index) {
         int titleNameIndex = index ~/ 2;
         String titleName = titleNames[titleNameIndex];
-        bool isChecked = titleNameIndex == focusedIndex;
+        bool isChecked = titleContentType[titleName] == currentFilter;
         return index % 2 == 0
             ? TBSelectableTextButton(
                 isChecked: isChecked,
                 titleName: titleName,
                 onPressed: onFilterChange == null
                     ? null
-                    : () => onFilterChange(
-                          titleContentType[titleName],
-                        ),
+                    : () {
+                        onFilterChange(
+                          titleContentType[titleName] ?? ContentType.unknown,
+                        );
+                      },
               )
             : SizedBox(width: 8 * pt);
       })),

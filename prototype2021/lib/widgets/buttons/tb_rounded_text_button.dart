@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class TBRoundedTextButton extends StatelessWidget {
   final String text;
+  final Widget? content;
   final void Function() onPressed;
   final Color color;
   final Color backgroundColor;
@@ -16,6 +17,7 @@ class TBRoundedTextButton extends StatelessWidget {
     this.backgroundColor = const Color(0xff4080ff),
     this.height = 60,
     this.width,
+    this.content,
   }) : super(key: key);
 
   @override
@@ -28,15 +30,17 @@ class TBRoundedTextButton extends StatelessWidget {
           width: width,
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(10)),
+            color: backgroundColor,
           ),
-          child: Text(text,
-              style: TextStyle(
-                  color: color,
-                  fontWeight: FontWeight.w700,
-                  fontFamily: "Roboto",
-                  fontStyle: FontStyle.normal,
-                  fontSize: 13.0),
-              textAlign: TextAlign.center),
+          child: content ??
+              Text(text,
+                  style: TextStyle(
+                      color: color,
+                      fontWeight: FontWeight.w700,
+                      fontFamily: "Roboto",
+                      fontStyle: FontStyle.normal,
+                      fontSize: 13.0),
+                  textAlign: TextAlign.center),
         ));
   }
 }

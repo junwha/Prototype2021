@@ -3,6 +3,9 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
+import 'package:prototype2021/views/board/plan/make/select/plan_make_select_view.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:provider/provider.dart';
 
@@ -200,32 +203,5 @@ mixin ContentDetailViewHeaderMixin {
         )
       ],
     );
-  }
-
-  /// 현재 화면의 앱바를 렌더링합니다
-  AppBar buildAppBar(BuildContext context) {
-    return AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
-        ],
-        backgroundColor: Colors.white,
-        shadowColor: Colors.white,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {
-            Navigator.pop(context);
-          },
-        ),
-        title: Text("컨텐츠 정보",
-            style: TextStyle(
-              fontFamily: 'Roboto',
-              color: Color(0xff000000),
-              fontSize: 17,
-              fontWeight: FontWeight.w400,
-              fontStyle: FontStyle.normal,
-            )));
   }
 }

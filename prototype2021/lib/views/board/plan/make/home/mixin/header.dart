@@ -64,8 +64,7 @@ mixin PlanMakeHomeHeaderMixin on State<PlanMakeHomeView> {
     BuildContext context, {
     required void Function() navigator,
   }) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     return Container(
       child: Row(
         children: [

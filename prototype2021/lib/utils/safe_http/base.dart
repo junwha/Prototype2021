@@ -149,11 +149,13 @@ class SafeMutationOutput<T extends SafeHttpDataOutput>
 */
 class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   final T? params;
+  final bool queryStringAppendMode;
 
   SafeQueryInput({
     required String url,
     Map<String, String>? headers,
     this.params,
+    this.queryStringAppendMode = false,
     String? token,
     AuthScheme? authScheme,
   }) : super(
@@ -166,7 +168,7 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   Uri getUrlWithParams() {
     String queryString = "";
     if (params?.toJson() != null) {
-      queryString += "?";
+      if (!queryStringAppendMode) queryString += "?";
       params!.toJson()!.forEach((key, value) {
         if (value != null) {
           queryString += "$key=$value&";

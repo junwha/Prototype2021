@@ -17,16 +17,16 @@ class PlanMakeSelectView extends StatefulWidget {
       : super(key: key);
 
   @override
-  _PlanMakeSelectViewState createState() =>
-      _PlanMakeSelectViewState(navigator: navigator);
+  PlanMakeSelectViewState createState() =>
+      PlanMakeSelectViewState(navigator: navigator);
 }
 
-class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
+class PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
   /* =================================/================================= */
   /* =================CONSTRUCTORS & Widget METHODS================= */
   /* =================================/================================= */
 
-  _PlanMakeSelectViewState({required this.navigator})
+  PlanMakeSelectViewState({required this.navigator})
       : super.build(
           viewMode: BoardMode.main,
           initialTabIndex: 1,
@@ -47,6 +47,11 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
   int? selectedItemId;
   void setSelectedItemId(int contentsDetailId) => setState(() {
         selectedItemId = contentsDetailId;
+      });
+
+  bool loading = false;
+  void setLoading(bool _loading) => setState(() {
+        loading = _loading;
       });
 
   final void Function(Navigate) navigator;
@@ -78,15 +83,15 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
     }
   }
 
-  int? _contentsNumber;
-  void _setContentsNumber(int? countedContents) => setState(() {
-        _contentsNumber = countedContents;
-      });
+  // TODO: 아이템 갯수 상태관리 구현
+  // int? _contentsNumber;
+  // void _setContentsNumber(int? countedContents) => setState(() {
+  //       _contentsNumber = countedContents;
+  //     });
 
-  Future<void> _countContents() async {
-    _setContentsNumber(null);
-    _setContentsNumber(await contentsDataStream.length);
-  }
+  // Future<void> _countContents() async {
+  //   _setContentsNumber(await contentsDataStream.length);
+  // }
 
   /* =================================/================================= */
   /* ==============================WIDGETS============================== */
@@ -98,10 +103,18 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
       case BoardMode.search:
         return buildSearchBody();
       case BoardMode.contentsDetail:
-        return buildContentListView(context);
+        return buildContentsDetail(context);
       default:
         return buildDefaultBody(context);
     }
+  }
+
+  @override
+  AppBar? buildAppBar(BuildContext context) {
+    if (viewMode == BoardMode.contentsDetail) {
+      return null;
+    }
+    return super.buildAppBar(context);
   }
 
   @override
@@ -141,8 +154,11 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
   @override
   List<SliverAppBar> Function(BuildContext, bool) buildHeaderSilverBuilder() =>
       (BuildContext context, bool innerBoxIsScrolled) {
-        if (viewMode == BoardMode.search) return [];
-        _countContents();
+        if (viewMode == BoardMode.search ||
+            viewMode == BoardMode.contentsDetail) return [];
+        // WidgetsBinding.instance?.addPostFrameCallback((_) async {
+        //   await _countContents();
+        // });
         List<SliverAppBar> slivers = <SliverAppBar>[
           SliverAppBar(
               automaticallyImplyLeading: false,
@@ -153,17 +169,19 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
               backgroundColor: Colors.white,
               title: buildThemeBar(
                 onFilterChange: (type) => setCurrentFilter(type),
+                currentFilter: currentFilter,
               )),
-          SliverAppBar(
-            automaticallyImplyLeading: false,
-            elevation: 0,
-            pinned: false,
-            backgroundColor: Colors.white,
-            title: buildListHeader(
-                titleText: _contentsNumber == null
-                    ? "로딩중..."
-                    : "전체 ${_contentsNumber.toString()}"),
-          )
+          // TODO: ListView Header 구현 (아이템 갯수 등)
+          // SliverAppBar(
+          //   automaticallyImplyLeading: false,
+          //   elevation: 0,
+          //   pinned: false,
+          //   backgroundColor: Colors.white,
+          //   title: buildListHeader(
+          //       titleText: _contentsNumber == null
+          //           ? "로딩중..."
+          //           : "전체 ${_contentsNumber.toString()}"),
+          // )
         ];
         return slivers;
       };
@@ -179,7 +197,9 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
     return BoardStreamList<ContentsCardBaseProps>(
       stream: contentsDataStream,
       builder: (props) => ContentsCard.fromProps(
-          props: props, footer: buildAddToPlanButton(props.id)),
+        props: props,
+        footer: buildAddToPlanButton(props.id),
+      ),
       onTap: (props) {
         setSelectedItemId(props.id);
         setViewMode(BoardMode.contentsDetail);
@@ -196,18 +216,21 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
   TextButton buildAddToPlanButton(int id) {
     UserInfoHandler userInfoHandler =
         Provider.of<UserInfoHandler>(context, listen: false);
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     void onPressed() async {
       try {
+        setLoading(true);
         ContentsDetail result = await contentsLoader.getContentDetail(
             id, userInfoHandler.token ?? "");
         calendarHandler.addPlaceData(
           calendarHandler.currentIndex,
           PlaceDataProps.fromContentsDetail(source: result),
         );
+        setLoading(false);
+        navigator(Navigate.backward);
       } catch (error) {
         print(error);
+        setLoading(false);
       }
     }
 
@@ -215,7 +238,7 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
       onPressed: onPressed,
       child: Container(
         alignment: Alignment.center,
-        height: 50,
+        padding: const EdgeInsets.symmetric(vertical: 10),
         child: Row(
           children: [
             Icon(
@@ -223,23 +246,25 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
               size: 28,
             ),
             SizedBox(width: 6),
-            Text("플랜에 담기",
-                style: const TextStyle(
-                    color: const Color(0xff555555),
-                    fontWeight: FontWeight.w400,
-                    fontFamily: "Roboto",
-                    fontStyle: FontStyle.normal,
-                    fontSize: 12.0),
-                textAlign: TextAlign.left),
+            Text(
+              loading ? "담는 중..." : "플랜에 담기",
+              style: const TextStyle(
+                  color: const Color(0xff555555),
+                  fontWeight: FontWeight.w400,
+                  fontFamily: "Roboto",
+                  fontStyle: FontStyle.normal,
+                  fontSize: 12.0),
+              textAlign: TextAlign.left,
+            ),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
         ),
-        decoration: BoxDecoration(
-            border: Border.all(
-          width: 0.5,
-          color: const Color(0xffe8e8e8),
-        )),
+        // decoration: BoxDecoration(
+        //     border: Border.all(
+        //   width: 0.5,
+        //   color: const Color(0xffe8e8e8),
+        // )),
       ),
     );
   }
@@ -249,6 +274,9 @@ class _PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
     if (selectedItemId == null) {
       return SizedBox();
     }
-    return ContentDetailView(id: selectedItemId!);
+    return ContentDetailView(
+      id: selectedItemId!,
+      mode: ContentsDetailMode.planMake,
+    );
   }
 }

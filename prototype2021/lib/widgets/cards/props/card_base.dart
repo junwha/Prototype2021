@@ -20,7 +20,7 @@ class CardBaseProps implements CommonObject {
 }
 
 class CardBase {
-  Container buildCard({
+  Widget buildCard({
     required Widget itemInfo,
     required Color backgroundColor,
     required int dataId,
@@ -32,20 +32,23 @@ class CardBase {
     Widget? footer,
     Widget? header,
   }) {
-    return Container(
-        padding: EdgeInsets.all(10 * pt),
-        height: 160 * pt,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          border: Border.all(
-            color: Color(0xffe8e8e8),
-            width: 0.5,
+    return Column(
+      children: [
+        header == null ? SizedBox() : header,
+        Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 10 * pt, vertical: 20),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            border: Border.all(
+              color: Color(0xffe8e8e8),
+              width: 0.5,
+            ),
           ),
-        ),
-        child: Column(
-          children: [
-            header == null ? SizedBox() : header,
-            Row(children: <Widget>[
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
               SizedBox(width: 15),
               itemInfo,
               buildW(15 * pt),
@@ -57,10 +60,12 @@ class CardBase {
                 heartFor: heartFor,
                 token: token,
               )
-            ]),
-            footer == null ? SizedBox() : footer,
-          ],
-        ));
+            ],
+          ),
+        ),
+        footer == null ? SizedBox() : footer,
+      ],
+    );
   }
 
   /* 

@@ -94,8 +94,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
         tabIndex = _tabIndex;
       });
 
-  ContentType? currentFilter;
-  void setCurrentFilter(ContentType? newFilter) => setState(() {
+  ContentType currentFilter = ContentType.unknown;
+  void setCurrentFilter(ContentType newFilter) => setState(() {
         currentFilter = newFilter;
       });
 
@@ -260,7 +260,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   @needsImplement
   Widget buildTitle();
 
-  AppBar buildAppBar(BuildContext context) {
+  @defaultImplementation
+  AppBar? buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
       backgroundColor: Colors.white,
