@@ -10,6 +10,10 @@ class SearchArticleHandler with ChangeNotifier {
   ArticleType articleType = ArticleType.EVENT;
   bool loading = false;
 
+  bool empty() {
+    return eventArticleList.isEmpty && companionArticleList.isEmpty;
+  }
+
   void searchArticles(String text) async {
     loading = true;
     eventArticleList =
