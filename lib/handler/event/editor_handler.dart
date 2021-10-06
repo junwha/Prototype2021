@@ -1,11 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
+import 'package:provider/provider.dart';
 
 class EditorHandler with ChangeNotifier {
   /* General Arguments */
@@ -35,12 +37,11 @@ class EditorHandler with ChangeNotifier {
   /* For PATCH, PUT and TEMP */
   int? articleId;
 
-  EditorHandler();
-  EditorHandler.location(this.location);
+  EditorHandler({this.location});
 
   EditorHandler.edit(ArticleDetailData data) {
     this.articleId = data.id;
-    this.writeType = WriteType.PUT;
+    this.writeType = WriteType.EDIT;
 
     this.title = data.title;
     this.content = data.body;
@@ -69,7 +70,7 @@ class EditorHandler with ChangeNotifier {
 
   void initEvent(EventDetailData data) {
     this.articleType = ArticleType.EVENT;
-    this.writeType = WriteType.PUT;
+    this.writeType = WriteType.EDIT;
     this.cid = data.cid;
     this.location =
         Location(data.coord, PlaceType.DEFAULT, ""); // TODO: modify this part
@@ -135,7 +136,7 @@ class EditorHandler with ChangeNotifier {
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_COMPANION_API;
       return await legacyPOST(url, originData);
-    } else if (this.writeType == WriteType.PUT) {
+    } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
       url =
           "http://api.tripbuilder.co.kr/recruitments/companions/${articleId!}/";
@@ -158,7 +159,7 @@ class EditorHandler with ChangeNotifier {
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_EVENT_API;
       return await legacyPOST(url, originData);
-    } else if (this.writeType == WriteType.PUT) {
+    } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
       url = "http://api.tripbuilder.co.kr/recruitments/events/${articleId!}/";
       return await legacyPUT(url, originData);
@@ -167,9 +168,4 @@ class EditorHandler with ChangeNotifier {
   }
 }
 
-enum WriteType {
-  POST,
-  PUT,
-  PATCH,
-  TEMP,
-}
+enum WriteType { POST, EDIT, LOCATION_POST }

@@ -21,7 +21,7 @@ class EditorView extends StatefulWidget {
   }
 
   EditorView.edit(ArticleDetailData data) {
-    this.writeType = WriteType.PUT;
+    this.writeType = WriteType.EDIT;
     this.data = data;
   }
   @override
@@ -53,9 +53,7 @@ class _EditorViewState extends State<EditorView> {
       body: SingleChildScrollView(
         child: Container(
           child: ChangeNotifierProvider(
-            create: (context) => targetLocation == null
-                ? getEditorModel(this.widget.writeType)
-                : EditorHandler.location(targetLocation),
+            create: (context) => getEditorModel(this.widget.writeType),
             child:
                 Consumer(builder: (context, EditorHandler editorModel, child) {
               return Padding(
@@ -330,7 +328,7 @@ class _EditorViewState extends State<EditorView> {
 
   EditorHandler getEditorModel(WriteType writeType) {
     if (writeType == WriteType.POST)
-      return EditorHandler();
+      return EditorHandler(location: targetLocation);
     else {
       //else if (writeType == WriteType.PUT) {
       if (this.widget.data == null) Navigator.pop(context);
