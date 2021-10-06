@@ -183,15 +183,15 @@ class _EventSearchViewState extends State<EventSearchView> {
         // animating between opened and closed stated.
         transition: CircularFloatingSearchBarTransition(),
         actions: [
-          FloatingSearchBarAction(
-            showIfOpened: false,
-            child: CircularButton(
-              icon: const Icon(Icons.filter_list),
-              onPressed: () {
-                //  Navigator.pushNamed(context, '/board/filter');
-              },
-            ),
-          ),
+          // FloatingSearchBarAction(
+          //   showIfOpened: false,
+          //   child: CircularButton(
+          //     icon: const Icon(Icons.filter_list),
+          //     onPressed: () {
+          //       //  Navigator.pushNamed(context, '/board/filter');
+          //     },
+          //   ),
+          // ),
           FloatingSearchBarAction.searchToClear(
             showIfClosed: false,
           ),
