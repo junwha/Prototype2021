@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/handler/event/editor_handler.dart';
 import 'package:prototype2021/model/map/location.dart';
@@ -327,12 +328,14 @@ class _EditorViewState extends State<EditorView> {
   }
 
   EditorHandler getEditorModel(WriteType writeType) {
+    UserInfoHandler userInfo = Provider.of<UserInfoHandler>(context);
+    String? token = userInfo.token;
     if (writeType == WriteType.POST)
-      return EditorHandler(location: targetLocation);
+      return EditorHandler(location: targetLocation, token: token!);
     else {
       //else if (writeType == WriteType.PUT) {
       if (this.widget.data == null) Navigator.pop(context);
-      return EditorHandler.edit(this.widget.data!);
+      return EditorHandler.edit(data: this.widget.data!, token: token!);
     }
   }
 
@@ -451,16 +454,18 @@ class _EditorViewState extends State<EditorView> {
                 });
               }),
           SizedBox(width: 10),
-          TBSelectableTextButton(
-              titleName: "동행찾기",
-              isChecked: articleType[1],
-              onPressed: () {
-                setState(() {
-                  editorModel.articleType = ArticleType.COMPANION;
-                  articleType[1] = true;
-                  articleType[0] = false;
-                });
-              })
+          this.targetLocation == null
+              ? TBSelectableTextButton(
+                  titleName: "동행찾기",
+                  isChecked: articleType[1],
+                  onPressed: () {
+                    setState(() {
+                      editorModel.articleType = ArticleType.COMPANION;
+                      articleType[1] = true;
+                      articleType[0] = false;
+                    });
+                  })
+              : SizedBox(),
         ],
       );
 

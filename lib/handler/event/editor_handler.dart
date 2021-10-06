@@ -37,9 +37,11 @@ class EditorHandler with ChangeNotifier {
   /* For PATCH, PUT and TEMP */
   int? articleId;
 
-  EditorHandler({this.location});
+  String token;
 
-  EditorHandler.edit(ArticleDetailData data) {
+  EditorHandler({this.location, required this.token});
+
+  EditorHandler.edit({required ArticleDetailData data, required this.token}) {
     this.articleId = data.id;
     this.writeType = WriteType.EDIT;
 
