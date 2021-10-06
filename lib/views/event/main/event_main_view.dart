@@ -55,7 +55,7 @@ class _EventMainViewState extends State<EventMainView>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      // bottomNavigationBar: buildBottomNavigationBar(),
       body: SingleChildScrollView(
         child: ChangeNotifierProvider(
           create: (context) => EventArticleHandler.main(),
