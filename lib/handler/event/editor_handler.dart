@@ -4,6 +4,7 @@ import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
@@ -132,17 +133,26 @@ class EditorHandler with ChangeNotifier {
     return false;
   }
 
+  Map<String, String> getHeaders() {
+    Map<String, String> newHeaders = {};
+    defaultHeaders.entries.forEach((element) {
+      newHeaders[element.key] = element.value;
+    });
+    newHeaders['Authorization'] = 'jwt $token';
+    return newHeaders;
+  }
+
   Future<bool> writeCompanionArticle(Map<String, dynamic> originData) async {
     originData["pid"] = this.pid;
     var url;
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_COMPANION_API;
-      return await legacyPOST(url, originData);
+      return await legacyPOST(url, originData, headers: getHeaders());
     } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
       url =
           "http://api.tripbuilder.co.kr/recruitments/companions/${articleId!}/";
-      return await legacyPUT(url, originData);
+      return await legacyPUT(url, originData, headers: getHeaders());
     }
     return false;
   }
@@ -160,11 +170,11 @@ class EditorHandler with ChangeNotifier {
 
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_EVENT_API;
-      return await legacyPOST(url, originData);
+      return await legacyPOST(url, originData, headers: getHeaders());
     } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
       url = "http://api.tripbuilder.co.kr/recruitments/events/${articleId!}/";
-      return await legacyPUT(url, originData);
+      return await legacyPUT(url, originData, headers: getHeaders());
     }
     return false;
   }
