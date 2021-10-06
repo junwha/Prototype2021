@@ -117,7 +117,7 @@ class _EditorViewState extends State<EditorView> {
         buildDropdown(editorModel),
         buildDateSelect(editorModel, context),
         editorModel.location == null
-            ? buildLocationSelect(editorModel)
+            ? buildSelect(editorModel)
             : GestureDetector(
                 child: MapPreview(location: editorModel.location!),
                 onTap: () {
@@ -339,15 +339,15 @@ class _EditorViewState extends State<EditorView> {
     }
   }
 
-  TextButton buildLocationSelect(EditorHandler editorModel) {
+  TextButton buildSelect(EditorHandler editorModel) {
     return TextButton(
-        child: Text("지도 선택하기",
+        child: Text(articleType[0] ? "지도 선택하기" : "플랜 선택하기",
             style: TextStyle(
                 color: Color.fromRGBO(112, 112, 112, 1),
                 fontSize: 13 * pt,
                 fontWeight: FontWeight.bold)),
         onPressed: () {
-          loadLocation(editorModel);
+          articleType[0] ? loadLocation(editorModel) : loadPlan(editorModel);
         });
   }
 
@@ -571,5 +571,10 @@ class _EditorViewState extends State<EditorView> {
         print(location.latLng);
       });
     }
+  }
+
+  void loadPlan(EditorHandler editorHandler) async {
+    // TODO: connect here with Plan List View
+    editorHandler.pid = 0;
   }
 }
