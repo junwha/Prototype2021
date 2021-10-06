@@ -192,6 +192,7 @@ class _EventSearchViewState extends State<EventSearchView> {
           //     },
           //   ),
           // ),
+          // TODO: 필터 구현후 enable
           FloatingSearchBarAction.searchToClear(
             showIfClosed: false,
           ),

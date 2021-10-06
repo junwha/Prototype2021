@@ -206,7 +206,7 @@ class _EventMainViewState extends State<EventMainView>
             ],
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            buildFilterButton(),
+            // buildFilterButton(), TODO: 필터 구현후 enable
             IconButton(
               icon: Image.asset(
                 "assets/icons/editor.png",
