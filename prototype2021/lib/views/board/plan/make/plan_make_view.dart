@@ -52,35 +52,14 @@ class PlanMakeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime now = new DateTime.now();
-    return ChangeNotifierProvider<PlanMakeHandler>(
-      create: (_) => PlanMakeHandler(now: now),
-      child: Consumer<PlanMakeHandler>(
-        builder: (context, calendarHandler, child) {
-          return ChangeNotifierProvider<PlanMapHandler>(
-            create: (_) {
-              PlanMapHandler model = PlanMapHandler(LatLng(35.5763,
-                  129.1893)); // TODO: replace this position as current position;
-              calendarHandler.addListener(() {
-                // Notify to plan map model when the calendar handler has changed.
-                try {
-                  if (calendarHandler.planListItems != null)
-                    model.updatePlaceData(calendarHandler.planListItems!);
-                  else {
-                    // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
-                    model.updatePlaceData(List.generate(
-                        calendarHandler.dateDifference!, (index) => []));
-                  }
-                } catch (e) {
-                  print(e);
-                }
-              });
-              return model;
-            },
-            child: child,
-          );
-        },
-        child: _PlanMakeViewContent(),
-      ),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<PlanMakeHandler>(
+            create: (_) => PlanMakeHandler(now: now)),
+        ChangeNotifierProvider<PlanMapHandler>(
+            create: (_) => PlanMapHandler(LatLng(0, 0))),
+      ],
+      child: _PlanMakeViewContent(),
     );
   }
 }
@@ -97,6 +76,7 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
   void setViewMode(PlanMakeViewMode _viewMode) => setState(() {
         viewMode = _viewMode;
       });
+
   void Function(Navigate, [PlanMakeViewMode?]) navigatorFactory({
     PlanMakeViewMode? backward,
     PlanMakeViewMode? forward,
@@ -122,7 +102,45 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
   }
 
   @override
-  Widget build(BuildContext context) => buildPage();
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      PlanMakeHandler handler =
+          Provider.of<PlanMakeHandler>(context, listen: false);
+      PlanMapHandler mapHandler =
+          Provider.of<PlanMapHandler>(context, listen: false);
+      void calendarHandlerListener() {
+        // Notify to plan map model when the calendar handler has changed.
+        try {
+          if (handler.planListItems != null)
+            mapHandler.updatePlaceData(handler.planListItems!);
+          else {
+            // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
+            mapHandler.updatePlaceData(
+                List.generate(handler.dateDifference!, (index) => []));
+          }
+        } catch (e) {
+          print(e);
+        }
+      }
+
+      handler.addListener(calendarHandlerListener);
+    });
+  }
+
+  @override
+  void dispose() {
+    PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
+    PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);
+    planMapHandler.doDispose();
+    planMakeHandler.doDispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return buildPage();
+  }
 
   Widget buildPage() {
     switch (viewMode) {

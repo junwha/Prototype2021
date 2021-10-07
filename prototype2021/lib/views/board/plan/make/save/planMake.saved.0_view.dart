@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/views/board/main/board_main_view.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 
 class PlanSavedView extends StatefulWidget {
@@ -124,51 +125,8 @@ class _PlanSavedViewState extends State<PlanSavedView> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      TextButton(
-                        onPressed: () {},
-                        child: Container(
-                          child: Center(
-                            child: Text(
-                              '마이 플랜',
-                              style: TextStyle(
-                                color: Color(0xff707070),
-                                fontSize: 17,
-                                fontFamily: 'Roboto',
-                                fontWeight: FontWeight.w700,
-                              ),
-                            ),
-                          ),
-                          height: 60,
-                          width: 130,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(
-                                color: Color(0xffbdbdbd), width: 1.5),
-                            borderRadius: BorderRadius.circular(10),
-                          ),
-                        ),
-                      ),
-                      TextButton(
-                          onPressed: () {},
-                          child: Container(
-                              child: Center(
-                                child: Text(
-                                  '플랜게시판에\n공유하기',
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 17,
-                                    fontFamily: 'Roboto',
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                  textAlign: TextAlign.center,
-                                ),
-                              ),
-                              width: 130,
-                              height: 60,
-                              decoration: BoxDecoration(
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(10)),
-                                  color: const Color(0xff4080ff))))
+                      buildMyPlanButton(),
+                      buildShareButton(),
                     ],
                   )
                 ],
@@ -177,6 +135,58 @@ class _PlanSavedViewState extends State<PlanSavedView> {
             ))
           ],
         ));
+  }
+
+  TextButton buildMyPlanButton() {
+    return TextButton(
+      onPressed: () {},
+      child: Container(
+        child: Center(
+          child: Text(
+            '마이 플랜',
+            style: TextStyle(
+              color: Color(0xff707070),
+              fontSize: 17,
+              fontFamily: 'Roboto',
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+        height: 60,
+        width: 130,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Color(0xffbdbdbd), width: 1.5),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+    );
+  }
+
+  TextButton buildShareButton() {
+    return TextButton(
+        onPressed: () {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (_) => BoardMainView()));
+        },
+        child: Container(
+            child: Center(
+              child: Text(
+                '플랜게시판에\n공유하기',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 17,
+                  fontFamily: 'Roboto',
+                  fontWeight: FontWeight.w700,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+            width: 130,
+            height: 60,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.all(Radius.circular(10)),
+                color: const Color(0xff4080ff))));
   }
 
   AppBar buildAppBar() {

@@ -27,7 +27,9 @@ class ContentsListInput extends SafeHttpDataInput {
         "area_code": areaCode,
         "area_detail_code": areaDetailCode == null ? null : "($areaDetailCode)",
         "keyword": keyword,
-        "typeid": typeId == null ? null : contentTypeId[typeId],
+        "typeid": typeId == null || typeId == ContentType.unknown
+            ? null
+            : contentTypeId[typeId],
         "page": page,
       };
 

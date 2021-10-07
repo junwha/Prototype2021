@@ -65,7 +65,6 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
 
   Container buildLeading(BuildContext context, DateTime date) {
     PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
-    print(handler.planListItems);
     List<PlaceDataInterface> data = handler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     PlanListItemState? parent =

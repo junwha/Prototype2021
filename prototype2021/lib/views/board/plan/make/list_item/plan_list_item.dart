@@ -116,8 +116,8 @@ class PlanListItemState extends State<PlanListItem>
 
   @override
   void dispose() {
-    super.dispose();
     _mainExpandController.dispose();
+    super.dispose();
   }
 
   /* =================================/================================= */

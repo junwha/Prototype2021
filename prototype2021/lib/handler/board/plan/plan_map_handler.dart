@@ -8,6 +8,13 @@ import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';
 import 'package:prototype2021/utils/google_map/widgets/plan_marker.dart';
 
 class PlanMapHandler extends TBMapHandler {
+  @override
+  void dispose() {}
+
+  void doDispose() {
+    super.dispose();
+  }
+
   List<List<PlaceDataInterface>> placeItemsPerDay = [];
   int day = 1;
 
@@ -40,7 +47,7 @@ class PlanMapHandler extends TBMapHandler {
         placeItemsPerDay.length, (index) => List.from(placeItemsPerDay[index]));
 
     // Remove non-PlaceData
-    this.placeItemsPerDay = placeItemsPerDay.map((placeDataList) {
+    this.placeItemsPerDay = this.placeItemsPerDay.map((placeDataList) {
       placeDataList.removeWhere((element) => !(element is PseudoPlaceData));
       return placeDataList;
     }).toList();

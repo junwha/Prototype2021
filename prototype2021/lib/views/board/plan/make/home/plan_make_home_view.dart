@@ -28,6 +28,7 @@ class PlanMakeHomeView extends StatefulWidget {
 
 class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     with
+        ChangeNotifier,
         PlanMakeAppBarBase,
         TickerProviderStateMixin,
         /* 
@@ -176,9 +177,9 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
 
   @override
   void dispose() {
-    super.dispose();
     _scrollController.dispose();
     _sizeController.dispose();
+    super.dispose();
   }
 
   /* =================================/================================= */
@@ -241,11 +242,13 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
             height: 50,
           ),
           Container(
-              height: isMapEnabled ? 200 : 0,
-              child: Consumer(builder:
-                  (BuildContext context, PlanMapHandler model, Widget? _) {
+            height: isMapEnabled ? 200 : 0,
+            child: Consumer(
+              builder: (BuildContext context, PlanMapHandler model, Widget? _) {
                 return model.mapLoaded ? PlanMap() : SizedBox();
-              })),
+              },
+            ),
+          ),
           buildPlanListItemsHeader(mode, _setMode,
               _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
           buildTopShadowHidingContainer(_blindContainerColor),
@@ -294,7 +297,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
             Expanded(
                 flex: onModeAdd ? 4 : 6,
                 child: onModeAdd
-                    ? buildSaveButton()
+                    ? buildSaveButton(() => navigator(Navigate.forward))
                     : buildEditDoneButton(_onEditDoneButtonTap)),
           ],
           mainAxisAlignment: MainAxisAlignment.center,

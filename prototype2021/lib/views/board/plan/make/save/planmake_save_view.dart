@@ -63,132 +63,149 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     return Scaffold(
         backgroundColor: Color(0xfff6f6f6),
         appBar: buildAppBar(),
-        body: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          SizedBox(
-            height: 80,
-          ),
-          buildContentTitle(),
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                  color: const Color(0xffffffff),
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(40),
-                      topRight: Radius.circular(40)) // POINT
-                  ),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        buildPreview(),
-                        SizedBox(
-                          width: 10,
+        body: SingleChildScrollView(
+          child: Container(
+            height: MediaQuery.of(context).size.height,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 80,
+                ),
+                buildContentTitle(),
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                        color: const Color(0xffffffff),
+                        borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(40),
+                            topRight: Radius.circular(40)) // POINT
                         ),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(15, 40, 15, 15),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Row(
                             children: [
-                              CustomPlanTextField(
-                                  width: double.infinity,
-                                  hintText: '여행 이름을 입력해주세요.',
-                                  onChanged: (String text) {}),
+                              buildPreview(),
                               SizedBox(
-                                height: 5,
+                                width: 10,
                               ),
-                              Text("상하이, 베이징, 광저우",
-                                  style: builidTextStyle(
-                                      11, Color(0xff707070), FontWeight.w400),
-                                  textAlign: TextAlign.left),
-                              SizedBox(
-                                height: 10,
-                              ),
-                              Text("기간 : 4일(1월 1일~4일)",
-                                  style: builidTextStyle(
-                                      14, Color(0xff707070), FontWeight.w400),
-                                  textAlign: TextAlign.left),
-                              buildBudget(context),
-                              Row(
-                                children: [
-                                  Expanded(
-                                    child: Wrap(
-                                        children: List.generate(
-                                            tags.length,
-                                            (index) => isTagsSelected[index]
-                                                ? TBContentTag(
-                                                    contentTitle: tags[index])
-                                                : SizedBox())),
-                                  ),
-                                  IconButton(
-                                      icon: Image.asset(
-                                          "assets/icons/ic_save_edit.png"),
-                                      onPressed: () {
-                                        showTagsDialog(context)
-                                            .then((value) => setState(() {}));
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    CustomPlanTextField(
+                                        width: double.infinity,
+                                        hintText: '여행 이름을 입력해주세요.',
+                                        onChanged: (String text) {}),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text("상하이, 베이징, 광저우",
+                                        style: builidTextStyle(11,
+                                            Color(0xff707070), FontWeight.w400),
+                                        textAlign: TextAlign.left),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    Text("기간 : 4일(1월 1일~4일)",
+                                        style: builidTextStyle(14,
+                                            Color(0xff707070), FontWeight.w400),
+                                        textAlign: TextAlign.left),
+                                    buildBudget(context),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: Wrap(
+                                              children: List.generate(
+                                                  tags.length,
+                                                  (index) =>
+                                                      isTagsSelected[index]
+                                                          ? TBContentTag(
+                                                              contentTitle:
+                                                                  tags[index])
+                                                          : SizedBox())),
+                                        ),
+                                        IconButton(
+                                            icon: Image.asset(
+                                                "assets/icons/ic_save_edit.png"),
+                                            onPressed: () {
+                                              showTagsDialog(context).then(
+                                                  (value) => setState(() {}));
 
-                                        print(isTagsSelected[0]);
-                                      }),
-                                ],
+                                              print(isTagsSelected[0]);
+                                            }),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ), // 상하이, 베이징, 광저우
+                            ],
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          Container(
+                            width: double.infinity,
+                            height: 1,
+                            color: Color(0xffbdbdbd),
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          buildRadioArea(
+                            "여행 피로도",
+                            selectedRadio1,
+                            "여유롭고\n느긋한여행",
+                            "바쁘더라도\n알찬 여행",
+                            (int? val) {
+                              print(val);
+                              // Changes the selected value on 'onChanged' click on each radio button
+                              setState(() {
+                                selectedRadio1 = val!;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          buildRadioArea(
+                            '여행 경비',
+                            selectedRadio2,
+                            '불편해도 \n저렴하게',
+                            "비싸더라도\n편안하게",
+                            (int? val) {
+                              // Changes the selected value on 'onChanged' click on each radio button
+                              setState(() {
+                                selectedRadio2 = val!;
+                              });
+                            },
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              TBSaveButton(
+                                buttonTitle: '저장하기',
+                                onPressed: () {
+                                  widget.navigator(Navigate.forward);
+                                },
                               ),
                             ],
                           ),
-                        ), // 상하이, 베이징, 광저우
-                      ],
+                        ],
+                      ),
                     ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    Container(
-                      width: double.infinity,
-                      height: 1,
-                      color: Color(0xffbdbdbd),
-                    ),
-                    SizedBox(
-                      height: 30,
-                    ),
-                    buildRadioArea(
-                      "여행 피로도",
-                      selectedRadio1,
-                      "여유롭고\n느긋한여행",
-                      "바쁘더라도\n알찬 여행",
-                      (int? val) {
-                        print(val);
-                        // Changes the selected value on 'onChanged' click on each radio button
-                        setState(() {
-                          selectedRadio1 = val!;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    buildRadioArea(
-                      '여행 경비',
-                      selectedRadio2,
-                      '불편해도 \n저렴하게',
-                      "비싸더라도\n편안하게",
-                      (int? val) {
-                        // Changes the selected value on 'onChanged' click on each radio button
-                        setState(() {
-                          selectedRadio2 = val!;
-                        });
-                      },
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [TBSaveButton(buttonTitle: '저장하기')],
-                    ),
-                  ],
+                  ),
                 ),
-              ),
+              ],
             ),
           ),
-        ]));
+        ));
   }
 
   Future<dynamic> showTagsDialog(BuildContext context) {
