@@ -43,6 +43,9 @@ class _MainViewState extends State<MainView> {
             height: 50,
           ),
           makeImage(BoxFit.fill),
+          SizedBox(
+            height: 50,
+          ),
           Container(
             height: 200,
             width: double.infinity,
