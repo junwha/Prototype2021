@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/board/contents/content_type.dart';
 
 mixin ScheduleCardActionsMixin on StatelessWidget {
   Container buildDefaultActions(
-      BuildContext context, String types, Widget icon) {
+      BuildContext context, ContentType type, Widget icon) {
     return Container(
-      child: types == "memo" ? SizedBox() : icon,
+      child: type == ContentType.memo ? SizedBox() : icon,
     );
   }
 
