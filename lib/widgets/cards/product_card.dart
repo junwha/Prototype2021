@@ -5,11 +5,11 @@ import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:prototype2021/widgets/shapes/tag.dart';
 
 class ProductCardBaseProps extends CardBaseProps {
-  final int period;
+  final DateTimeRange period;
   final int costStart;
   final int costEnd;
   final bool isGuide;
-  final double matchPercent;
+  final double? matchPercent;
   final List<String> tendencies;
 
   ProductCardBaseProps({
@@ -17,13 +17,13 @@ class ProductCardBaseProps extends CardBaseProps {
     required this.costStart,
     required this.costEnd,
     required this.isGuide,
-    required this.matchPercent,
     required this.tendencies,
-    required String preview,
     required String title,
-    required String place,
     required List<String> tags,
     required int id,
+    this.matchPercent,
+    String? preview,
+    String? place,
   }) : super(
           id: id,
           preview: preview,
@@ -83,12 +83,12 @@ class ProductCard extends StatelessWidget with CardBase {
     );
   }
 
-  Container buildEstimates(int period, int costStart, int costEnd) {
+  Container buildEstimates(DateTimeRange period, int costStart, int costEnd) {
     return Container(
       child: Column(
         children: [
           Text(
-            "기간: ${period.toString()}일",
+            "기간: ${period.end.difference(period.start).toString()}일",
             maxLines: 2,
             style: TextStyle(
               color: Color(0xff555555),

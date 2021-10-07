@@ -5,17 +5,17 @@ import 'package:prototype2021/widgets/buttons/heart_button.dart';
 
 class CardBaseProps implements CommonObject {
   final int id;
-  final String preview;
+  final String? preview;
   final String title;
   final String? place;
   final List<String> tags;
 
   CardBaseProps({
     required this.id,
-    required this.preview,
     required this.title,
     required this.tags,
     this.place,
+    this.preview,
   });
 }
 
@@ -27,8 +27,8 @@ class CardBase {
     required int userId,
     required HeartFor heartFor,
     bool isHeartSelected = false,
-    required String preview,
     required String token,
+    String? preview,
     Widget? footer,
     Widget? header,
   }) {
@@ -53,7 +53,7 @@ class CardBase {
               itemInfo,
               buildW(15 * pt),
               buildPreview(
-                preview,
+                preview ?? placeHolder,
                 isHeartSelected: isHeartSelected,
                 dataId: dataId,
                 userId: userId,

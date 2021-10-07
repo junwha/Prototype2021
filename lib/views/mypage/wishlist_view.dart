@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/views/board/base/board.dart';
 import 'package:provider/provider.dart';
@@ -14,7 +15,9 @@ class WishlistView extends StatefulWidget {
 class _WishlistViewState extends BoardState<WishlistView> {
   _WishlistViewState() : super();
 
-  // TODO: override getPlanData Appropriately
+  @override
+  PlanLoader planLoader =
+      new PlanLoader.withMode(mode: PlanLoaderMode.wishlist);
 
   @override
   Future<void> getContentsData([

@@ -17,7 +17,9 @@ mixin BoardHelpers {
               preview: placeHolder,
               title: "중국 도장깨기",
               place: '상하이(중국), 베이징(중국), 광저우(중국)',
-              period: 3,
+              period: DateTimeRange(
+                  start: DateTime.now().subtract(const Duration(days: 3)),
+                  end: DateTime.now()),
               costStart: 3,
               costEnd: 5,
               matchPercent: 34,

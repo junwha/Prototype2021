@@ -7,6 +7,7 @@ import 'package:prototype2021/model/board/plan/http/plan.dart';
 import 'package:prototype2021/model/board/wishlist/http/heart.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 
 enum PlanLoaderMode {
   board,
@@ -33,7 +34,7 @@ class PlanLoader {
   /// Plan List를 가져오는 로직, PaginationState.board, wishlist, mylist에서 사용가능하며,
   /// 각 인스턴스가 pagination 정보를 가지고 있어 재호출시 다음 페이지를 반환한다.
   /// pagination == PaginationState.end 일 경우 더 이상 페이지가 없음을 의미한다.
-  Future<List<PlanPreview>> getPlanList(String token) async {
+  Future<List<ProductCardBaseProps>> getPlanList(String token) async {
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -51,7 +52,19 @@ class PlanLoader {
         planListUrl = "";
         pagination = PaginationState.end;
       }
-      return result.data!.results;
+      return result.data!.results
+          .map<ProductCardBaseProps>((datum) => ProductCardBaseProps(
+                period: datum.period,
+                costStart: datum.expense,
+                costEnd: datum.expense,
+                isGuide: false,
+                tendencies: [],
+                preview: datum.photo,
+                title: datum.title,
+                tags: [],
+                id: datum.id,
+              ))
+          .toList();
     }
     throw HttpException(result.error?.message ?? "Unexpected error");
   }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
@@ -113,6 +114,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   late Stream<List<ContentsCardBaseProps>> contentsDataStream;
   late Stream<List<dynamic>> recentSearchesStream;
 
+  @defaultImplementation
+  PlanLoader planLoader = new PlanLoader.withMode(mode: PlanLoaderMode.board);
   ContentsLoader contentsLoader = new ContentsLoader();
 
   Future<void> callApi([
@@ -131,8 +134,11 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     bool reset = false,
   ]) async {
     try {
-      // Code below is just a simulation of api calls
-      planDataController.sink.add(await getPseudoPlanData());
+      UserInfoHandler model =
+          Provider.of<UserInfoHandler>(context, listen: false);
+      if (model.token != null) {
+        planDataController.sink.add(await planLoader.getPlanList(model.token!));
+      }
     } catch (error) {
       print(error);
       // error handle
