@@ -18,6 +18,7 @@ class _MainViewState extends State<MainView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Column(
         children: [
@@ -29,19 +30,42 @@ class _MainViewState extends State<MainView> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               buildIconButton("내주변여행", () {},
-                  Image.asset('assets/icons/ic_home_location_event.png')),
+                  Image.asset('assets/icons/ic_home_location_event.png'), 15),
               buildIconButton("마이플랜", () {},
-                  Image.asset('assets/icons/ic_home_myplan.png')),
+                  Image.asset('assets/icons/ic_home_myplan.png'), 15),
               buildIconButton("여행게시판", () {},
-                  Image.asset('assets/icons/ic_home_board.png')),
+                  Image.asset('assets/icons/ic_home_board.png'), 15),
               buildIconButton("마이프로필", () {},
-                  Image.asset('assets/icons/ic_home_myprofile.png')),
+                  Image.asset('assets/icons/ic_home_myprofile.png'), 15),
             ],
           ),
           SizedBox(
             height: 50,
           ),
           makeImage(BoxFit.fill),
+          Container(
+            height: 200,
+            width: double.infinity,
+            color: Color.fromRGBO(244, 244, 248, 1),
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Text(
+                "트립빌더 (Trip Builder)  |  대표 김명준\n사업자 등록번호 892-79-00273\n울산광역시 울주군 언양읍 유니스트길 50, 307동 1층 (UNISPARK)",
+                style: TextStyle(fontSize: 11),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  buildIconButton("", () {},
+                      Image.asset('assets/icons/ic_home_instagram.png'), 5),
+                  buildIconButton("", () {},
+                      Image.asset('assets/icons/ic_home_blog.png'), 5),
+                  buildIconButton("", () {},
+                      Image.asset('assets/icons/ic_home_facebook.png'), 5),
+                ],
+              )
+            ]),
+          ),
         ],
       )),
     );
@@ -83,9 +107,10 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Padding buildIconButton(String text, Function()? onpressed, Image image) {
+  Padding buildIconButton(
+      String text, Function()? onpressed, Image image, double padding) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: EdgeInsets.all(padding),
       child: Column(
         children: [
           IconButton(
@@ -99,16 +124,13 @@ class _MainViewState extends State<MainView> {
   }
 
   Widget makeImage(BoxFit option) {
-    return Stack(children: [
-      Container(
-        child: Image.asset('assets/icons/img_home_dogimage.png',
-            width: 340, height: 330, fit: option),
-        padding: EdgeInsets.only(
-          left: 60,
-          right: 0,
-        ),
+    return Container(
+      child: Image.asset('assets/icons/img_home_dogimage.png',
+          width: 340, height: 330, fit: option),
+      padding: EdgeInsets.only(
+        left: 50,
+        right: 0,
       ),
-      Text("data")
-    ]);
+    );
   }
 }
