@@ -10,8 +10,6 @@ import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 
-const String contentsListUrlDefault = "$apiBaseUrl/contents/";
-
 class ContentsLoader {
   PaginationState pagination = PaginationState.start;
 
@@ -75,6 +73,51 @@ class ContentsLoader {
     throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
+  Future<List<ContentsCardBaseProps>> getContentsWishList({
+    String token = "",
+    ContentType? type,
+    bool reset = false,
+  }) async {
+    if (reset) {
+      pagination = PaginationState.start;
+      contentsListUrl = contentsWishlistUrlDefault;
+    }
+    if (pagination == PaginationState.end) {
+      return [];
+    }
+    ContentsWishlistInput params = new ContentsWishlistInput();
+    SafeQueryInput<ContentsWishlistInput> dto = new SafeQueryInput(
+      url: contentsListUrl,
+      params: params,
+      token: token,
+      queryStringAppendMode: pagination == PaginationState.start ? false : true,
+    );
+    SafeQueryOutput<ContentsWishlistOutput> result =
+        await contentsWishlist(dto);
+    if (result.success && result.data?.results != null) {
+      if (result.data!.next == null) {
+        pagination = PaginationState.end;
+        contentsListUrl = "";
+      } else {
+        contentsListUrl = result.data!.next!
+            .replaceFirst("tbserver:8000", "api.tripbuilder.co.kr");
+        pagination = PaginationState.mid;
+      }
+      return result.data!.results
+          .map<ContentsCardBaseProps>((datum) => ContentsCardBaseProps(
+                id: datum.id,
+                title: datum.title,
+                explanation: datum.overview,
+                preview: datum.thumbnail,
+                heartCount: datum.heartNo,
+                place: datum.address,
+                hearted: datum.hearted,
+              ))
+          .toList();
+    }
+    throw HttpException(result.error?.message ?? "Unexpected error");
+  }
+
   Future<ContentsDetail> getContentDetail(int id, String token) async {
     ContentsDetailInput params = new ContentsDetailInput(id: id);
     SafeQueryInput<ContentsDetailInput> dto = new SafeQueryInput(
@@ -108,6 +151,8 @@ class ContentsLoader {
 
   String contentsHeartUrl = "$apiBaseUrl/contents/:id/like/";
   String contentsListUrl = "$apiBaseUrl/contents/";
+  String contentsListUrlDefault = "$apiBaseUrl/contents/";
   String contentsWishlistUrl = "$apiBaseUrl/contents/wishlist/";
+  String contentsWishlistUrlDefault = "$apiBaseUrl/contents/wishlist/";
   String contentsDetailUrl = "$apiBaseUrl/contents/:id/";
 }

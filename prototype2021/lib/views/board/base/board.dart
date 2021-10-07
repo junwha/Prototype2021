@@ -174,8 +174,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     loadSearchKeywords();
   }
 
-  @needsImplement
-  Future<void> initData();
+  @defaultImplementation
+  Future<void> initData() async => await callApi(searchInput);
 
   void handleModeChange(BoardMode _viewMode) {
     if (_viewMode == BoardMode.search) {
@@ -223,11 +223,11 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
 
   @override
   void dispose() {
-    super.dispose();
     textEditingController.dispose();
     recentSearchController.close();
     planDataController.close();
     contentsDataController.close();
+    super.dispose();
   }
 
   /* =================================/================================= */

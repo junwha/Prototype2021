@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/views/board/base/board.dart';
 import 'package:prototype2021/views/board/base/mixin/app_bar_text_button.dart';
+import 'package:prototype2021/views/mypage/wishlist_view.dart';
 
 class BoardMainView extends StatefulWidget {
   const BoardMainView({Key? key}) : super(key: key);
@@ -19,9 +20,6 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
-
-  @override
-  Future<void> initData() async => await callApi(searchInput);
 
   @override
   void onBackButtonPressed() {
@@ -93,11 +91,14 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
   List<Widget> buildActions() {
     List<Widget> actions = [
       TBAppBarTextButton(
-          onPressed: () => setViewMode(BoardMode.search),
+          onPressed: () => updateViewMode(BoardMode.search),
           icon: Image.asset("assets/icons/ic_main_search.png"),
           text: "검색"),
       TBAppBarTextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.push(
+                context, MaterialPageRoute(builder: (_) => WishlistView()));
+          },
           icon: Image.asset("assets/icons/ic_main_heart_default.png"),
           text: "찜목록"),
       TBAppBarTextButton(
@@ -150,7 +151,9 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
   Container? buildBottomNavigationBar() {
     if (viewMode == BoardMode.search) {
       return Container(
-        child: buildResetSearchesButton(onPressed: onResetButtonPressed),
+        child: SafeArea(
+          child: buildResetSearchesButton(onPressed: onResetButtonPressed),
+        ),
       );
     } else {
       return null;
