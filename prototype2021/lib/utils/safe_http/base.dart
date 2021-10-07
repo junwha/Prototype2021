@@ -168,7 +168,11 @@ class SafeQueryInput<T extends SafeHttpDataInput> extends SafeHttpInput {
   Uri getUrlWithParams() {
     String queryString = "";
     if (params?.toJson() != null) {
-      if (!queryStringAppendMode) queryString += "?";
+      if (queryStringAppendMode) {
+        queryString += "&";
+      } else {
+        queryString += "?";
+      }
       params!.toJson()!.forEach((key, value) {
         if (value != null) {
           queryString += "$key=$value&";

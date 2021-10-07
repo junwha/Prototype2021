@@ -58,7 +58,7 @@ class PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
 
   @override
   Future<void> initData() async =>
-      await getContentsData(searchInput, currentFilter);
+      await getContentsData(searchInput, currentFilter, true);
 
   @override
   void onBackButtonPressed() {
@@ -208,7 +208,8 @@ class PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: () => getContentsData(searchInput, currentFilter),
+        onActionPressed: () =>
+            getContentsData(searchInput, currentFilter, true),
       ),
     );
   }

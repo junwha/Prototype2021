@@ -95,9 +95,12 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       });
 
   ContentType currentFilter = ContentType.unknown;
-  void setCurrentFilter(ContentType newFilter) => setState(() {
-        currentFilter = newFilter;
-      });
+  void setCurrentFilter(ContentType newFilter) {
+    setState(() {
+      currentFilter = newFilter;
+    });
+    callApi(searchInput, newFilter, true);
+  }
 
   // The types inside Lists are temporary implementation.
   // If needed, this types can be changed.
@@ -115,15 +118,17 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   Future<void> callApi([
     String? keyword,
     ContentType? type,
+    bool reset = false,
   ]) async {
-    getPlanData(keyword, type);
-    getContentsData(keyword, type);
+    getPlanData(keyword, type, reset);
+    getContentsData(keyword, type, reset);
   }
 
   @defaultImplementation
   Future<void> getPlanData([
     String? keyword,
     ContentType? type,
+    bool reset = false,
   ]) async {
     try {
       // Code below is just a simulation of api calls
@@ -138,15 +143,17 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   Future<void> getContentsData([
     String? keyword,
     ContentType? type,
+    bool reset = false,
   ]) async {
     try {
       UserInfoHandler model =
           Provider.of<UserInfoHandler>(context, listen: false);
       if (model.token != null) {
         contentsDataController.sink.add(await contentsLoader.getContentsList(
-          model.token!,
-          keyword != null && keyword.length > 0 ? keyword : null,
-          type,
+          token: model.token!,
+          keyword: keyword != null && keyword.length > 0 ? keyword : null,
+          type: type,
+          reset: reset,
         ));
       }
     } catch (error) {
@@ -176,7 +183,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       print('onSearch');
       textEditingController.text = "";
     } else {
-      callApi(searchInput, currentFilter);
+      callApi(searchInput, currentFilter, true);
     }
   }
 
@@ -338,7 +345,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: () => getPlanData(searchInput, currentFilter),
+        onActionPressed: () => getPlanData(searchInput, currentFilter, true),
       ),
     );
   }
@@ -355,7 +362,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
         actionText: "다시 시도",
-        onActionPressed: () => getContentsData(searchInput, currentFilter),
+        onActionPressed: () =>
+            getContentsData(searchInput, currentFilter, true),
       ),
     );
   }

@@ -10,6 +10,8 @@ import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 
+const String contentsListUrlDefault = "$apiBaseUrl/contents/";
+
 class ContentsLoader {
   PaginationState pagination = PaginationState.start;
 
@@ -27,11 +29,16 @@ class ContentsLoader {
       throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
-  Future<List<ContentsCardBaseProps>> getContentsList(
-    String token, [
+  Future<List<ContentsCardBaseProps>> getContentsList({
+    String token = "",
     String? keyword,
     ContentType? type,
-  ]) async {
+    bool reset = false,
+  }) async {
+    if (reset) {
+      pagination = PaginationState.start;
+      contentsListUrl = contentsListUrlDefault;
+    }
     if (pagination == PaginationState.end) {
       return [];
     }
