@@ -116,21 +116,30 @@ class _EditorViewState extends State<EditorView> {
         buildCheckBox(editorModel),
         buildDropdown(editorModel),
         buildDateSelect(editorModel, context),
-        editorModel.location == null
+        ((articleType[0] && editorModel.location == null) || articleType[1])
             ? buildSelect(editorModel)
-            : GestureDetector(
-                child: MapPreview(location: editorModel.location!),
-                onTap: () {
-                  loadLocation(editorModel);
-                },
-              ),
+            : buildPreview(editorModel),
         SizedBox(height: 20),
-        editorModel.location == null &&
-                editorModel.location is GooglePlaceLocation
-            ? SizedBox()
-            : buildContentsCard(editorModel.location),
+        buildCard(editorModel)
       ],
     );
+  }
+
+  Widget buildCard(EditorHandler editorModel) {
+    return (articleType[0] && editorModel.location == null || articleType[1])
+        ? SizedBox()
+        : buildContentsCard(editorModel.location);
+  }
+
+  Widget buildPreview(EditorHandler editorModel) {
+    return articleType[0]
+        ? GestureDetector(
+            child: MapPreview(location: editorModel.location!),
+            onTap: () {
+              loadLocation(editorModel);
+            },
+          )
+        : SizedBox();
   }
 
   Widget buildDropdown(EditorHandler editorModel) {
