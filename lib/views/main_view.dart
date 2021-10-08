@@ -48,7 +48,7 @@ class _MainViewState extends State<MainView> {
             height: 50,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
             child:
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Image.asset('assets/icons/ic_filter_minus_black.png'),
@@ -67,6 +67,9 @@ class _MainViewState extends State<MainView> {
               ),
             ]),
           ),
+          Container(
+              width: double.infinity,
+              child: Image.asset('assets/icons/img_home_adbanner.png')),
           Container(
             height: 200,
             width: double.infinity,
