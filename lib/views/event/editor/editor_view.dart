@@ -8,6 +8,7 @@ import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/views/event/editor/mixin/event_custom_text_field.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_preview.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
@@ -126,10 +127,10 @@ class _EditorViewState extends State<EditorView> {
   }
 
   Widget buildCard(EditorHandler editorModel) {
-    return (articleType == ArticleType.EVENT && editorModel.location == null ||
-            articleType == ArticleType.COMPANION)
+    return (articleType == ArticleType.EVENT && editorModel.location == null) ||
+            (articleType == ArticleType.COMPANION && editorModel.pid == null)
         ? SizedBox()
-        : buildContentsCard(editorModel.location);
+        : buildContentsCard(editorModel);
   }
 
   Widget buildPreview(EditorHandler editorModel) {
@@ -433,22 +434,36 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildContentsCard(Location? targetLocation) {
-    if (targetLocation is GooglePlaceLocation) {
-      GooglePlaceLocation location = targetLocation;
+  Widget buildContentsCard(EditorHandler editorModel) {
+    if (articleType == ArticleType.EVENT) {
+      GooglePlaceLocation location =
+          editorModel.location as GooglePlaceLocation;
       return ContentsCard.fromProps(
           props: new ContentsCardBaseProps(
         hearted: false,
-        heartCount: 3,
         id: 0,
         preview: location.preview,
         title: location.name,
-        place: "TEMP",
-        explanation: "TEMP",
-        tags: ["asdf"],
+        explanation: location.description ?? "",
+        tags: [],
         margin: const EdgeInsets.symmetric(vertical: 0),
       ));
     }
+    // } else {
+    //   return ProductCard.fromProps(
+    //       props: ProductCardBaseProps(
+    //           period: period,
+    //           costStart: costStart,
+    //           costEnd: costEnd,
+    //           isGuide: isGuide,
+    //           matchPercent: matchPercent,
+    //           tendencies: tendencies,
+    //           preview: preview,
+    //           title: title,
+    //           place: place,
+    //           tags: tags,
+    //           id: id));
+    // }
     return SizedBox();
   }
 
