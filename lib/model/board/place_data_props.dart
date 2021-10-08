@@ -60,7 +60,7 @@ class PlaceDataProps extends PlaceDataInterface {
           types: PlaceType.DEFAULT,
           memo: "",
           contentType: source.typeId,
-          location: LatLng(0, 0), // Temporal set
+          location: LatLng(source.lat, source.lng),
           name: source.title,
           id: source.id,
           rating: source.rating,

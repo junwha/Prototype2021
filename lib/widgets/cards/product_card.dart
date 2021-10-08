@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/props/card_base.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:prototype2021/widgets/shapes/tag.dart';
+import 'package:provider/provider.dart';
 
 class ProductCardBaseProps extends CardBaseProps {
   final DateTimeRange period;
@@ -11,6 +13,7 @@ class ProductCardBaseProps extends CardBaseProps {
   final bool isGuide;
   final double? matchPercent;
   final List<String> tendencies;
+  final bool hearted;
 
   ProductCardBaseProps({
     required this.period,
@@ -18,6 +21,7 @@ class ProductCardBaseProps extends CardBaseProps {
     required this.costEnd,
     required this.isGuide,
     required this.tendencies,
+    required this.hearted,
     required String title,
     required List<String> tags,
     required int id,
@@ -41,16 +45,16 @@ class ProductCard extends StatelessWidget with CardBase {
 
   @override
   Widget build(BuildContext context) {
+    UserInfoHandler handler = Provider.of<UserInfoHandler>(context);
     return buildCard(
       itemInfo: buildProductCardInfo(),
       backgroundColor: Colors.white,
       preview: props.preview,
       heartFor: HeartFor.planCard,
-      userId: 1, // PLEASE INPUT REAL USERID HERE
-      dataId: 1, // PLEASE INPUT REAL DATAID HERE
-      isHeartSelected:
-          false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
-      token: "some token", // PLEASE INPUT REAL token HERE
+      userId: handler.userId ?? -1,
+      dataId: props.id,
+      isHeartSelected: props.hearted,
+      token: handler.token ?? "",
     );
   }
 
@@ -88,7 +92,7 @@ class ProductCard extends StatelessWidget with CardBase {
       child: Column(
         children: [
           Text(
-            "기간: ${period.end.difference(period.start).toString()}일",
+            "기간: ${period.end.difference(period.start).inDays.toString()}일",
             maxLines: 2,
             style: TextStyle(
               color: Color(0xff555555),
@@ -98,7 +102,7 @@ class ProductCard extends StatelessWidget with CardBase {
           ),
           SizedBox(height: 4 * pt),
           Text(
-            '예산: ${costStart.toString()}~${costEnd.toString()}만원',
+            '예산: $costStart만원',
             maxLines: 2,
             style: TextStyle(
               color: Color(0xff555555),

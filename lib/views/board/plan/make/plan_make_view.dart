@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/save/planMake.saved.0_view.dart';
@@ -52,12 +53,13 @@ class PlanMakeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime now = new DateTime.now();
+    UserInfoHandler handler = Provider.of<UserInfoHandler>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<PlanMakeHandler>(
             create: (_) => PlanMakeHandler(now: now)),
         ChangeNotifierProvider<PlanMapHandler>(
-            create: (_) => PlanMapHandler(LatLng(0, 0))),
+            create: (_) => PlanMapHandler(handler.currentLocation)),
       ],
       child: _PlanMakeViewContent(),
     );

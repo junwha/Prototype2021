@@ -61,8 +61,9 @@ class PlanLoader {
                 tendencies: [],
                 preview: datum.photo,
                 title: datum.title,
-                tags: [],
+                tags: datum.types,
                 id: datum.id,
+                hearted: datum.hearted ?? false,
               ))
           .toList();
     }
@@ -120,15 +121,16 @@ class PlanLoader {
   // Fetching Functions
   Future<SafeMutationOutput<PlanHeartOutput>> planHeart(
           SafeMutationInput<PlanHeartInput> dto) async =>
-      await safePatch<PlanHeartInput, PlanHeartOutput>(dto);
+      await safePatch<PlanHeartInput, PlanHeartOutput>(
+          dto, null); // null stands that any status code is okay
 
   Future<SafeQueryOutput<PlanListOutput>> planList(
           SafeQueryInput<PlanListInput> dto) async =>
-      await safeGET<PlanListInput, PlanListOutput>(dto);
+      await safeGET<PlanListInput, PlanListOutput>(dto, 200, true);
 
   Future<SafeQueryOutput<PlanDetailOutput>> planDetail(
           SafeQueryInput<PlanIdInput> dto) async =>
-      await safeGET<PlanIdInput, PlanDetailOutput>(dto);
+      await safeGET<PlanIdInput, PlanDetailOutput>(dto, 200, true);
   Future<SafeQueryOutput<PlanDeleteOutput>> planDelete(
           SafeQueryInput<PlanIdInput> dto) async =>
       await safeDELETE<PlanIdInput, PlanDeleteOutput>(dto);
@@ -141,10 +143,10 @@ class PlanLoader {
       await safePatch(dto);
 
   // Endpoints
-  final String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
-  final String planGeneralUrl = "$apiBaseUrl/plans";
+  final String planHeartUrl = "$apiBaseUrl/plans/:planId/like/";
+  final String planGeneralUrl = "$apiBaseUrl/plans/";
   String planListUrl = "";
-  final String planIdUrl = "$apiBaseUrl/plans/:id";
+  final String planIdUrl = "$apiBaseUrl/plans/:id/";
 
   /// Pagination을 위한 인스턴스 생성 지원
   /// PlanLoaderMode.board: 게시판 목록 Pagination
@@ -152,7 +154,7 @@ class PlanLoader {
   /// PlanLoaderMode.mylist: 내가 쓴 플랜 Pagination
   PlanLoader.withMode({required PlanLoaderMode mode}) {
     if (mode == PlanLoaderMode.board) {
-      planListUrl = "$apiBaseUrl/plans";
+      planListUrl = "$apiBaseUrl/plans/";
     } else if (mode == PlanLoaderMode.mylist) {
       planListUrl = "$apiBaseUrl/plans/mylist/";
     } else if (mode == PlanLoaderMode.wishlist) {

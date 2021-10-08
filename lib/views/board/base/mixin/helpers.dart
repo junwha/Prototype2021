@@ -23,6 +23,7 @@ mixin BoardHelpers {
               costStart: 3,
               costEnd: 5,
               matchPercent: 34,
+              hearted: false,
               tags: ["액티비티", "관광명소", "인생사진"],
               tendencies: [],
               isGuide: index % 2 == 0,

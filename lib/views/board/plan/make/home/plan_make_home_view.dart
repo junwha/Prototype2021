@@ -235,20 +235,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
+
     return Container(
       child: Column(
         children: [
-          Container(
-            height: 50,
-          ),
-          Container(
-            height: isMapEnabled ? 200 : 0,
-            child: Consumer(
-              builder: (BuildContext context, PlanMapHandler model, Widget? _) {
-                return model.mapLoaded ? PlanMap() : SizedBox();
-              },
-            ),
-          ),
+          Container(height: 50), // Top placeholder
+          buildPlanMap(),
           buildPlanListItemsHeader(mode, _setMode,
               _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
           buildTopShadowHidingContainer(_blindContainerColor),
@@ -262,6 +254,14 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
       width: MediaQuery.of(context).size.width,
       constraints:
           BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+    );
+  }
+
+  Container buildPlanMap() {
+    PlanMapHandler handler = Provider.of<PlanMapHandler>(context);
+    return Container(
+      height: isMapEnabled ? 200 : 0,
+      child: handler.mapLoaded ? PlanMap() : SizedBox(),
     );
   }
 
@@ -307,12 +307,5 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
       ),
       decoration: BoxDecoration(color: Colors.white),
     );
-  }
-}
-
-class PseudoMap extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("asddf");
   }
 }
