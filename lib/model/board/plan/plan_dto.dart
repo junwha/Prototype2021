@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
-import 'package:prototype2021/loader/event/article_loader.dart';
-import 'package:prototype2021/loader/board/contents_loader.dart';
-import 'package:prototype2021/model/board/contents/content_preview.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
 
 const Map<int, String> expenseCodeToString = {
@@ -81,7 +78,7 @@ class PlanDetail extends PlanProps {
                 .toList())
             .toList(),
         userData = UserData(json["user"]["id"], json["user"]["name"],
-            nullable<String>(json["user"]["photo"])), // TODO: 유저 모델 수정 필요
+            nullable<String>(json["user"]["photo"])), 
         super.fromJson(json: json);
 }
 

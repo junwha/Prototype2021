@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
-import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/handler/event/editor_handler.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
@@ -118,7 +117,6 @@ class _EditorViewState extends State<EditorView> {
         buildCheckBox(editorModel),
         buildDropdown(editorModel),
         buildDateSelect(editorModel, context),
-        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
         editorModel.location == null
             ? buildLocationSelect(editorModel)
             : GestureDetector(
@@ -423,7 +421,7 @@ class _EditorViewState extends State<EditorView> {
 
   Widget buildContentsCard(Location? targetLocation) {
     if (targetLocation is GooglePlaceLocation) {
-      GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
+      GooglePlaceLocation location = targetLocation;
       return ContentsCard.fromProps(
           props: new ContentsCardBaseProps(
         hearted: false,

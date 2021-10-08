@@ -33,7 +33,7 @@ class _EventMainViewState extends State<EventMainView>
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
   ];
   int _pageIndex = 0;
-  double image_index = 0;
+  double imageIndex = 0;
   bool isAllList = false;
 
   // Event/Companion Filters
@@ -150,7 +150,7 @@ class _EventMainViewState extends State<EventMainView>
             options: CarouselOptions(
               onPageChanged: (i, reason) {
                 setState(() {
-                  image_index = i.toDouble();
+                  imageIndex = i.toDouble();
                 });
               },
               height: 200,
@@ -172,7 +172,7 @@ class _EventMainViewState extends State<EventMainView>
             }).toList()),
         DotsIndicator(
           dotsCount: images.length,
-          position: image_index,
+          position: imageIndex,
         )
       ],
     );

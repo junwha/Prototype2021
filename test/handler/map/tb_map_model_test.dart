@@ -1,8 +1,5 @@
-import 'dart:math';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';

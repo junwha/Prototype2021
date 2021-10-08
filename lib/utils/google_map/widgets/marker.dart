@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 
 class MarkerList {
-  //TODO(junwha): generalize with CID and EID
-
   Map<Location, Marker> markers = <Location, Marker>{}; //Fields for Markers
   Location? focusedLocation;
 
@@ -64,18 +62,8 @@ class MarkerList {
   */
   void addMarker(Location location,
       {bool clickable = true, BitmapDescriptor? externalMarkerIcon}) {
-    final int markerCount = markers.length;
-
-    //Set maximum of marker
-    // if (markerCount == 12) {
-    //   return;
-    // }
 
     final MarkerId markerId = MarkerId(location.name);
-    //marker ID
-    // final String markerIdVal = 'marker_id_$_markerIdCounter';
-    // _markerIdCounter++;
-    // final MarkerId markerId = MarkerId(markerIdVal);
 
     BitmapDescriptor markerIcon =
         externalMarkerIcon ?? markerIconMap[PlaceType.DEFAULT]!;

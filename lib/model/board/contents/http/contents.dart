@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/model/board/contents/content_preview.dart';

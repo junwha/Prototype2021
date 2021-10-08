@@ -2,8 +2,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
-import 'package:prototype2021/views/event/loader/article_loader.dart';
-import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 

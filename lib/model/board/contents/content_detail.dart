@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:prototype2021/model/board/contents/content_preview.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
