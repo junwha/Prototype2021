@@ -25,5 +25,16 @@ class PaginationOutput extends SafeHttpDataOutput {
 }
 
 T? nullable<T>(T? value) => value == null ? null : value as T;
+
 List<T> dynamicListToTList<T>(List<dynamic> list) =>
     list.map<T>((element) => element as T).toList();
+
+double? safelyParseDouble(String? source) {
+  if (source == null) return null;
+  return double.parse(source);
+}
+
+int? safelyParseInt(String? source) {
+  if (source == null) return null;
+  return int.parse(source);
+}

@@ -26,8 +26,10 @@ class ContentsDetail extends ContentPreview {
   ContentsDetail.fromJson({required Map<String, dynamic> json})
       : typeId = idContentType[nullable<int>(json["typeid"]) ?? -1] ??
             ContentType.unknown,
-        lat = json["gps-latitude"] as double,
-        lng = json["gps-longitude"] as double,
+        lat = safelyParseDouble(
+            json["gps_latitude"] as String)!, // Assume as required
+        lng = safelyParseDouble(
+            json["gps_longitude"] as String)!, // Assume as required
         zipCode = nullable<String>(json["zipcode"]),
         homePage = nullable<String>(json["homepage"]),
         tel = nullable<String>(json["tel"]),
