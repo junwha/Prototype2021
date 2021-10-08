@@ -1,19 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/utils/simple_storage/simple_storage.dart';
 
 class UserInfoHandler with ChangeNotifier {
-  Future<void> getCurrentLocation() async {
-    Geolocator.getCurrentPosition()
-        .then((position) => LatLng(position.latitude, position.longitude));
-  }
-
-  UserInfoHandler() {
-    getCurrentLocation();
-  }
-
-  LatLng _currentLocation = LatLng(37.5642135, 127.0016985);
   String? _jwtToken;
   int? _userId;
 
@@ -22,9 +10,6 @@ class UserInfoHandler with ChangeNotifier {
 
   /// 유저의 ID
   int? get userId => _userId;
-
-  /// 유저의 현재 위치. 로딩 되지 않았을 때 default는 서울
-  LatLng get currentLocation => _currentLocation;
 
   /// token Setter
   void setToken(String? jwtToken) {
@@ -35,12 +20,6 @@ class UserInfoHandler with ChangeNotifier {
   /// userId Setter
   void setId(int? id) {
     _userId = id;
-    notifyListeners();
-  }
-
-  /// currentLocation Setter
-  void setCurrentLocation(LatLng location) {
-    _currentLocation = location;
     notifyListeners();
   }
 

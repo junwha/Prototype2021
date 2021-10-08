@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
@@ -53,13 +54,13 @@ class PlanMakeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     DateTime now = new DateTime.now();
-    UserInfoHandler handler = Provider.of<UserInfoHandler>(context);
     return MultiProvider(
       providers: [
         ChangeNotifierProvider<PlanMakeHandler>(
             create: (_) => PlanMakeHandler(now: now)),
         ChangeNotifierProvider<PlanMapHandler>(
-            create: (_) => PlanMapHandler(handler.currentLocation)),
+            create: (_) => PlanMapHandler(
+                LatLng(37.5642135, 127.0016985))), // default (Seoul)
       ],
       child: _PlanMakeViewContent(),
     );
@@ -141,6 +142,11 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
 
   @override
   Widget build(BuildContext context) {
+    PlanMapHandler mapHandler = Provider.of<PlanMapHandler>(context);
+    WidgetsBinding.instance?.addPostFrameCallback((_) async {
+      Position position = await Geolocator.getCurrentPosition();
+      mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
+    });
     return buildPage();
   }
 
