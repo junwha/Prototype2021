@@ -46,6 +46,7 @@ class _MainViewState extends State<MainView> {
           SizedBox(
             height: 50,
           ),
+          Image.asset('assets/icons/ic_filter_minus_black.png'),
           Container(
             height: 200,
             width: double.infinity,
@@ -66,7 +67,7 @@ class _MainViewState extends State<MainView> {
                   buildIconButton("", () {},
                       Image.asset('assets/icons/ic_home_facebook.png'), 5),
                 ],
-              )
+              ),
             ]),
           ),
         ],
