@@ -319,9 +319,9 @@ class _EventMainViewState extends State<EventMainView>
             "assets/icons/person_icon.png",
           ),
         ),
-        IconButton(
-            onPressed: () {},
-            icon: Image.asset("assets/icons/notic_pointed.png")),
+        // IconButton( // TODO: 알림 구현 후 활성화 (아이콘 수정 필요)
+        //     onPressed: () {},
+        //     icon: Image.asset("assets/icons/notic_pointed.png")),
       ],
     );
   }
