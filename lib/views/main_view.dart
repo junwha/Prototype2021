@@ -21,6 +21,7 @@ class _MainViewState extends State<MainView> {
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
           child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           buildImageArea(),
           SizedBox(
@@ -46,7 +47,26 @@ class _MainViewState extends State<MainView> {
           SizedBox(
             height: 50,
           ),
-          Image.asset('assets/icons/ic_filter_minus_black.png'),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 0, 0, 0),
+            child:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Image.asset('assets/icons/ic_filter_minus_black.png'),
+              SizedBox(
+                height: 10,
+              ),
+
+              Text(
+                "주목! 인플루언서 여행 플랜\n체험하고 싶다면?",
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+
+              // TO DO : 인플루언서 여행 플랜 카드 슬라이더 구현
+              SizedBox(
+                height: 50,
+              ),
+            ]),
+          ),
           Container(
             height: 200,
             width: double.infinity,
