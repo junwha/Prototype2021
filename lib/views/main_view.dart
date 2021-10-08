@@ -27,19 +27,7 @@ class _MainViewState extends State<MainView> {
           SizedBox(
             height: 40,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              buildIconButton("내주변여행", () {},
-                  Image.asset('assets/icons/ic_home_location_event.png'), 15),
-              buildIconButton("마이플랜", () {},
-                  Image.asset('assets/icons/ic_home_myplan.png'), 15),
-              buildIconButton("여행게시판", () {},
-                  Image.asset('assets/icons/ic_home_board.png'), 15),
-              buildIconButton("마이프로필", () {},
-                  Image.asset('assets/icons/ic_home_myprofile.png'), 15),
-            ],
-          ),
+          buildIconButtonArea(),
           SizedBox(
             height: 50,
           ),
@@ -47,52 +35,21 @@ class _MainViewState extends State<MainView> {
           SizedBox(
             height: 50,
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
-            child:
-                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-              Image.asset('assets/icons/ic_filter_minus_black.png'),
-              SizedBox(
-                height: 10,
-              ),
-
-              Text(
-                "주목! 인플루언서 여행 플랜\n체험하고 싶다면?",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-              ),
-
-              // TO DO : 인플루언서 여행 플랜 카드 슬라이더 구현
-              SizedBox(
-                height: 50,
-              ),
-            ]),
+          buildPlanRecommendation("주목! 인플루언서 여행 플랜\n체험하고 싶다면?", SizedBox()),
+          SizedBox(
+            height: 40,
           ),
           Container(
               width: double.infinity,
               child: Image.asset('assets/icons/img_home_adbanner.png')),
-          Container(
-            height: 200,
-            width: double.infinity,
-            color: Color.fromRGBO(244, 244, 248, 1),
-            child:
-                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-              Text(
-                "트립빌더 (Trip Builder)  |  대표 김명준\n사업자 등록번호 892-79-00273\n울산광역시 울주군 언양읍 유니스트길 50, 307동 1층 (UNISPARK)",
-                style: TextStyle(fontSize: 11),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  buildIconButton("", () {},
-                      Image.asset('assets/icons/ic_home_instagram.png'), 5),
-                  buildIconButton("", () {},
-                      Image.asset('assets/icons/ic_home_blog.png'), 5),
-                  buildIconButton("", () {},
-                      Image.asset('assets/icons/ic_home_facebook.png'), 5),
-                ],
-              ),
-            ]),
+          SizedBox(
+            height: 50,
           ),
+          buildPlanRecommendation("가이드 단체 수십명이 떠난\n바로 그 플랜", SizedBox()),
+          SizedBox(
+            height: 40,
+          ),
+          buildBottomArea()
         ],
       )),
     );
@@ -158,6 +115,67 @@ class _MainViewState extends State<MainView> {
         left: 50,
         right: 0,
       ),
+    );
+  }
+
+  Row buildIconButtonArea() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        buildIconButton("내주변여행", () {},
+            Image.asset('assets/icons/ic_home_location_event.png'), 15),
+        buildIconButton(
+            "마이플랜", () {}, Image.asset('assets/icons/ic_home_myplan.png'), 15),
+        buildIconButton(
+            "여행게시판", () {}, Image.asset('assets/icons/ic_home_board.png'), 15),
+        buildIconButton("마이프로필", () {},
+            Image.asset('assets/icons/ic_home_myprofile.png'), 15),
+      ],
+    );
+  }
+
+  Padding buildPlanRecommendation(String title, Widget widget) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(50, 0, 0, 0),
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Image.asset('assets/icons/ic_home_section.png'),
+        SizedBox(
+          height: 10,
+        ),
+
+        Text(
+          title,
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+
+        // TO DO : 인플루언서 여행 플랜 카드 슬라이더 구현
+        widget
+      ]),
+    );
+  }
+
+  Container buildBottomArea() {
+    return Container(
+      height: 200,
+      width: double.infinity,
+      color: Color.fromRGBO(244, 244, 248, 1),
+      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(
+          "트립빌더 (Trip Builder)  |  대표 김명준\n사업자 등록번호 892-79-00273\n울산광역시 울주군 언양읍 유니스트길 50, 307동 1층 (UNISPARK)",
+          style: TextStyle(fontSize: 11),
+        ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            buildIconButton("", () {},
+                Image.asset('assets/icons/ic_home_instagram.png'), 5),
+            buildIconButton(
+                "", () {}, Image.asset('assets/icons/ic_home_blog.png'), 5),
+            buildIconButton(
+                "", () {}, Image.asset('assets/icons/ic_home_facebook.png'), 5),
+          ],
+        ),
+      ]),
     );
   }
 }
