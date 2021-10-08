@@ -30,10 +30,9 @@ class EditorView extends StatefulWidget {
 }
 
 class _EditorViewState extends State<EditorView> {
-  List<bool> articleType = [
-    true,
-    false
-  ]; //initialize state as 내 주변 이벤트 [내 주변 이벤트, 동행찾기]
+  ArticleType articleType = ArticleType.EVENT;
+
+  //initialize state as 내 주변 이벤트 [내 주변 이벤트, 동행찾기]
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
   TextEditingController controlofoto = TextEditingController();
@@ -116,7 +115,8 @@ class _EditorViewState extends State<EditorView> {
         buildCheckBox(editorModel),
         buildDropdown(editorModel),
         buildDateSelect(editorModel, context),
-        ((articleType[0] && editorModel.location == null) || articleType[1])
+        ((articleType == ArticleType.EVENT && editorModel.location == null) ||
+                articleType == ArticleType.COMPANION)
             ? buildSelect(editorModel)
             : buildPreview(editorModel),
         SizedBox(height: 20),
@@ -126,13 +126,14 @@ class _EditorViewState extends State<EditorView> {
   }
 
   Widget buildCard(EditorHandler editorModel) {
-    return (articleType[0] && editorModel.location == null || articleType[1])
+    return (articleType == ArticleType.EVENT && editorModel.location == null ||
+            articleType == ArticleType.COMPANION)
         ? SizedBox()
         : buildContentsCard(editorModel.location);
   }
 
   Widget buildPreview(EditorHandler editorModel) {
-    return articleType[0]
+    return articleType == ArticleType.EVENT
         ? GestureDetector(
             child: MapPreview(location: editorModel.location!),
             onTap: () {
@@ -351,13 +352,15 @@ class _EditorViewState extends State<EditorView> {
 
   TextButton buildSelect(EditorHandler editorModel) {
     return TextButton(
-        child: Text(articleType[0] ? "지도 선택하기" : "플랜 선택하기",
+        child: Text(articleType == ArticleType.EVENT ? "지도 선택하기" : "플랜 선택하기",
             style: TextStyle(
                 color: Color.fromRGBO(112, 112, 112, 1),
                 fontSize: 13 * pt,
                 fontWeight: FontWeight.bold)),
         onPressed: () {
-          articleType[0] ? loadLocation(editorModel) : loadPlan(editorModel);
+          articleType == ArticleType.EVENT
+              ? loadLocation(editorModel)
+              : loadPlan(editorModel);
         });
   }
 
@@ -455,24 +458,22 @@ class _EditorViewState extends State<EditorView> {
         children: [
           TBSelectableTextButton(
               titleName: "내 주변 이벤트",
-              isChecked: articleType[0],
+              isChecked: articleType == ArticleType.EVENT,
               onPressed: () {
                 setState(() {
                   editorModel.articleType = ArticleType.EVENT;
-                  articleType[1] = false;
-                  articleType[0] = true;
+                  articleType = ArticleType.EVENT;
                 });
               }),
           SizedBox(width: 10),
           this.targetLocation == null
               ? TBSelectableTextButton(
                   titleName: "동행찾기",
-                  isChecked: articleType[1],
+                  isChecked: articleType == ArticleType.COMPANION,
                   onPressed: () {
                     setState(() {
                       editorModel.articleType = ArticleType.COMPANION;
-                      articleType[1] = true;
-                      articleType[0] = false;
+                      articleType = ArticleType.COMPANION;
                     });
                   })
               : SizedBox(),
@@ -487,7 +488,7 @@ class _EditorViewState extends State<EditorView> {
             titleName: editorModel.articleType == ArticleType.EVENT
                 ? "내 주변 이벤트"
                 : "동행찾기",
-            isChecked: articleType[0],
+            isChecked: articleType == ArticleType.EVENT,
           ),
         ],
       ),
