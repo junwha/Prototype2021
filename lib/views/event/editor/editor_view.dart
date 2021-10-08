@@ -328,14 +328,15 @@ class _EditorViewState extends State<EditorView> {
   }
 
   EditorHandler getEditorModel(WriteType writeType) {
-    UserInfoHandler userInfo = Provider.of<UserInfoHandler>(context);
-    String? token = userInfo.token;
+    UserInfoHandler userInfoHandler = Provider.of<UserInfoHandler>(context);
     if (writeType == WriteType.POST)
-      return EditorHandler(location: targetLocation, token: token!);
+      return EditorHandler(
+          location: targetLocation, userInfoHandler: userInfoHandler);
     else {
       //else if (writeType == WriteType.PUT) {
       if (this.widget.data == null) Navigator.pop(context);
-      return EditorHandler.edit(data: this.widget.data!, token: token!);
+      return EditorHandler.edit(
+          data: this.widget.data!, userInfoHandler: userInfoHandler);
     }
   }
 

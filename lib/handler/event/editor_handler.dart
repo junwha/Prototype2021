@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
@@ -32,17 +33,18 @@ class EditorHandler with ChangeNotifier {
   int? pid = 1; // TODO: Change to real pid
 
   /* For EVENT */
-  int? cid;
+  int? placeId;
   Location? location;
 
   /* For PATCH, PUT and TEMP */
   int? articleId;
 
-  String token;
+  UserInfoHandler userInfoHandler;
 
-  EditorHandler({this.location, required this.token});
+  EditorHandler({this.location, required this.userInfoHandler});
 
-  EditorHandler.edit({required ArticleDetailData data, required this.token}) {
+  EditorHandler.edit(
+      {required ArticleDetailData data, required this.userInfoHandler}) {
     this.articleId = data.id;
     this.writeType = WriteType.EDIT;
 
@@ -62,7 +64,6 @@ class EditorHandler with ChangeNotifier {
       this.femaleRecruitNumber = data.female;
     }
 
-    this.uid = data.userData.uid;
     this.startDate = data.period.start;
     this.endDate = data.period.end;
 
@@ -74,7 +75,7 @@ class EditorHandler with ChangeNotifier {
   void initEvent(EventDetailData data) {
     this.articleType = ArticleType.EVENT;
     this.writeType = WriteType.EDIT;
-    this.cid = data.cid;
+    this.placeId = data.placeId;
     this.location =
         Location(data.coord, PlaceType.DEFAULT, ""); // TODO: modify this part
   }
@@ -96,7 +97,7 @@ class EditorHandler with ChangeNotifier {
 
   Future<bool> writeArticle() async {
     Map<String, dynamic> originData = {
-      "uid": 1,
+      "uid": userInfoHandler.userId,
       "title": this.title,
       "body": this.content,
       "recruits": {
@@ -138,7 +139,7 @@ class EditorHandler with ChangeNotifier {
     defaultHeaders.entries.forEach((element) {
       newHeaders[element.key] = element.value;
     });
-    newHeaders['Authorization'] = 'jwt $token';
+    newHeaders['Authorization'] = 'jwt ${userInfoHandler.token}';
     return newHeaders;
   }
 
@@ -164,7 +165,7 @@ class EditorHandler with ChangeNotifier {
       "long": this.location!.latLng.longitude.toStringAsFixed(6),
     };
 
-    originData["cid"] = this.cid;
+    originData["place_id"] = this.placeId;
 
     var url;
 
