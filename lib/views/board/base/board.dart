@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
@@ -154,12 +155,24 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     try {
       UserInfoHandler model =
           Provider.of<UserInfoHandler>(context, listen: false);
+      int? areaCode = areaCodeToAreaName.keys.firstWhere(
+          (k) => areaCodeToAreaName[k] == location['mainLocation'],
+          orElse: () => -1);
+      int? areaDetailCode;
+      if (areaCode == -1)
+        areaCode = null;
+      else {
+        areaDetailCode = areaCodeToDetailName[areaCode]?.keys.firstWhere((k) =>
+            areaCodeToDetailName[areaCode]?[k] == location['subLocation']);
+      }
       if (model.token != null) {
         contentsDataController.sink.add(await contentsLoader.getContentsList(
           token: model.token!,
           keyword: keyword != null && keyword.length > 0 ? keyword : null,
           type: type,
           reset: reset,
+          areaCode: areaCode,
+          areaDetailCode: areaDetailCode,
         ));
       }
     } catch (error) {

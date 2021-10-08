@@ -32,6 +32,8 @@ class ContentsLoader {
     String? keyword,
     ContentType? type,
     bool reset = false,
+    int? areaCode,
+    int? areaDetailCode,
   }) async {
     if (reset) {
       pagination = PaginationState.start;
@@ -40,8 +42,12 @@ class ContentsLoader {
     if (pagination == PaginationState.end) {
       return [];
     }
-    ContentsListInput params =
-        new ContentsListInput(keyword: keyword, contentType: type);
+    ContentsListInput params = new ContentsListInput(
+      keyword: keyword,
+      contentType: type,
+      areaCode: areaCode,
+      areaDetailCode: areaDetailCode,
+    );
     SafeQueryInput<ContentsListInput> dto = new SafeQueryInput(
       url: contentsListUrl,
       params: params,
@@ -77,6 +83,8 @@ class ContentsLoader {
     String token = "",
     ContentType? type,
     bool reset = false,
+    int? areaCode,
+    int? areaDetailCode,
   }) async {
     if (reset) {
       pagination = PaginationState.start;
@@ -85,7 +93,11 @@ class ContentsLoader {
     if (pagination == PaginationState.end) {
       return [];
     }
-    ContentsWishlistInput params = new ContentsWishlistInput();
+    ContentsWishlistInput params = new ContentsWishlistInput(
+      areaCode: areaCode.toString(),
+      detailAreaCode: areaDetailCode.toString(),
+      typeId: type,
+    );
     SafeQueryInput<ContentsWishlistInput> dto = new SafeQueryInput(
       url: contentsListUrl,
       params: params,

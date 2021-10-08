@@ -58,13 +58,15 @@ class ContentsWishlistInput extends SafeHttpDataInput {
   ContentsWishlistInput({
     this.areaCode,
     this.detailAreaCode,
-    this.typeId,
-  });
+    ContentType? typeId,
+  }) : typeId = typeId == null || typeId == ContentType.unknown
+            ? null
+            : contentTypeId[typeId].toString();
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,
         "detail_area_code": detailAreaCode,
-        "typeid": typeId
+        "typeid": typeId,
       };
 
   Map<String, String>? getUrlParams() => null;
