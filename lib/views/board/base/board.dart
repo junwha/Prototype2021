@@ -203,7 +203,6 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     recentSearchesStream = recentSearchController.stream;
   }
 
-  // Need Refactor
   Map<String, String> location = {"mainLocation": "국내", "subLocation": "전체"};
 
   /* =================================/================================= */
