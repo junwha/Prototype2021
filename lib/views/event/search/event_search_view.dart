@@ -104,27 +104,31 @@ class _EventSearchViewState extends State<EventSearchView> {
 
     return data.isEmpty
         ? buildMainText("게시글이 존재하지 않습니다")
-        : SingleChildScrollView(
-            child: Column(
-              children: data
-                  .map((e) => RecruitCard(
-                        title: e.title,
-                        hasContents: false,
-                        range: e.period,
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute<void>(
-                                builder: (BuildContext context) {
-                              return EventDetailView(e.id, eventArticleHandler,
-                                  eventArticleHandler.articleType);
-                            }),
-                          );
-                        },
-                      ))
-                  .toList(),
-            ),
-          );
+        : buildRecruitCards(data, eventArticleHandler);
+  }
+
+  Widget buildRecruitCards(
+      List<EventPreviewData> data, EventArticleHandler eventArticleHandler) {
+    return SingleChildScrollView(
+      child: Column(
+        children: data
+            .map((e) => RecruitCard(
+                  title: e.title,
+                  hasContents: false,
+                  range: e.period,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(builder: (BuildContext context) {
+                        return EventDetailView(e.id, eventArticleHandler,
+                            eventArticleHandler.articleType);
+                      }),
+                    );
+                  },
+                ))
+            .toList(),
+      ),
+    );
   }
 
   Widget buildFloatingSearchBar(SearchArticleHandler searchArticleModel) {
