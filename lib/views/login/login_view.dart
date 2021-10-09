@@ -259,15 +259,11 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     return AppBar(
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
-        ),
-        title: Text("로그인",
+        centerTitle: true,
+        title: Text("Tripbuilder",
             style: const TextStyle(
                 color: const Color(0xff000000),
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w800,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
                 fontSize: 16.0 * pt),
