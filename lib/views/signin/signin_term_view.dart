@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/signin_terms.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
@@ -84,12 +85,9 @@ class _SigninTermViewState extends State<SigninTermView>
                 onCheckboxTap: setTermCheckedFactory(1),
                 onDetailTap: () {
                   tbShowDialog(
-                    context,
-                    TBSimpleDialog(
-                      title: "트립빌더 이용약관",
-                      body: SingleChildScrollView(child: Text("")),
-                    ),
-                  );
+                      context,
+                      TBSimpleDialog(
+                          title: "서비스 이용약관", body: Text(service_term)));
                 }),
             buildTermCheckbox(
                 isChecked: secondTermChecked,
@@ -97,12 +95,9 @@ class _SigninTermViewState extends State<SigninTermView>
                 onCheckboxTap: setTermCheckedFactory(2),
                 onDetailTap: () {
                   tbShowDialog(
-                    context,
-                    TBSimpleDialog(
-                      title: "트립빌더 개인정보취급방침",
-                      body: SingleChildScrollView(child: Text("")),
-                    ),
-                  );
+                      context,
+                      TBSimpleDialog(
+                          title: "개인정보취급방침", body: Text(privacy_term)));
                 }),
             buildTermCheckbox(
                 isChecked: thirdTermChecked,
