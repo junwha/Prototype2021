@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
@@ -28,20 +29,16 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /* =================================/=============================== */
 
   // Simulate API call
-  Future<PlanData> getPlanDetail(int pid) async {
-    UserInfoHandler userInfoHandler = Provider.of<UserInfoHandler>(context);
+  Future<PlanData> getPlanDetail(int pid, String? token) async {
     PlanLoader loader = PlanLoader();
-    PlanDetail detail =
-        await loader.getPlanDetail(id: pid, token: userInfoHandler.token);
-
+    PlanDetail detail = await loader.getPlanDetail(id: pid, token: token);
     List<List<PlaceDataInterface>> items = detail.contents
         .map((day) => (day).map((item) {
               if (item is String) {
                 return MemoData(memo: item);
               } else {
                 ContentsLoader contentsLoader = ContentsLoader();
-                contentsLoader.getContentDetail(
-                    item as int, userInfoHandler.token!);
+                contentsLoader.getContentDetail(item as int, token!);
               }
             }) as List<PlaceDataInterface>)
         .toList();
@@ -67,8 +64,10 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   late PlanMapHandler mapModel;
 
   Future<void> loadPlanDetail() async {
-    planData = await getPlanDetail(this.widget.pid);
-    mapModel = PlanMapHandler(planData.contents[0][0].location);
+    UserInfoHandler userInfoHandler =
+        Provider.of<UserInfoHandler>(context, listen: false);
+    planData = await getPlanDetail(this.widget.pid, userInfoHandler.token);
+    mapModel = PlanMapHandler(LatLng(0, 0));
     // Update PlaceData and polyline when map is completely loaded
     mapModel.setMapLoadListener(
         () => {mapModel.updatePlaceData(planData.contents)});
@@ -208,7 +207,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           ),
         ),
         Text(
-          '${planData.expense}',
+          '${planData.expenseText}',
           style: TextStyle(
             color: Color(0xff555555),
             fontFamily: 'Roboto',
