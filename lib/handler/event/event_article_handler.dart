@@ -67,6 +67,8 @@ class EventArticleHandler with ChangeNotifier {
       int id, ArticleType articleType, String? token) async {
     // TODO: add token
     this.detailData = null;
+    this.placeData = null;
+    this.planDetail = null;
     ArticleDetailData? result =
         await articleLoader.loadArticleDetail(id, articleType);
     if (result == null) {
@@ -86,8 +88,6 @@ class EventArticleHandler with ChangeNotifier {
       int? id = (detailData as CompanionDetailData).pid;
       if (id != null) {
         PlanLoader loader = PlanLoader();
-        print(1);
-
         this.planDetail = await loader.getPlanDetail(id: id, token: token);
       }
     }
