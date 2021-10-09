@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/loader/board/plan_loader.dart';
+import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
+import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class EventArticleHandler with ChangeNotifier {
@@ -17,6 +21,9 @@ class EventArticleHandler with ChangeNotifier {
 
   bool isEventArticleLoading = false; // Loading flag of Article List
   bool isTopEventArticleLoading = false; // Loading flag of Top Article List
+
+  GooglePlaceData? placeData;
+  PlanDetail? planDetail;
 
   EventArticleHandler.main() {
     // TODO: automatically select current position
@@ -56,7 +63,8 @@ class EventArticleHandler with ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> loadDetail(int id, ArticleType articleType) async {
+  Future<void> loadDetail(
+      int id, ArticleType articleType, String? token) async {
     // TODO: add token
     this.detailData = null;
     ArticleDetailData? result =
@@ -66,6 +74,22 @@ class EventArticleHandler with ChangeNotifier {
       return;
     } else {
       detailData = result;
+    }
+
+    if (detailData is EventDetailData) {
+      String? id = (detailData as EventDetailData).placeId;
+      if (id != null) {
+        PlaceLoader loader = PlaceLoader(center: LatLng(0, 0));
+        this.placeData = await loader.getDataById(id);
+      }
+    } else if (detailData is CompanionDetailData) {
+      int? id = (detailData as CompanionDetailData).pid;
+      if (id != null) {
+        PlanLoader loader = PlanLoader();
+        print(1);
+
+        this.planDetail = await loader.getPlanDetail(id: id, token: token);
+      }
     }
 
     notifyListeners();

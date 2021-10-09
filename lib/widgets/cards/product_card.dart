@@ -39,8 +39,11 @@ class ProductCardBaseProps extends CardBaseProps {
 
 class ProductCard extends StatelessWidget with CardBase {
   final ProductCardBaseProps props;
+  final Widget? footer;
+
   ProductCard.fromProps({
     required this.props,
+    this.footer,
   });
 
   @override
@@ -55,6 +58,7 @@ class ProductCard extends StatelessWidget with CardBase {
       dataId: props.id,
       isHeartSelected: props.hearted,
       token: handler.token ?? "",
+      footer: footer,
     );
   }
 
