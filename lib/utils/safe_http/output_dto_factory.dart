@@ -22,7 +22,7 @@ final _factories = <Type, SafeHttpDataOutput Function(Map<String, dynamic>)>{
   ContentsDetailOutput: (json) => ContentsDetailOutput.fromJson(json: json),
   PlanListOutput: (json) => PlanListOutput.fromJson(json: json),
   PlanDetailOutput: (json) => PlanDetailOutput.fromJson(json: json),
-
+  PlanCreateOutput: (json) => PlanCreateOutput.fromJson(json: json),
   // This key-value pair is for test purpose
   ExampleOutput: (json) => ExampleOutput.fromJson(json: json),
 };
