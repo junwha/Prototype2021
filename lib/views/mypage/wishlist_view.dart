@@ -86,6 +86,7 @@ class _WishlistViewState extends BoardState<WishlistView> {
               title: buildThemeBar(
                 onFilterChange: (type) => setCurrentFilter(type),
                 currentFilter: currentFilter,
+                isEnabled: tabIndex == 1,
               )),
         ];
         return slivers;

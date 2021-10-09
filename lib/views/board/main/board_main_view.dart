@@ -140,6 +140,7 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
               title: buildThemeBar(
                 onFilterChange: (type) => setCurrentFilter(type),
                 currentFilter: currentFilter,
+                isEnabled: tabIndex == 1,
               )),
         ];
         // if (tabIndex == 1) slivers.removeAt(2);

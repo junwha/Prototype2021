@@ -170,6 +170,7 @@ class PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
               title: buildThemeBar(
                 onFilterChange: (type) => setCurrentFilter(type),
                 currentFilter: currentFilter,
+                isEnabled: tabIndex == 1,
               )),
           // TODO: ListView Header 구현 (아이템 갯수 등)
           // SliverAppBar(
