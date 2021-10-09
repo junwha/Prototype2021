@@ -156,7 +156,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
               buildLoginCheckboxes(),
               SizedBox(height: 18),
               buildLoginButton(context),
-              buildSocialLoginButtons(),
+              // buildSocialLoginButtons(),
               SizedBox(height: 60),
               buildFindIDPW(),
               buildSignin(),
