@@ -15,6 +15,7 @@ import 'package:prototype2021/views/board/base/mixin/search_widget.dart';
 import 'package:prototype2021/views/board/base/mixin/stream_list.dart';
 import 'package:prototype2021/views/board/base/location/select_location_toggle_view.dart';
 import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
+import 'package:prototype2021/views/board/plan/detail/plan_detail_view.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/widgets/cards/product_card.dart';
@@ -358,7 +359,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     return BoardStreamList<ProductCardBaseProps>(
       stream: planDataStream,
       builder: (props) => ProductCard.fromProps(props: props),
-      routeBuilder: (_, __) => PlanMakeView(),
+      routeBuilder: (_, id) => PlanDetailView(pid: id!),
       emptyWidget: CenterNotice(text: "불러올 수 있는 플랜이 없습니다"),
       errorWidget: CenterNotice(
         text: '예기치 못한 오류가 발생했습니다',
