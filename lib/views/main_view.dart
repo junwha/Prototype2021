@@ -172,17 +172,20 @@ class _MainViewState extends State<MainView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildIconButton("", () async {
-              String url = "https://www.instagram.com/teamtripbuilder/";
-              if (await canLaunch(url)) await launch(url);
+            buildIconButton("", ()  {
+              linkToUrl("https://www.instagram.com/teamtripbuilder/");
             }, Image.asset('assets/icons/ic_home_instagram.png'), 5),
             buildIconButton(
-                "", () {}, Image.asset('assets/icons/ic_home_blog.png'), 5),
+                "", ()  {
+            }, Image.asset('assets/icons/ic_home_blog.png'), 5),
             buildIconButton(
-                "", () {}, Image.asset('assets/icons/ic_home_facebook.png'), 5),
+                "", () {linkToUrl("https://www.facebook.com/teamtripbuilder/");}, Image.asset('assets/icons/ic_home_facebook.png'), 5),
           ],
         ),
       ]),
     );
-  }
+  }  
+  void linkToUrl(String url) async {
+      if (await canLaunch(url)) await launch(url);
+    }
 }
