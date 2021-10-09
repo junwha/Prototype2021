@@ -1,11 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/handler/login/login_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
 import 'package:prototype2021/settings/constants.dart';
+import 'package:provider/provider.dart';
 
 class EditorHandler with ChangeNotifier {
   /* General Arguments */
@@ -29,18 +33,20 @@ class EditorHandler with ChangeNotifier {
   int? pid = 1; // TODO: Change to real pid
 
   /* For EVENT */
-  int? cid;
+  int? placeId;
   Location? location;
 
   /* For PATCH, PUT and TEMP */
   int? articleId;
 
-  EditorHandler();
-  EditorHandler.location(this.location);
+  UserInfoHandler userInfoHandler;
 
-  EditorHandler.edit(ArticleDetailData data) {
+  EditorHandler({this.location, required this.userInfoHandler});
+
+  EditorHandler.edit(
+      {required ArticleDetailData data, required this.userInfoHandler}) {
     this.articleId = data.id;
-    this.writeType = WriteType.PUT;
+    this.writeType = WriteType.EDIT;
 
     this.title = data.title;
     this.content = data.body;
@@ -58,7 +64,6 @@ class EditorHandler with ChangeNotifier {
       this.femaleRecruitNumber = data.female;
     }
 
-    this.uid = data.userData.uid;
     this.startDate = data.period.start;
     this.endDate = data.period.end;
 
@@ -69,8 +74,8 @@ class EditorHandler with ChangeNotifier {
 
   void initEvent(EventDetailData data) {
     this.articleType = ArticleType.EVENT;
-    this.writeType = WriteType.PUT;
-    this.cid = data.cid;
+    this.writeType = WriteType.EDIT;
+    this.placeId = data.placeId;
     this.location =
         Location(data.coord, PlaceType.DEFAULT, ""); // TODO: modify this part
   }
@@ -92,7 +97,7 @@ class EditorHandler with ChangeNotifier {
 
   Future<bool> writeArticle() async {
     Map<String, dynamic> originData = {
-      "uid": 1,
+      "uid": userInfoHandler.userId,
       "title": this.title,
       "body": this.content,
       "recruits": {
@@ -129,17 +134,26 @@ class EditorHandler with ChangeNotifier {
     return false;
   }
 
+  Map<String, String> getHeaders() {
+    Map<String, String> newHeaders = {};
+    defaultHeaders.entries.forEach((element) {
+      newHeaders[element.key] = element.value;
+    });
+    newHeaders['Authorization'] = 'jwt ${userInfoHandler.token}';
+    return newHeaders;
+  }
+
   Future<bool> writeCompanionArticle(Map<String, dynamic> originData) async {
     originData["pid"] = this.pid;
     var url;
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_COMPANION_API;
-      return await legacyPOST(url, originData);
-    } else if (this.writeType == WriteType.PUT) {
+      return await legacyPOST(url, originData, headers: getHeaders());
+    } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
       url =
           "http://api.tripbuilder.co.kr/recruitments/companions/${articleId!}/";
-      return await legacyPUT(url, originData);
+      return await legacyPUT(url, originData, headers: getHeaders());
     }
     return false;
   }
@@ -151,25 +165,20 @@ class EditorHandler with ChangeNotifier {
       "long": this.location!.latLng.longitude.toStringAsFixed(6),
     };
 
-    originData["cid"] = this.cid;
+    originData["place_id"] = this.placeId;
 
     var url;
 
     if (this.writeType == WriteType.POST) {
       url = POST_RECRUITMENTS_EVENT_API;
-      return await legacyPOST(url, originData);
-    } else if (this.writeType == WriteType.PUT) {
+      return await legacyPOST(url, originData, headers: getHeaders());
+    } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
       url = "http://api.tripbuilder.co.kr/recruitments/events/${articleId!}/";
-      return await legacyPUT(url, originData);
+      return await legacyPUT(url, originData, headers: getHeaders());
     }
     return false;
   }
 }
 
-enum WriteType {
-  POST,
-  PUT,
-  PATCH,
-  TEMP,
-}
+enum WriteType { POST, EDIT, LOCATION_POST }

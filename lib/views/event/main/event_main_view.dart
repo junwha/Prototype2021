@@ -29,8 +29,9 @@ class _EventMainViewState extends State<EventMainView>
   // -------------------------------------- State -------------------------------------- //
   // ------------------------------------------------------------------------------------- //
   List<String> images = [
-    'https://t3.daumcdn.net/thumb/R720x0/?fname=http://t1.daumcdn.net/brunch/service/user/2fG8/image/InuHfwbrkTv4FQQiaM7NUvrbi8k.jpg',
-    'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
+    "assets/images/event_main_1.png",
+    "assets/images/event_main_2.png",
+    "assets/images/event_main_3.png",
   ];
   int _pageIndex = 0;
   double imageIndex = 0;
@@ -55,7 +56,7 @@ class _EventMainViewState extends State<EventMainView>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      bottomNavigationBar: buildBottomNavigationBar(),
+      // bottomNavigationBar: buildBottomNavigationBar(),
       body: SingleChildScrollView(
         child: ChangeNotifierProvider(
           create: (context) => EventArticleHandler.main(),
@@ -147,29 +148,19 @@ class _EventMainViewState extends State<EventMainView>
       alignment: Alignment.bottomCenter,
       children: [
         CarouselSlider(
-            options: CarouselOptions(
-              onPageChanged: (i, reason) {
-                setState(() {
-                  imageIndex = i.toDouble();
-                });
-              },
-              height: 200,
-              viewportFraction: 1,
-            ),
-            items: images.map((url) {
-              return Builder(
-                builder: (BuildContext context) {
-                  return Container(
-                    width: MediaQuery.of(context).size.width,
-                    child: Image.asset(
-                      "assets/icons/image_bar.png",
-                      fit: BoxFit.cover,
-                      scale: 20,
-                    ),
-                  );
-                },
-              );
-            }).toList()),
+          options: CarouselOptions(
+            onPageChanged: (i, reason) {
+              setState(() {
+                imageIndex = i.toDouble();
+              });
+            },
+            // height: 200,
+            viewportFraction: 1,
+          ),
+          items: images
+              .map((path) => Image.asset(path, fit: BoxFit.cover))
+              .toList(),
+        ),
         DotsIndicator(
           dotsCount: images.length,
           position: imageIndex,
@@ -206,7 +197,7 @@ class _EventMainViewState extends State<EventMainView>
             ],
           ),
           Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            buildFilterButton(),
+            // buildFilterButton(), TODO: 필터 구현후 enable
             IconButton(
               icon: Image.asset(
                 "assets/icons/editor.png",
@@ -319,9 +310,9 @@ class _EventMainViewState extends State<EventMainView>
             "assets/icons/person_icon.png",
           ),
         ),
-        IconButton(
-            onPressed: () {},
-            icon: Image.asset("assets/icons/notic_pointed.png")),
+        // IconButton( // TODO: 알림 구현 후 활성화 (아이콘 수정 필요)
+        //     onPressed: () {},
+        //     icon: Image.asset("assets/icons/notic_pointed.png")),
       ],
     );
   }
