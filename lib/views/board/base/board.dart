@@ -56,6 +56,7 @@ enum BoardMode {
   /// PlanMakeView에서 Provider의 컨텍스트 안에 계속 있게 하여
   /// 상태을 잃지 않게 해야하는 위젯들이 있기 때문입니다.
   contentsDetail,
+  planDetail,
 }
 
 abstract class BoardState<T extends StatefulWidget> extends State<T>

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
+import 'package:prototype2021/model/google_place/place_data.dart';
+import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
@@ -33,7 +35,7 @@ class EditorHandler with ChangeNotifier {
   int? pid = 1; // TODO: Change to real pid
 
   /* For EVENT */
-  int? placeId;
+  String? placeId;
   Location? location;
 
   /* For PATCH, PUT and TEMP */
@@ -41,7 +43,12 @@ class EditorHandler with ChangeNotifier {
 
   UserInfoHandler userInfoHandler;
 
-  EditorHandler({this.location, required this.userInfoHandler});
+  EditorHandler({this.location, required this.userInfoHandler}) {
+    if (location is GooglePlaceData) {
+      this.placeId = (location as GooglePlaceData).placeId;
+      print(this.placeId);
+    }
+  }
 
   EditorHandler.edit(
       {required ArticleDetailData data, required this.userInfoHandler}) {
@@ -165,7 +172,7 @@ class EditorHandler with ChangeNotifier {
       "long": this.location!.latLng.longitude.toStringAsFixed(6),
     };
 
-    originData["place_id"] = this.placeId;
+    originData["place_id"] = (this.location as GooglePlaceLocation).placeId;
 
     var url;
 
