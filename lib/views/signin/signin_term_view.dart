@@ -82,12 +82,28 @@ class _SigninTermViewState extends State<SigninTermView>
                 isChecked: firstTermChecked,
                 text: "이용약관 동의 (필수)",
                 onCheckboxTap: setTermCheckedFactory(1),
-                onDetailTap: () {}),
+                onDetailTap: () {
+                  tbShowDialog(
+                    context,
+                    TBSimpleDialog(
+                      title: "트립빌더 이용약관",
+                      body: SingleChildScrollView(child: Text("")),
+                    ),
+                  );
+                }),
             buildTermCheckbox(
                 isChecked: secondTermChecked,
                 text: "개인정보취급방침 동의 (필수)",
                 onCheckboxTap: setTermCheckedFactory(2),
-                onDetailTap: () {}),
+                onDetailTap: () {
+                  tbShowDialog(
+                    context,
+                    TBSimpleDialog(
+                      title: "트립빌더 개인정보취급방침",
+                      body: SingleChildScrollView(child: Text("")),
+                    ),
+                  );
+                }),
             buildTermCheckbox(
                 isChecked: thirdTermChecked,
                 text: "마케팅 수신 동의 (선택)",
