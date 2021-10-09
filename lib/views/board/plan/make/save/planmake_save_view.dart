@@ -1,7 +1,13 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
+import 'package:prototype2021/model/board/plan/plan_dto.dart';
+import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/widgets/textfields/custom_plan_textfield.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
@@ -49,6 +55,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     false,
     false
   ];
+
   List<String> tags = [
     "액티비티",
     "관광명소",
@@ -61,6 +68,19 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     "이색체험",
     "쇼핑메카"
   ];
+
+  List<String> get selectedTags {
+    List<String> selected = [];
+    for (String tag in tags) {
+      if (isTagsSelected[tags.indexOf(tag)]) {
+        selected.add(tag);
+      }
+    }
+    return selected;
+  }
+
+  int randomN = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -137,8 +157,29 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                             children: [
                               TBSaveButton(
                                 buttonTitle: '저장하기',
-                                onPressed: () {
-                                  bool saved = false;
+                                onPressed: () async {
+                                  UserInfoHandler userInfoHandler =
+                                      Provider.of<UserInfoHandler>(context);
+                                  PlanMakeHandler planMakeHandler =
+                                      Provider.of<PlanMakeHandler>(context);
+                                  PlanLoader loader = PlanLoader();
+
+                                  PlanData data = PlanData(
+                                    -1,
+                                    planMakeHandler.title!,
+                                    [],
+                                    planMakeHandler
+                                        .flattenPlanListItems[randomN].photo,
+                                    selectedTags,
+                                    _selectedValue,
+                                    planMakeHandler.dateRange!,
+                                    selectedRadio1,
+                                    selectedRadio2,
+                                    [[]],
+                                  );
+
+                                  bool saved = await loader.createPlan(
+                                      userInfoHandler.token!, data);
 
                                   if (saved) widget.navigator(Navigate.forward);
                                 },
@@ -172,14 +213,16 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
               CustomPlanTextField(
                   width: double.infinity,
                   hintText: '여행 이름을 입력해주세요.',
-                  onChanged: (String text) {}),
+                  onChanged: (String text) {
+                    calendarHandler.title = text;
+                  }),
               SizedBox(
                 height: 5,
               ),
-              Text(buildRegionString(calendarHandler),
-                  style:
-                      builidTextStyle(11, Color(0xff707070), FontWeight.w400),
-                  textAlign: TextAlign.left),
+              // Text(buildRegionString(calendarHandler),
+              //     style:
+              //         builidTextStyle(11, Color(0xff707070), FontWeight.w400),
+              //     textAlign: TextAlign.left),
               SizedBox(
                 height: 10,
               ),
@@ -236,11 +279,13 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
         .reduce((value, element) => value + element);
   }
 
+  // TODO: 컨텐츠 가져오기에서 areaCode도 함께 가져와야함
   String buildRegionString(PlanMakeHandler calendarHandler) {
     List<PlaceDataInterface> items = calendarHandler.flattenPlanListItems;
     items.toSet().toList().sort((PlaceDataInterface a, PlaceDataInterface b) =>
         countList(items, a).compareTo(countList(items, a)));
     items.removeWhere((element) => element.address == null);
+
     if (items.length < 3) return items.map((e) => e.address!).join(", ");
     return "${items[0].address!}, ${items[1].address!}, ${items[2].address!}";
   }
@@ -382,16 +427,37 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     );
   }
 
-  Container buildPreview() {
-    return Container(
-        height: 150,
-        width: 120,
-        decoration: BoxDecoration(
+  Widget buildPreview() {
+    PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
+    List<PlaceDataInterface> items = planMakeHandler.flattenPlanListItems;
+    return Stack(
+      alignment: AlignmentDirectional.topEnd,
+      children: [
+        Container(
+          height: 150,
+          width: 120,
+          decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(25)),
             image: new DecorationImage(
-              image: new AssetImage('assets/icons/planmakeimage.png'),
+              image: new NetworkImage(
+                (items.length != 0 && items[randomN].photo != null)
+                    ? items[randomN].photo!
+                    : placeHolder,
+              ),
               fit: BoxFit.fill,
-            )));
+            ),
+          ),
+        ),
+        IconButton(
+          icon: Icon(Icons.refresh),
+          onPressed: () {
+            setState(() {
+              randomN = Random(null).nextInt(items.length - 1);
+            });
+          },
+        )
+      ],
+    );
   }
 
   AppBar buildAppBar() {
