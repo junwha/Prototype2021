@@ -122,14 +122,18 @@ class _MainViewState extends State<MainView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        buildIconButton("내주변여행", () {},
-            Image.asset('assets/icons/ic_home_location_event.png'), 15),
-        buildIconButton(
-            "마이플랜", () {}, Image.asset('assets/icons/ic_home_myplan.png'), 15),
-        buildIconButton(
-            "여행게시판", () {}, Image.asset('assets/icons/ic_home_board.png'), 15),
-        buildIconButton("마이프로필", () {},
-            Image.asset('assets/icons/ic_home_myprofile.png'), 15),
+        buildIconButton("내주변여행", () {
+          Navigator.pushNamed(context, 'event');
+        }, Image.asset('assets/icons/ic_home_location_event.png'), 15),
+        buildIconButton("마이플랜", () {
+          Navigator.pushNamed(context, 'wishlist');
+        }, Image.asset('assets/icons/ic_home_myplan.png'), 15),
+        buildIconButton("여행게시판", () {
+          Navigator.pushNamed(context, 'board');
+        }, Image.asset('assets/icons/ic_home_board.png'), 15),
+        buildIconButton("마이프로필", () {
+          Navigator.pushNamed(context, 'planmake');
+        }, Image.asset('assets/icons/ic_home_myprofile.png'), 15),
       ],
     );
   }
