@@ -35,6 +35,7 @@ class PlanLoader {
   /// 각 인스턴스가 pagination 정보를 가지고 있어 재호출시 다음 페이지를 반환한다.
   /// pagination == PaginationState.end 일 경우 더 이상 페이지가 없음을 의미한다.
   Future<List<ProductCardBaseProps>> getPlanList(String token) async {
+    print(token);
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -158,7 +159,7 @@ class PlanLoader {
     } else if (mode == PlanLoaderMode.mylist) {
       planListUrl = "$apiBaseUrl/plans/mylist/";
     } else if (mode == PlanLoaderMode.wishlist) {
-      planListUrl = "$apiBaseUrl/plans/wishlists/";
+      planListUrl = "$apiBaseUrl/plans/wishlist/";
     }
   }
 
