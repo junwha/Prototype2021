@@ -27,7 +27,8 @@ class PlanMakeHandler with ChangeNotifier {
   int? _dateDifference;
   List<List<PlaceDataInterface>>? _planListItems;
   int _currentIndex = 0;
-
+  String? title;
+  int? areaCode;
   PlanMakeHandler({DateTime? now}) : _now = now ?? new DateTime.now();
 
   int get currentIndex => _currentIndex;
@@ -59,6 +60,16 @@ class PlanMakeHandler with ChangeNotifier {
    * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
   */
   List<List<PlaceDataInterface>>? get planListItems => _planListItems;
+
+  DateTimeRange? get dateRange {
+    if (_datePoints.first != null && _datePoints.last != null) {
+      return DateTimeRange(start: _datePoints.first!, end: _datePoints.last!);
+    } else if (_datePoints.first == null || _datePoints.last == null) {
+      return DateTimeRange(
+          start: _datePoints.first ?? _datePoints.last!,
+          end: _datePoints.first ?? _datePoints.last!);
+    }
+  }
 
   /*
    * 여행 계획들을 순서를 유지하면서 평탄화하여 리턴합니다

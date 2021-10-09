@@ -69,10 +69,15 @@ class PlanCreateInput extends SafeHttpDataInput {
         "area_code": data.areaCodes,
         "photo_url": data.photo,
         "type": data.types,
-        "expenses": data.expense,
+        "expense": data.expense,
+        "start_date": _buildDateString(data.period.start),
+        "end_date": _buildDateString(data.period.end),
         "expense_style": data.expenseStyle,
         "fatigue_style": data.fatigueStyle,
       };
+  String _buildDateString(DateTime date) {
+    return "${date.year}-${date.month}-${date.day}";
+  }
 
   Map<String, String>? getUrlParams() => null;
 }

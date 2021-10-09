@@ -5,6 +5,7 @@ import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/views/board/main/board_main_view.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/views/event/main/event_main_view.dart';
 import 'package:prototype2021/views/main_view.dart';
 import 'package:prototype2021/widgets/buttons/circle_button.dart';
