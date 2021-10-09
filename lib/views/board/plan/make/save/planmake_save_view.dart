@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
+import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/widgets/textfields/custom_plan_textfield.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
@@ -7,6 +9,7 @@ import 'package:prototype2021/widgets/shapes/tb_contenttag.dart';
 import 'package:prototype2021/widgets/radio/tb_radio_bar.dart';
 import 'package:prototype2021/widgets/buttons/tb_save_button.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 
 class PlanmakeSaveView extends StatefulWidget {
   final void Function(Navigate, [PlanMakeViewMode?]) navigator;
@@ -86,64 +89,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Row(
-                            children: [
-                              buildPreview(),
-                              SizedBox(
-                                width: 10,
-                              ),
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    CustomPlanTextField(
-                                        width: double.infinity,
-                                        hintText: '여행 이름을 입력해주세요.',
-                                        onChanged: (String text) {}),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text("상하이, 베이징, 광저우",
-                                        style: builidTextStyle(11,
-                                            Color(0xff707070), FontWeight.w400),
-                                        textAlign: TextAlign.left),
-                                    SizedBox(
-                                      height: 10,
-                                    ),
-                                    Text("기간 : 4일(1월 1일~4일)",
-                                        style: builidTextStyle(14,
-                                            Color(0xff707070), FontWeight.w400),
-                                        textAlign: TextAlign.left),
-                                    buildBudget(context),
-                                    Row(
-                                      children: [
-                                        Expanded(
-                                          child: Wrap(
-                                              children: List.generate(
-                                                  tags.length,
-                                                  (index) =>
-                                                      isTagsSelected[index]
-                                                          ? TBContentTag(
-                                                              contentTitle:
-                                                                  tags[index])
-                                                          : SizedBox())),
-                                        ),
-                                        IconButton(
-                                            icon: Image.asset(
-                                                "assets/icons/ic_save_edit.png"),
-                                            onPressed: () {
-                                              showTagsDialog(context).then(
-                                                  (value) => setState(() {}));
-
-                                              print(isTagsSelected[0]);
-                                            }),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ), // 상하이, 베이징, 광저우
-                            ],
-                          ),
+                          buildInfo(context),
                           SizedBox(
                             height: 30,
                           ),
@@ -192,7 +138,9 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                               TBSaveButton(
                                 buttonTitle: '저장하기',
                                 onPressed: () {
-                                  widget.navigator(Navigate.forward);
+                                  bool saved = false;
+
+                                  if (saved) widget.navigator(Navigate.forward);
                                 },
                               ),
                             ],
@@ -206,6 +154,95 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             ),
           ),
         ));
+  }
+
+  Row buildInfo(BuildContext context) {
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
+
+    return Row(
+      children: [
+        buildPreview(),
+        SizedBox(
+          width: 10,
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomPlanTextField(
+                  width: double.infinity,
+                  hintText: '여행 이름을 입력해주세요.',
+                  onChanged: (String text) {}),
+              SizedBox(
+                height: 5,
+              ),
+              Text(buildRegionString(calendarHandler),
+                  style:
+                      builidTextStyle(11, Color(0xff707070), FontWeight.w400),
+                  textAlign: TextAlign.left),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                  "기간 : ${calendarHandler.dateDifference}일 (${buildDateString(calendarHandler) ?? "x"})",
+                  style:
+                      builidTextStyle(14, Color(0xff707070), FontWeight.w400),
+                  textAlign: TextAlign.left),
+              buildBudget(context),
+              Row(
+                children: [
+                  Expanded(
+                    child: Wrap(
+                        children: List.generate(
+                            tags.length,
+                            (index) => isTagsSelected[index]
+                                ? TBContentTag(contentTitle: tags[index])
+                                : SizedBox())),
+                  ),
+                  IconButton(
+                      icon: Image.asset("assets/icons/ic_save_edit.png"),
+                      onPressed: () {
+                        showTagsDialog(context)
+                            .then((value) => setState(() {}));
+
+                        print(isTagsSelected[0]);
+                      }),
+                ],
+              ),
+            ],
+          ),
+        ), // 상하이, 베이징, 광저우
+      ],
+    );
+  }
+
+  String? buildDateString(PlanMakeHandler calendarHandler) {
+    DateTime? first = calendarHandler.datePoints.first;
+    DateTime? last = calendarHandler.datePoints.last;
+
+    if (first == null && last != null) {
+      return "${first!.month}월 ${first.day}일";
+    } else if (first != null && last == null) {
+      return "${last!.month}월 ${last.day}일";
+    } else if (first != null && last != null) {
+      return "${first.month}월 ${first.day}일 ~ ${last.month}월 ${last.day}일";
+    }
+    return null;
+  }
+
+  int countList(List<dynamic> list, dynamic target) {
+    return list
+        .map((e) => e == target ? 1 : 0)
+        .reduce((value, element) => value + element);
+  }
+
+  String buildRegionString(PlanMakeHandler calendarHandler) {
+    List<PlaceDataInterface> items = calendarHandler.flattenPlanListItems;
+    items.toSet().toList().sort((PlaceDataInterface a, PlaceDataInterface b) =>
+        countList(items, a).compareTo(countList(items, a)));
+    items.removeWhere((element) => element.address == null);
+    if (items.length < 3) return items.map((e) => e.address!).join(", ");
+    return "${items[0].address!}, ${items[1].address!}, ${items[2].address!}";
   }
 
   Future<dynamic> showTagsDialog(BuildContext context) {
@@ -243,7 +280,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       timeInSecForIosWeb: 1,
                       backgroundColor: Colors.black,
                       textColor: Colors.white,
-                      fontSize: 16.0); 
+                      fontSize: 16.0);
                 } else {
                   setState(() {
                     isTagsSelected = List.from(_isTagsSelected);
