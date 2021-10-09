@@ -128,11 +128,17 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
       }
 
       handler.addListener(calendarHandlerListener);
+
+      WidgetsBinding.instance?.addPostFrameCallback((_) async {
+        Position position = await Geolocator.getCurrentPosition();
+        mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
+      });
     });
   }
 
   @override
   void dispose() {
+    print("dispose");
     PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
     PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);
     planMapHandler.doDispose();
@@ -142,11 +148,6 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
 
   @override
   Widget build(BuildContext context) {
-    PlanMapHandler mapHandler = Provider.of<PlanMapHandler>(context);
-    WidgetsBinding.instance?.addPostFrameCallback((_) async {
-      Position position = await Geolocator.getCurrentPosition();
-      mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
-    });
     return buildPage();
   }
 
