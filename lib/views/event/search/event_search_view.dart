@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
+import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/handler/event/search_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/views/event/detail/event_detail_view.dart';
 import 'package:prototype2021/widgets/cards/recruit_card.dart';
 import 'package:provider/provider.dart';
 
@@ -30,42 +32,26 @@ class _EventSearchViewState extends State<EventSearchView> {
                   return Column(
                     children: [
                       // Search Bar
-                      Column(
+
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              IconButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                },
-                                icon: Image.asset(
-                                    "assets/icons/ic_arrow_left_back.png"),
-                              ),
-                              buildFloatingSearchBar(searchArticleModel),
-                            ],
+                          IconButton(
+                            onPressed: () {
+                              Navigator.pop(context);
+                            },
+                            icon: Image.asset(
+                                "assets/icons/ic_arrow_left_back.png"),
                           ),
-                          buildTabBar(),
+                          buildFloatingSearchBar(searchArticleModel),
                         ],
                       ),
+                      buildTabBar(),
                       // Content
-                      searchArticleModel.loading != true
-                          ? Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Image.asset("assets/icons/search_white.png"),
-                                  Text(
-                                    "이벤트 게시판에 글을 검색해보세요.",
-                                    style: TextStyle(
-                                        color: Color.fromRGBO(180, 180, 180, 1),
-                                        fontSize: 16),
-                                  ),
-                                ],
-                              ),
-                            )
-                          : Expanded(
-                              child: buildArticleSection(searchArticleModel)),
+                      Expanded(
+                          child: searchArticleModel.empty()
+                              ? buildMainText("이벤트/동행찾기 게시판에 글을 검색해보세요.")
+                              : buildArticleSection(searchArticleModel)),
                     ],
                   );
                 },
@@ -75,52 +61,74 @@ class _EventSearchViewState extends State<EventSearchView> {
     );
   }
 
+  // build centerized notice text
+  Widget buildMainText(String text) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Image.asset(
+            "assets/icons/search_white.png",
+            color: Colors.grey,
+          ),
+          SizedBox(height: 10),
+          Text(
+            text,
+            style: TextStyle(
+                color: Color.fromRGBO(180, 180, 180, 1), fontSize: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
   Container buildArticleSection(SearchArticleHandler searchArticleModel) {
     return Container(
-        padding: EdgeInsets.only(top: 20),
-        child: TabBarView(children: [
-          SingleChildScrollView(
-            child: Column(
-              children: searchArticleModel.eventArticleList
-                  .map((e) => RecruitCard(
-                      title: e.title, hasContents: false, range: e.period))
-                  .toList(),
-            ),
-          ),
-          SingleChildScrollView(
-            child: Column(
-              children: searchArticleModel.companionArticleList
-                  .map((e) => RecruitCard(
-                      title: e.title, hasContents: false, range: e.period))
-                  .toList(),
-            ),
-          ),
-          // SingleChildScrollView(
-          //   child: Column(
-          //       children: List.generate(
-          //           20,
-          //           (index) => GestureDetector(
-          //                 onTap: () {
-          //                   setState(() {
-          //                     this.previewData =
-          //                         searchArticleModel.eventArticleList;
-          //                   });
-          //                 },
-          //               ))),
-          // ),
-          // SingleChildScrollView(
-          //     child: Column(
-          //         children: List.generate(
-          //             20,
-          //             (index) => GestureDetector(
-          //                   onTap: () {
-          //                     setState(() {
-          //                       this.previewData =
-          //                           searchArticleModel.companionArticleList;
-          //                     });
-          //                   },
-          //                 )))),
-        ]));
+      padding: EdgeInsets.only(top: 20),
+      child: TabBarView(
+        children: [
+          buildArticleView(
+              searchArticleModel.eventArticleList, ArticleType.EVENT),
+          buildArticleView(
+              searchArticleModel.companionArticleList, ArticleType.COMPANION),
+        ],
+      ),
+    );
+  }
+
+  Widget buildArticleView(
+      List<EventPreviewData> data, ArticleType articleType) {
+    EventArticleHandler eventArticleHandler =
+        EventArticleHandler.detail(articleType: articleType);
+
+    return data.isEmpty
+        ? buildMainText("게시글이 존재하지 않습니다")
+        : buildRecruitCards(data, eventArticleHandler);
+  }
+
+  Widget buildRecruitCards(
+      List<EventPreviewData> data, EventArticleHandler eventArticleHandler) {
+    return SingleChildScrollView(
+      child: Column(
+        children: data
+            .map((e) => RecruitCard(
+                  title: e.title,
+                  hasContents: false,
+                  range: e.period,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(builder: (BuildContext context) {
+                        return EventDetailView(e.id, eventArticleHandler,
+                            eventArticleHandler.articleType);
+                      }),
+                    );
+                  },
+                ))
+            .toList(),
+      ),
+    );
   }
 
   Widget buildFloatingSearchBar(SearchArticleHandler searchArticleModel) {
@@ -166,25 +174,29 @@ class _EventSearchViewState extends State<EventSearchView> {
         automaticallyImplyBackButton: false,
         onSubmitted: (query) {
           // Call your model, bloc, controller here.
-          searchArticleModel.searchArticles(query);
-          setState(() {
-            this.previewData = searchArticleModel.eventArticleList;
-          });
+          if (!searchArticleModel.loading) {
+            searchArticleModel.searchArticles(query);
+          }
+          // setState(() {});
+          // setState(() {
+          //   this.previewData = searchArticleModel.eventArticleList;
+          // });
         },
         onFocusChanged: (bool focus) {},
         // Specify a custom transition to be used for
         // animating between opened and closed stated.
         transition: CircularFloatingSearchBarTransition(),
         actions: [
-          FloatingSearchBarAction(
-            showIfOpened: false,
-            child: CircularButton(
-              icon: const Icon(Icons.filter_list),
-              onPressed: () {
-                //  Navigator.pushNamed(context, '/board/filter');
-              },
-            ),
-          ),
+          // FloatingSearchBarAction(
+          //   showIfOpened: false,
+          //   child: CircularButton(
+          //     icon: const Icon(Icons.filter_list),
+          //     onPressed: () {
+          //       //  Navigator.pushNamed(context, '/board/filter');
+          //     },
+          //   ),
+          // ),
+          // TODO: 필터 구현후 enable
           FloatingSearchBarAction.searchToClear(
             showIfClosed: false,
           ),
