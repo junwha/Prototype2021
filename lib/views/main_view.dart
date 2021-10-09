@@ -131,7 +131,7 @@ class _MainViewState extends State<MainView> {
         buildIconButton("여행게시판", () {
           Navigator.pushNamed(context, 'board');
         }, Image.asset('assets/icons/ic_home_board.png'), 15),
-        buildIconButton("마이프로필", () {
+        buildIconButton("플랜제작", () {
           Navigator.pushNamed(context, 'planmake');
         }, Image.asset('assets/icons/ic_home_myprofile.png'), 15),
       ],
