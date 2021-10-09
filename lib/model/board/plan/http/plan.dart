@@ -63,7 +63,7 @@ class PlanCreateInput extends SafeHttpDataInput {
             .map((day) => day
                 .map((item) => item is MemoData
                     ? "M:" + item.memo
-                    : "C" + item.id.toString())
+                    : "C:" + item.id.toString())
                 .toList())
             .toList(),
         "area_code": data.areaCodes,
