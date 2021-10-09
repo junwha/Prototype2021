@@ -23,6 +23,7 @@ class EventArticleHandler with ChangeNotifier {
 
     loadTopArticles();
   }
+  EventArticleHandler.detail({required this.articleType});
 
   void setArticleType(ArticleType articleType) {
     this.articleType = articleType;
