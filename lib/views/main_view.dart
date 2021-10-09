@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -171,8 +172,10 @@ class _MainViewState extends State<MainView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildIconButton("", () {},
-                Image.asset('assets/icons/ic_home_instagram.png'), 5),
+            buildIconButton("", () async {
+              String url = "https://www.instagram.com/teamtripbuilder/";
+              if (await canLaunch(url)) await launch(url);
+            }, Image.asset('assets/icons/ic_home_instagram.png'), 5),
             buildIconButton(
                 "", () {}, Image.asset('assets/icons/ic_home_blog.png'), 5),
             buildIconButton(

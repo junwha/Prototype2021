@@ -65,6 +65,9 @@ dependencies:
 
   # For parsing data from API
   html: ^0.15.0
+
+  # Launch url on the external browser
+  url_launcher: ^6.0.10
   
 dev_dependencies:
   flutter_test:
