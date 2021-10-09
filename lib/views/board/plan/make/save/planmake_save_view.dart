@@ -159,17 +159,23 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                 buttonTitle: '저장하기',
                                 onPressed: () async {
                                   UserInfoHandler userInfoHandler =
-                                      Provider.of<UserInfoHandler>(context);
+                                      Provider.of<UserInfoHandler>(context,
+                                          listen: false);
                                   PlanMakeHandler planMakeHandler =
-                                      Provider.of<PlanMakeHandler>(context);
+                                      Provider.of<PlanMakeHandler>(context,
+                                          listen: false);
                                   PlanLoader loader = PlanLoader();
 
                                   PlanData data = PlanData(
                                     -1,
                                     planMakeHandler.title!,
                                     [],
-                                    planMakeHandler
-                                        .flattenPlanListItems[randomN].photo,
+                                    (planMakeHandler
+                                                .flattenPlanListItems.length !=
+                                            0)
+                                        ? planMakeHandler
+                                            .flattenPlanListItems[randomN].photo
+                                        : null,
                                     selectedTags,
                                     _selectedValue,
                                     planMakeHandler.dateRange!,
@@ -180,6 +186,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
 
                                   bool saved = await loader.createPlan(
                                       userInfoHandler.token!, data);
+                                  print(saved);
 
                                   if (saved) widget.navigator(Navigate.forward);
                                 },
