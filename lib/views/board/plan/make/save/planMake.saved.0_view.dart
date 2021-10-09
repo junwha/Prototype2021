@@ -139,7 +139,9 @@ class _PlanSavedViewState extends State<PlanSavedView> {
 
   TextButton buildMyPlanButton() {
     return TextButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.pushNamed(context, "wishlist");
+      },
       child: Container(
         child: Center(
           child: Text(
@@ -166,8 +168,7 @@ class _PlanSavedViewState extends State<PlanSavedView> {
   TextButton buildShareButton() {
     return TextButton(
         onPressed: () {
-          Navigator.push(
-              context, MaterialPageRoute(builder: (_) => BoardMainView()));
+          Navigator.pushNamed(context, "board");
         },
         child: Container(
             child: Center(
