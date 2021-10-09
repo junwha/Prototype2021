@@ -150,7 +150,7 @@ class ArticleLoader {
               ),
               LatLng(double.parse(data["coord"]["lat"]),
                   double.parse(data["coord"]["long"])),
-              data["cid"]);
+              data["place_id"]);
         else
           return CompanionDetailData(
             data["id"],
