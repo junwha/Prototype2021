@@ -8,8 +8,9 @@ class TopNoticeSlider extends StatefulWidget {
 
 class _TopNoticeSlider extends State<TopNoticeSlider> {
   List<String> content = [
-    "울산광역시 불꽃축제(2021-01-04~2021-02-03)",
-    "벚꽃축제 in 울산대공원(2021-04-25~2021-05-01)"
+    "안녕하세요, 현재 서비스 오픈 테스트를 진행하고 있습니다.",
+    "11월 중순 정식 배포가 이루어질 예정입니다.",
+    "쉽고 빠른 여행을 위한 나만의 여행 앱, 트립빌더"
   ];
 
   @override

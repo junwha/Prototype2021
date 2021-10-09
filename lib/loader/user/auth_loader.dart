@@ -24,7 +24,8 @@ class AuthLoader {
     SafeQueryInput<ContentsWishlistInput> dto =
         new SafeQueryInput(url: validateTokenUrl, params: params, token: token);
     SafeQueryOutput<ContentsWishlistOutput> result =
-        await safeGET<ContentsWishlistInput, ContentsWishlistOutput>(dto);
+        await safeGET<ContentsWishlistInput, ContentsWishlistOutput>(
+            dto, 200, true);
     if (result.success) return true;
     return false;
   }
@@ -38,5 +39,5 @@ class AuthLoader {
   // Endpoints
 
   String loginUrl = "$apiBaseUrl/user/login";
-  String validateTokenUrl = "$apiBaseUrl/contents/wishlists";
+  String validateTokenUrl = "$apiBaseUrl/contents/wishlist";
 }

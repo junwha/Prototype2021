@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/loader/board/contents_loader.dart';
+import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
+import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -24,24 +29,48 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /* =================================/=============================== */
 
   // Simulate API call
-  PlanDataProps getPlanDetail(int pid) {
-    Future.delayed(Duration(seconds: 3));
-    return pseudoPlanData;
+  Future<PlanData> getPlanDetail(int pid, String? token) async {
+    PlanLoader loader = PlanLoader();
+    PlanDetail detail = await loader.getPlanDetail(id: pid, token: token);
+    List<List<PlaceDataInterface>> items = detail.contents
+        .map((day) => (day).map((item) {
+              if (item is String) {
+                return MemoData(memo: item);
+              } else {
+                ContentsLoader contentsLoader = ContentsLoader();
+                contentsLoader.getContentDetail(item as int, token!);
+              }
+            }) as List<PlaceDataInterface>)
+        .toList();
+
+    return PlanData(
+        detail.id,
+        detail.title,
+        detail.areaCodes,
+        detail.photo,
+        detail.types,
+        detail.expense,
+        detail.period,
+        detail.expenseStyle ?? 0,
+        detail.fatigueStyle ?? 0,
+        items);
   }
 
   bool isLoaded = false;
 
-  late PlanDataProps planData;
+  late PlanData planData;
 
   // Flatten the place data double list
   late PlanMapHandler mapModel;
 
   Future<void> loadPlanDetail() async {
-    planData = getPlanDetail(this.widget.pid);
-    mapModel = PlanMapHandler(planData.planItemList[0][0].location);
+    UserInfoHandler userInfoHandler =
+        Provider.of<UserInfoHandler>(context, listen: false);
+    planData = await getPlanDetail(this.widget.pid, userInfoHandler.token);
+    mapModel = PlanMapHandler(LatLng(0, 0));
     // Update PlaceData and polyline when map is completely loaded
     mapModel.setMapLoadListener(
-        () => {mapModel.updatePlaceData(planData.planItemList)});
+        () => {mapModel.updatePlaceData(planData.contents)});
     setState(() {
       isLoaded = true;
     });
@@ -162,7 +191,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           ],
         ),
         Text(
-          '${planData.region}',
+          '${planData.areaText}',
           style: TextStyle(
             color: Color(0xff555555),
             fontSize: 12 * pt,
@@ -178,7 +207,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           ),
         ),
         Text(
-          '${planData.budget}',
+          '${planData.expenseText}',
           style: TextStyle(
             color: Color(0xff555555),
             fontFamily: 'Roboto',
@@ -227,7 +256,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /*
    * placeList로부터 일자마다 foldable한 컨텐츠/메모 칼럼을 생성합니다
    */
-  Widget buildDailyPlan(List<PlaceDataProps> placeList) {
+  Widget buildDailyPlan(List<PlaceDataInterface> placeList) {
     return Column(
         children: placeList.map((data) {
       if (data is MemoData) {
@@ -265,12 +294,12 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /*
    * planData로부터 모든 일자에 대해 컨텐츠/메모 뷰를 생성합니다
    */
-  Widget buildAllDayPlan(PlanDataProps planData) {
+  Widget buildAllDayPlan(PlanData planData) {
     return buildColumnWithDivider(
-      children: planData.planItemList
+      children: planData.contents
           .map(
             (placeList) => TBFoldableCard(
-              text: "${planData.planItemList.indexOf(placeList) + 1} 일차",
+              text: "${planData.contents.indexOf(placeList) + 1} 일차",
               child: buildDailyPlan(placeList),
             ),
           )
@@ -281,7 +310,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   /*
    * RadioBar를 각각 생성합니다
    */
-  Widget buildTripStyleView(PlanDataProps planData) {
+  Widget buildTripStyleView(PlanData planData) {
     return TBFoldableCard(
       text: "이 여행의 스타일 보기",
       child: Column(

@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class MainView extends StatefulWidget {
   const MainView({Key? key}) : super(key: key);
@@ -122,14 +123,18 @@ class _MainViewState extends State<MainView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        buildIconButton("내주변여행", () {},
-            Image.asset('assets/icons/ic_home_location_event.png'), 15),
-        buildIconButton(
-            "마이플랜", () {}, Image.asset('assets/icons/ic_home_myplan.png'), 15),
-        buildIconButton(
-            "여행게시판", () {}, Image.asset('assets/icons/ic_home_board.png'), 15),
-        buildIconButton("마이프로필", () {},
-            Image.asset('assets/icons/ic_home_myprofile.png'), 15),
+        buildIconButton("내주변여행", () {
+          Navigator.pushNamed(context, 'event');
+        }, Image.asset('assets/icons/ic_home_location_event.png'), 15),
+        buildIconButton("마이플랜", () {
+          Navigator.pushNamed(context, 'wishlist');
+        }, Image.asset('assets/icons/ic_home_myplan.png'), 15),
+        buildIconButton("여행게시판", () {
+          Navigator.pushNamed(context, 'board');
+        }, Image.asset('assets/icons/ic_home_board.png'), 15),
+        buildIconButton("플랜제작", () {
+          Navigator.pushNamed(context, 'planmake');
+        }, Image.asset('assets/icons/ic_home_myprofile.png'), 15),
       ],
     );
   }
@@ -167,15 +172,20 @@ class _MainViewState extends State<MainView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildIconButton("", () {},
-                Image.asset('assets/icons/ic_home_instagram.png'), 5),
+            buildIconButton("", ()  {
+              linkToUrl("https://www.instagram.com/teamtripbuilder/");
+            }, Image.asset('assets/icons/ic_home_instagram.png'), 5),
             buildIconButton(
-                "", () {}, Image.asset('assets/icons/ic_home_blog.png'), 5),
+                "", ()  {
+            }, Image.asset('assets/icons/ic_home_blog.png'), 5),
             buildIconButton(
-                "", () {}, Image.asset('assets/icons/ic_home_facebook.png'), 5),
+                "", () {linkToUrl("https://www.facebook.com/teamtripbuilder/");}, Image.asset('assets/icons/ic_home_facebook.png'), 5),
           ],
         ),
       ]),
     );
-  }
+  }  
+  void linkToUrl(String url) async {
+      if (await canLaunch(url)) await launch(url);
+    }
 }

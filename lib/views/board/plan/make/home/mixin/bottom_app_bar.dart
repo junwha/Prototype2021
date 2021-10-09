@@ -4,17 +4,20 @@ import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'dart:io' show Platform;
 
 mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHomeView> {
-  Container buildSaveButton() {
-    return buildBottomRoundedButton([
-      Text("저장하기",
-          style: const TextStyle(
-              color: const Color(0xff555555),
-              fontWeight: FontWeight.w700,
-              fontFamily: "Roboto",
-              fontStyle: FontStyle.normal,
-              fontSize: 17.0),
-          textAlign: TextAlign.center)
-    ]);
+  Container buildSaveButton(void Function() onTap) {
+    return buildBottomRoundedButton(
+      [
+        Text("저장하기",
+            style: const TextStyle(
+                color: const Color(0xff555555),
+                fontWeight: FontWeight.w700,
+                fontFamily: "Roboto",
+                fontStyle: FontStyle.normal,
+                fontSize: 17.0),
+            textAlign: TextAlign.center)
+      ],
+      onTap,
+    );
   }
 
   Container buildAIButton(BuildContext context, TBLargeDialog aiDialog) {

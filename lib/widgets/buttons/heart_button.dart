@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:prototype2021/views/board/loader/contents_loader.dart';
+import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/settings/constants.dart';
 

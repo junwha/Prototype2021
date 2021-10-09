@@ -5,54 +5,67 @@ import 'package:prototype2021/widgets/buttons/heart_button.dart';
 
 class CardBaseProps implements CommonObject {
   final int id;
-  final String preview;
+  final String? preview;
   final String title;
   final String? place;
   final List<String> tags;
 
   CardBaseProps({
     required this.id,
-    required this.preview,
     required this.title,
     required this.tags,
     this.place,
+    this.preview,
   });
 }
 
 class CardBase {
-  Container buildCard({
+  Widget buildCard({
     required Widget itemInfo,
     required Color backgroundColor,
     required int dataId,
     required int userId,
     required HeartFor heartFor,
     bool isHeartSelected = false,
-    required String preview,
     required String token,
+    String? preview,
+    Widget? footer,
+    Widget? header,
   }) {
-    return Container(
-        padding: EdgeInsets.all(10 * pt),
-        height: 160 * pt,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          border: Border.all(
-            color: Color(0xffe8e8e8),
-            width: 0.5,
+    return Column(
+      children: [
+        header == null ? SizedBox() : header,
+        Container(
+          alignment: Alignment.center,
+          padding: EdgeInsets.symmetric(horizontal: 10 * pt, vertical: 20),
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            border: Border.all(
+              color: Color(0xffe8e8e8),
+              width: 0.5,
+            ),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              SizedBox(width: 15),
+              itemInfo,
+              buildW(15 * pt),
+              buildPreview(
+                preview ?? placeHolder,
+                isHeartSelected: isHeartSelected,
+                dataId: dataId,
+                userId: userId,
+                heartFor: heartFor,
+                token: token,
+              )
+            ],
           ),
         ),
-        child: Row(children: <Widget>[
-          SizedBox(width: 15),
-          itemInfo,
-          buildW(15 * pt),
-          buildPreview(
-            preview,
-            isHeartSelected: isHeartSelected,
-            dataId: dataId,
-            userId: userId,
-            heartFor: heartFor,
-            token: token,
-          )
-        ]));
+        footer == null ? SizedBox() : footer,
+      ],
+    );
   }
 
   /* 

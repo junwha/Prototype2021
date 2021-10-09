@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TBSaveButton extends StatefulWidget {
-  String buttonTitle;
+  final String buttonTitle;
+  final void Function() onPressed;
 
-  TBSaveButton({required this.buttonTitle});
+  TBSaveButton({required this.buttonTitle, required this.onPressed});
 
   @override
   _TBSaveButtonState createState() => _TBSaveButtonState();
@@ -13,7 +14,7 @@ class _TBSaveButtonState extends State<TBSaveButton> {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () {},
+      onPressed: widget.onPressed,
       child: Container(
         height: 40,
         width: 140,

@@ -62,7 +62,7 @@ class ArticleDetailData {
 }
 
 class EventDetailData extends ArticleDetailData {
-  int? placeId;
+  String? placeId;
   LatLng coord;
   EventDetailData(
       int id,

@@ -4,12 +4,14 @@ import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/views/board/main/board_main_view.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/views/event/main/event_main_view.dart';
+import 'package:prototype2021/views/main_view.dart';
 import 'package:prototype2021/widgets/buttons/circle_button.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
 import 'package:prototype2021/widgets/notices/loading.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
-import 'package:prototype2021/views/board/main/board_main_view.dart';
 import 'package:prototype2021/views/signin/signin_view.dart';
 import 'package:provider/provider.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -50,7 +52,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
   Future<void> navigateToMain(BuildContext context) async {
     await Navigator.push<MaterialPageRoute>(
       context,
-      MaterialPageRoute(builder: (context) => EventMainView()),
+      MaterialPageRoute(builder: (context) => MainView()),
     );
   }
 
@@ -155,7 +157,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
               buildLoginCheckboxes(),
               SizedBox(height: 18),
               buildLoginButton(context),
-              buildSocialLoginButtons(),
+              // buildSocialLoginButtons(),
               SizedBox(height: 60),
               buildFindIDPW(),
               buildSignin(),
@@ -258,15 +260,11 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     return AppBar(
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
-        centerTitle: false,
-        leading: IconButton(
-          icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-          onPressed: () {},
-        ),
-        title: Text("로그인",
+        centerTitle: true,
+        title: Text("Tripbuilder",
             style: const TextStyle(
                 color: const Color(0xff000000),
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.w800,
                 fontFamily: "Roboto",
                 fontStyle: FontStyle.normal,
                 fontSize: 16.0 * pt),

@@ -20,9 +20,16 @@ class ContentsDetail extends ContentPreview {
   /// Detail Info, use abstract classes for each types
   final DetailInfo detailInfo;
 
+  final double lat;
+  final double lng;
+
   ContentsDetail.fromJson({required Map<String, dynamic> json})
       : typeId = idContentType[nullable<int>(json["typeid"]) ?? -1] ??
             ContentType.unknown,
+        lat = safelyParseDouble(
+            json["gps_latitude"] as String)!, // Assume as required
+        lng = safelyParseDouble(
+            json["gps_longitude"] as String)!, // Assume as required
         zipCode = nullable<String>(json["zipcode"]),
         homePage = nullable<String>(json["homepage"]),
         tel = nullable<String>(json["tel"]),

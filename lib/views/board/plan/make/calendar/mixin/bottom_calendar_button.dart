@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
-import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
+import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 class BottomCalendarButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     return Container(
       child: SafeArea(child: buildButton(context, calendarHandler)),
       width: double.infinity,
@@ -23,7 +23,7 @@ class BottomCalendarButton extends StatelessWidget {
   }
 
   TextButton buildButton(
-      BuildContext context, PlanMakeCalendarHandler calendarHandler) {
+      BuildContext context, PlanMakeHandler calendarHandler) {
     String buttonText;
     Color buttonColor;
     Color textColor;
@@ -58,13 +58,11 @@ class BottomCalendarButton extends StatelessWidget {
             ? null
             : () {
                 calendarHandler.generatePlanListItems();
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (BuildContext context) {
-                  return ChangeNotifierProvider.value(
-                    value: calendarHandler.inherit(),
-                    child: PlanMakeHomeView(),
-                  );
-                }));
+                PlanMakeCalendarView? parent = context
+                    .findAncestorWidgetOfExactType<PlanMakeCalendarView>();
+                if (parent != null) {
+                  parent.navigator(Navigate.forward);
+                }
               },
         style: ButtonStyle(
             shape: MaterialStateProperty.all(RoundedRectangleBorder(

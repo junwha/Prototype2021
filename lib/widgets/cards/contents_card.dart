@@ -34,8 +34,10 @@ class ContentsCardBaseProps extends CardBaseProps {
 
 class ContentsCard extends StatelessWidget with CardBase {
   final ContentsCardBaseProps props;
+  final Widget? header;
+  final Widget? footer;
 
-  ContentsCard.fromProps({required this.props});
+  ContentsCard.fromProps({required this.props, this.header, this.footer});
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +51,8 @@ class ContentsCard extends StatelessWidget with CardBase {
       dataId: props.id,
       isHeartSelected: props.hearted,
       token: model.token ?? "",
+      header: header,
+      footer: footer,
     );
   }
 

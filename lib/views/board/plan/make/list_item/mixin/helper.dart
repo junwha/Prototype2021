@@ -3,7 +3,7 @@ import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 
 mixin PlanListItemHelper {
-  PlaceDataProps randomPlaceData() {
+  PlaceDataInterface randomPlaceData() {
     return pseudoPlaceData[Random().nextInt(pseudoPlaceData.length)];
   }
 

@@ -75,7 +75,7 @@ class PlanListItemState extends State<PlanListItem>
    * 위젯트리 상으로 가장 가까운 PlanListItem 클래스에 아래와 같은 메소드를 정의해 놓은 것입니다. 
   */
   void Function() Function(int) deleteSelfFuncFactory(
-      PlanMakeCalendarHandler calendarHandler) {
+      PlanMakeHandler calendarHandler) {
     return (int order) {
       return () {
         calendarHandler.deletePlaceData(dateIndex, order);
@@ -116,8 +116,8 @@ class PlanListItemState extends State<PlanListItem>
 
   @override
   void dispose() {
-    super.dispose();
     _mainExpandController.dispose();
+    super.dispose();
   }
 
   /* =================================/================================= */
@@ -129,9 +129,9 @@ class PlanListItemState extends State<PlanListItem>
     PlanMakeHomeViewState? parent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
 
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
-    List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
+    List<PlaceDataInterface> data =
+        calendarHandler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     bool onDrag = parent?.onDrag ?? false;
     PlanMakeMode mode = parent?.mode ?? PlanMakeMode.add;
@@ -143,7 +143,7 @@ class PlanListItemState extends State<PlanListItem>
     }
 
     void _pasteData() {
-      PlaceDataProps? data = parent?.copiedData;
+      PlaceDataInterface? data = parent?.copiedData;
       if (data != null) {
         int indexToInsert = 0;
         parent?.insertCopiedData(
@@ -162,9 +162,7 @@ class PlanListItemState extends State<PlanListItem>
       child: Container(
           child: Column(
             children: [
-              ScheduleCardsHeader(
-                dateIndex: dateIndex,
-              ),
+              ScheduleCardsHeader(dateIndex: dateIndex),
               buildScheduleCardsSubHeader(mode, hasItem, onDrag, _pasteData),
               SizeTransition(
                   sizeFactor: _mainExpandAnimation,
@@ -173,8 +171,11 @@ class PlanListItemState extends State<PlanListItem>
                     child: ReorderableListView(
                       onReorder: _onReorder,
                       buildDefaultDragHandles: false,
-                      children: placeDataToWidgets(data, dateIndex,
-                          deleteSelfFuncFactory(calendarHandler)),
+                      children: placeDataToWidgets(
+                        data,
+                        dateIndex,
+                        deleteSelfFuncFactory(calendarHandler),
+                      ),
                       shrinkWrap: true,
                       physics: new NeverScrollableScrollPhysics(),
                     ),

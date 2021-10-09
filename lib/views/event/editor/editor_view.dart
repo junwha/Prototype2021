@@ -5,6 +5,8 @@ import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/handler/event/editor_handler.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
+import 'package:prototype2021/views/event/editor/plan_select/plan_select_view.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/views/event/editor/mixin/event_custom_text_field.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_preview.dart';
@@ -594,13 +596,18 @@ class _EditorViewState extends State<EditorView> {
     if (location != null) {
       setState(() {
         editorModel.location = location;
-        print(location.latLng);
       });
     }
   }
 
   void loadPlan(EditorHandler editorHandler) async {
-    // TODO: connect here with Plan List View
-    editorHandler.pid = 0;
+    Map<String, dynamic> data = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlanSelectView(navigator: (Navigate navigate) {}),
+      ),
+    ) as Map<String, dynamic>;
+    print(data["id"] as int);
+    editorHandler.pid = data["id"] as int;
   }
 }

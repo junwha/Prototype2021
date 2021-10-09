@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
@@ -11,27 +12,39 @@ void main() {
 }
 
 void testPlanMapModel() {
-  List<PlaceDataProps> data = [
+  List<PlaceDataInterface> data = [
     PseudoPlaceData(
-        location: LatLng(0, 0),
-        name: "cafe",
-        types: PlaceType.CAFE,
-        address: null),
+      location: LatLng(0, 0),
+      name: "cafe",
+      types: PlaceType.CAFE,
+      id: 1,
+      contentType: ContentType.restaurants,
+      address: null,
+    ),
     PseudoPlaceData(
-        location: LatLng(0, 3),
-        name: "spot",
-        types: PlaceType.SPOT,
-        address: null),
+      location: LatLng(0, 3),
+      name: "spot",
+      types: PlaceType.SPOT,
+      id: 2,
+      contentType: ContentType.spot,
+      address: null,
+    ),
     PseudoPlaceData(
-        location: LatLng(0, 2),
-        name: "restaurant",
-        types: PlaceType.RESTAURANT,
-        address: null),
+      location: LatLng(0, 2),
+      name: "restaurant",
+      types: PlaceType.RESTAURANT,
+      id: 3,
+      contentType: ContentType.restaurants,
+      address: null,
+    ),
     PseudoPlaceData(
-        location: LatLng(3, 0),
-        name: "hotel",
-        types: PlaceType.HOTEL,
-        address: null)
+      location: LatLng(3, 0),
+      name: "hotel",
+      types: PlaceType.HOTEL,
+      id: 4,
+      contentType: ContentType.accomodations,
+      address: null,
+    ),
   ];
 
   test('update polyline', () async {
@@ -46,10 +59,13 @@ void testPlanMapModel() {
     model.updatePlaceData([
       [
         PseudoPlaceData(
-            location: LatLng(3, 0),
-            name: "nontype",
-            types: PlaceType.EVENT,
-            address: null)
+          location: LatLng(3, 0),
+          name: "nontype",
+          types: PlaceType.EVENT,
+          contentType: ContentType.unknown,
+          id: 5,
+          address: null,
+        ),
       ]
     ]);
     // polyline is null if data is only one
@@ -81,10 +97,13 @@ void testPlanMapModel() {
     model.updatePlaceData([
       [
         PseudoPlaceData(
-            location: LatLng(3, 0),
-            name: "nontype",
-            types: PlaceType.EVENT,
-            address: null)
+          location: LatLng(3, 0),
+          name: "nontype",
+          types: PlaceType.EVENT,
+          contentType: ContentType.unknown,
+          id: 5,
+          address: null,
+        )
       ],
       data,
       []

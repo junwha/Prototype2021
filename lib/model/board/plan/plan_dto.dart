@@ -20,8 +20,8 @@ class PlanProps {
   final List<String> types;
   final int expense;
   final DateTimeRange period;
-  final int expenseStyle;
-  final int fatigueStyle;
+  final int? expenseStyle;
+  final int? fatigueStyle;
 
   PlanProps(
     this.id,
@@ -36,14 +36,14 @@ class PlanProps {
   );
 
   PlanProps.fromJson({required Map<String, dynamic> json})
-      : id = json["id"],
-        title = json["title"],
+      : id = json["id"] as int,
+        title = json["title"] as String,
         areaCodes = dynamicListToTList<int>(json["area_code"]),
-        photo = nullable<String>(json["photo"]),
+        photo = nullable<String>(json["photo_url"]),
         types = dynamicListToTList<String>(json["type"]),
-        expense = json["expense"],
-        expenseStyle = json["expense_style"],
-        fatigueStyle = json["fatigue_style"],
+        expense = json["expense"] as int,
+        expenseStyle = nullable<int>(json["expense_style"]),
+        fatigueStyle = nullable<int>(json["fatigue_style"]),
         period = DateTimeRange(
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"]));
@@ -83,7 +83,7 @@ class PlanDetail extends PlanProps {
 }
 
 class PlanData extends PlanProps {
-  final List<List<PlaceDataProps>> contents; // day -> cid and memo
+  final List<List<PlaceDataInterface>> contents; // day -> cid and memo
 
   PlanData(
     int id,

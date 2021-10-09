@@ -1,29 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/props/card_base.dart';
 import 'package:prototype2021/widgets/buttons/heart_button.dart';
 import 'package:prototype2021/widgets/shapes/tag.dart';
+import 'package:provider/provider.dart';
 
 class ProductCardBaseProps extends CardBaseProps {
-  final int period;
+  final DateTimeRange period;
   final int costStart;
   final int costEnd;
   final bool isGuide;
-  final double matchPercent;
+  final double? matchPercent;
   final List<String> tendencies;
+  final bool hearted;
 
   ProductCardBaseProps({
     required this.period,
     required this.costStart,
     required this.costEnd,
     required this.isGuide,
-    required this.matchPercent,
     required this.tendencies,
-    required String preview,
+    required this.hearted,
     required String title,
-    required String place,
     required List<String> tags,
     required int id,
+    this.matchPercent,
+    String? preview,
+    String? place,
   }) : super(
           id: id,
           preview: preview,
@@ -35,22 +39,26 @@ class ProductCardBaseProps extends CardBaseProps {
 
 class ProductCard extends StatelessWidget with CardBase {
   final ProductCardBaseProps props;
+  final Widget? footer;
+
   ProductCard.fromProps({
     required this.props,
+    this.footer,
   });
 
   @override
   Widget build(BuildContext context) {
+    UserInfoHandler handler = Provider.of<UserInfoHandler>(context);
     return buildCard(
       itemInfo: buildProductCardInfo(),
       backgroundColor: Colors.white,
       preview: props.preview,
       heartFor: HeartFor.planCard,
-      userId: 1, // PLEASE INPUT REAL USERID HERE
-      dataId: 1, // PLEASE INPUT REAL DATAID HERE
-      isHeartSelected:
-          false, // PLEASE INPUT REAL isHeartSelected FROM API CALL HERE
-      token: "some token", // PLEASE INPUT REAL token HERE
+      userId: handler.userId ?? -1,
+      dataId: props.id,
+      isHeartSelected: props.hearted,
+      token: handler.token ?? "",
+      footer: footer,
     );
   }
 
@@ -83,12 +91,12 @@ class ProductCard extends StatelessWidget with CardBase {
     );
   }
 
-  Container buildEstimates(int period, int costStart, int costEnd) {
+  Container buildEstimates(DateTimeRange period, int costStart, int costEnd) {
     return Container(
       child: Column(
         children: [
           Text(
-            "기간: ${period.toString()}일",
+            "기간: ${period.end.difference(period.start).inDays.toString()}일",
             maxLines: 2,
             style: TextStyle(
               color: Color(0xff555555),
@@ -98,7 +106,7 @@ class ProductCard extends StatelessWidget with CardBase {
           ),
           SizedBox(height: 4 * pt),
           Text(
-            '예산: ${costStart.toString()}~${costEnd.toString()}만원',
+            '예산: $costStart만원',
             maxLines: 2,
             style: TextStyle(
               color: Color(0xff555555),

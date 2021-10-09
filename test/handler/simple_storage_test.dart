@@ -3,7 +3,9 @@ import 'package:prototype2021/utils/simple_storage/simple_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
-  SharedPreferences.setMockInitialValues({});
+  setUpAll(() {
+    SharedPreferences.setMockInitialValues({});
+  });
   group('[Class] SimpleStorage', testSimpleStorage);
 }
 

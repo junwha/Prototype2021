@@ -12,18 +12,25 @@ import 'package:prototype2021/views/board/plan/make/home/mixin/helper.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/main.dart';
 import 'package:prototype2021/views/board/plan/make/mixin/plan_make_appbar_base.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
+import 'package:prototype2021/views/board/plan/make/mixin/plan_make_navigator.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 class PlanMakeHomeView extends StatefulWidget {
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+
+  const PlanMakeHomeView({required this.navigator});
+
   @override
-  PlanMakeHomeViewState createState() => PlanMakeHomeViewState();
+  PlanMakeHomeViewState createState() =>
+      PlanMakeHomeViewState(navigator: navigator);
 }
 
 class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     with
+        ChangeNotifier,
         PlanMakeAppBarBase,
         TickerProviderStateMixin,
-        ChangeNotifier,
         /* 
          * These Mixins below have children widgets and helper Functions 
          * PlanMakeHome widget uses 
@@ -32,10 +39,14 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         PlanMakeHomeBottomAppBarMixin,
         PlanMakeHomeHeaderMixin,
         PlanMakeHomeMainMixin,
-        PlanMakeHomeHelper {
+        PlanMakeHomeHelper
+    implements
+        PlanMakeNavigator {
   /* =================================/================================= */
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
+
+  final void Function(Navigate, [PlanMakeViewMode?]) navigator;
 
   bool _onTop = true;
   void Function(bool)? _setOnTop(bool isOnTop) {
@@ -94,16 +105,16 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   String? copiedDataId;
-  PlaceDataProps? copiedData;
-  void setCopiedData(String? dataId, PlaceDataProps? data) {
+  PlaceDataInterface? copiedData;
+  void setCopiedData(String? dataId, PlaceDataInterface? data) {
     setState(() {
       copiedDataId = dataId;
       copiedData = data;
     });
   }
 
-  void insertCopiedData(PlanMakeCalendarHandler calendarHandler, int dateIndex,
-      PlaceDataProps data, int indexToInsert) {
+  void insertCopiedData(PlanMakeHandler calendarHandler, int dateIndex,
+      PlaceDataInterface data, int indexToInsert) {
     calendarHandler.insertPlaceData(dateIndex, data, indexToInsert);
   }
 
@@ -132,7 +143,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   /* =================CONSTRUCTORS & LIFE CYCLE METHODS================= */
   /* =================================/================================= */
 
-  PlanMakeHomeViewState() {
+  PlanMakeHomeViewState({required this.navigator}) {
     _scrollController =
         AnimationController(vsync: this, duration: Duration(milliseconds: 400));
     _sizeController =
@@ -166,9 +177,9 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
 
   @override
   void dispose() {
-    super.dispose();
     _scrollController.dispose();
     _sizeController.dispose();
+    super.dispose();
   }
 
   /* =================================/================================= */
@@ -179,7 +190,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xfff6f6f6),
-      appBar: buildAppBar(context, _appBarColor, _appBarElevation),
+      appBar: buildAppBar(
+        context,
+        backgroundColor: _appBarColor,
+        elevation: _appBarElevation,
+        navigator: () => navigator(Navigate.backward),
+      ),
       body: buildBody(context),
       bottomNavigationBar: buildBottomAppBar(context),
     );
@@ -189,18 +205,27 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
     return NotificationListener<ScrollNotification>(
         onNotification: (ScrollNotification scrollNotification) =>
             onScrollNotificationHandler(
-                scrollNotification, _scrollController, _onTop, _setOnTop),
+              scrollNotification,
+              _scrollController,
+              _onTop,
+              _setOnTop,
+            ),
         child: SingleChildScrollView(
             child: Container(
           child: Column(
-            children: [buildHeader(context), buildMain(context)],
+            children: [
+              buildHeader(
+                context,
+                backNavigator: () => navigator(Navigate.backward),
+              ),
+              buildMain(context),
+            ],
           ),
         )));
   }
 
   Widget buildMain(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
 
     List<Widget> planListItemWidgets =
         List.generate(calendarHandler.dateDifference!, (index) {
@@ -210,65 +235,45 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         decrementOpenedCount: _decrementOpenedCount,
       );
     });
-    return ChangeNotifierProvider<PlanMapHandler>(
-      create: (_) {
-        PlanMapHandler model = PlanMapHandler(LatLng(35.5763,
-            129.1893)); // TODO: replace this position as current position;
-        calendarHandler.addListener(() {
-          // Notify to plan map model when the calendar handler has changed.
-          try {
-            if (calendarHandler.planListItems != null)
-              model.updatePlaceData(calendarHandler.planListItems!);
-            else {
-              // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
-              model.updatePlaceData(List.generate(
-                  calendarHandler.dateDifference!, (index) => []));
-            }
-          } catch (e) {
-            print(e);
-          }
-        });
-        return model;
-      },
-      child: Container(
-        child: Column(
-          children: [
-            Container(
-              height: 50,
-            ),
-            Container(
-                height: isMapEnabled ? 200 : 0,
-                child: Consumer(builder:
-                    (BuildContext context, PlanMapHandler model, Widget? _) {
-                  return model.mapLoaded ? PlanMap() : SizedBox();
-                })),
-            buildPlanListItemsHeader(mode, _setMode,
-                _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
-            buildTopShadowHidingContainer(_blindContainerColor),
-            Column(children: planListItemWidgets),
-          ],
-        ),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-            color: Colors.white),
-        width: MediaQuery.of(context).size.width,
-        constraints:
-            BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+
+    return Container(
+      child: Column(
+        children: [
+          Container(height: 50), // Top placeholder
+          buildPlanMap(),
+          buildPlanListItemsHeader(mode, _setMode,
+              _planListItemsHeaderElevation, _sizeAnimation, _borderColor),
+          buildTopShadowHidingContainer(_blindContainerColor),
+          Column(children: planListItemWidgets),
+        ],
       ),
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(40), topRight: Radius.circular(40)),
+          color: Colors.white),
+      width: MediaQuery.of(context).size.width,
+      constraints:
+          BoxConstraints(minHeight: MediaQuery.of(context).size.height),
+    );
+  }
+
+  Container buildPlanMap() {
+    PlanMapHandler handler = Provider.of<PlanMapHandler>(context);
+    return Container(
+      height: isMapEnabled ? 200 : 0,
+      child: handler.mapLoaded ? PlanMap() : SizedBox(),
     );
   }
 
   Container buildBottomAppBar(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
     bool onModeAdd = mode == PlanMakeMode.add;
-    void onEditDoneButtonTap() {
+    void _onEditDoneButtonTap() {
       _setMode(PlanMakeMode.add);
       setCopiedData(null, null);
     }
 
-    void onResetButtonTap() {
+    void _onResetButtonTap() {
       calendarHandler.resetPlanListItems();
       _setMode(PlanMakeMode.add);
       _sizeController.reverse();
@@ -288,12 +293,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
                 flex: onModeAdd ? 6 : 4,
                 child: onModeAdd
                     ? buildAIButton(context, buildAIDialog(context))
-                    : buildResetButton(onResetButtonTap)),
+                    : buildResetButton(_onResetButtonTap)),
             Expanded(
                 flex: onModeAdd ? 4 : 6,
                 child: onModeAdd
-                    ? buildSaveButton()
-                    : buildEditDoneButton(onEditDoneButtonTap)),
+                    ? buildSaveButton(() => navigator(Navigate.forward))
+                    : buildEditDoneButton(_onEditDoneButtonTap)),
           ],
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -302,12 +307,5 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
       ),
       decoration: BoxDecoration(color: Colors.white),
     );
-  }
-}
-
-class PseudoMap extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Text("asddf");
   }
 }
