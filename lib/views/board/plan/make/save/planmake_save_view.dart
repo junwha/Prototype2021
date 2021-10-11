@@ -271,9 +271,9 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     DateTime? last = calendarHandler.datePoints.last;
 
     if (first != null && last == null) {
-      return "${first!.month}월 ${first.day}일";
+      return "${first.month}월 ${first.day}일";
     } else if (first == null && last != null) {
-      return "${last!.month}월 ${last.day}일";
+      return "${last.month}월 ${last.day}일";
     } else if (first != null && last != null) {
       return "${first.month}월 ${first.day}일 ~ ${last.month}월 ${last.day}일";
     }

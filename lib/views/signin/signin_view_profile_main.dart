@@ -45,6 +45,7 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       drawerScrimColor: Colors.white,
       appBar: buildAppBar(context,
           shouldPopTo: SignInViewVerification, title: "회원 설정"),

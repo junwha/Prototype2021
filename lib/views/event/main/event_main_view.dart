@@ -280,6 +280,8 @@ class _EventMainViewState extends State<EventMainView>
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
       leading: IconButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
         onPressed: () {
           Navigator.pop(context);
@@ -287,6 +289,8 @@ class _EventMainViewState extends State<EventMainView>
       ),
       actions: [
         IconButton(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onPressed: () {
             Navigator.push(
               context,
@@ -298,6 +302,8 @@ class _EventMainViewState extends State<EventMainView>
           icon: Image.asset("assets/icons/search.png"),
         ),
         IconButton(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onPressed: () {
             Navigator.push(
               context,
