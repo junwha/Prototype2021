@@ -25,7 +25,7 @@ class SearchPlaceModel with ChangeNotifier {
 
     try {
       http.Response res = await http.get(Uri.parse(url));
-      searchResult = await parseData(res.body);
+      searchResult = parseData(res.body);
     } catch (e) {
       print("check internet");
     }

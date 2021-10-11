@@ -115,4 +115,7 @@ app.*.map.json
 version
 analysis_benchmark.json
 
+# Build files
+build
+
  

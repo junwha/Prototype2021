@@ -62,7 +62,7 @@ class ArticleDetailData {
 }
 
 class EventDetailData extends ArticleDetailData {
-  int? cid;
+  String? placeId;
   LatLng coord;
   EventDetailData(
       int id,
@@ -77,7 +77,7 @@ class EventDetailData extends ArticleDetailData {
       int maxAge,
       DateTimeRange period,
       this.coord,
-      this.cid)
+      this.placeId)
       : super(id, userData, hearts, title, body, recruit, male, female, minAge,
             maxAge, period);
 }

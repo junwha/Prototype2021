@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/model/board/contents/content_preview.dart';
@@ -27,7 +26,9 @@ class ContentsListInput extends SafeHttpDataInput {
         "area_code": areaCode,
         "area_detail_code": areaDetailCode == null ? null : "($areaDetailCode)",
         "keyword": keyword,
-        "typeid": typeId == null ? null : contentTypeId[typeId],
+        "typeid": typeId == null || typeId == ContentType.unknown
+            ? null
+            : contentTypeId[typeId],
         "page": page,
       };
 
@@ -56,13 +57,15 @@ class ContentsWishlistInput extends SafeHttpDataInput {
   ContentsWishlistInput({
     this.areaCode,
     this.detailAreaCode,
-    this.typeId,
-  });
+    ContentType? typeId,
+  }) : typeId = typeId == null || typeId == ContentType.unknown
+            ? null
+            : contentTypeId[typeId].toString();
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,
         "detail_area_code": detailAreaCode,
-        "typeid": typeId
+        "typeid": typeId,
       };
 
   Map<String, String>? getUrlParams() => null;

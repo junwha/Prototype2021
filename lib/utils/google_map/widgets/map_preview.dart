@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
-import 'package:prototype2021/model/map/location.dart';
-import 'package:prototype2021/handler/google_place/content_map_handler.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/utils/google_map/widgets/marker.dart';
@@ -19,10 +17,6 @@ class MapPreview extends StatefulWidget {
 class _MapPreviewState extends State<MapPreview> {
   GoogleMapController? mapController;
 
-  //Save positions of last tapped and pressed
-  // LatLng? _lastTap;
-  // LatLng? _lastLongPress;
-  // TODO(junwha): after all test, place marks here
   MarkerList markerList = MarkerList();
   bool isLoaded = true;
   void _onMapCreated(GoogleMapController controller) async {
@@ -31,6 +25,7 @@ class _MapPreviewState extends State<MapPreview> {
 
   @override
   void initState() {
+    super.initState();
     load();
   }
 

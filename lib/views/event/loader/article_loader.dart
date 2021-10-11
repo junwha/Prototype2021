@@ -185,9 +185,9 @@ class ArticleLoader {
   Future<bool> deleteArticle(int id, ArticleType articleType) async {
     String url;
     if (articleType == ArticleType.EVENT)
-      url = "http://api.tripbuilder.co.kr/recruitments/events/${id}/";
+      url = "http://api.tripbuilder.co.kr/recruitments/events/$id/";
     else
-      url = "http://api.tripbuilder.co.kr/recruitments/companions/${id}/";
+      url = "http://api.tripbuilder.co.kr/recruitments/companions/$id/";
     try {
       http.Response response = await http.delete(Uri.parse(url));
       if (response.statusCode == 204) return true;

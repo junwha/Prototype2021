@@ -2,9 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
-import 'package:prototype2021/loader/event/article_loader.dart';
-import 'package:prototype2021/loader/board/contents_loader.dart';
-import 'package:prototype2021/model/board/contents/content_preview.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
 
 const Map<int, String> expenseCodeToString = {
@@ -23,8 +20,8 @@ class PlanProps {
   final List<String> types;
   final int expense;
   final DateTimeRange period;
-  final int expenseStyle;
-  final int fatigueStyle;
+  final int? expenseStyle;
+  final int? fatigueStyle;
 
   PlanProps(
     this.id,
@@ -39,14 +36,14 @@ class PlanProps {
   );
 
   PlanProps.fromJson({required Map<String, dynamic> json})
-      : id = json["id"],
-        title = json["title"],
+      : id = json["id"] as int,
+        title = json["title"] as String,
         areaCodes = dynamicListToTList<int>(json["area_code"]),
-        photo = nullable<String>(json["photo"]),
+        photo = nullable<String>(json["photo_url"]),
         types = dynamicListToTList<String>(json["type"]),
-        expense = json["expense"],
-        expenseStyle = json["expense_style"],
-        fatigueStyle = json["fatigue_style"],
+        expense = json["expense"] as int,
+        expenseStyle = nullable<int>(json["expense_style"]),
+        fatigueStyle = nullable<int>(json["fatigue_style"]),
         period = DateTimeRange(
             start: DateTime.parse(json["start_date"]),
             end: DateTime.parse(json["end_date"]));
@@ -81,12 +78,12 @@ class PlanDetail extends PlanProps {
                 .toList())
             .toList(),
         userData = UserData(json["user"]["id"], json["user"]["name"],
-            nullable<String>(json["user"]["photo"])), // TODO: 유저 모델 수정 필요
+            nullable<String>(json["user"]["photo"])), 
         super.fromJson(json: json);
 }
 
 class PlanData extends PlanProps {
-  final List<List<PlaceDataProps>> contents; // day -> cid and memo
+  final List<List<PlaceDataInterface>> contents; // day -> cid and memo
 
   PlanData(
     int id,

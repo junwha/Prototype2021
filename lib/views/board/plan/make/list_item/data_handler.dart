@@ -11,7 +11,7 @@ mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
 
   int toWidgetIndex(int index) => (index + 2) ~/ 2;
 
-  List<Widget> placeDataToWidgets(List<PlaceDataProps> data, int dateIndex,
+  List<Widget> placeDataToWidgets(List<PlaceDataInterface> data, int dateIndex,
       void Function() Function(int) deleteSelfFactory) {
     /* 
      * This returns a list of widgets from a list of placeData, num, and null
@@ -26,7 +26,7 @@ mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
           int dataIdx = acc.length ~/ 2;
           num? distanceBetweenCurAndNext;
           for (var i = dataIdx + 1; i < data.length; i++) {
-            PlaceDataProps nextData = data[i];
+            PlaceDataInterface nextData = data[i];
             if (nextData.types != "memo") {
               distanceBetweenCurAndNext = _geodesy.distanceBetweenTwoGeoPoints(
                   GoogleGeodesyLatLngAdapter(cur.location),
@@ -43,7 +43,7 @@ mixin PlanListItemDataHandlerMixin on State<PlanListItem> {
             index,
             Container(
                 key: ValueKey("$dateIndex-$index"),
-                child: placeDataOrDistance is PlaceDataProps
+                child: placeDataOrDistance is PlaceDataInterface
                     ? ScheduleCard(
                         data: placeDataOrDistance,
                         order: toWidgetIndex(index),

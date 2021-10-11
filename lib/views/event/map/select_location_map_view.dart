@@ -17,10 +17,11 @@ class SelectLocationMapView extends StatefulWidget {
 }
 
 class _SelectLocationMapViewState extends State<SelectLocationMapView> {
-  LatLng? center; //TODO(junwha): change to dynamic location
+  LatLng? center;
 
   @override
   void initState() {
+    super.initState();
     initLocation();
   }
 
@@ -35,15 +36,13 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
 
   @override
   Widget build(BuildContext context) {
-    double maxHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: center == null
           ? Text("Loading")
           : ChangeNotifierProvider(
-              create: (context) => ContentMapHandler(
-                  center: center!), // TODO(junwha): remove center
+              create: (context) => ContentMapHandler(center: center!),
               child: Consumer(
                 builder: (context, ContentMapHandler locationModel, child) {
                   return Stack(
@@ -66,7 +65,7 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
                           },
                           onMapCreated: (GoogleMapController controller) {
                             locationModel.mapController = controller;
-                          }), //TODO(junwha): change to dynamic location
+                          }),
                       //buildSelectButton(maxHeight),
                       buildContentInfo(
                           locationModel.markerList.focusedLocation),

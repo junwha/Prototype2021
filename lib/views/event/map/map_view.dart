@@ -21,16 +21,11 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  //Save positions of last tapped and pressed
-  // LatLng? _lastTap;
-  // LatLng? _lastLongPress;
-  // TODO(junwha): after all test, place marks here
-
   //initial position
-  LatLng? center; //TODO(junwha): change to dynamic location
-
+  LatLng? center;
   @override
   void initState() {
+    super.initState();
     initLocation();
   }
 
@@ -58,8 +53,7 @@ class _MapViewState extends State<MapView> {
                   return Stack(
                     children: [
                       //initial position
-                      buildBackgroundMap(
-                          mapModel), //TODO(junwha): change to dynamic location
+                      buildBackgroundMap(mapModel),
                       PlaceInfo(),
                       buildBackButton(context),
                       buildWriteButton(maxHeight),

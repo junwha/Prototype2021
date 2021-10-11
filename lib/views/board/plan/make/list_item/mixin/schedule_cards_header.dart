@@ -7,6 +7,7 @@ import 'package:prototype2021/views/board/plan/make/list_item/mixin/helper.dart'
 import 'package:prototype2021/views/board/plan/make/list_item/mixin/memo_dialog.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:provider/provider.dart';
 
 class ScheduleCardsHeader extends StatefulWidget {
@@ -48,13 +49,14 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
 
   @override
   Widget build(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
-    DateTime date =
-        calendarHandler.datePoints[0]!.add(Duration(days: dateIndex));
+    PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
+    DateTime date = handler.datePoints[0]!.add(Duration(days: dateIndex));
     return Container(
       child: Row(
-        children: [buildLeading(context, date), buildActions(context)],
+        children: [
+          buildLeading(context, date),
+          buildActions(context),
+        ],
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),
@@ -62,9 +64,8 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   }
 
   Container buildLeading(BuildContext context, DateTime date) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
-    List<PlaceDataProps> data = calendarHandler.planListItems?[dateIndex] ?? [];
+    PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
+    List<PlaceDataInterface> data = handler.planListItems?[dateIndex] ?? [];
     bool hasItem = data.length != 0;
     PlanListItemState? parent =
         context.findAncestorStateOfType<PlanListItemState>();
@@ -114,40 +115,43 @@ class _ScheduleCardsHeaderState extends State<ScheduleCardsHeader>
   }
 
   Container buildActions(BuildContext context) {
-    PlanMakeCalendarHandler calendarHandler =
-        Provider.of<PlanMakeCalendarHandler>(context);
+    PlanMakeHandler handler = Provider.of<PlanMakeHandler>(context);
     void _createMemo() =>
-        calendarHandler.addPlaceData(dateIndex, new MemoData(memo: _memo));
+        handler.addPlaceData(dateIndex, new MemoData(memo: _memo));
     PlanListItemState? parent =
         context.findAncestorStateOfType<PlanListItemState>();
     PlanMakeHomeViewState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
+    List<IconButton> children = [];
+    if (mode == PlanMakeMode.add) {
+      children = [
+        IconButton(
+            onPressed: () async {
+              await displayMemoInputDialog(
+                context,
+                _textEditingController,
+                _setMemo,
+                _createMemo,
+              );
+              if (parent?.expanded != null && !parent!.expanded) {
+                parent.setExpanded(true);
+              }
+            },
+            icon: Image.asset('assets/icons/ic_calender_memo_gray.png')),
+        IconButton(
+            onPressed: () {
+              handler.setCurrentIndex(dateIndex);
+              if (grandParent != null) {
+                grandParent.navigator(Navigate.custom, PlanMakeViewMode.select);
+              }
+            },
+            icon: Image.asset('assets/icons/ic_calender_plus.png')),
+      ];
+    }
     return Container(
       child: Row(
-        children: mode == PlanMakeMode.add
-            ? [
-                IconButton(
-                    onPressed: () async {
-                      await displayMemoInputDialog(context,
-                          _textEditingController, _setMemo, _createMemo);
-                      if (parent?.expanded != null && !parent!.expanded) {
-                        parent.setExpanded(true);
-                      }
-                    },
-                    icon:
-                        Image.asset('assets/icons/ic_calender_memo_gray.png')),
-                IconButton(
-                    onPressed: () {
-                      calendarHandler.addPlaceData(
-                          dateIndex, randomPlaceData());
-                      if (parent?.expanded != null && !parent!.expanded) {
-                        parent.setExpanded(true);
-                      }
-                    },
-                    icon: Image.asset('assets/icons/ic_calender_plus.png')),
-              ]
-            : [],
+        children: children,
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.center,
       ),

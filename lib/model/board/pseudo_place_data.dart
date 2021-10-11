@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 
@@ -28,14 +29,14 @@ import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 //       : null;
 // }
 
-class PseudoPlaceData implements PlaceDataProps {
+class PseudoPlaceData implements PlaceDataInterface {
   LatLng location;
   String name;
-  String businessStatus;
-  String userRatingsTotal;
-  String types; // attraction, accomodations, restaurant, cafe, memo
+  double? rating;
+  String types;
+  ContentType contentType;
   String? photo;
-  String placeId;
+  int id;
   String? address;
   String memo; // Just For Memo
 
@@ -44,9 +45,9 @@ class PseudoPlaceData implements PlaceDataProps {
     required this.name,
     required this.types,
     required this.address,
-    this.businessStatus = "영업중",
-    this.userRatingsTotal = "",
-    this.placeId = "pseudo-place-id",
+    required this.contentType,
+    required this.id,
+    this.rating,
     this.photo = "",
     this.memo = "",
   });
@@ -58,35 +59,53 @@ LatLng randomLocation() {
 
 List<PseudoPlaceData> pseudoPlaceData = [
   PseudoPlaceData(
-      location: randomLocation(),
-      name: "상하이 디즈니랜드",
-      types: PlaceType.SPOT,
-      address: "중국, 상하이"),
+    location: randomLocation(),
+    name: "상하이 디즈니랜드",
+    types: PlaceType.SPOT,
+    address: "중국, 상하이",
+    id: 1,
+    contentType: ContentType.cultureInfra,
+  ),
   PseudoPlaceData(
-      location: randomLocation(),
-      name: "루브르 박물관",
-      types: PlaceType.SPOT,
-      address: "프랑스, 파리"),
+    location: randomLocation(),
+    name: "루브르 박물관",
+    types: PlaceType.SPOT,
+    address: "프랑스, 파리",
+    id: 1,
+    contentType: ContentType.events,
+  ),
   PseudoPlaceData(
-      location: randomLocation(),
-      name: "그라니트 자카",
-      types: PlaceType.SPOT,
-      address: "스위스, 베른"),
+    location: randomLocation(),
+    name: "그라니트 자카",
+    types: PlaceType.SPOT,
+    address: "스위스, 베른",
+    id: 1,
+    contentType: ContentType.spot,
+  ),
   PseudoPlaceData(
-      location: randomLocation(),
-      name: "000 호텔",
-      types: PlaceType.HOTEL,
-      address: "스위스, 베른"),
+    location: randomLocation(),
+    name: "000 호텔",
+    types: PlaceType.HOTEL,
+    address: "스위스, 베른",
+    id: 1,
+    contentType: ContentType.accomodations,
+  ),
   PseudoPlaceData(
-      location: randomLocation(),
-      name: "RESTAURANT",
-      types: PlaceType.RESTAURANT,
-      address: "프랑스, 파리"),
+    location: randomLocation(),
+    name: "RESTAURANT",
+    types: PlaceType.RESTAURANT,
+    address: "프랑스, 파리",
+    id: 1,
+    contentType: ContentType.restaurants,
+  ),
   PseudoPlaceData(
-      location: randomLocation(),
-      name: "Starbucks",
-      types: PlaceType.CAFE,
-      address: "미국, 뉴욕"),
+    location: randomLocation(),
+    name: "Starbucks",
+    types: PlaceType.CAFE,
+    address: "미국, 뉴욕",
+    id: 1,
+    contentType: ContentType.restaurants,
+  ),
 ];
 
 PlanDataProps pseudoPlanData = PseudoPlanData(

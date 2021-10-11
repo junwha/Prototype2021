@@ -7,6 +7,7 @@ import 'package:prototype2021/model/board/plan/http/plan.dart';
 import 'package:prototype2021/model/board/wishlist/http/heart.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 
 enum PlanLoaderMode {
   board,
@@ -33,7 +34,8 @@ class PlanLoader {
   /// Plan List를 가져오는 로직, PaginationState.board, wishlist, mylist에서 사용가능하며,
   /// 각 인스턴스가 pagination 정보를 가지고 있어 재호출시 다음 페이지를 반환한다.
   /// pagination == PaginationState.end 일 경우 더 이상 페이지가 없음을 의미한다.
-  Future<List<PlanPreview>> getPlanList(String token) async {
+  Future<List<ProductCardBaseProps>> getPlanList(String token) async {
+    print(token);
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -51,7 +53,20 @@ class PlanLoader {
         planListUrl = "";
         pagination = PaginationState.end;
       }
-      return result.data!.results;
+      return result.data!.results
+          .map<ProductCardBaseProps>((datum) => ProductCardBaseProps(
+                period: datum.period,
+                costStart: datum.expense,
+                costEnd: datum.expense,
+                isGuide: false,
+                tendencies: [],
+                preview: datum.photo,
+                title: datum.title,
+                tags: datum.types,
+                id: datum.id,
+                hearted: datum.hearted ?? false,
+              ))
+          .toList();
     }
     throw HttpException(result.error?.message ?? "Unexpected error");
   }
@@ -107,15 +122,16 @@ class PlanLoader {
   // Fetching Functions
   Future<SafeMutationOutput<PlanHeartOutput>> planHeart(
           SafeMutationInput<PlanHeartInput> dto) async =>
-      await safePatch<PlanHeartInput, PlanHeartOutput>(dto);
+      await safePatch<PlanHeartInput, PlanHeartOutput>(
+          dto, null); // null stands that any status code is okay
 
   Future<SafeQueryOutput<PlanListOutput>> planList(
           SafeQueryInput<PlanListInput> dto) async =>
-      await safeGET<PlanListInput, PlanListOutput>(dto);
+      await safeGET<PlanListInput, PlanListOutput>(dto, 200, true);
 
   Future<SafeQueryOutput<PlanDetailOutput>> planDetail(
           SafeQueryInput<PlanIdInput> dto) async =>
-      await safeGET<PlanIdInput, PlanDetailOutput>(dto);
+      await safeGET<PlanIdInput, PlanDetailOutput>(dto, 200, true);
   Future<SafeQueryOutput<PlanDeleteOutput>> planDelete(
           SafeQueryInput<PlanIdInput> dto) async =>
       await safeDELETE<PlanIdInput, PlanDeleteOutput>(dto);
@@ -128,10 +144,10 @@ class PlanLoader {
       await safePatch(dto);
 
   // Endpoints
-  final String planHeartUrl = "$apiBaseUrl/plan/:planId/like";
-  final String planGeneralUrl = "$apiBaseUrl/plans";
+  final String planHeartUrl = "$apiBaseUrl/plans/:planId/like/";
+  final String planGeneralUrl = "$apiBaseUrl/plans/";
   String planListUrl = "";
-  final String planIdUrl = "$apiBaseUrl/plans/:id";
+  final String planIdUrl = "$apiBaseUrl/plans/:id/";
 
   /// Pagination을 위한 인스턴스 생성 지원
   /// PlanLoaderMode.board: 게시판 목록 Pagination
@@ -139,11 +155,11 @@ class PlanLoader {
   /// PlanLoaderMode.mylist: 내가 쓴 플랜 Pagination
   PlanLoader.withMode({required PlanLoaderMode mode}) {
     if (mode == PlanLoaderMode.board) {
-      planListUrl = "$apiBaseUrl/plans";
+      planListUrl = "$apiBaseUrl/plans/";
     } else if (mode == PlanLoaderMode.mylist) {
       planListUrl = "$apiBaseUrl/plans/mylist/";
     } else if (mode == PlanLoaderMode.wishlist) {
-      planListUrl = "$apiBaseUrl/plans/wishlists/";
+      planListUrl = "$apiBaseUrl/plans/wishlist/";
     }
   }
 

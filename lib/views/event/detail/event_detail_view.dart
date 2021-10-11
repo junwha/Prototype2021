@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/model/board/plan/plan_dto.dart';
+import 'package:prototype2021/model/event/event_dto.dart';
+import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/views/event/editor/editor_view.dart';
+import 'package:prototype2021/widgets/cards/contents_card.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 import 'package:provider/provider.dart';
 
 class EventDetailView extends StatefulWidget {
@@ -15,18 +23,22 @@ class EventDetailView extends StatefulWidget {
 }
 
 class _EventDetailViewState extends State<EventDetailView> {
-  int _pageIndex = 0;
   @override
   void initState() {
-    this
-        .widget
-        .eventArticleModel
-        .loadDetail(this.widget.id, this.widget.articleType);
+    super.initState();
+    UserInfoHandler userInfoHandler =
+        Provider.of<UserInfoHandler>(context, listen: false);
+    this.widget.eventArticleModel.loadDetail(
+          this.widget.id,
+          this.widget.articleType,
+          userInfoHandler.token,
+        );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       appBar: buildAppBar(),
       body: ChangeNotifierProvider.value(
         value: this.widget.eventArticleModel,
@@ -138,8 +150,9 @@ class _EventDetailViewState extends State<EventDetailView> {
   Column buildDetail(EventArticleHandler eventArticleModel) {
     return Column(
       children: [
+        buildBottomCard(eventArticleModel),
         Padding(
-          padding: const EdgeInsets.fromLTRB(0, 0, 20, 0),
+          padding: const EdgeInsets.fromLTRB(0, 30, 20, 0),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -182,9 +195,35 @@ class _EventDetailViewState extends State<EventDetailView> {
             ),
             Text("${eventArticleModel.detailData!.period.end}")
           ],
-        )
+        ),
       ],
     );
+  }
+
+  Widget buildBottomCard(EventArticleHandler handler) {
+    if (handler.placeData != null) {
+      return ContentsCard.fromProps(
+          props: ContentsCardBaseProps(
+        hearted: false,
+        id: -1,
+        title: handler.placeData!.name,
+      ));
+    } else if (handler.planDetail != null) {
+      return ProductCard.fromProps(
+          props: ProductCardBaseProps(
+        period: handler.planDetail!.period,
+        costStart: handler.planDetail!.expense,
+        costEnd: handler.planDetail!.expense,
+        isGuide: false,
+        tendencies: [],
+        preview: handler.planDetail!.photo,
+        title: handler.planDetail!.title,
+        tags: handler.planDetail!.types,
+        id: handler.planDetail!.id,
+        hearted: handler.planDetail!.hearted ?? false,
+      ));
+    }
+    return SizedBox();
   }
 
   PopupMenuButton bulidPopupMenuButton(EventArticleHandler articleModel) {
@@ -195,11 +234,11 @@ class _EventDetailViewState extends State<EventDetailView> {
       ),
       itemBuilder: (context) => [
         PopupMenuItem(
-          child: Text("글 삭제하기"), //TODO: popupmenuitem을 눌렀을 때 글 삭제 기능 추가
+          child: Text("글 삭제하기"),
           value: "DEL",
         ),
         PopupMenuItem(
-          child: Text("정보 수정하기"), //TODO: popupmenuitem을 눌렀을 때 글 수정 기능 추가
+          child: Text("정보 수정하기"),
           value: "EDIT",
         )
       ],
@@ -216,8 +255,13 @@ class _EventDetailViewState extends State<EventDetailView> {
               return EditorView.edit(articleModel.detailData!);
             })) as bool;
             if (result) {
+              UserInfoHandler userInfoHandler =
+                  Provider.of<UserInfoHandler>(context, listen: false);
               await articleModel.loadDetail(
-                  this.widget.id, this.widget.articleType);
+                this.widget.id,
+                this.widget.articleType,
+                userInfoHandler.token,
+              );
             }
           } catch (e) {}
         }

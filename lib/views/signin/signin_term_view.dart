@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/data/signin_terms.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
@@ -82,12 +83,22 @@ class _SigninTermViewState extends State<SigninTermView>
                 isChecked: firstTermChecked,
                 text: "이용약관 동의 (필수)",
                 onCheckboxTap: setTermCheckedFactory(1),
-                onDetailTap: () {}),
+                onDetailTap: () {
+                  tbShowDialog(
+                      context,
+                      TBSimpleDialog(
+                          title: "서비스 이용약관", body: Text(service_term)));
+                }),
             buildTermCheckbox(
                 isChecked: secondTermChecked,
                 text: "개인정보취급방침 동의 (필수)",
                 onCheckboxTap: setTermCheckedFactory(2),
-                onDetailTap: () {}),
+                onDetailTap: () {
+                  tbShowDialog(
+                      context,
+                      TBSimpleDialog(
+                          title: "개인정보취급방침", body: Text(privacy_term)));
+                }),
             buildTermCheckbox(
                 isChecked: thirdTermChecked,
                 text: "마케팅 수신 동의 (선택)",

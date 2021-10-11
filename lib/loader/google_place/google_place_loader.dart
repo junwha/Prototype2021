@@ -31,6 +31,19 @@ class PlaceLoader {
     this.center = center;
   }
 
+  Future<GooglePlaceData?> getDataById(String placeId) async {
+    String url =
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&key=${kGoogleApiKey}&language=ko";
+    try {
+      http.Response res = await http.get(Uri.parse(url));
+      return GooglePlaceData(jsonDecode(res.body)["result"], PlaceType.CLICKED);
+    } catch (e) {
+      print(e);
+      print("check internet");
+      // throw Exception;
+    }
+  }
+
   /* 
   * Find one nearby places from [center]
   */
@@ -94,7 +107,6 @@ class PlaceLoader {
   Future<List<GooglePlaceData>> getGooglePlaces(List typeList,
       {int radius = 1000}) async {
     List<GooglePlaceData> placeList = [];
-    int initialRadius = 500;
     for (String type in typeList) {
       placeList.addAll(await getGooglePlace(type, radius: radius));
     }

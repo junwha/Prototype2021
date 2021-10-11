@@ -13,14 +13,26 @@ enum CalendarTouchPhase {
   RANGE,
 }
 
-class PlanMakeCalendarHandler with ChangeNotifier {
+class PlanMakeHandler with ChangeNotifier {
+  @override
+  void dispose() {}
+
+  void doDispose() {
+    super.dispose();
+  }
+
   CalendarTouchPhase _phase = CalendarTouchPhase.PENDING;
   DateTime _now;
   List<DateTime?> _datePoints = [null, null];
   int? _dateDifference;
-  List<List<PlaceDataProps>>? _planListItems;
+  List<List<PlaceDataInterface>>? _planListItems;
+  int _currentIndex = 0;
+  String? title;
+  int? areaCode;
+  PlanMakeHandler({DateTime? now}) : _now = now ?? new DateTime.now();
 
-  PlanMakeCalendarHandler({DateTime? now}) : _now = now ?? new DateTime.now();
+  int get currentIndex => _currentIndex;
+  void setCurrentIndex(int idx) => _currentIndex = idx;
 
   /* 
   * 캘린더의 터치 상태인 enum CalenderTouchPhase를 가져옵니다. 
@@ -47,16 +59,26 @@ class PlanMakeCalendarHandler with ChangeNotifier {
   /* 
    * 리스트 안에 있는 리스트들은 여행 시작 날짜에서부터 순서대로 그 날짜의 여행 계획으로 이루어집니다  
   */
-  List<List<PlaceDataProps>>? get planListItems => _planListItems;
+  List<List<PlaceDataInterface>>? get planListItems => _planListItems;
+
+  DateTimeRange? get dateRange {
+    if (_datePoints.first != null && _datePoints.last != null) {
+      return DateTimeRange(start: _datePoints.first!, end: _datePoints.last!);
+    } else if (_datePoints.first == null || _datePoints.last == null) {
+      return DateTimeRange(
+          start: _datePoints.first ?? _datePoints.last!,
+          end: _datePoints.first ?? _datePoints.last!);
+    }
+  }
 
   /*
    * 여행 계획들을 순서를 유지하면서 평탄화하여 리턴합니다
    */
-  List<PlaceDataProps> get flattenPlanListItems {
-    List<PlaceDataProps> _flattenPlanListItems = [];
+  List<PlaceDataInterface> get flattenPlanListItems {
+    List<PlaceDataInterface> _flattenPlanListItems = [];
     if (_planListItems == null) return _flattenPlanListItems;
 
-    for (List<PlaceDataProps> itemList in _planListItems!) {
+    for (List<PlaceDataInterface> itemList in _planListItems!) {
       _flattenPlanListItems.addAll(itemList);
     }
 
@@ -111,7 +133,7 @@ class PlanMakeCalendarHandler with ChangeNotifier {
     notifyListeners();
   }
 
-  PlanMakeCalendarHandler inherit() {
+  PlanMakeHandler inherit() {
     return this;
   }
 
@@ -122,7 +144,7 @@ class PlanMakeCalendarHandler with ChangeNotifier {
 
   void resetPlanListItems() => generatePlanListItems();
 
-  void addPlaceData(int index, PlaceDataProps data) {
+  void addPlaceData(int index, PlaceDataInterface data) {
     _planListItems![index].add(data);
     notifyListeners();
   }
@@ -146,13 +168,14 @@ class PlanMakeCalendarHandler with ChangeNotifier {
 
   void swapPlaceData(int index, int oldIndex, int newIndex) {
     int validNewIndex = _validateIndex(index, newIndex);
-    final PlaceDataProps temp = _planListItems![index].removeAt(oldIndex);
+    final PlaceDataInterface temp = _planListItems![index].removeAt(oldIndex);
     _planListItems![index].insert(validNewIndex, temp);
     notifyListeners();
   }
 
-  void insertPlaceData(int index, PlaceDataProps data, int indexToInsert) {
+  void insertPlaceData(int index, PlaceDataInterface data, int indexToInsert) {
     int validIndexToInsert = _validateIndex(index, indexToInsert);
     _planListItems![index].insert(validIndexToInsert, data);
+    notifyListeners();
   }
 }

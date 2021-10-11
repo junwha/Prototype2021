@@ -144,7 +144,7 @@ Future<SafeMutationOutput<O>>
 Future<SafeMutationOutput<O>>
     safePatch<I extends SafeHttpDataInput, O extends SafeHttpDataOutput>(
   SafeMutationInput<I> dto, [
-  int expectedCode = 201,
+  int? expectedCode = 201,
   bool fromBytes = false,
 ]) async {
   try {
@@ -152,7 +152,7 @@ Future<SafeMutationOutput<O>>
         headers: dto.getHeaders(), body: dto.getJsonString());
     printHTTPLog(res, fromBytes: fromBytes);
 
-    if (res.statusCode == expectedCode) {
+    if (res.statusCode == expectedCode || expectedCode == null) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
     }

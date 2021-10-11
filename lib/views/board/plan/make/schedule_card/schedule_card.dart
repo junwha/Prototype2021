@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/constants.dart';
@@ -7,7 +8,7 @@ import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/helper.d
 import 'package:prototype2021/views/board/plan/make/schedule_card/mixin/leading.dart';
 
 // class ScheduleCard extends StatefulWidget {
-//   final PlaceDataProps data;
+//   final PlaceDataInterface data;
 //   final int dateIndex;
 //   final int order;
 //   final Key? key;
@@ -38,7 +39,7 @@ class ScheduleCard extends StatelessWidget
   /* =========================STATES & METHODS========================= */
   /* =================================/================================= */
 
-  final PlaceDataProps data;
+  final PlaceDataInterface data;
   final int dateIndex;
   final int order;
   final Key? key;
@@ -65,7 +66,6 @@ class ScheduleCard extends StatelessWidget
   Widget build(BuildContext context) {
     PlanMakeHomeViewState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
-    String types = data.types;
     return Container(
       key: key,
       child: Container(
@@ -74,7 +74,8 @@ class ScheduleCard extends StatelessWidget
               Container(
                 child: Row(
                   children: [
-                    buildLeading(types, order, placeColorByType(types)),
+                    buildLeading(data.contentType, order,
+                        placeColorByType(data.contentType)),
                     SizedBox(
                       width: 10,
                     ),
@@ -84,7 +85,8 @@ class ScheduleCard extends StatelessWidget
                   crossAxisAlignment: CrossAxisAlignment.center,
                 ),
               ),
-              buildActions(context, types, placeIconByType(types)),
+              buildActions(
+                  context, data.contentType, placeIconByType(data.contentType)),
             ],
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +108,7 @@ class ScheduleCard extends StatelessWidget
     );
   }
 
-  Container buildActions(BuildContext context, String types, Widget icon) {
+  Container buildActions(BuildContext context, ContentType type, Widget icon) {
     PlanMakeHomeViewState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
     PlanMakeMode mode = grandParent?.mode ?? PlanMakeMode.add;
@@ -121,7 +123,7 @@ class ScheduleCard extends StatelessWidget
       case PlanMakeMode.delete:
         return buildDeleteActions(context, deleteSelf);
       default:
-        return buildDefaultActions(context, types, icon);
+        return buildDefaultActions(context, type, icon);
     }
   }
 }

@@ -65,6 +65,9 @@ dependencies:
 
   # For parsing data from API
   html: ^0.15.0
+
+  # Launch url on the external browser
+  url_launcher: ^6.0.10
   
 dev_dependencies:
   flutter_test:
@@ -86,12 +89,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - assets/images/logo.jpg
-    - assets/images/login_background.jpg
-    - assets/images/map/marker.png
-    - assets/images/map/event_marker.png
-    - assets/images/map/caffee_marker.png
-    - assets/images/map/restaurant_marker.png
+    - assets/images/
     - assets/icons/
 
   # An image asset can refer to one or more resolution-specific "variants", see

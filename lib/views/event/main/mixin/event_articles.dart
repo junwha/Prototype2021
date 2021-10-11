@@ -1,8 +1,6 @@
 import 'package:prototype2021/handler/event/event_article_handler.dart';
-import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/cards/recruit_card.dart';
 import 'package:flutter/material.dart';
-import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
 import 'package:prototype2021/views/event/detail/event_detail_view.dart';
 import 'package:provider/provider.dart';
 
@@ -17,6 +15,7 @@ class EventArticles extends StatefulWidget {
 class _EventArticlesState extends State<EventArticles> {
   @override
   void initState() {
+    super.initState();
     this.widget.eventArticleModel.loadArticles();
   }
 

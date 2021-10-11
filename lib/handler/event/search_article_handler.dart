@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -10,6 +9,10 @@ class SearchArticleHandler with ChangeNotifier {
   List<EventPreviewData> companionArticleList = [];
   ArticleType articleType = ArticleType.EVENT;
   bool loading = false;
+
+  bool empty() {
+    return eventArticleList.isEmpty && companionArticleList.isEmpty;
+  }
 
   void searchArticles(String text) async {
     loading = true;

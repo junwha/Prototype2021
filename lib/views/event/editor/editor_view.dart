@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
-import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/handler/event/editor_handler.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
+import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
+import 'package:prototype2021/views/event/editor/plan_select/plan_select_view.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/views/event/editor/mixin/event_custom_text_field.dart';
 import 'package:prototype2021/utils/google_map/widgets/map_preview.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/settings/constants.dart';
 import 'package:prototype2021/widgets/buttons/selectable_text_button.dart';
@@ -22,7 +25,7 @@ class EditorView extends StatefulWidget {
   }
 
   EditorView.edit(ArticleDetailData data) {
-    this.writeType = WriteType.PUT;
+    this.writeType = WriteType.EDIT;
     this.data = data;
   }
   @override
@@ -30,10 +33,9 @@ class EditorView extends StatefulWidget {
 }
 
 class _EditorViewState extends State<EditorView> {
-  List<bool> articleType = [
-    true,
-    false
-  ]; //initialize state as 내 주변 이벤트 [내 주변 이벤트, 동행찾기]
+  ArticleType articleType = ArticleType.EVENT;
+
+  //initialize state as 내 주변 이벤트 [내 주변 이벤트, 동행찾기]
   DateTime? chosenDateTime1;
   DateTime? chosenDateTime2;
   TextEditingController controlofoto = TextEditingController();
@@ -54,9 +56,7 @@ class _EditorViewState extends State<EditorView> {
       body: SingleChildScrollView(
         child: Container(
           child: ChangeNotifierProvider(
-            create: (context) => targetLocation == null
-                ? getEditorModel(this.widget.writeType)
-                : EditorHandler.location(targetLocation),
+            create: (context) => getEditorModel(this.widget.writeType),
             child:
                 Consumer(builder: (context, EditorHandler editorModel, child) {
               return Padding(
@@ -118,22 +118,32 @@ class _EditorViewState extends State<EditorView> {
         buildCheckBox(editorModel),
         buildDropdown(editorModel),
         buildDateSelect(editorModel, context),
-        //   DateTimePickerCol(chosenDateTime1) TODO: implement DateTimePicker
-        editorModel.location == null
-            ? buildLocationSelect(editorModel)
-            : GestureDetector(
-                child: MapPreview(location: editorModel.location!),
-                onTap: () {
-                  loadLocation(editorModel);
-                },
-              ),
+        ((articleType == ArticleType.EVENT && editorModel.location == null) ||
+                articleType == ArticleType.COMPANION)
+            ? buildSelect(editorModel)
+            : buildPreview(editorModel),
         SizedBox(height: 20),
-        editorModel.location == null &&
-                editorModel.location is GooglePlaceLocation
-            ? SizedBox()
-            : buildContentsCard(editorModel.location),
+        buildCard(editorModel)
       ],
     );
+  }
+
+  Widget buildCard(EditorHandler editorModel) {
+    return (articleType == ArticleType.EVENT && editorModel.location == null) ||
+            (articleType == ArticleType.COMPANION && editorModel.pid == null)
+        ? SizedBox()
+        : buildContentsCard(editorModel);
+  }
+
+  Widget buildPreview(EditorHandler editorModel) {
+    return articleType == ArticleType.EVENT
+        ? GestureDetector(
+            child: MapPreview(location: editorModel.location!),
+            onTap: () {
+              loadLocation(editorModel);
+            },
+          )
+        : SizedBox();
   }
 
   Widget buildDropdown(EditorHandler editorModel) {
@@ -331,24 +341,29 @@ class _EditorViewState extends State<EditorView> {
   }
 
   EditorHandler getEditorModel(WriteType writeType) {
+    UserInfoHandler userInfoHandler = Provider.of<UserInfoHandler>(context);
     if (writeType == WriteType.POST)
-      return EditorHandler();
+      return EditorHandler(
+          location: targetLocation, userInfoHandler: userInfoHandler);
     else {
       //else if (writeType == WriteType.PUT) {
       if (this.widget.data == null) Navigator.pop(context);
-      return EditorHandler.edit(this.widget.data!);
+      return EditorHandler.edit(
+          data: this.widget.data!, userInfoHandler: userInfoHandler);
     }
   }
 
-  TextButton buildLocationSelect(EditorHandler editorModel) {
+  TextButton buildSelect(EditorHandler editorModel) {
     return TextButton(
-        child: Text("지도 선택하기",
+        child: Text(articleType == ArticleType.EVENT ? "지도 선택하기" : "플랜 선택하기",
             style: TextStyle(
                 color: Color.fromRGBO(112, 112, 112, 1),
                 fontSize: 13 * pt,
                 fontWeight: FontWeight.bold)),
         onPressed: () {
-          loadLocation(editorModel);
+          articleType == ArticleType.EVENT
+              ? loadLocation(editorModel)
+              : loadPlan(editorModel);
         });
   }
 
@@ -421,22 +436,36 @@ class _EditorViewState extends State<EditorView> {
     );
   }
 
-  Widget buildContentsCard(Location? targetLocation) {
-    if (targetLocation is GooglePlaceLocation) {
-      GooglePlaceLocation location = targetLocation as GooglePlaceLocation;
+  Widget buildContentsCard(EditorHandler editorModel) {
+    if (articleType == ArticleType.EVENT) {
+      GooglePlaceLocation location =
+          editorModel.location as GooglePlaceLocation;
       return ContentsCard.fromProps(
           props: new ContentsCardBaseProps(
         hearted: false,
-        heartCount: 3,
         id: 0,
         preview: location.preview,
         title: location.name,
-        place: "TEMP",
-        explanation: "TEMP",
-        tags: ["asdf"],
+        explanation: location.description ?? "",
+        tags: [],
         margin: const EdgeInsets.symmetric(vertical: 0),
       ));
     }
+    // } else {
+    //   return ProductCard.fromProps(
+    //       props: ProductCardBaseProps(
+    //           period: period,
+    //           costStart: costStart,
+    //           costEnd: costEnd,
+    //           isGuide: isGuide,
+    //           matchPercent: matchPercent,
+    //           tendencies: tendencies,
+    //           preview: preview,
+    //           title: title,
+    //           place: place,
+    //           tags: tags,
+    //           id: id));
+    // }
     return SizedBox();
   }
 
@@ -446,25 +475,25 @@ class _EditorViewState extends State<EditorView> {
         children: [
           TBSelectableTextButton(
               titleName: "내 주변 이벤트",
-              isChecked: articleType[0],
+              isChecked: articleType == ArticleType.EVENT,
               onPressed: () {
                 setState(() {
                   editorModel.articleType = ArticleType.EVENT;
-                  articleType[1] = false;
-                  articleType[0] = true;
+                  articleType = ArticleType.EVENT;
                 });
               }),
           SizedBox(width: 10),
-          TBSelectableTextButton(
-              titleName: "동행찾기",
-              isChecked: articleType[1],
-              onPressed: () {
-                setState(() {
-                  editorModel.articleType = ArticleType.COMPANION;
-                  articleType[1] = true;
-                  articleType[0] = false;
-                });
-              })
+          this.targetLocation == null
+              ? TBSelectableTextButton(
+                  titleName: "동행찾기",
+                  isChecked: articleType == ArticleType.COMPANION,
+                  onPressed: () {
+                    setState(() {
+                      editorModel.articleType = ArticleType.COMPANION;
+                      articleType = ArticleType.COMPANION;
+                    });
+                  })
+              : SizedBox(),
         ],
       );
 
@@ -476,7 +505,7 @@ class _EditorViewState extends State<EditorView> {
             titleName: editorModel.articleType == ArticleType.EVENT
                 ? "내 주변 이벤트"
                 : "동행찾기",
-            isChecked: articleType[0],
+            isChecked: articleType == ArticleType.EVENT,
           ),
         ],
       ),
@@ -567,8 +596,18 @@ class _EditorViewState extends State<EditorView> {
     if (location != null) {
       setState(() {
         editorModel.location = location;
-        print(location.latLng);
       });
     }
+  }
+
+  void loadPlan(EditorHandler editorHandler) async {
+    Map<String, dynamic> data = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PlanSelectView(navigator: (Navigate navigate) {}),
+      ),
+    ) as Map<String, dynamic>;
+    print(data["id"] as int);
+    editorHandler.pid = data["id"] as int;
   }
 }

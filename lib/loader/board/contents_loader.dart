@@ -27,19 +27,85 @@ class ContentsLoader {
       throw HttpException(result.error?.message ?? "Unexpected error");
   }
 
-  Future<List<ContentsCardBaseProps>> getContentsList(
-    String token, [
+  Future<List<ContentsCardBaseProps>> getContentsList({
+    String token = "",
     String? keyword,
     ContentType? type,
-  ]) async {
+    bool reset = false,
+    int? areaCode,
+    int? areaDetailCode,
+  }) async {
+    if (reset) {
+      pagination = PaginationState.start;
+      contentsListUrl = contentsListUrlDefault;
+    }
     if (pagination == PaginationState.end) {
       return [];
     }
-    ContentsListInput params =
-        new ContentsListInput(keyword: keyword, contentType: type);
-    SafeQueryInput<ContentsListInput> dto =
-        new SafeQueryInput(url: contentsListUrl, params: params, token: token);
+    ContentsListInput params = new ContentsListInput(
+      keyword: keyword,
+      contentType: type,
+      areaCode: areaCode,
+      areaDetailCode: areaDetailCode,
+    );
+    SafeQueryInput<ContentsListInput> dto = new SafeQueryInput(
+      url: contentsListUrl,
+      params: params,
+      token: token,
+      queryStringAppendMode: pagination == PaginationState.start ? false : true,
+    );
     SafeQueryOutput<ContentsListOutput> result = await contentsList(dto);
+    if (result.success && result.data?.results != null) {
+      if (result.data!.next == null) {
+        pagination = PaginationState.end;
+        contentsListUrl = "";
+      } else {
+        contentsListUrl = result.data!.next!
+            .replaceFirst("tbserver:8000", "api.tripbuilder.co.kr");
+        pagination = PaginationState.mid;
+      }
+      return result.data!.results
+          .map<ContentsCardBaseProps>((datum) => ContentsCardBaseProps(
+                id: datum.id,
+                title: datum.title,
+                explanation: datum.overview,
+                preview: datum.thumbnail,
+                heartCount: datum.heartNo,
+                place: datum.address,
+                hearted: datum.hearted,
+              ))
+          .toList();
+    }
+    throw HttpException(result.error?.message ?? "Unexpected error");
+  }
+
+  Future<List<ContentsCardBaseProps>> getContentsWishList({
+    String token = "",
+    ContentType? type,
+    bool reset = false,
+    int? areaCode,
+    int? areaDetailCode,
+  }) async {
+    if (reset) {
+      pagination = PaginationState.start;
+      contentsListUrl = contentsWishlistUrlDefault;
+    }
+    if (pagination == PaginationState.end) {
+      return [];
+    }
+    ContentsWishlistInput params = new ContentsWishlistInput(
+      areaCode: areaCode.toString(),
+      detailAreaCode: areaDetailCode.toString(),
+      typeId: type,
+    );
+    SafeQueryInput<ContentsWishlistInput> dto = new SafeQueryInput(
+      url: contentsListUrl,
+      params: params,
+      token: token,
+      queryStringAppendMode: pagination == PaginationState.start ? false : true,
+    );
+    SafeQueryOutput<ContentsWishlistOutput> result =
+        await contentsWishlist(dto);
     if (result.success && result.data?.results != null) {
       if (result.data!.next == null) {
         pagination = PaginationState.end;
@@ -97,6 +163,8 @@ class ContentsLoader {
 
   String contentsHeartUrl = "$apiBaseUrl/contents/:id/like/";
   String contentsListUrl = "$apiBaseUrl/contents/";
+  String contentsListUrlDefault = "$apiBaseUrl/contents/";
   String contentsWishlistUrl = "$apiBaseUrl/contents/wishlist/";
+  String contentsWishlistUrlDefault = "$apiBaseUrl/contents/wishlist/";
   String contentsDetailUrl = "$apiBaseUrl/contents/:id/";
 }

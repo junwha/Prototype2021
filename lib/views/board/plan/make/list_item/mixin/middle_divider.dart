@@ -45,14 +45,14 @@ class PlanListMiddleDivider extends StatelessWidget with PlanListItemHelper {
     PlanMakeHomeViewState? grandParent =
         context.findAncestorStateOfType<PlanMakeHomeViewState>();
     bool onDrag = grandParent?.onDrag ?? false;
-    PlanMakeCalendarHandler? calendarHandler;
+    PlanMakeHandler? calendarHandler;
     try {
-      calendarHandler = Provider.of<PlanMakeCalendarHandler>(context);
+      calendarHandler = Provider.of<PlanMakeHandler>(context);
     } catch (e) {
       calendarHandler = null;
     }
     void pasteData() {
-      PlaceDataProps? data = grandParent?.copiedData;
+      PlaceDataInterface? data = grandParent?.copiedData;
       if (data != null && calendarHandler != null) {
         int indexToInsert = (index + 1) ~/ 2;
         grandParent?.insertCopiedData(
