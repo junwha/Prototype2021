@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
@@ -143,25 +144,24 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
 
   Scaffold buildLoginPage(BuildContext context) {
     return Scaffold(
+        resizeToAvoidBottomInset : false,
         appBar: buildAppBar(),
-        body: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(height: 70), // Top Margin
-              buildMainTexts(),
-              SizedBox(height: 27),
-              ...buildLoginInputs(), // Spreading widgets
-              SizedBox(height: 10),
-              buildLoginCheckboxes(),
-              SizedBox(height: 18),
-              buildLoginButton(context),
-              // buildSocialLoginButtons(),
-              SizedBox(height: 60),
-              buildFindIDPW(),
-              buildSignin(),
-            ],
+        body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () => Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildMainTexts(),
+                ...buildLoginInputs(), // Spreading widgets
+                buildLoginCheckboxes(),
+                buildLoginButton(context),
+                // buildSocialLoginButtons(),
+                buildFindIDPW(),
+                buildSignin(),
+              ],
+            ),
           ),
         ));
   }
@@ -181,7 +181,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     ];
   }
 
-  Row buildLoginCheckboxes() {
+  Widget buildLoginCheckboxes() {
     const TextStyle textStyle = const TextStyle(
       color: const Color(0xff555555),
       fontWeight: FontWeight.w400,
@@ -190,30 +190,33 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       fontSize: 13.0 * pt,
     );
     Image image = Image.asset("assets/icons/ic_check_white.png");
-    return Row(
-      children: [
-        CircleButton(
-          onChecked: setAutoLogin,
-          isValueChecked: autoLogin,
-          image: image,
-        ),
-        Text(
-          "자동 로그인",
-          style: textStyle,
-          textAlign: TextAlign.left,
-        ),
-        SizedBox(width: 10),
-        CircleButton(
-          onChecked: setSaveId,
-          isValueChecked: saveId,
-          image: image,
-        ),
-        Text(
-          "아이디 저장",
-          style: textStyle,
-          textAlign: TextAlign.left,
-        ),
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: ScreenUtil().setHeight(18), bottom: ScreenUtil().setHeight(34)),
+      child: Row(
+        children: [
+          CircleButton(
+            onChecked: setAutoLogin,
+            isValueChecked: autoLogin,
+            image: image,
+          ),
+          Text(
+            "자동 로그인",
+            style: textStyle,
+            textAlign: TextAlign.left,
+          ),
+          SizedBox(width: 10),
+          CircleButton(
+            onChecked: setSaveId,
+            isValueChecked: saveId,
+            image: image,
+          ),
+          Text(
+            "아이디 저장",
+            style: textStyle,
+            textAlign: TextAlign.left,
+          ),
+        ],
+      ),
     );
   }
 
@@ -271,7 +274,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
             textAlign: TextAlign.left));
   }
 
-  Column buildMainTexts() {
+  Widget buildMainTexts() {
     const TextStyle textStyle = const TextStyle(
       color: const Color(0xff000000),
       fontWeight: FontWeight.w700,
@@ -283,51 +286,52 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     // Null stands for divider
     List<String?> texts = [
       "쉽고 간편한 여행",
-      null,
       "여행이 일상이 되다",
-      null,
       "트립빌더",
     ];
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: texts.map<Widget>((textOrNull) {
-        // If null, return horizontal divider
-        if (textOrNull == null) {
-          return SizedBox(
-            height: 3,
+    return Container(
+      margin: EdgeInsets.only(top: ScreenUtil().setHeight(50), bottom: ScreenUtil().setHeight(25)),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: texts.map<Widget>((textOrNull) {
+          // If null, return horizontal divider
+          if (textOrNull == null) {
+            return SizedBox(
+              height: 3,
+            );
+          }
+          // If text, render text widget
+          return Text(
+            textOrNull,
+            style: textStyle,
+            textAlign: TextAlign.left,
           );
-        }
-        // If text, render text widget
-        return Text(
-          textOrNull,
-          style: textStyle,
-          textAlign: TextAlign.left,
-        );
-      }).toList(),
+        }).toList(),
+      ),
     );
   }
 
-  Center buildSocialLoginButtons() {
-    return Center(
-      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-        buildSocialLoginButton(
-          icon: Image.asset("assets/icons/ic_login_kakao.png"),
-          text: "카카오 로그인",
-          onPressed: () {},
-        ),
-        buildSocialLoginButton(
-          icon: Image.asset("assets/icons/ic_login_naver.png"),
-          text: "네이버 로그인",
-          onPressed: () {},
-        ),
-        buildSocialLoginButton(
-          icon: Image.asset("assets/icons/ic_login_facebook.png"),
-          text: "페이스북 로그인",
-          onPressed: () {},
-        ),
-      ]),
-    );
-  }
+  // Center buildSocialLoginButtons() {
+  //   return Center(
+  //     child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+  //       buildSocialLoginButton(
+  //         icon: Image.asset("assets/icons/ic_login_kakao.png"),
+  //         text: "카카오 로그인",
+  //         onPressed: () {},
+  //       ),
+  //       buildSocialLoginButton(
+  //         icon: Image.asset("assets/icons/ic_login_naver.png"),
+  //         text: "네이버 로그인",
+  //         onPressed: () {},
+  //       ),
+  //       buildSocialLoginButton(
+  //         icon: Image.asset("assets/icons/ic_login_facebook.png"),
+  //         text: "페이스북 로그인",
+  //         onPressed: () {},
+  //       ),
+  //     ]),
+  //   );
+  // }
 
   TextButton buildSocialLoginButton({
     void Function()? onPressed,
@@ -355,7 +359,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     );
   }
 
-  Row buildFindIDPW() {
+  Widget buildFindIDPW() {
     const TextStyle textStyle = const TextStyle(
       color: const Color(0xff555555),
       fontWeight: FontWeight.w400,
@@ -364,31 +368,34 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       fontSize: 12.0 * pt,
     );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        TextButton(
-            onPressed: () {},
-            child: Text(
-              "아이디 찾기",
-              style: textStyle,
-            )),
-        Container(
-            width: 0,
-            height: 18,
-            decoration: BoxDecoration(
-                border: Border.all(color: const Color(0xff555555), width: 1))),
-        TextButton(
-            onPressed: () {},
-            child: Text(
-              "비밀번호 찾기",
-              style: textStyle,
-            ))
-      ],
+    return Container(
+      margin: EdgeInsets.only(top: ScreenUtil().setHeight(134), bottom: ScreenUtil().setHeight(24)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                "아이디 찾기",
+                style: textStyle,
+              )),
+          Container(
+              width: 0,
+              height: 18,
+              decoration: BoxDecoration(
+                  border: Border.all(color: const Color(0xff555555), width: 1))),
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                "비밀번호 찾기",
+                style: textStyle,
+              ))
+        ],
+      ),
     );
   }
 
-  Row buildSignin() {
+  Widget buildSignin() {
     const TextStyle textStyle = const TextStyle(
       color: const Color(0xff999999),
       fontWeight: FontWeight.w400,
@@ -397,36 +404,46 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       fontSize: 12.0 * pt,
     );
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "트립빌더가 처음이신가요?",
-          style: textStyle,
-          textAlign: TextAlign.left,
-        ),
-        TextButton(
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ChangeNotifierProvider(
-                          create: (_) => SignInHandler(),
-                          child: SigninView(),
-                        )),
-              );
-            },
-            child: Row(
-              children: [
-                Text(
-                  "회원가입",
-                  style: textStyle,
-                  textAlign: TextAlign.left,
-                ),
-                Image.asset("assets/icons/ic_small_arrow_right.png"),
-              ],
-            ))
-      ],
+    const TextStyle textStyle2 = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle: FontStyle.normal,
+      fontSize: 12.0 * pt,
+    );
+
+    return Container(
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "트립빌더가 처음이신가요?",
+            style: textStyle,
+            textAlign: TextAlign.left,
+          ),
+          TextButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => ChangeNotifierProvider(
+                            create: (_) => SignInHandler(),
+                            child: SigninView(),
+                          )),
+                );
+              },
+              child: Row(
+                children: [
+                  Text(
+                    "회원가입",
+                    style: textStyle2,
+                    textAlign: TextAlign.left,
+                  ),
+                  Image.asset("assets/icons/ic_small_arrow_right.png"),
+                ],
+              ))
+        ],
+      ),
     );
   }
 }

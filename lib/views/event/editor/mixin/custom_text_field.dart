@@ -80,6 +80,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             children: [
               widget.isPasswordField
                   ? IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                       icon: Image.asset(
                         'assets/icons/ic_eye_gray.png',
                       ),
@@ -90,6 +92,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       })
                   : SizedBox(),
               IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   icon: Image.asset(
                     'assets/icons/ic_search_remove_background.png',
                   ),

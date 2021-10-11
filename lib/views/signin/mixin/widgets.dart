@@ -87,7 +87,7 @@ mixin SignInViewWidgets {
                   extraActionsWidget: extraInputWidget,
                   disabled: disabled,
                 )),
-            flex: hasActionButton ? 5 : 1,
+            flex: hasActionButton ? 4 : 1,
             fit: hasActionButton ? FlexFit.loose : FlexFit.tight,
           ),
           hasActionButton

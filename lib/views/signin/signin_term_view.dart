@@ -56,7 +56,7 @@ class _SigninTermViewState extends State<SigninTermView>
       drawerScrimColor: Colors.white,
       appBar: buildAppBar(context, shouldPopTo: SigninView, title: "회원가입"),
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(15.0 * pt, 36 * pt, 15 * pt, 0),
+        padding: const EdgeInsets.fromLTRB(15 * pt, 36 * pt, 15 * pt, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

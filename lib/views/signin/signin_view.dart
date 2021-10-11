@@ -45,6 +45,7 @@ class _SigninViewState extends State<SigninView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: buildAppBar(context, shouldPopTo: LoginView, title: "회원가입"),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),

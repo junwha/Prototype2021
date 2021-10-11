@@ -111,11 +111,7 @@ class _MainViewState extends State<MainView> {
   Widget makeImage(BoxFit option) {
     return Container(
       child: Image.asset('assets/icons/img_home_dogimage.png',
-          width: 340, height: 330, fit: option),
-      padding: EdgeInsets.only(
-        left: 50,
-        right: 0,
-      ),
+          width: MediaQuery.of(context).size.width, height: 340, fit: option),
     );
   }
 
