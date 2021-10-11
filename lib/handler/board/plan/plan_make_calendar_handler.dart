@@ -61,7 +61,7 @@ class PlanMakeHandler with ChangeNotifier {
   */
   List<List<PlaceDataInterface>>? get planListItems => _planListItems;
 
-  DateTimeRange? get dateRange {
+  DateTimeRange get dateRange {
     if (_datePoints.first != null && _datePoints.last != null) {
       return DateTimeRange(start: _datePoints.first!, end: _datePoints.last!);
     } else if (_datePoints.first == null || _datePoints.last == null) {
@@ -69,6 +69,8 @@ class PlanMakeHandler with ChangeNotifier {
           start: _datePoints.first ?? _datePoints.last!,
           end: _datePoints.first ?? _datePoints.last!);
     }
+    return DateTimeRange(
+        start: datePoints[0] ?? now, end: datePoints[0] ?? now);
   }
 
   /*

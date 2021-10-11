@@ -178,10 +178,10 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                         : null,
                                     selectedTags,
                                     _selectedValue,
-                                    planMakeHandler.dateRange!,
+                                    planMakeHandler.dateRange,
                                     selectedRadio1,
                                     selectedRadio2,
-                                    [[]],
+                                    planMakeHandler.planListItems ?? [],
                                   );
 
                                   bool saved = await loader.createPlan(
@@ -270,9 +270,9 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
     DateTime? first = calendarHandler.datePoints.first;
     DateTime? last = calendarHandler.datePoints.last;
 
-    if (first == null && last != null) {
+    if (first != null && last == null) {
       return "${first!.month}월 ${first.day}일";
-    } else if (first != null && last == null) {
+    } else if (first == null && last != null) {
       return "${last!.month}월 ${last.day}일";
     } else if (first != null && last != null) {
       return "${first.month}월 ${first.day}일 ~ ${last.month}월 ${last.day}일";
@@ -475,7 +475,9 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
       centerTitle: false,
       leading: IconButton(
         icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       actions: [
         IconButton(

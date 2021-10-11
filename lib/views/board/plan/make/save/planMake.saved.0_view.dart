@@ -198,7 +198,9 @@ class _PlanSavedViewState extends State<PlanSavedView> {
       centerTitle: false,
       leading: IconButton(
         icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pop(context);
+        },
       ),
       actions: [
         IconButton(
