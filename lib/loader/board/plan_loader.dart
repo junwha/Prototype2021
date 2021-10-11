@@ -99,6 +99,7 @@ class PlanLoader {
   /// data로부터 json을 구성해 플랜을 생성하고, 성공 여부를 반환한다.
   Future<bool> createPlan(String token, PlanData data) async {
     PlanCreateInput planInputData = PlanCreateInput(data: data);
+    print(planInputData.toJson()!["contents"]);
     SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
         data: planInputData, url: planGeneralUrl, token: token);
     SafeMutationOutput<PlanCreateOutput> result = await planCreate(dto);
