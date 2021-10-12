@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/model/board/contents/content_detail.dart';
@@ -33,6 +34,7 @@ enum ContentsDetailMode {
 class ContentDetailView extends StatefulWidget {
   final int id;
   final ContentsDetailMode mode;
+
   ContentDetailView({
     required this.id,
     this.mode = ContentsDetailMode.board,
@@ -54,9 +56,11 @@ class ContentDetailViewState extends State<ContentDetailView>
   bool onError = false;
 
   ContentsDetail? props;
+
   void setProps(ContentsDetail _props) => setState(() {
         props = _props;
       });
+
   void setOnError(bool _onError) => setState(() {
         onError = _onError;
       });
@@ -207,71 +211,76 @@ class ContentDetailViewState extends State<ContentDetailView>
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
       bottomNavigationBar: buildBottomNavigationBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-            child: ChangeNotifierProvider(
-          create: (context) => EventArticleHandler.main(),
-          child: Consumer(
-              builder: (context, EventArticleHandler eventArticleModel, child) {
-            void onImageChanged(int i, CarouselPageChangedReason reason) {
-              setState(() {
-                imageIndex = i.toDouble();
-              });
-            }
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return SafeArea(
+              child: SingleChildScrollView(
+                  child: ChangeNotifierProvider(
+                create: (context) => EventArticleHandler.main(),
+                child: Consumer(builder:
+                    (context, EventArticleHandler eventArticleModel, child) {
+                  void onImageChanged(int i, CarouselPageChangedReason reason) {
+                    setState(() {
+                      imageIndex = i.toDouble();
+                    });
+                  }
 
-            void onEventNavButtonPressed() {
-              if (!isAllList) {
-                setState(() {
-                  isAllList = true;
-                });
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => EventMainView()),
-                );
-                // TODO: next page
-              }
-            }
+                  void onEventNavButtonPressed() {
+                    if (!isAllList) {
+                      setState(() {
+                        isAllList = true;
+                      });
+                    } else {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => EventMainView()),
+                      );
+                      // TODO: next page
+                    }
+                  }
 
-            if (props == null) {
-              return SizedBox();
-            }
+                  if (props == null) {
+                    return SizedBox();
+                  }
 
-            return Column(
-              children: [
-                buildHeadSection(
-                  context,
-                  onPageChanged: onImageChanged,
-                  imageIndex: imageIndex,
-                  props: props!,
-                ),
-                buildLineArea(),
-                buildTextArea(props!),
-                buildLineArea(),
-                buildPriceArea(props!),
-                buildLineArea(),
-                buildTimeArea(props!),
-                buildLineArea(),
-                buildLocationArea(props!),
-                buildLineArea(),
-                // 이벤트와 관련한 위젯을 theme/board/contents_detail/body_event.dart에 옮겨두었습니다
-                buildEventArea(
-                  context,
-                  eventArticleModel,
-                ),
-                buildEventArticles(
-                  context,
-                  eventArticleModel,
-                ),
-                buildEventNavigatorButton(
-                  context,
-                  onPressed: onEventNavButtonPressed,
-                ),
-              ],
+                  return Column(
+                    children: [
+                      buildHeadSection(
+                        context,
+                        onPageChanged: onImageChanged,
+                        imageIndex: imageIndex,
+                        props: props!,
+                      ),
+                      buildLineArea(),
+                      buildTextArea(props!),
+                      buildLineArea(),
+                      buildPriceArea(props!),
+                      buildLineArea(),
+                      buildTimeArea(props!),
+                      buildLineArea(),
+                      buildLocationArea(props!),
+                      buildLineArea(),
+                      // 이벤트와 관련한 위젯을 theme/board/contents_detail/body_event.dart에 옮겨두었습니다
+                      buildEventArea(
+                        context,
+                        eventArticleModel,
+                      ),
+                      buildEventArticles(
+                        context,
+                        eventArticleModel,
+                      ),
+                      buildEventNavigatorButton(
+                        context,
+                        onPressed: onEventNavButtonPressed,
+                      ),
+                    ],
+                  );
+                }),
+              )),
             );
           }),
-        )),
-      ),
     );
   }
 }

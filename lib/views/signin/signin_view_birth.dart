@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/loader/signin/signin_loader.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
@@ -29,12 +30,15 @@ class _SigninViewBirthState extends State<SigninViewBirth>
   void setYear(int? _year) => setState(() {
         year = _year ?? 1999;
       });
+
   void setMonth(String? _month) => setState(() {
         month = _month ?? '1월';
       });
+
   void setDay(int? _day) => setState(() {
         day = _day ?? 1;
       });
+
   void setLoading(bool _loading) => setState(() {
         loading = _loading;
       });
@@ -45,39 +49,47 @@ class _SigninViewBirthState extends State<SigninViewBirth>
       drawerScrimColor: Colors.white,
       appBar:
           buildAppBar(context, shouldPopTo: SigninViewGender, title: "회원 설정"),
-      body: Center(
-          child: Column(children: [
-        SizedBox(
-          height: 60,
-        ),
-        Text(
-          '생년월일을 알려주세요.',
-          style: TextStyle(
-            color: Color(0xff444444),
-            fontSize: 21,
-            fontFamily: 'Roboto',
-          ),
-        ),
-        SizedBox(
-          height: 40,
-        ),
-        Text(
-          '생년월일',
-          style: TextStyle(
-            fontSize: 18,
-            color: Color(0xff999999),
-            fontFamily: 'Roboto',
-          ),
-        ),
-        SizedBox(
-          height: 10,
-        ),
-        buildDatePicker(),
-        SizedBox(
-          height: 60,
-        ),
-        buildNextButton(context),
-      ])),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+        builder: () {
+          return Center(
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 60,
+                ),
+                Text(
+                  '생년월일을 알려주세요.',
+                  style: TextStyle(
+                    color: Color(0xff444444),
+                    fontSize: 21,
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(
+                  height: 40,
+                ),
+                Text(
+                  '생년월일',
+                  style: TextStyle(
+                    fontSize: 18,
+                    color: Color(0xff999999),
+                    fontFamily: 'Roboto',
+                  ),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                buildDatePicker(),
+                SizedBox(
+                  height: 60,
+                ),
+                buildNextButton(context),
+              ],
+            ),
+          );
+        }
+      ),
     );
   }
 
@@ -109,22 +121,16 @@ class _SigninViewBirthState extends State<SigninViewBirth>
 
   Row buildDatePicker() {
     return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         buildDropdownMenu<int>(
             value: year, allValues: yearList, valueSetter: setYear),
-        SizedBox(
-          width: 12,
-        ),
         buildDropdownMenu<String>(
             value: month, allValues: monthList, valueSetter: setMonth),
-        SizedBox(
-          width: 12,
-        ),
         buildDropdownMenu<int>(
             value: day, allValues: dayList, valueSetter: setDay),
       ],
-      mainAxisAlignment: MainAxisAlignment.center,
-      crossAxisAlignment: CrossAxisAlignment.center,
     );
   }
 

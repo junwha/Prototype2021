@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
@@ -31,9 +32,9 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         ChangeNotifier,
         PlanMakeAppBarBase,
         TickerProviderStateMixin,
-        /* 
-         * These Mixins below have children widgets and helper Functions 
-         * PlanMakeHome widget uses 
+        /*
+         * These Mixins below have children widgets and helper Functions
+         * PlanMakeHome widget uses
         */
         PlanMakeHomeAIDialogMixin,
         PlanMakeHomeBottomAppBarMixin,
@@ -49,6 +50,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   final void Function(Navigate, [PlanMakeViewMode?]) navigator;
 
   bool _onTop = true;
+
   void Function(bool)? _setOnTop(bool isOnTop) {
     setState(() {
       _onTop = isOnTop;
@@ -56,6 +58,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   int openedCount = 0;
+
   void _incrementOpenedCount() {
     setState(() {
       openedCount = openedCount + 1;
@@ -84,6 +87,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   bool _expanded = false;
+
   void _setExpanded(bool expanded) {
     setState(() {
       _expanded = expanded;
@@ -91,6 +95,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   PlanMakeMode mode = PlanMakeMode.add;
+
   void _setMode(PlanMakeMode planMakeMode) {
     setState(() {
       mode = planMakeMode;
@@ -98,6 +103,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   bool onDrag = false;
+
   void setOnDrag(bool isOnDrag) {
     setState(() {
       onDrag = isOnDrag;
@@ -106,6 +112,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
 
   String? copiedDataId;
   PlaceDataInterface? copiedData;
+
   void setCopiedData(String? dataId, PlaceDataInterface? data) {
     setState(() {
       copiedDataId = dataId;
@@ -119,6 +126,7 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   }
 
   bool isMapEnabled = false;
+
   @override
   void onMapButtonTap() {
     setState(() {
@@ -196,7 +204,11 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         elevation: _appBarElevation,
         navigator: () => navigator(Navigate.backward),
       ),
-      body: buildBody(context),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return buildBody(context);
+          }),
       bottomNavigationBar: buildBottomAppBar(context),
     );
   }

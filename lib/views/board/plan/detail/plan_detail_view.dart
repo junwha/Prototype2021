@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
@@ -17,6 +18,7 @@ import 'package:provider/provider.dart';
 
 class PlanDetailView extends StatefulWidget {
   int pid;
+
   PlanDetailView({required this.pid, Key? key}) : super(key: key);
 
   @override
@@ -90,19 +92,23 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: isLoaded
-          ? SingleChildScrollView(
-              child: Column(
-              children: [
-                buildColumnWithDivider(children: [
-                  buildDescription(),
-                  buildTripStyleView(planData),
-                  buildMap(),
-                ]),
-                buildAllDayPlan(planData)
-              ],
-            ))
-          : buildLoading(),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return isLoaded
+                ? SingleChildScrollView(
+                    child: Column(
+                    children: [
+                      buildColumnWithDivider(children: [
+                        buildDescription(),
+                        buildTripStyleView(planData),
+                        buildMap(),
+                      ]),
+                      buildAllDayPlan(planData)
+                    ],
+                  ))
+                : buildLoading();
+          }),
     );
   }
 

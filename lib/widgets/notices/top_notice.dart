@@ -31,8 +31,8 @@ class _TopNoticeSlider extends State<TopNoticeSlider> {
         return Builder(
           builder: (BuildContext context) {
             return Container(
-              child: Center(
-                  child: Row(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SizedBox(
                     width: 10,
@@ -41,12 +41,18 @@ class _TopNoticeSlider extends State<TopNoticeSlider> {
                   SizedBox(
                     width: 7,
                   ),
-                  Text(
-                    "$i",
-                    style: TextStyle(fontSize: 15, color: Colors.black),
+                  Flexible(
+                    child: Container(
+                      child: Text(
+                        '$i',
+                        style: TextStyle(fontSize: 15, color: Colors.black),
+                        overflow: TextOverflow.ellipsis,
+                        softWrap: true,
+                      ),
+                    ),
                   ),
                 ],
-              )),
+              ),
               color: Color.fromRGBO(219, 219, 219, 1),
               width: double.infinity,
               height: 20,

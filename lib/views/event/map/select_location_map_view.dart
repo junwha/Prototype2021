@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/map/location.dart';
@@ -39,42 +40,48 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: center == null
-          ? Text("Loading")
-          : ChangeNotifierProvider(
-              create: (context) => ContentMapHandler(center: center!),
-              child: Consumer(
-                builder: (context, ContentMapHandler locationModel, child) {
-                  return Stack(
-                    children: [
-                      //initial position
-                      BackgroundMap(
-                          center: locationModel.center,
-                          markers: locationModel.markers,
-                          load: locationModel.mapLoaded,
-                          onCameraMove: (CameraPosition cameraPostion) {
-                            locationModel.updateBearing(cameraPostion.bearing);
-                            locationModel.center = cameraPostion.target;
-                          },
-                          onTap: (LatLng pos) {
-                            if (locationModel.isFocused()) {
-                              locationModel.removeFocus();
-                            } else {
-                              locationModel.findPlace(pos);
-                            }
-                          },
-                          onMapCreated: (GoogleMapController controller) {
-                            locationModel.mapController = controller;
-                          }),
-                      //buildSelectButton(maxHeight),
-                      buildContentInfo(
-                          locationModel.markerList.focusedLocation),
-                      MapSearchBar(locationModel),
-                    ],
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return center == null
+                ? Text("Loading")
+                : ChangeNotifierProvider(
+                    create: (context) => ContentMapHandler(center: center!),
+                    child: Consumer(
+                      builder:
+                          (context, ContentMapHandler locationModel, child) {
+                        return Stack(
+                          children: [
+                            //initial position
+                            BackgroundMap(
+                                center: locationModel.center,
+                                markers: locationModel.markers,
+                                load: locationModel.mapLoaded,
+                                onCameraMove: (CameraPosition cameraPostion) {
+                                  locationModel
+                                      .updateBearing(cameraPostion.bearing);
+                                  locationModel.center = cameraPostion.target;
+                                },
+                                onTap: (LatLng pos) {
+                                  if (locationModel.isFocused()) {
+                                    locationModel.removeFocus();
+                                  } else {
+                                    locationModel.findPlace(pos);
+                                  }
+                                },
+                                onMapCreated: (GoogleMapController controller) {
+                                  locationModel.mapController = controller;
+                                }),
+                            //buildSelectButton(maxHeight),
+                            buildContentInfo(
+                                locationModel.markerList.focusedLocation),
+                            MapSearchBar(locationModel),
+                          ],
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
-            ),
+          }),
     );
   }
 
