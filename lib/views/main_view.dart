@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainView extends StatefulWidget {
@@ -16,43 +17,49 @@ class _MainViewState extends State<MainView> {
     'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/Hong_Kong_Night_view.jpg/450px-Hong_Kong_Night_view.jpg'
   ];
   double image_index = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-          child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          buildImageArea(),
-          SizedBox(
-            height: 40,
-          ),
-          buildIconButtonArea(),
-          SizedBox(
-            height: 50,
-          ),
-          makeImage(BoxFit.fill),
-          SizedBox(
-            height: 50,
-          ),
-          buildPlanRecommendation("주목! 인플루언서 여행 플랜\n체험하고 싶다면?", SizedBox()),
-          SizedBox(
-            height: 40,
-          ),
-          Container(
-              width: double.infinity,
-              child: Image.asset('assets/icons/img_home_adbanner.png')),
-          SizedBox(
-            height: 50,
-          ),
-          buildPlanRecommendation("가이드 단체 수십명이 떠난\n바로 그 플랜", SizedBox()),
-          SizedBox(
-            height: 40,
-          ),
-          buildBottomArea()
-        ],
-      )),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return SingleChildScrollView(
+                child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                buildImageArea(),
+                SizedBox(
+                  height: 40,
+                ),
+                buildIconButtonArea(),
+                SizedBox(
+                  height: 50,
+                ),
+                makeImage(BoxFit.fill),
+                SizedBox(
+                  height: 50,
+                ),
+                buildPlanRecommendation(
+                    "주목! 인플루언서 여행 플랜\n체험하고 싶다면?", SizedBox()),
+                SizedBox(
+                  height: 40,
+                ),
+                Container(
+                    width: double.infinity,
+                    child: Image.asset('assets/icons/img_home_adbanner.png')),
+                SizedBox(
+                  height: 50,
+                ),
+                buildPlanRecommendation("가이드 단체 수십명이 떠난\n바로 그 플랜", SizedBox()),
+                SizedBox(
+                  height: 40,
+                ),
+                buildBottomArea()
+              ],
+            ));
+          }),
     );
   }
 
@@ -168,20 +175,21 @@ class _MainViewState extends State<MainView> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            buildIconButton("", ()  {
+            buildIconButton("", () {
               linkToUrl("https://www.instagram.com/teamtripbuilder/");
             }, Image.asset('assets/icons/ic_home_instagram.png'), 5),
             buildIconButton(
-                "", ()  {
-            }, Image.asset('assets/icons/ic_home_blog.png'), 5),
-            buildIconButton(
-                "", () {linkToUrl("https://www.facebook.com/teamtripbuilder/");}, Image.asset('assets/icons/ic_home_facebook.png'), 5),
+                "", () {}, Image.asset('assets/icons/ic_home_blog.png'), 5),
+            buildIconButton("", () {
+              linkToUrl("https://www.facebook.com/teamtripbuilder/");
+            }, Image.asset('assets/icons/ic_home_facebook.png'), 5),
           ],
         ),
       ]),
     );
-  }  
+  }
+
   void linkToUrl(String url) async {
-      if (await canLaunch(url)) await launch(url);
-    }
+    if (await canLaunch(url)) await launch(url);
+  }
 }

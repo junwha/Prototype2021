@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'dart:async';
 import 'dart:io';
@@ -21,6 +22,7 @@ class SigninViewProfileMain extends StatefulWidget {
 class _SigninViewProfileMainState extends State<SigninViewProfileMain>
     with SignInViewWidgets, SigninViewHelper {
   XFile? image;
+
   Future<void> getImageFromGallery() async {
     XFile? pickedImage =
         await ImagePicker().pickImage(source: ImageSource.gallery);
@@ -30,6 +32,7 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
   }
 
   String nickname = "";
+
   void setNickname(String _nickname) => setState(() {
         nickname = _nickname;
       });
@@ -45,42 +48,46 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset : false,
+      resizeToAvoidBottomInset: false,
       drawerScrimColor: Colors.white,
       appBar: buildAppBar(context,
           shouldPopTo: SignInViewVerification, title: "회원 설정"),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 60,
-            ),
-            buildIntroduction(),
-            SizedBox(
-              height: 40,
-            ),
-            buildImagePicker(),
-            buildTextInput(),
-            Container(
-              height: 0,
-              margin: EdgeInsets.only(
-                left: 87.5,
-                right: 87.5,
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 60,
+                  ),
+                  buildIntroduction(),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  buildImagePicker(),
+                  buildTextInput(),
+                  Container(
+                    height: 0,
+                    margin: EdgeInsets.only(
+                      left: 87.5,
+                      right: 87.5,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Color(0xff707070),
+                        width: 1,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 60,
+                  ),
+                  buildNextButton(context),
+                ],
               ),
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Color(0xff707070),
-                  width: 1,
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 60,
-            ),
-            buildNextButton(context),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 

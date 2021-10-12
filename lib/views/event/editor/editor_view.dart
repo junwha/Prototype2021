@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/handler/event/editor_handler.dart';
@@ -28,6 +29,7 @@ class EditorView extends StatefulWidget {
     this.writeType = WriteType.EDIT;
     this.data = data;
   }
+
   @override
   _EditorViewState createState() => _EditorViewState();
 }
@@ -53,62 +55,66 @@ class _EditorViewState extends State<EditorView> {
     }
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        child: Container(
-          child: ChangeNotifierProvider(
-            create: (context) => getEditorModel(this.widget.writeType),
-            child:
-                Consumer(builder: (context, EditorHandler editorModel, child) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(
-                    20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
-                child: Column(
-                  children: [
-                    buildHeaderBar(editorModel),
-                    SizedBox(
-                      height: 23 * pt,
-                    ),
-                    buildTypeToggle(editorModel),
-                    SizedBox(
-                      height: 16 * pt,
-                    ),
-                    Container(height: 1, width: 500, color: Colors.grey),
-                    Container(
-                        height: 61 * pt,
-                        child: EventCustomTextField(
-                          height: 75,
-                          hintText: "제목",
-                          onChanged: (String text) {
-                            editorModel.title = text;
-                          },
-                          initialText: editorModel.title,
-                        )),
-                    Container(height: 1, width: 500, color: Colors.grey),
-                    Container(
-                        alignment: FractionalOffset.topLeft,
-                        height: 200 * pt,
-                        width: 500,
-                        color: Colors.white,
-                        child: SingleChildScrollView(
-                          child: EventCustomTextField(
-                            height: 300,
-                            hintText: "내용을 입력하세요.",
-                            onChanged: (String text) {
-                              editorModel.content = text;
-                            },
-                            initialText: editorModel.content,
-                            maxLine: 15,
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return SingleChildScrollView(
+              child: Container(
+                child: ChangeNotifierProvider(
+                  create: (context) => getEditorModel(this.widget.writeType),
+                  child: Consumer(
+                      builder: (context, EditorHandler editorModel, child) {
+                    return Padding(
+                      padding: const EdgeInsets.fromLTRB(
+                          20.0 * pt, 30.0 * pt, 20.0 * pt, 20.0 * pt),
+                      child: Column(
+                        children: [
+                          buildHeaderBar(editorModel),
+                          SizedBox(
+                            height: 23 * pt,
                           ),
-                        )),
-                    Container(height: 1, width: 500, color: Colors.grey),
-                    buildBottom(editorModel, context),
-                  ],
+                          buildTypeToggle(editorModel),
+                          SizedBox(
+                            height: 16 * pt,
+                          ),
+                          Container(height: 1, width: 500, color: Colors.grey),
+                          Container(
+                              height: 61 * pt,
+                              child: EventCustomTextField(
+                                height: 75,
+                                hintText: "제목",
+                                onChanged: (String text) {
+                                  editorModel.title = text;
+                                },
+                                initialText: editorModel.title,
+                              )),
+                          Container(height: 1, width: 500, color: Colors.grey),
+                          Container(
+                              alignment: FractionalOffset.topLeft,
+                              height: 200 * pt,
+                              width: 500,
+                              color: Colors.white,
+                              child: SingleChildScrollView(
+                                child: EventCustomTextField(
+                                  height: 300,
+                                  hintText: "내용을 입력하세요.",
+                                  onChanged: (String text) {
+                                    editorModel.content = text;
+                                  },
+                                  initialText: editorModel.content,
+                                  maxLine: 15,
+                                ),
+                              )),
+                          Container(height: 1, width: 500, color: Colors.grey),
+                          buildBottom(editorModel, context),
+                        ],
+                      ),
+                    );
+                  }),
                 ),
-              );
-            }),
-          ),
-        ),
-      ),
+              ),
+            );
+          }),
     );
   }
 

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
@@ -72,33 +73,39 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
 
   int refetchCount = 0;
   final int maxRefetchCount = 3;
+
   void setRefetchCount(int _refetchCount) => setState(() {
         refetchCount = _refetchCount;
       });
 
   BoardMode viewMode;
+
   @defaultImplementation
   void setViewMode(BoardMode _viewMode) => setState(() {
         viewMode = _viewMode;
         refetchCount = 0;
       });
+
   Future<void> updateViewMode(BoardMode _viewMode) async {
     setViewMode(_viewMode);
     handleModeChange(_viewMode);
   }
 
   String searchInput = "";
+
   void setSearchInput(String _searchInput) => setState(() {
         searchInput = _searchInput;
       });
 
   final int initialTabIndex;
   int tabIndex = 0;
+
   void setTabIndex(int _tabIndex) => setState(() {
         tabIndex = _tabIndex;
       });
 
   ContentType currentFilter = ContentType.unknown;
+
   void setCurrentFilter(ContentType newFilter) {
     setState(() {
       currentFilter = newFilter;
@@ -259,14 +266,18 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(context),
-      body: DefaultTabController(
-        initialIndex: initialTabIndex,
-        length: 2,
-        child: NestedScrollView(
-          headerSliverBuilder: buildHeaderSilverBuilder(),
-          body: buildBody(context),
-        ),
-      ),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return DefaultTabController(
+              initialIndex: initialTabIndex,
+              length: 2,
+              child: NestedScrollView(
+                headerSliverBuilder: buildHeaderSilverBuilder(),
+                body: buildBody(context),
+              ),
+            );
+          }),
       bottomNavigationBar: buildBottomNavigationBar(),
     );
   }

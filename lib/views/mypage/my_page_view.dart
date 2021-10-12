@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MyPage extends StatelessWidget {
   @override
@@ -22,14 +23,18 @@ class MyPage extends StatelessWidget {
                 color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
           ),
         ),
-        body: SingleChildScrollView(
-            child: Column(
-          children: [
-            buildCard('임시 저장한 글', () {}),
-            buildCard('내가 쓴 글', () {}),
-            buildCard('내가 찜한 글', () {})
-          ],
-        )));
+        body: ScreenUtilInit(
+            designSize: Size(3200, 1440),
+            builder: () {
+              return SingleChildScrollView(
+                  child: Column(
+                children: [
+                  buildCard('임시 저장한 글', () {}),
+                  buildCard('내가 쓴 글', () {}),
+                  buildCard('내가 찜한 글', () {})
+                ],
+              ));
+            }));
   }
 
   Container buildCard(
