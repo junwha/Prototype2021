@@ -144,7 +144,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
 
   Scaffold buildLoginPage(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomInset : false,
+        resizeToAvoidBottomInset: false,
         appBar: buildAppBar(),
         body: ScreenUtilInit(
           designSize: Size(3200, 1440),
@@ -177,6 +177,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       buildLoginInput(
         hintText: "비밀번호를 입력해주세요.",
         onChanged: setPassword,
+        isPasswordField: true,
       ),
     ];
   }
@@ -191,7 +192,8 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     );
     Image image = Image.asset("assets/icons/ic_check_white.png");
     return Container(
-      margin: EdgeInsets.only(top: ScreenUtil().setHeight(18), bottom: ScreenUtil().setHeight(34)),
+      margin: EdgeInsets.only(
+          top: ScreenUtil().setHeight(18), bottom: ScreenUtil().setHeight(34)),
       child: Row(
         children: [
           CircleButton(
@@ -224,6 +226,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     required String hintText,
     required void Function(String) onChanged,
     String? defaultValue,
+    bool isPasswordField = false,
   }) {
     return Container(
         height: 80,
@@ -234,6 +237,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
           hintText: hintText,
           onChanged: onChanged,
           initialText: defaultValue ?? '',
+          isPasswordField: isPasswordField,
         ));
   }
 
@@ -290,7 +294,8 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       "트립빌더",
     ];
     return Container(
-      margin: EdgeInsets.only(top: ScreenUtil().setHeight(50), bottom: ScreenUtil().setHeight(25)),
+      margin: EdgeInsets.only(
+          top: ScreenUtil().setHeight(50), bottom: ScreenUtil().setHeight(25)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: texts.map<Widget>((textOrNull) {
@@ -369,7 +374,8 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     );
 
     return Container(
-      margin: EdgeInsets.only(top: ScreenUtil().setHeight(134), bottom: ScreenUtil().setHeight(24)),
+      margin: EdgeInsets.only(
+          top: ScreenUtil().setHeight(134), bottom: ScreenUtil().setHeight(24)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -383,7 +389,8 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
               width: 0,
               height: 18,
               decoration: BoxDecoration(
-                  border: Border.all(color: const Color(0xff555555), width: 1))),
+                  border:
+                      Border.all(color: const Color(0xff555555), width: 1))),
           TextButton(
               onPressed: () {},
               child: Text(
