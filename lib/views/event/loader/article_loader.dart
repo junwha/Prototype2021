@@ -11,11 +11,9 @@ class ArticleLoader {
       String text, ArticleType articleType) async {
     String url;
     if (articleType == ArticleType.EVENT)
-      url =
-          "http://api.tripbuilder.co.kr/recruitments/events/search/?query=$text&page=1";
+      url = "$apiBaseUrl/recruitments/events/search/?query=$text&page=1";
     else
-      url =
-          'http://api.tripbuilder.co.kr/recruitments/companions/search/?query=$text&page=1';
+      url = '$apiBaseUrl/recruitments/companions/search/?query=$text&page=1';
 
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -33,9 +31,9 @@ class ArticleLoader {
       ArticleType articleType) async {
     String url;
     if (articleType == ArticleType.EVENT)
-      url = "http://api.tripbuilder.co.kr/recruitments/events/recommended/";
+      url = "$apiBaseUrl/recruitments/events/recommended/";
     else
-      url = "http://api.tripbuilder.co.kr/recruitments/companions/recommended";
+      url = "$apiBaseUrl/recruitments/companions/recommended";
     // TOOD: modify this part with top companion api
     try {
       http.Response response = await http.get(Uri.parse(url));
@@ -77,9 +75,9 @@ class ArticleLoader {
       ArticleType articleType) async {
     String url;
     if (articleType == ArticleType.EVENT) {
-      url = "http://api.tripbuilder.co.kr/recruitments/events";
+      url = "$apiBaseUrl/recruitments/events";
     } else {
-      url = "http://api.tripbuilder.co.kr/recruitments/companions";
+      url = "$apiBaseUrl/recruitments/companions";
     }
 
     try {
@@ -122,9 +120,9 @@ class ArticleLoader {
       int id, ArticleType articleType) async {
     String url;
     if (articleType == ArticleType.EVENT)
-      url = "http://api.tripbuilder.co.kr/recruitments/events/$id";
+      url = "$apiBaseUrl/recruitments/events/$id";
     else
-      url = "http://api.tripbuilder.co.kr/recruitments/companions/$id";
+      url = "$apiBaseUrl/recruitments/companions/$id";
     try {
       http.Response response = await http.get(Uri.parse(url));
 
@@ -185,9 +183,9 @@ class ArticleLoader {
   Future<bool> deleteArticle(int id, ArticleType articleType) async {
     String url;
     if (articleType == ArticleType.EVENT)
-      url = "http://api.tripbuilder.co.kr/recruitments/events/$id/";
+      url = "$apiBaseUrl/recruitments/events/$id/";
     else
-      url = "http://api.tripbuilder.co.kr/recruitments/companions/$id/";
+      url = "$apiBaseUrl/recruitments/companions/$id/";
     try {
       http.Response response = await http.delete(Uri.parse(url));
       if (response.statusCode == 204) return true;
