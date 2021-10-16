@@ -4,12 +4,13 @@ import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
+import 'package:prototype2021/settings/constants.dart';
 
 class EventPlaceLoader {
   Future<List<Location>> searchEventLocations(LatLng pos,
       {int radius = 500}) async {
     dynamic response = await legacyGET(
-        "http://api.tripbuilder.co.kr/recruitments/events/near/?lat=${pos.latitude.toStringAsFixed(6)}&long=${pos.longitude.toStringAsFixed(6)}&radius=$radius");
+        "$apiBaseUrl/recruitments/events/near/?lat=${pos.latitude.toStringAsFixed(6)}&long=${pos.longitude.toStringAsFixed(6)}&radius=$radius");
     List<EventLocation> locations = [];
     try {
       for (Map<String, dynamic> eventData in response) {
