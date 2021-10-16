@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
               isBackEnabled: false,
               body: Container(
                 child: Text(
-                  "예기치 못한 에러가 발생했습니다. 아이디와 비밀번호를 다시한번 확인해주세요: ${error.toString().substring(0, 30)}",
+                  "예기치 못한 에러가 발생했습니다. \n아이디와 비밀번호를 다시한번 확인해주세요",
                   textAlign: TextAlign.center,
                 ),
                 alignment: Alignment.center,

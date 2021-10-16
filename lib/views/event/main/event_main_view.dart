@@ -1,6 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -394,8 +395,17 @@ class _EventMainViewState extends State<EventMainView>
                   )
                 ],
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, "map");
+              onPressed: () async {
+                var status = await Permission.location.status;
+                if (status.isDenied) {
+                  await Permission.location.request();
+                  if(await Permission.location.isGranted) {
+                    Navigator.pushNamed(context, "map");
+                  }
+                }
+                if (await Permission.location.isGranted) {
+                  Navigator.pushNamed(context, "map");
+                }
               },
             )
           ],
