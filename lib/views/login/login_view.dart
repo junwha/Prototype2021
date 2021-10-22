@@ -51,9 +51,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       });
 
   Future<void> navigateToMain(BuildContext context) async {
-    await Navigator.push<MaterialPageRoute>(
-      context,
-      MaterialPageRoute(builder: (context) => MainView()),
+    await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainView())
     );
   }
 
@@ -256,7 +254,6 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                     fontSize: 20.0),
               ),
             ),
-            width: 390,
             height: 67,
             decoration: BoxDecoration(
               color: const Color(0xff4080ff),
