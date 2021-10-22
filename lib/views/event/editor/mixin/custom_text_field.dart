@@ -63,7 +63,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 focusedBorder: InputBorder.none,
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 30, right: 15),
-                hintText: this.widget.hintText),
+                hintText: this.widget.hintText,
+                hintStyle: TextStyle(
+                  fontSize: 14
+                )
+            ),
             onChanged: this.widget.onChanged,
             maxLines: this.widget.maxLine,
             obscureText: this.widget.isPasswordField ? this.isObscure : false,

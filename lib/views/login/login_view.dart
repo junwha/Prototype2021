@@ -5,9 +5,6 @@ import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
-import 'package:prototype2021/views/board/main/board_main_view.dart';
-import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
-import 'package:prototype2021/views/event/main/event_main_view.dart';
 import 'package:prototype2021/views/main_view.dart';
 import 'package:prototype2021/widgets/buttons/circle_button.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
@@ -372,7 +369,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
 
     return Container(
       margin: EdgeInsets.only(
-          top: ScreenUtil().setHeight(134), bottom: ScreenUtil().setHeight(24)),
+          top: ScreenUtil().setHeight(20), bottom: ScreenUtil().setHeight(24)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -417,6 +414,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     );
 
     return Container(
+      margin: EdgeInsets.only(bottom: ScreenUtil().setHeight(24)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

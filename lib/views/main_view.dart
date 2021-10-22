@@ -47,8 +47,7 @@ class _MainViewState extends State<MainView> {
                   height: 40,
                 ),
                 Container(
-                    width: double.infinity,
-                    child: Image.asset('assets/icons/img_home_adbanner.png')),
+                    child: Image.asset('assets/icons/img_home_adbanner.png', fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width)),
                 SizedBox(
                   height: 50,
                 ),
@@ -84,7 +83,7 @@ class _MainViewState extends State<MainView> {
                     width: MediaQuery.of(context).size.width,
                     child: Image.asset(
                       "assets/icons/img_home_topbanner.png",
-                      fit: BoxFit.cover,
+                      fit: BoxFit.fill,
                       scale: 20,
                     ),
                   );
@@ -99,19 +98,15 @@ class _MainViewState extends State<MainView> {
     );
   }
 
-  Padding buildIconButton(
-      String text, Function()? onpressed, Image image, double padding) {
-    return Padding(
-      padding: EdgeInsets.all(padding),
-      child: Column(
-        children: [
-          IconButton(
-            onPressed: onpressed,
-            icon: image,
-          ),
-          Text(text)
-        ],
-      ),
+  Column buildIconButton(String text, Function()? onpressed, Image image) {
+    return Column(
+      children: [
+        IconButton(
+          onPressed: onpressed,
+          icon: image,
+        ),
+        Text(text)
+      ],
     );
   }
 
@@ -124,20 +119,20 @@ class _MainViewState extends State<MainView> {
 
   Row buildIconButtonArea() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         buildIconButton("내주변여행", () {
           Navigator.pushNamed(context, 'event');
-        }, Image.asset('assets/icons/ic_home_location_event.png'), 15),
+        }, Image.asset('assets/icons/ic_home_location_event.png')),
         buildIconButton("마이플랜", () {
           Navigator.pushNamed(context, 'wishlist');
-        }, Image.asset('assets/icons/ic_home_myplan.png'), 15),
+        }, Image.asset('assets/icons/ic_home_myplan.png')),
         buildIconButton("여행게시판", () {
           Navigator.pushNamed(context, 'board');
-        }, Image.asset('assets/icons/ic_home_board.png'), 15),
+        }, Image.asset('assets/icons/ic_home_board.png')),
         buildIconButton("플랜제작", () {
           Navigator.pushNamed(context, 'planmake');
-        }, Image.asset('assets/icons/ic_home_myprofile.png'), 15),
+        }, Image.asset('assets/icons/ic_home_myprofile.png')),
       ],
     );
   }
@@ -170,19 +165,19 @@ class _MainViewState extends State<MainView> {
       child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
         Text(
           "트립빌더 (Trip Builder)  |  대표 김명준\n사업자 등록번호 892-79-00273\n울산광역시 울주군 언양읍 유니스트길 50, 307동 1층 (UNISPARK)",
-          style: TextStyle(fontSize: 11),
+          style: TextStyle(fontSize: 100.sp),
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             buildIconButton("", () {
               linkToUrl("https://www.instagram.com/teamtripbuilder/");
-            }, Image.asset('assets/icons/ic_home_instagram.png'), 5),
+            }, Image.asset('assets/icons/ic_home_instagram.png')),
             buildIconButton(
-                "", () {}, Image.asset('assets/icons/ic_home_blog.png'), 5),
+                "", () {}, Image.asset('assets/icons/ic_home_blog.png')),
             buildIconButton("", () {
               linkToUrl("https://www.facebook.com/teamtripbuilder/");
-            }, Image.asset('assets/icons/ic_home_facebook.png'), 5),
+            }, Image.asset('assets/icons/ic_home_facebook.png')),
           ],
         ),
       ]),

@@ -74,7 +74,6 @@ mixin SignInViewWidgets {
         children: [
           Flexible(
             child: Container(
-                width: 220 * pt,
                 height: 75,
                 decoration: BoxDecoration(
                   color: const Color(0xfff2f2f2),
@@ -87,7 +86,7 @@ mixin SignInViewWidgets {
                   extraActionsWidget: extraInputWidget,
                   disabled: disabled,
                 )),
-            flex: hasActionButton ? 4 : 1,
+            flex: hasActionButton ? 3 : 1,
             fit: hasActionButton ? FlexFit.loose : FlexFit.tight,
           ),
           hasActionButton
@@ -95,7 +94,6 @@ mixin SignInViewWidgets {
                   child: OutlinedButton(
                     child: Container(
                       height: 75,
-                      width: 30,
                       child: loading
                           ? LoadingIndicator()
                           : Center(
@@ -208,7 +206,6 @@ mixin SignInViewWidgets {
                           fontSize: 20.0),
                     ),
                   ),
-            width: half ? 160 : 400,
             height: 67,
             margin:
                 half ? EdgeInsets.symmetric(horizontal: gap) : EdgeInsets.zero,

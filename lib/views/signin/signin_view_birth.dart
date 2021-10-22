@@ -121,7 +121,7 @@ class _SigninViewBirthState extends State<SigninViewBirth>
 
   Row buildDatePicker() {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         buildDropdownMenu<int>(
