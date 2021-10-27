@@ -10,6 +10,7 @@ import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
 import 'package:prototype2021/views/board/plan/make/schedule_card/schedule_card.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
@@ -289,18 +290,28 @@ class _PlanDetailViewState extends State<PlanDetailView> {
         );
       } else if (data is ContentsDetailPlaceDataAdaptor) {
         ContentsDetail contentsDetail = data.contentsDetail;
-        return ContentsCard.fromProps(
-          props: ContentsCardBaseProps(
-              id: contentsDetail.id,
-              hearted: contentsDetail.hearted,
-              backgroundColor: Colors.white,
-              preview: contentsDetail.photo.length > 0
-                  ? contentsDetail.photo[0]
-                  : placeHolder,
-              title: "${contentsDetail.title}",
-              place: contentsDetail.address,
-              explanation: contentsDetail.overview,
-              tags: []),
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ContentDetailView(
+                        id: contentsDetail.id,
+                        mode: ContentsDetailMode.board)));
+          },
+          child: ContentsCard.fromProps(
+            props: ContentsCardBaseProps(
+                id: contentsDetail.id,
+                hearted: contentsDetail.hearted,
+                backgroundColor: Colors.white,
+                preview: contentsDetail.photo.length > 0
+                    ? contentsDetail.photo[0]
+                    : placeHolder,
+                title: "${contentsDetail.title}",
+                place: contentsDetail.address,
+                explanation: contentsDetail.overview,
+                tags: []),
+          ),
         );
       }
       return SizedBox();
