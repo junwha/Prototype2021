@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
@@ -16,6 +17,7 @@ class EventDetailView extends StatefulWidget {
   final int id;
   EventArticleHandler eventArticleModel;
   ArticleType articleType;
+
   EventDetailView(this.id, this.eventArticleModel, this.articleType);
 
   @override
@@ -40,50 +42,55 @@ class _EventDetailViewState extends State<EventDetailView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: ChangeNotifierProvider.value(
-        value: this.widget.eventArticleModel,
-        child: Consumer(
-            builder: (context, EventArticleHandler eventArticleModel, child) {
-          return SingleChildScrollView(
-            child: eventArticleModel.detailData == null
-                ? Text("Loading ...")
-                : Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(20.0),
-                        child: Column(
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return ChangeNotifierProvider.value(
+              value: this.widget.eventArticleModel,
+              child: Consumer(builder:
+                  (context, EventArticleHandler eventArticleModel, child) {
+                return SingleChildScrollView(
+                  child: eventArticleModel.detailData == null
+                      ? Text("Loading ...")
+                      : Column(
                           children: [
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                buildProfile(eventArticleModel),
-                                bulidPopupMenuButton(eventArticleModel)
-                              ],
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      buildProfile(eventArticleModel),
+                                      bulidPopupMenuButton(eventArticleModel)
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 21,
+                                  ),
+                                  bulidContent(eventArticleModel),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  SizedBox(
+                                    height: 15,
+                                  ),
+                                  buildDetail(eventArticleModel),
+                                ],
+                              ),
                             ),
-                            SizedBox(
-                              height: 21,
-                            ),
-                            bulidContent(eventArticleModel),
-                            SizedBox(
-                              height: 30,
-                            ),
-                            SizedBox(
-                              height: 15,
-                            ),
-                            buildDetail(eventArticleModel),
+                            Container(
+                              height: 1,
+                              width: double.infinity,
+                              color: Color.fromRGBO(232, 232, 232, 1),
+                            )
                           ],
                         ),
-                      ),
-                      Container(
-                        height: 1,
-                        width: double.infinity,
-                        color: Color.fromRGBO(232, 232, 232, 1),
-                      )
-                    ],
-                  ),
-          );
-        }),
-      ),
+                );
+              }),
+            );
+          }),
     );
   }
 

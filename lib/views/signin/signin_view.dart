@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/loader/signin/signin_loader.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -45,48 +46,56 @@ class _SigninViewState extends State<SigninView>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset : false,
       appBar: buildAppBar(context, shouldPopTo: LoginView, title: "회원가입"),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            buildSignInInput(context,
-                hintText: "사용할 아이디를 입력해주세요.",
-                onTextChange: setId,
-                onError: invalidUsername,
-                hasActionButton: true,
-                onActionButtonPressed: checkDuplicacy,
-                actionButtonText: "중복\n확인",
-                underText: '영문, 숫자 조합으로 6자 이상',
-                showUnderText: true),
-            SizedBox(
-              height: 16,
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+          return Padding(
+            padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
+            child: SafeArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  buildSignInInput(context,
+                      hintText: "사용할 아이디를 입력해주세요.",
+                      onTextChange: setId,
+                      onError: invalidUsername,
+                      hasActionButton: true,
+                      onActionButtonPressed: checkDuplicacy,
+                      actionButtonText: "중복\n확인",
+                      underText: '영문, 숫자 조합으로 6자 이상',
+                      showUnderText: true),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  buildSignInInput(
+                    context,
+                    hintText: "비밀번호를 입력해주세요.",
+                    onTextChange: setPassword,
+                    onError: invalidPassword,
+                    underText: '영문, 숫자 특수 문자 조합으로 8자 이상',
+                    showUnderText: true,
+                    isPasswordField: true,
+                  ),
+                  SizedBox(
+                    height: 16,
+                  ),
+                  buildSignInInput(context,
+                      hintText: "비밀번호를 다시 입력해주세요.",
+                      onTextChange: setPasswordConfirm,
+                      onError: invalidPasswordConfirm,
+                      underText: '비밀번호가 일치하지 않습니다.',
+                      isPasswordField: true),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  buildNextButton(context),
+                ],
+              ),
             ),
-            buildSignInInput(
-              context,
-              hintText: "비밀번호를 입력해주세요.",
-              onTextChange: setPassword,
-              onError: invalidPassword,
-              underText: '영문, 숫자 특수 문자 조합으로 8자 이상',
-              showUnderText: true,
-              isPasswordField: true,
-            ),
-            SizedBox(
-              height: 16,
-            ),
-            buildSignInInput(context,
-                hintText: "비밀번호를 다시 입력해주세요.",
-                onTextChange: setPasswordConfirm,
-                onError: invalidPasswordConfirm,
-                underText: '비밀번호가 일치하지 않습니다.',
-                isPasswordField: true),
-            SizedBox(
-              height: 40,
-            ),
-            buildNextButton(context),
-          ],
-        ),
+          );
+        }
       ),
     );
   }
@@ -101,7 +110,7 @@ class _SigninViewState extends State<SigninView>
       }
     }
 
-    return buildSigninButton(context, onPressed: onPressed, text: "화원가입");
+    return buildSigninButton(context, onPressed: onPressed, text: "회원가입");
   }
 
   Future<void> checkDuplicacy() async {
@@ -110,7 +119,7 @@ class _SigninViewState extends State<SigninView>
       bool _hasDuplicate = await checkIfIdHasDuplicate(username);
       if (_hasDuplicate) {
         tbShowTextDialog(context, "ID가 중복되어 사용할 수 없습니다");
-      } else {
+      } else if (_hasDuplicate == false) {
         tbShowTextDialog(context, "사용할 수 있는 아이디입니다");
       }
       setState(() {

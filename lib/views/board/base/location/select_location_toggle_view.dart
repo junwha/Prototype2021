@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/data/location_data.dart';
 import 'package:prototype2021/settings/constants.dart';
 
 class SelectLocationToggleView extends StatefulWidget {
   final String mainLocation;
   final String subLocation;
+
   SelectLocationToggleView({
     required this.mainLocation,
     required this.subLocation,
@@ -32,7 +34,11 @@ class _SelectLocationToggleViewState extends State<SelectLocationToggleView> {
     return Scaffold(
       appBar: buildAppBar(),
       backgroundColor: Colors.white,
-      body: buildSelectLocationSection(),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return buildSelectLocationSection();
+          }),
     );
   }
 

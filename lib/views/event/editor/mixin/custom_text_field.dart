@@ -63,7 +63,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
                 focusedBorder: InputBorder.none,
                 contentPadding:
                     EdgeInsets.only(left: 15, bottom: 11, top: 30, right: 15),
-                hintText: this.widget.hintText),
+                hintText: this.widget.hintText,
+                hintStyle: TextStyle(
+                  fontSize: 14
+                )
+            ),
             onChanged: this.widget.onChanged,
             maxLines: this.widget.maxLine,
             obscureText: this.widget.isPasswordField ? this.isObscure : false,
@@ -80,6 +84,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
             children: [
               widget.isPasswordField
                   ? IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                       icon: Image.asset(
                         'assets/icons/ic_eye_gray.png',
                       ),
@@ -90,6 +96,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
                       })
                   : SizedBox(),
               IconButton(
+                  splashColor: Colors.transparent,
+                  highlightColor: Colors.transparent,
                   icon: Image.asset(
                     'assets/icons/ic_search_remove_background.png',
                   ),

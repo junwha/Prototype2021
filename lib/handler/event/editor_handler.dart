@@ -158,8 +158,7 @@ class EditorHandler with ChangeNotifier {
       return await legacyPOST(url, originData, headers: getHeaders());
     } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
-      url =
-          "http://api.tripbuilder.co.kr/recruitments/companions/${articleId!}/";
+      url = "$apiBaseUrl/recruitments/companions/${articleId!}/";
       return await legacyPUT(url, originData, headers: getHeaders());
     }
     return false;
@@ -181,7 +180,7 @@ class EditorHandler with ChangeNotifier {
       return await legacyPOST(url, originData, headers: getHeaders());
     } else if (this.writeType == WriteType.EDIT) {
       if (articleId == null) return false;
-      url = "http://api.tripbuilder.co.kr/recruitments/events/${articleId!}/";
+      url = "$apiBaseUrl/recruitments/events/${articleId!}/";
       return await legacyPUT(url, originData, headers: getHeaders());
     }
     return false;

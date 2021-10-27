@@ -21,9 +21,13 @@ class SigninLoader {
     SafeQueryInput<IdVerificationInput> dto =
         new SafeQueryInput(url: idVerificationUrl, params: params);
     SafeQueryOutput<IdVerificationOutput> result = await idVerification(dto);
-    if (result.success && result.data?.exists != null)
+    if (result.success && result.data?.exists != null) {
       return result.data!.exists;
-    throw HttpException(result.error?.message ?? defaultErrorMessage);
+    } else if (result.data?.exists == true) {
+      return true;
+    }
+    return true;
+    // throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 
   Future<String> requestAuth(

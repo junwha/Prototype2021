@@ -140,7 +140,7 @@ class PlaceLoader {
 // Future<List<EventPlaceData>> getEventPlace(String type,
 //     {int radius = 500}) async {
 //   if (type == PlaceType.EVENT) {
-//     String url = "http://api.tripbuilder.co.kr/recruitments/events/";
+//     String url = "$apiBaseUrl/recruitments/events/";
 //     print(type);
 //     try {
 //       http.Response res = await http.get(Uri.parse(url));

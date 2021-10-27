@@ -1,4 +1,4 @@
-package com.example.prototype2021
+package com.trip.builder
 
 import io.flutter.embedding.android.FlutterActivity
 

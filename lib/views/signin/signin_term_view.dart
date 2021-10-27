@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/data/signin_terms.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -55,62 +56,68 @@ class _SigninTermViewState extends State<SigninTermView>
     return Scaffold(
       drawerScrimColor: Colors.white,
       appBar: buildAppBar(context, shouldPopTo: SigninView, title: "회원가입"),
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(15.0 * pt, 36 * pt, 15 * pt, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                buildMethodTabButton(
-                  onPressed: () =>
-                      setVerificationMethod(VerificationMethod.Phone),
-                  isChecked: verificationMethod == VerificationMethod.Phone,
-                  text: "휴대폰으로 회원가입",
-                ),
-                buildMethodTabButton(
-                    onPressed: () =>
-                        setVerificationMethod(VerificationMethod.Email),
-                    isChecked: verificationMethod == VerificationMethod.Email,
-                    text: "이메일로 회원가입")
-              ],
-            ),
-            SizedBox(
-              height: 75,
-            ),
-            buildTermCheckbox(
-                isChecked: firstTermChecked,
-                text: "이용약관 동의 (필수)",
-                onCheckboxTap: setTermCheckedFactory(1),
-                onDetailTap: () {
-                  tbShowDialog(
-                      context,
-                      TBSimpleDialog(
-                          title: "서비스 이용약관", body: Text(service_term)));
-                }),
-            buildTermCheckbox(
-                isChecked: secondTermChecked,
-                text: "개인정보취급방침 동의 (필수)",
-                onCheckboxTap: setTermCheckedFactory(2),
-                onDetailTap: () {
-                  tbShowDialog(
-                      context,
-                      TBSimpleDialog(
-                          title: "개인정보취급방침", body: Text(privacy_term)));
-                }),
-            buildTermCheckbox(
-                isChecked: thirdTermChecked,
-                text: "마케팅 수신 동의 (선택)",
-                onCheckboxTap: setTermCheckedFactory(3),
-                onDetailTap: () {}),
-            SizedBox(
-              height: 100,
-            ),
-            buildNextButton(context),
-          ],
-        ),
-      ),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(15 * pt, 36 * pt, 15 * pt, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Wrap(
+                    direction: Axis.horizontal,
+                    children: [
+                      buildMethodTabButton(
+                        onPressed: () =>
+                            setVerificationMethod(VerificationMethod.Phone),
+                        isChecked:
+                            verificationMethod == VerificationMethod.Phone,
+                        text: "휴대폰으로 회원가입",
+                      ),
+                      buildMethodTabButton(
+                          onPressed: () =>
+                              setVerificationMethod(VerificationMethod.Email),
+                          isChecked:
+                              verificationMethod == VerificationMethod.Email,
+                          text: "이메일로 회원가입")
+                    ],
+                  ),
+                  SizedBox(
+                    height: 75,
+                  ),
+                  buildTermCheckbox(
+                      isChecked: firstTermChecked,
+                      text: "이용약관 동의 (필수)",
+                      onCheckboxTap: setTermCheckedFactory(1),
+                      onDetailTap: () {
+                        tbShowDialog(
+                            context,
+                            TBSimpleDialog(
+                                title: "서비스 이용약관", body: Text(service_term)));
+                      }),
+                  buildTermCheckbox(
+                      isChecked: secondTermChecked,
+                      text: "개인정보취급방침 동의 (필수)",
+                      onCheckboxTap: setTermCheckedFactory(2),
+                      onDetailTap: () {
+                        tbShowDialog(
+                            context,
+                            TBSimpleDialog(
+                                title: "개인정보취급방침", body: Text(privacy_term)));
+                      }),
+                  buildTermCheckbox(
+                      isChecked: thirdTermChecked,
+                      text: "마케팅 수신 동의 (선택)",
+                      onCheckboxTap: setTermCheckedFactory(3),
+                      onDetailTap: () {}),
+                  SizedBox(
+                    height: 100,
+                  ),
+                  buildNextButton(context),
+                ],
+              ),
+            );
+          }),
     );
   }
 

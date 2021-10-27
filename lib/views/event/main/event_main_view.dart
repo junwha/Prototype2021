@@ -1,5 +1,7 @@
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -57,29 +59,34 @@ class _EventMainViewState extends State<EventMainView>
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
       // bottomNavigationBar: buildBottomNavigationBar(),
-      body: SingleChildScrollView(
-        child: ChangeNotifierProvider(
-          create: (context) => EventArticleHandler.main(),
-          child: Consumer(
-            builder: (context, EventArticleHandler eventArticleModel, child) {
-              return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  TopNoticeSlider(),
-                  buildCurrentLocation(),
-                  buildSelectSection(
-                      eventArticleModel), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
-                  buildImageArea(),
-                  SizedBox(
-                    height: 30,
-                  ),
-                  buildArticleList(eventArticleModel),
-                ],
-              );
-            },
-          ),
-        ),
-      ),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return SingleChildScrollView(
+              child: ChangeNotifierProvider(
+                create: (context) => EventArticleHandler.main(),
+                child: Consumer(
+                  builder:
+                      (context, EventArticleHandler eventArticleModel, child) {
+                    return Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        TopNoticeSlider(),
+                        buildCurrentLocation(),
+                        buildSelectSection(
+                            eventArticleModel), // 현재 위치, 지도보기 / 내 주변 이벤트, 동행 찾기
+                        buildImageArea(),
+                        SizedBox(
+                          height: 30,
+                        ),
+                        buildArticleList(eventArticleModel),
+                      ],
+                    );
+                  },
+                ),
+              ),
+            );
+          }),
     );
   }
 
@@ -280,6 +287,8 @@ class _EventMainViewState extends State<EventMainView>
       backgroundColor: Colors.white,
       shadowColor: Colors.white,
       leading: IconButton(
+        splashColor: Colors.transparent,
+        highlightColor: Colors.transparent,
         icon: Image.asset("assets/icons/ic_arrow_left_back.png"),
         onPressed: () {
           Navigator.pop(context);
@@ -287,6 +296,8 @@ class _EventMainViewState extends State<EventMainView>
       ),
       actions: [
         IconButton(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onPressed: () {
             Navigator.push(
               context,
@@ -298,6 +309,8 @@ class _EventMainViewState extends State<EventMainView>
           icon: Image.asset("assets/icons/search.png"),
         ),
         IconButton(
+          splashColor: Colors.transparent,
+          highlightColor: Colors.transparent,
           onPressed: () {
             Navigator.push(
               context,
@@ -382,8 +395,17 @@ class _EventMainViewState extends State<EventMainView>
                   )
                 ],
               ),
-              onPressed: () {
-                Navigator.pushNamed(context, "map");
+              onPressed: () async {
+                var status = await Permission.location.status;
+                if (status.isDenied) {
+                  await Permission.location.request();
+                  if(await Permission.location.isGranted) {
+                    Navigator.pushNamed(context, "map");
+                  }
+                }
+                if (await Permission.location.isGranted) {
+                  Navigator.pushNamed(context, "map");
+                }
               },
             )
           ],

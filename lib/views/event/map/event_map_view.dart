@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/event/event_map_handler.dart';
 import 'package:prototype2021/utils/google_map/widgets/background_map.dart';
@@ -7,6 +8,7 @@ import 'package:provider/provider.dart';
 class EventMapView extends StatefulWidget {
   LatLng center;
   CameraPosition initialCameraPosition;
+
   EventMapView({required this.center, required this.initialCameraPosition});
 
   @override
@@ -19,37 +21,42 @@ class _EventMapViewState extends State<EventMapView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: ChangeNotifierProvider(
-        create: (context) => EventMapHandler(
-            center: this.widget.center), // Test: LatLng(37.33023, -122.02367
-        child: Consumer(
-          builder: (context, EventMapHandler mapModel, child) {
-            return Stack(
-              children: [
-                //initial position
-                BackgroundMap(
-                  center: mapModel.center,
-                  markers: mapModel.markers,
-                  load: mapModel.mapLoaded,
-                  onCameraMove: (CameraPosition cameraPostion) {
-                    mapModel.updateBearing(cameraPostion.bearing);
-                    mapModel.center = cameraPostion.target;
-                  },
-                  onTap: (LatLng pos) {
-                    if (mapModel.isFocused()) {
-                      mapModel.removeFocus();
-                    } else {}
-                  },
-                  onMapCreated: (GoogleMapController controller) {
-                    mapModel.mapController = controller;
-                  },
-                  initialCameraPosition: this.widget.initialCameraPosition,
-                ), //TODO(junwha): change to dynamic location
-              ],
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return ChangeNotifierProvider(
+              create: (context) => EventMapHandler(center: this.widget.center),
+              // Test: LatLng(37.33023, -122.02367
+              child: Consumer(
+                builder: (context, EventMapHandler mapModel, child) {
+                  return Stack(
+                    children: [
+                      //initial position
+                      BackgroundMap(
+                        center: mapModel.center,
+                        markers: mapModel.markers,
+                        load: mapModel.mapLoaded,
+                        onCameraMove: (CameraPosition cameraPostion) {
+                          mapModel.updateBearing(cameraPostion.bearing);
+                          mapModel.center = cameraPostion.target;
+                        },
+                        onTap: (LatLng pos) {
+                          if (mapModel.isFocused()) {
+                            mapModel.removeFocus();
+                          } else {}
+                        },
+                        onMapCreated: (GoogleMapController controller) {
+                          mapModel.mapController = controller;
+                        },
+                        initialCameraPosition:
+                            this.widget.initialCameraPosition,
+                      ), //TODO(junwha): change to dynamic location
+                    ],
+                  );
+                },
+              ),
             );
-          },
-        ),
-      ),
+          }),
     );
   }
 

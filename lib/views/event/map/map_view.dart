@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
@@ -23,6 +24,7 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   //initial position
   LatLng? center;
+
   @override
   void initState() {
     super.initState();
@@ -44,26 +46,31 @@ class _MapViewState extends State<MapView> {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: buildAppBar(),
-      body: center == null
-          ? Text("Loading")
-          : ChangeNotifierProvider.value(
-              value: ContentMapHandler(center: center!),
-              child: Consumer(
-                builder: (context, ContentMapHandler mapModel, child) {
-                  return Stack(
-                    children: [
-                      //initial position
-                      buildBackgroundMap(mapModel),
-                      PlaceInfo(),
-                      buildBackButton(context),
-                      buildWriteButton(maxHeight),
-                      buildContentInfo(mapModel.markerList.focusedLocation),
-                      buildMapSearchBar(mapModel, context),
-                    ],
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return center == null
+                ? Text("Loading")
+                : ChangeNotifierProvider.value(
+                    value: ContentMapHandler(center: center!),
+                    child: Consumer(
+                      builder: (context, ContentMapHandler mapModel, child) {
+                        return Stack(
+                          children: [
+                            //initial position
+                            buildBackgroundMap(mapModel),
+                            PlaceInfo(),
+                            buildBackButton(context),
+                            buildWriteButton(maxHeight),
+                            buildContentInfo(
+                                mapModel.markerList.focusedLocation),
+                            buildMapSearchBar(mapModel, context),
+                          ],
+                        );
+                      },
+                    ),
                   );
-                },
-              ),
-            ),
+          }),
     );
   }
 

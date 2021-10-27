@@ -95,8 +95,6 @@ mixin PlanMakeHomeBottomAppBarMixin on State<PlanMakeHomeView> {
                       spreadRadius: 0)
                 ],
                 color: const Color(0xfff6f6f6)),
-            padding: EdgeInsets.symmetric(
-                horizontal: Platform.isAndroid ? 25 : 30, vertical: 10),
             height: 50,
           ),
         ),

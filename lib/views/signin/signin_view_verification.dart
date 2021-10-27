@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/loader/signin/signin_loader.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -52,18 +53,23 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   int verificationCode = 0;
   String verificationToken = "";
   bool loading = false;
+
   void setCodeSended(bool _codeSended) => setState(() {
         codeSended = _codeSended;
       });
+
   void setCredential(String _credential) => setState(() {
         credential = _credential;
       });
+
   void setVerificationCode(String _verificationCode) => setState(() {
         verificationCode = int.parse(_verificationCode);
       });
+
   void setVerificationToken(String _verificationToken) => setState(() {
         verificationToken = _verificationToken;
       });
+
   void setLoading(bool isLoading) => setState(() {
         loading = isLoading;
       });
@@ -103,50 +109,55 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
     return Scaffold(
         appBar:
             buildAppBar(context, shouldPopTo: SigninTermView, title: "회원가입"),
-        body: Padding(
-            padding: const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
-            child: Column(
-              children: [
-                buildSignInInput(context, hintText: modeToString,
-                    onTextChange: (String text) {
-                  setCredential(text);
-                },
-                    onError: false,
-                    showUnderText: false,
-                    underText: "올바른 $modeToString 입력해주세요",
-                    disabled: codeSended),
-                SizedBox(
-                  height: codeSended ? 16 : 40,
-                ),
-                codeSended
-                    ? buildSignInInput(
-                        context,
-                        hintText: "인증번호를 입력해주세요",
-                        onTextChange: setVerificationCode,
-                        onError: false,
-                        underText: "인증번호를 받지 못하셨나요?",
-                        underline: true,
-                        extraUnderText: "재전송",
-                        showUnderText: true,
-                        onUnderTextPressed:
-                            requestVerificationFactory(signInModel.method),
-                        extraInputWidget: buildTimer(),
-                        loading: loading,
-                      )
-                    : SizedBox(
-                        height: 40,
+        body: ScreenUtilInit(
+            designSize: Size(3200, 1440),
+            builder: () {
+              return Padding(
+                  padding:
+                      const EdgeInsets.fromLTRB(20.0 * pt, 36 * pt, 20 * pt, 0),
+                  child: Column(
+                    children: [
+                      buildSignInInput(context, hintText: modeToString,
+                          onTextChange: (String text) {
+                        setCredential(text);
+                      },
+                          onError: false,
+                          showUnderText: false,
+                          underText: "올바른 $modeToString 입력해주세요",
+                          disabled: codeSended),
+                      SizedBox(
+                        height: codeSended ? 16 : 40,
                       ),
-                codeSended
-                    ? buildButtonRow()
-                    : buildSigninButton(
-                        context,
-                        onPressed:
-                            requestVerificationFactory(signInModel.method),
-                        text: "인증번호 전송",
-                        loading: loading,
-                      )
-              ],
-            )));
+                      codeSended
+                          ? buildSignInInput(
+                              context,
+                              hintText: "인증번호를 입력해주세요",
+                              onTextChange: setVerificationCode,
+                              onError: false,
+                              underText: "인증번호를 받지 못하셨나요?",
+                              underline: true,
+                              extraUnderText: "재전송",
+                              showUnderText: true,
+                              onUnderTextPressed: requestVerificationFactory(
+                                  signInModel.method),
+                              extraInputWidget: buildTimer(),
+                              loading: loading,
+                            )
+                          : SizedBox(
+                              height: 40,
+                            ),
+                      codeSended
+                          ? buildButtonRow()
+                          : buildSigninButton(
+                              context,
+                              onPressed: requestVerificationFactory(
+                                  signInModel.method),
+                              text: "인증번호 전송",
+                              loading: loading,
+                            )
+                    ],
+                  ));
+            }));
   }
 
   Container buildTimer() {
@@ -171,20 +182,9 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
       height: 70,
       margin: EdgeInsets.only(top: 80),
       alignment: Alignment.center,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Wrap(
+        direction: Axis.horizontal,
         children: [
-          buildSigninButton(
-            context,
-            onPressed: () => setCodeSended(false),
-            text: "취소",
-            textColor: const Color(0xff444444),
-            borderColor: const Color(0xffbdbdbd),
-            backgroundColor: const Color(0xffffffff),
-            half: true,
-            loading: loading,
-          ),
           buildSigninButton(
             context,
             onPressed: () async {
@@ -204,7 +204,17 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
             text: "확인",
             half: true,
             loading: loading,
-          )
+          ),
+          buildSigninButton(
+            context,
+            onPressed: () => setCodeSended(false),
+            text: "취소",
+            textColor: const Color(0xff444444),
+            borderColor: const Color(0xffbdbdbd),
+            backgroundColor: const Color(0xffffffff),
+            half: true,
+            loading: loading,
+          ),
         ],
       ),
     );

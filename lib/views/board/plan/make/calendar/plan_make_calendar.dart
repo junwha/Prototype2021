@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/handler/board/plan/calendar.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/mixin/bottom_calendar_button.dart';
@@ -13,6 +14,7 @@ class PlanMakeCalendarView extends StatelessWidget
     with PlanMakeAppBarBase
     implements PlanMakeNavigator {
   final void Function(Navigate, [PlanMakeViewMode?]) navigator;
+
   const PlanMakeCalendarView({required this.navigator});
 
   @override
@@ -24,7 +26,11 @@ class PlanMakeCalendarView extends StatelessWidget
         backgroundColor: const Color(0xfff6f6f6),
         navigator: () => navigator(Navigate.backward),
       ),
-      body: buildBody(context),
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return buildBody(context);
+          }),
       bottomNavigationBar: BottomCalendarButton(),
     );
   }

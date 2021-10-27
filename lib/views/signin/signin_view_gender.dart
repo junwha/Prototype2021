@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/model/signin/http/signup.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
@@ -23,6 +24,7 @@ Map<Gender, String> _genderEnumStringMapping = {
 class _SigninViewGenderState extends State<SigninViewGender>
     with SignInViewWidgets, SigninViewHelper {
   Gender gender = Gender.M;
+
   void setGender(Gender? _gender) => setState(() {
         gender = _gender ?? Gender.None;
       });
@@ -33,34 +35,38 @@ class _SigninViewGenderState extends State<SigninViewGender>
       drawerScrimColor: Colors.white,
       appBar: buildAppBar(context,
           shouldPopTo: SigninViewProfileMain, title: "회원 설정"),
-      body: Center(
-        child: Column(
-          children: [
-            SizedBox(
-              height: 60,
-            ),
-            Text(
-              '성별을 알려주세요.',
-              style: TextStyle(
-                color: Color(0xff444444),
-                fontSize: 21,
-                fontFamily: 'Roboto',
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return Center(
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 60,
+                  ),
+                  Text(
+                    '성별을 알려주세요.',
+                    style: TextStyle(
+                      color: Color(0xff444444),
+                      fontSize: 21,
+                      fontFamily: 'Roboto',
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
+                    child: buildRadioList(),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  buildNextButton(context),
+                ],
               ),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(60, 0, 60, 0),
-              child: buildRadioList(),
-            ),
-            SizedBox(
-              height: 40,
-            ),
-            buildNextButton(context),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 

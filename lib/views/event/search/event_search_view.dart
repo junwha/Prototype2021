@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:material_floating_search_bar/material_floating_search_bar.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/model/event/event_dto.dart';
@@ -17,47 +18,52 @@ class EventSearchView extends StatefulWidget {
 
 class _EventSearchViewState extends State<EventSearchView> {
   List<EventPreviewData> previewData = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: DefaultTabController(
-          initialIndex: 0,
-          length: 2,
-          child: ChangeNotifierProvider(
-              create: (context) => SearchArticleHandler(),
-              child: Consumer(
-                builder:
-                    (context, SearchArticleHandler searchArticleModel, child) {
-                  return Column(
-                    children: [
-                      // Search Bar
+      body: ScreenUtilInit(
+          designSize: Size(3200, 1440),
+          builder: () {
+            return SafeArea(
+              child: DefaultTabController(
+                initialIndex: 0,
+                length: 2,
+                child: ChangeNotifierProvider(
+                    create: (context) => SearchArticleHandler(),
+                    child: Consumer(
+                      builder: (context,
+                          SearchArticleHandler searchArticleModel, child) {
+                        return Column(
+                          children: [
+                            // Search Bar
 
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                            icon: Image.asset(
-                                "assets/icons/ic_arrow_left_back.png"),
-                          ),
-                          buildFloatingSearchBar(searchArticleModel),
-                        ],
-                      ),
-                      buildTabBar(),
-                      // Content
-                      Expanded(
-                          child: searchArticleModel.empty()
-                              ? buildMainText("이벤트/동행찾기 게시판에 글을 검색해보세요.")
-                              : buildArticleSection(searchArticleModel)),
-                    ],
-                  );
-                },
-              )),
-        ),
-      ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                IconButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  },
+                                  icon: Image.asset(
+                                      "assets/icons/ic_arrow_left_back.png"),
+                                ),
+                                buildFloatingSearchBar(searchArticleModel),
+                              ],
+                            ),
+                            buildTabBar(),
+                            // Content
+                            Expanded(
+                                child: searchArticleModel.empty()
+                                    ? buildMainText("이벤트/동행찾기 게시판에 글을 검색해보세요.")
+                                    : buildArticleSection(searchArticleModel)),
+                          ],
+                        );
+                      },
+                    )),
+              ),
+            );
+          }),
     );
   }
 
