@@ -58,7 +58,7 @@ class PlaceDataProps extends PlaceDataInterface {
   PlaceDataProps.fromContentsDetail({required ContentsDetail source})
       : super(
           types: PlaceType.DEFAULT,
-          memo: "",
+          memo: source.overview,
           contentType: source.typeId,
           location: LatLng(source.lat, source.lng),
           name: source.title,
@@ -67,6 +67,14 @@ class PlaceDataProps extends PlaceDataInterface {
           photo: source.thumbnail,
           address: source.address,
         );
+}
+
+class ContentsDetailPlaceDataAdaptor extends PlaceDataProps {
+  ContentsDetail contentsDetail;
+
+  ContentsDetailPlaceDataAdaptor({required ContentsDetail source})
+      : this.contentsDetail = source,
+        super.fromContentsDetail(source: source);
 }
 
 class MemoData implements PlaceDataInterface {
