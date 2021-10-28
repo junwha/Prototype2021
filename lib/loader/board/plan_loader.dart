@@ -35,7 +35,6 @@ class PlanLoader {
   /// 각 인스턴스가 pagination 정보를 가지고 있어 재호출시 다음 페이지를 반환한다.
   /// pagination == PaginationState.end 일 경우 더 이상 페이지가 없음을 의미한다.
   Future<List<ProductCardBaseProps>> getPlanList(String token) async {
-    print(token);
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -99,7 +98,6 @@ class PlanLoader {
   /// data로부터 json을 구성해 플랜을 생성하고, 성공 여부를 반환한다.
   Future<bool> createPlan(String token, PlanData data) async {
     PlanCreateInput planInputData = PlanCreateInput(data: data);
-    print(planInputData.toJson()!["contents"]);
     SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
         data: planInputData, url: planGeneralUrl, token: token);
     SafeMutationOutput<PlanCreateOutput> result = await planCreate(dto);
