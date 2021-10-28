@@ -40,14 +40,15 @@ class PlanMapHandler extends TBMapHandler {
   /// Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
   /// This method updates placeItems and call updatePolyline so that the map can be reloaded with new data
   void updatePlaceData(List<List<PlaceDataInterface>> placeItemsPerDay) {
-    print(placeItemsPerDay.length);
     // Copy PlaceData
     this.placeItemsPerDay = List.generate(
         placeItemsPerDay.length, (index) => List.from(placeItemsPerDay[index]));
 
     // Remove non-PlaceData
     this.placeItemsPerDay = this.placeItemsPerDay.map((placeDataList) {
-      placeDataList.removeWhere((element) => !(element is PseudoPlaceData));
+      placeDataList.removeWhere((element) => !(element is PseudoPlaceData ||
+          element is ContentsDetailPlaceDataAdaptor));
+      print(placeDataList.length);
       return placeDataList;
     }).toList();
 
