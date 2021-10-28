@@ -147,7 +147,8 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       UserInfoHandler model =
           Provider.of<UserInfoHandler>(context, listen: false);
       if (model.token != null) {
-        planDataController.sink.add(await planLoader.getPlanList(model.token!));
+        planDataController.sink
+            .add(await planLoader.getPlanList(model.token!, reset));
       }
     } catch (error) {
       print(error);
