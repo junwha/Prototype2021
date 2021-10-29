@@ -3,6 +3,7 @@ import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/plan/http/plan.dart';
 import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
+import 'package:prototype2021/widgets/cards/product_card.dart';
 
 import 'login_loader_test.dart';
 
@@ -14,7 +15,7 @@ void main() {
 }
 
 String token = "";
-List<PlanPreview>? sampleData;
+List<ProductCardBaseProps>? sampleData;
 PlanLoader? planLoader;
 
 void testPlanLoader() {
@@ -29,31 +30,23 @@ void testPlanLoader() {
 
 void testGetPlanList() {
   test('should get the response', () async {
-    PlanListInput params = new PlanListInput();
-    SafeQueryInput<PlanListInput> dto = new SafeQueryInput(
-        url: planLoader!.planListUrl, params: params, token: token);
-    SafeQueryOutput<PlanListOutput> result = await planLoader!.planList(dto);
-    print(result.error?.message);
-    print(result.data?.results);
-    expect(result.data?.results != null, true);
-    expect(result.data!.results is List<PlanPreview>, true);
-    expect(result.data!.count > 0, true);
-    expect(result.data!.previous, null);
-    sampleData = result.data!.results;
+    List<ProductCardBaseProps> result =
+        await planLoader!.getPlanList(token, true);
+    expect(result.length > 0, true);
+    sampleData = result;
   });
 }
 
 void testGetPlanDetail() {
   test('should get detail', () async {
-    await Future.forEach<PlanPreview>(sampleData!, (datum) async {
-      PlanIdInput params = PlanIdInput(id: datum.id);
-      SafeQueryInput<PlanIdInput> dto = SafeQueryInput(
-          url: planLoader!.planIdUrl, params: params, token: token);
-      SafeQueryOutput<PlanDetailOutput> result =
-          await planLoader!.planDetail(dto);
-
-      print(result.error?.message);
-      expect(result.data?.result != null, true);
+    await Future.forEach<ProductCardBaseProps>(sampleData!, (datum) async {
+      bool success = true;
+      try {
+        await planLoader!.getPlanDetail(id: datum.id);
+      } catch (e) {
+        success = false;
+      }
+      expect(success, true);
     });
   });
 }
