@@ -223,7 +223,6 @@ class _FilterViewState extends State<FilterView> {
                 ));
           }).toList(),
           onChanged: (value) {
-            print(value);
             setState(() {
               _selectedValue = value;
             });

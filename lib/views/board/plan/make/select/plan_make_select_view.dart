@@ -3,6 +3,7 @@ import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/base/board.dart';
 import 'package:prototype2021/views/board/base/mixin/stream_list.dart';
 import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
@@ -231,7 +232,8 @@ class PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
         setLoading(false);
         navigator(Navigate.backward);
       } catch (error) {
-        print(error);
+        Logger.errorWithInfo(
+            error, "plan_make_select_view.dart -> buildAddToPlanButton");
         setLoading(false);
       }
     }

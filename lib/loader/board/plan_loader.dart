@@ -16,6 +16,7 @@ enum PlanLoaderMode {
 }
 
 class PlanLoader {
+  final PlanLoaderMode mode;
   PaginationState pagination = PaginationState.start;
 
   // Custom Functions
@@ -34,8 +35,12 @@ class PlanLoader {
   /// Plan List를 가져오는 로직, PaginationState.board, wishlist, mylist에서 사용가능하며,
   /// 각 인스턴스가 pagination 정보를 가지고 있어 재호출시 다음 페이지를 반환한다.
   /// pagination == PaginationState.end 일 경우 더 이상 페이지가 없음을 의미한다.
-  Future<List<ProductCardBaseProps>> getPlanList(String token) async {
-    print(token);
+  Future<List<ProductCardBaseProps>> getPlanList(
+      String token, bool reset) async {
+    if (reset) {
+      pagination = PaginationState.start;
+      planListUrl = _urlWithMode(mode);
+    }
     if (pagination == PaginationState.end) return [];
 
     PlanListInput params = PlanListInput();
@@ -99,7 +104,6 @@ class PlanLoader {
   /// data로부터 json을 구성해 플랜을 생성하고, 성공 여부를 반환한다.
   Future<bool> createPlan(String token, PlanData data) async {
     PlanCreateInput planInputData = PlanCreateInput(data: data);
-    print(planInputData.toJson()!["contents"]);
     SafeMutationInput<PlanCreateInput> dto = SafeMutationInput<PlanCreateInput>(
         data: planInputData, url: planGeneralUrl, token: token);
     SafeMutationOutput<PlanCreateOutput> result = await planCreate(dto);
@@ -154,16 +158,21 @@ class PlanLoader {
   /// PlanLoaderMode.board: 게시판 목록 Pagination
   /// PlanLoaderMode.wishlist: 위시리스트 Pagination
   /// PlanLoaderMode.mylist: 내가 쓴 플랜 Pagination
-  PlanLoader.withMode({required PlanLoaderMode mode}) {
-    if (mode == PlanLoaderMode.board) {
-      planListUrl = "$apiBaseUrl/plans/";
-    } else if (mode == PlanLoaderMode.mylist) {
-      planListUrl = "$apiBaseUrl/plans/mylist/";
-    } else if (mode == PlanLoaderMode.wishlist) {
-      planListUrl = "$apiBaseUrl/plans/wishlist/";
-    }
-  }
+  PlanLoader.withMode({required this.mode}) : planListUrl = _urlWithMode(mode);
 
+  // **Please Review Here**
+  // Please check if the codeline below could potentially cause an error
   /// Pagination 없음 (하트, 삭제 등)
-  PlanLoader();
+  PlanLoader() : mode = PlanLoaderMode.board;
+}
+
+String _urlWithMode(PlanLoaderMode mode) {
+  switch (mode) {
+    case PlanLoaderMode.mylist:
+      return "$apiBaseUrl/plans/mylist/";
+    case PlanLoaderMode.wishlist:
+      return "$apiBaseUrl/plans/wishlist/";
+    default:
+      return "$apiBaseUrl/plans/";
+  }
 }

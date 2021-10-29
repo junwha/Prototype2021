@@ -4,12 +4,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
+import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/model/board/plan/plan_dto.dart';
 import 'package:prototype2021/model/board/pseudo_place_data.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/views/board/content/detail/content_detail_view.dart';
 import 'package:prototype2021/views/board/plan/make/map/plan_map.dart';
+import 'package:prototype2021/views/board/plan/make/schedule_card/schedule_card.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 import 'package:prototype2021/widgets/shapes/tb_contenttag.dart';
 import 'package:prototype2021/widgets/cards/tb_foldable_card.dart';
@@ -33,17 +36,31 @@ class _PlanDetailViewState extends State<PlanDetailView> {
   // Simulate API call
   Future<PlanData> getPlanDetail(int pid, String? token) async {
     PlanLoader loader = PlanLoader();
+    ContentsLoader contentsLoader = ContentsLoader();
     PlanDetail detail = await loader.getPlanDetail(id: pid, token: token);
-    List<List<PlaceDataInterface>> items = detail.contents
-        .map((day) => (day).map((item) {
-              if (item is String) {
-                return MemoData(memo: item);
-              } else {
-                ContentsLoader contentsLoader = ContentsLoader();
-                contentsLoader.getContentDetail(item as int, token!);
-              }
-            }) as List<PlaceDataInterface>)
-        .toList();
+
+    List<List<PlaceDataInterface>> items = [];
+
+    for (List<dynamic> dailyItems in detail.contents) {
+      List<PlaceDataInterface> dailyData = [];
+      for (dynamic item in dailyItems) {
+        if (item is String) {
+          dailyData.add(MemoData(memo: item));
+        } else {
+          try {
+            ContentsDetailPlaceDataAdaptor data =
+                ContentsDetailPlaceDataAdaptor(
+                    source: await contentsLoader.getContentDetail(
+                        item as int, token!));
+            dailyData.add(data);
+          } catch (e) {
+            print(e);
+            // TODO: some sending logic
+          }
+        }
+      }
+      items.add(dailyData);
+    }
 
     return PlanData(
         detail.id,
@@ -266,30 +283,34 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     return Column(
         children: placeList.map((data) {
       if (data is MemoData) {
-        return ContentsCard.fromProps(
-          props: ContentsCardBaseProps(
-            id: 1,
-            hearted: true,
-            backgroundColor: Colors.white,
-            preview: placeHolder,
-            title: "Custom Memo",
-            place: "",
-            explanation: "${data.memo}",
-            tags: [],
-          ),
+        return Padding(
+          padding: const EdgeInsets.symmetric(vertical: 3.0),
+          child: ScheduleCard(
+              data: data, dateIndex: -1, order: -1, deleteSelf: () {}),
         );
-      } else if (data is PseudoPlaceData) {
-        PseudoPlaceData placeData = data;
-        return ContentsCard.fromProps(
-          props: ContentsCardBaseProps(
-            id: 1,
-            hearted: true,
-            backgroundColor: Colors.white,
-            preview: placeHolder,
-            title: "${placeData.name}",
-            place: "대한민국, 울산",
-            explanation: "다양한 놀이 기구와 운동 시설을 갖춘 도심 공원, 울산대공원'",
-            tags: ["액티비티", "관광명소", "인생사진"],
+      } else if (data is ContentsDetailPlaceDataAdaptor) {
+        ContentsDetail contentsDetail = data.contentsDetail;
+        return GestureDetector(
+          onTap: () {
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => ContentDetailView(
+                        id: contentsDetail.id,
+                        mode: ContentsDetailMode.board)));
+          },
+          child: ContentsCard.fromProps(
+            props: ContentsCardBaseProps(
+                id: contentsDetail.id,
+                hearted: contentsDetail.hearted,
+                backgroundColor: Colors.white,
+                preview: contentsDetail.photo.length > 0
+                    ? contentsDetail.photo[0]
+                    : placeHolder,
+                title: "${contentsDetail.title}",
+                place: contentsDetail.address,
+                explanation: contentsDetail.overview,
+                tags: []),
           ),
         );
       }

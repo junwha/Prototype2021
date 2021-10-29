@@ -8,6 +8,7 @@ import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/handler/event/event_article_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/body_event.dart';
 import 'package:prototype2021/views/board/content/detail/mixin/header.dart';
@@ -72,7 +73,7 @@ class ContentDetailViewState extends State<ContentDetailView>
       setProps(await getContentDetail(widget.id, model.token!));
       setOnError(false);
     } catch (error) {
-      print(error);
+      Logger.errorWithInfo(error, "contents_detail_view.dart -> fetchDetail");
       setOnError(true);
     }
   }

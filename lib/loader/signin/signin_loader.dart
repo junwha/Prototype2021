@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/model/signin/http/verification.dart';
 import 'package:prototype2021/model/signin/http/authentication.dart';
@@ -50,7 +51,7 @@ class SigninLoader {
         return result.data!.token;
       errorMessage = result.error?.message;
     }
-    print(errorMessage);
+    Logger.errorWithInfo(errorMessage, "signin_loader");
     throw HttpException(errorMessage ?? defaultErrorMessage);
   }
 
@@ -66,7 +67,7 @@ class SigninLoader {
     SafeQueryOutput<AuthVerificationOutput> result =
         await authVerification(dto);
     if (result.success && result.data?.token != null) return result.data!.token;
-    print(result.error?.message);
+    Logger.errorWithInfo(result.error?.message, "signin_loader");
     throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 
@@ -98,7 +99,7 @@ class SigninLoader {
         new SafeMutationInput(data: data, url: signUpUrl);
     SafeMutationOutput<SignupOutput> result = await signup(dto);
     if (result.success && result.data?.id != null) return result.data!.id;
-    print(result.error?.message);
+    Logger.errorWithInfo(result.error?.message, "signin_loader");
     throw HttpException(result.error?.message ?? defaultErrorMessage);
   }
 

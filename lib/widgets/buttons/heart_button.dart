@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 
 enum HeartFor {
   planCard,
@@ -48,7 +49,7 @@ class _HeartButtonState extends State<HeartButton> {
       }
       throw HttpException("Unexpected error");
     } catch (error) {
-      print(error);
+      Logger.errorWithInfo(error, "heart_button.dart -> onHeartPressed");
     }
   }
 
@@ -89,7 +90,7 @@ class _HeartButtonState extends State<HeartButton> {
       }
       return true;
     } catch (error) {
-      print(error);
+      Logger.errorWithInfo(error, "heart_button.dart -> handleHeartPressed");
       // Silently passing the error...
       return false;
     }

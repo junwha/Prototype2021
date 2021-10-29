@@ -36,7 +36,6 @@ class MarkerList {
 
       return true;
     } catch (e) {
-      print(e);
       return false;
     }
   }
@@ -45,8 +44,6 @@ class MarkerList {
   * Add markers on the locations in location list
   */
   void addMarkers(Iterable<Location> locationList) {
-    print("Draw marker start");
-    // print(markerIcon);
     for (Location location in locationList) {
       if (location is GooglePlaceLocation) {
         addMarker(location);
@@ -54,7 +51,6 @@ class MarkerList {
         addMarker(location);
       }
     }
-    print("Draw marker end");
   }
 
   /*
@@ -62,7 +58,6 @@ class MarkerList {
   */
   void addMarker(Location location,
       {bool clickable = true, BitmapDescriptor? externalMarkerIcon}) {
-
     final MarkerId markerId = MarkerId(location.name);
 
     BitmapDescriptor markerIcon =
@@ -109,7 +104,6 @@ class MarkerList {
   void changeFocus(Location? location) {
     if (location != null && markers.keys.contains(location)) {
       this.focusedLocation = location;
-      print(location.latLng);
     } else if (location == null) {
       this.focusedLocation = null;
     }
