@@ -105,38 +105,6 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
   }
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () async {
-      PlanMakeHandler handler =
-          Provider.of<PlanMakeHandler>(context, listen: false);
-      PlanMapHandler mapHandler =
-          Provider.of<PlanMapHandler>(context, listen: false);
-      void calendarHandlerListener() {
-        // Notify to plan map model when the calendar handler has changed.
-        try {
-          if (handler.planListItems != null)
-            mapHandler.updatePlaceData(handler.planListItems!);
-          else {
-            // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
-            mapHandler.updatePlaceData(
-                List.generate(handler.dateDifference!, (index) => []));
-          }
-        } catch (e) {
-          Logger.errorWithInfo(e, "plan_make_view.dart -> initState");
-        }
-      }
-
-      handler.addListener(calendarHandlerListener);
-
-      Logger.group1("Init map");
-
-      Position position = await Geolocator.getCurrentPosition();
-      mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
-    });
-  }
-
-  @override
   void dispose() {
     PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
     PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);

@@ -148,11 +148,13 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       UserInfoHandler model =
           Provider.of<UserInfoHandler>(context, listen: false);
       if (model.token != null) {
-        planDataController.sink
-            .add(await planLoader.getPlanList(model.token!, reset));
+        List<ProductCardBaseProps> result =
+            await planLoader.getPlanList(model.token!, reset);
+        planDataController.sink.add(result);
       }
     } catch (error) {
       Logger.errorWithInfo(error, "board.dart -> getPlanData");
+      planDataController.sink.addError(error);
       // error handle
     }
   }
@@ -177,17 +179,20 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
             areaCodeToDetailName[areaCode]?[k] == location['subLocation']);
       }
       if (model.token != null) {
-        contentsDataController.sink.add(await contentsLoader.getContentsList(
+        List<ContentsCardBaseProps> result =
+            await contentsLoader.getContentsList(
           token: model.token!,
           keyword: keyword != null && keyword.length > 0 ? keyword : null,
           type: type,
           reset: reset,
           areaCode: areaCode,
           areaDetailCode: areaDetailCode,
-        ));
+        );
+        contentsDataController.sink.add(result);
       }
     } catch (error) {
       Logger.errorWithInfo(error, "board.dart -> getContentsData");
+      contentsDataController.sink.addError(error);
       // error handle
     }
   }

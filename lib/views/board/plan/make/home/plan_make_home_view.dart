@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/plan/make/list_item/plan_list_item.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/ai_dialog.dart';
 import 'package:prototype2021/views/board/plan/make/home/mixin/bottom_app_bar.dart';
@@ -171,6 +174,30 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
   @override
   void initState() {
     super.initState();
+    PlanMakeHandler handler =
+        Provider.of<PlanMakeHandler>(context, listen: false);
+    PlanMapHandler mapHandler =
+        Provider.of<PlanMapHandler>(context, listen: false);
+    void calendarHandlerListener() {
+      // Notify to plan map model when the calendar handler has changed.
+      try {
+        if (handler.planListItems != null) {
+          Logger.group1("PlanListItems");
+          mapHandler.updatePlaceData(handler.planListItems!);
+        } else {
+          Logger.group1("No PlanListItems");
+          // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
+          mapHandler.updatePlaceData(
+              List.generate(handler.dateDifference!, (index) => []));
+        }
+      } catch (e) {
+        Logger.errorWithInfo(e, "plan_make_view.dart -> initState");
+      }
+    }
+
+    handler.addListener(calendarHandlerListener);
+
+    Logger.group1("Init map");
     _scrollController.addListener(() {
       setState(() {
         _appBarColor = _appBarColorAnimation.value;
@@ -179,6 +206,10 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         _planListItemsHeaderElevation =
             _planListItemsHeaderShadowAnimation.value;
       });
+    });
+    Future.delayed(Duration.zero, () async {
+      Position position = await Geolocator.getCurrentPosition();
+      mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
     });
   }
 

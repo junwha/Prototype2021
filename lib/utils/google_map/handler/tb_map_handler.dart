@@ -52,9 +52,9 @@ class TBMapHandler with ChangeNotifier {
   /*
    * Update center and move the camera to newer center.
    */
-  void updateCenter(LatLng center) {
+  void updateCenter(LatLng _center) {
     Logger.group1("Updating center");
-    this.center = center;
+    center = _center;
     mapController?.moveCamera(
       CameraUpdate.newLatLng(center),
     );

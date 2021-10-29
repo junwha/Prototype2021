@@ -5,6 +5,7 @@ import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/main_view.dart';
 import 'package:prototype2021/widgets/buttons/circle_button.dart';
 import 'package:prototype2021/views/event/editor/mixin/custom_text_field.dart';
@@ -48,8 +49,8 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       });
 
   Future<void> navigateToMain(BuildContext context) async {
-    await Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => MainView())
-    );
+    await Navigator.pushReplacement(
+        context, MaterialPageRoute(builder: (context) => MainView()));
   }
 
   Future<void> initialize(BuildContext context) async {
@@ -61,6 +62,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     setSaveId(await LoginHandler.loadDoSaveId());
     setUsername(await LoginHandler.loadSavedId());
     bool isValid = await validateToken(model.token);
+    Logger.group1(isValid);
     bool shouldGoToNext = isValid && autoLogin;
     if (shouldGoToNext) {
       await navigateToMain(context);
