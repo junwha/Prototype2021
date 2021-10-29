@@ -29,7 +29,6 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
   void initLocation() async {
     LatLng savedCenter = await Geolocator.getCurrentPosition()
         .then((value) => LatLng(value.latitude, value.longitude));
-    print(savedCenter);
     setState(() {
       center = savedCenter;
     });

@@ -3,7 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
-import 'package:prototype2021/handler/user/user_info_handler.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/save/planMake.saved.0_view.dart';
@@ -105,40 +105,7 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
   }
 
   @override
-  void initState() {
-    super.initState();
-    Future.delayed(Duration.zero, () {
-      PlanMakeHandler handler =
-          Provider.of<PlanMakeHandler>(context, listen: false);
-      PlanMapHandler mapHandler =
-          Provider.of<PlanMapHandler>(context, listen: false);
-      void calendarHandlerListener() {
-        // Notify to plan map model when the calendar handler has changed.
-        try {
-          if (handler.planListItems != null)
-            mapHandler.updatePlaceData(handler.planListItems!);
-          else {
-            // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
-            mapHandler.updatePlaceData(
-                List.generate(handler.dateDifference!, (index) => []));
-          }
-        } catch (e) {
-          print(e);
-        }
-      }
-
-      handler.addListener(calendarHandlerListener);
-
-      WidgetsBinding.instance?.addPostFrameCallback((_) async {
-        Position position = await Geolocator.getCurrentPosition();
-        mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
-      });
-    });
-  }
-
-  @override
   void dispose() {
-    print("dispose");
     PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
     PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);
     planMapHandler.doDispose();
@@ -148,7 +115,25 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
 
   @override
   Widget build(BuildContext context) {
-    return buildPage();
+    return WillPopScope(
+        child: buildPage(),
+        onWillPop: () async {
+          switch (viewMode) {
+            case PlanMakeViewMode.home:
+              setViewMode(PlanMakeViewMode.calendar);
+              break;
+            case PlanMakeViewMode.select:
+            case PlanMakeViewMode.save:
+              setViewMode(PlanMakeViewMode.home);
+              break;
+            case PlanMakeViewMode.result:
+              setViewMode(PlanMakeViewMode.save);
+              break;
+            default:
+              return true;
+          }
+          return false;
+        });
   }
 
   Widget buildPage() {

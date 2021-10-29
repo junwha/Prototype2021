@@ -5,19 +5,9 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart'
     show Response, MultipartFile, MultipartRequest, StreamedResponse;
 import 'package:image_picker/image_picker.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/settings/constants.dart';
-
-void printHTTPLog(http.Response res, {bool fromBytes = false}) {
-  if (SAFE_HTTP_DEBUG) {
-    if (fromBytes) {
-      print("[ Response Body ] : ${utf8.decode(res.bodyBytes)}");
-    } else {
-      print("[ Response Body ] : ${res.body.toString()}");
-    }
-    print("[ Status Code ] : ${res.statusCode.toString()}");
-  }
-}
 
 HttpException generateHttpException(Response res) {
   return new HttpException("[${res.statusCode}] : ${res.body.toString()}");
@@ -97,7 +87,7 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.post(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
-    printHTTPLog(res, fromBytes: fromBytes);
+    Logger.logHTTP(res, fromBytes: fromBytes);
 
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
@@ -125,7 +115,7 @@ Future<SafeMutationOutput<O>>
     Response res = await http.put(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
 
-    printHTTPLog(res, fromBytes: fromBytes);
+    Logger.logHTTP(res, fromBytes: fromBytes);
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeMutationOutput<O>(success: true, data: data);
@@ -150,7 +140,7 @@ Future<SafeMutationOutput<O>>
   try {
     Response res = await http.patch(dto.getUrlWithParams(),
         headers: dto.getHeaders(), body: dto.getJsonString());
-    printHTTPLog(res, fromBytes: fromBytes);
+    Logger.logHTTP(res, fromBytes: fromBytes);
 
     if (res.statusCode == expectedCode || expectedCode == null) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
@@ -174,10 +164,10 @@ Future<SafeQueryOutput<O>>
   bool fromBytes = false,
 ]) async {
   try {
-    print(dto.getUrlWithParams());
+    Logger.group2(dto.getUrlWithParams());
     Response res =
         await http.get(dto.getUrlWithParams(), headers: dto.getHeaders());
-    printHTTPLog(res, fromBytes: fromBytes);
+    Logger.logHTTP(res, fromBytes: fromBytes);
 
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
@@ -200,7 +190,7 @@ Future<SafeQueryOutput<O>>
   try {
     Response res =
         await http.delete(dto.getUrlWithParams(), headers: dto.getHeaders());
-    printHTTPLog(res, fromBytes: fromBytes);
+    Logger.logHTTP(res, fromBytes: fromBytes);
     if (res.statusCode == expectedCode) {
       String data = fromBytes ? utf8.decode(res.bodyBytes) : res.body;
       return new SafeQueryOutput<O>(success: true, data: data);

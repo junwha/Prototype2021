@@ -7,6 +7,7 @@ import 'package:prototype2021/loader/google_place/google_place_loader.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/widgets/maps/location_result_card.dart';
 
 const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
@@ -27,7 +28,8 @@ class SearchPlaceModel with ChangeNotifier {
       http.Response res = await http.get(Uri.parse(url));
       searchResult = parseData(res.body);
     } catch (e) {
-      print("check internet");
+      Logger.errorWithInfo(
+          "check internet", "search_place_handler.dart -> searchPlace");
     }
     updateLocationResultCards();
     notifyListeners();
@@ -57,7 +59,7 @@ class SearchPlaceModel with ChangeNotifier {
         onclick: () {
           this.locationModel.moveToResult(data);
           this.resultCards = [];
-          print("Card clicked");
+          Logger.group2("Card clicked");
         },
       ));
     }

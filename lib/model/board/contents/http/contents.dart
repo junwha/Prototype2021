@@ -1,9 +1,13 @@
-
 import 'package:prototype2021/model/board/contents/content_detail.dart';
 import 'package:prototype2021/model/board/contents/content_preview.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/utils/safe_http/common.dart';
+
+int? _contentIdToInt(ContentType? contentType) {
+  if (contentType == null || contentType == ContentType.unknown) return null;
+  return contentTypeId[contentType];
+}
 
 // ========================= ContentsList ========================= //
 
@@ -11,7 +15,7 @@ class ContentsListInput extends SafeHttpDataInput {
   final int? areaCode;
   final int? areaDetailCode;
   final String? keyword;
-  final ContentType? typeId;
+  final int? typeId;
   final int? page;
 
   ContentsListInput({
@@ -20,15 +24,13 @@ class ContentsListInput extends SafeHttpDataInput {
     this.keyword,
     this.page,
     ContentType? contentType,
-  }) : typeId = contentType;
+  }) : typeId = _contentIdToInt(contentType);
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,
         "area_detail_code": areaDetailCode == null ? null : "($areaDetailCode)",
         "keyword": keyword,
-        "typeid": typeId == null || typeId == ContentType.unknown
-            ? null
-            : contentTypeId[typeId],
+        "typeid": typeId,
         "page": page,
       };
 
@@ -52,15 +54,13 @@ class ContentsListOutput extends PaginationOutput
 class ContentsWishlistInput extends SafeHttpDataInput {
   final String? areaCode;
   final String? detailAreaCode;
-  final String? typeId;
+  final int? typeId;
 
   ContentsWishlistInput({
     this.areaCode,
     this.detailAreaCode,
     ContentType? typeId,
-  }) : typeId = typeId == null || typeId == ContentType.unknown
-            ? null
-            : contentTypeId[typeId].toString();
+  }) : typeId = _contentIdToInt(typeId);
 
   Map<String, dynamic> toJson() => {
         "area_code": areaCode,

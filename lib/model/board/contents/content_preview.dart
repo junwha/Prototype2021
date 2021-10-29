@@ -27,5 +27,5 @@ class ContentPreview {
         address = nullable<String>(json["address"]),
         catCode = json["cat_code"] as String,
         heartNo = json["heart_no"] as int,
-        hearted = json["hearted"] as bool;
+        hearted = nullable<bool>(json["hearted"]) ?? true;
 }

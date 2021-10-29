@@ -11,7 +11,7 @@ void main() {
     token = await login();
   });
 
-  group('[Class] ContentsLoader', testContentsLoader);
+  // group('[Class] ContentsLoader', testContentsLoader);
 }
 
 String token = "";
@@ -36,7 +36,6 @@ void testContentsList() {
     print(result.error?.message);
     print(result.data?.results);
     expect(result.data?.results != null, true);
-    expect(result.data!.results is List<ContentPreview>, true);
     expect(result.data!.count > 0, true);
     expect(result.data!.previous, null);
     sampleData = result.data!.results;
@@ -52,7 +51,6 @@ void testContentsList() {
     print(result.error?.message);
     print(result.data?.results);
     expect(result.data?.results != null, true);
-    expect(result.data!.results is List<ContentPreview>, true);
     expect(result.data!.count > 0, true);
     expect(result.data!.previous, null);
   });
@@ -78,7 +76,6 @@ void testContentsWishlist() {
     SafeQueryOutput<ContentsWishlistOutput> result =
         await contentsLoader!.contentsWishlist(dto);
     expect(result.data?.results != null, true);
-    expect(result.data!.results is List<ContentPreview>, true);
   });
 }
 

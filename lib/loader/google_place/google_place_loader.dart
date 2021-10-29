@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 
 // Types of places
 class PlaceType {
@@ -38,8 +39,7 @@ class PlaceLoader {
       http.Response res = await http.get(Uri.parse(url));
       return GooglePlaceData(jsonDecode(res.body)["result"], PlaceType.CLICKED);
     } catch (e) {
-      print(e);
-      print("check internet");
+      Logger.errorWithInfo(e, "google_place_loader.dart");
       // throw Exception;
     }
   }
@@ -75,7 +75,6 @@ class PlaceLoader {
       // else
       //   return placeDataList[0];
     } catch (e) {
-      print("check internet");
       // throw Exception;
     }
   }
@@ -88,12 +87,11 @@ class PlaceLoader {
     if (types.contains(type)) {
       String url =
           "https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${center.latitude},${center.longitude}&keyword=$type&radius=${radius}&key=$kGoogleApiKey";
-      print(type);
+      Logger.group2(type);
       try {
         http.Response res = await http.get(Uri.parse(url));
         return parseGooglePlaceData(res.body, type);
       } catch (e) {
-        print("check internet");
         throw Exception;
       }
     } else {
@@ -127,7 +125,7 @@ class PlaceLoader {
         placeList.add(GooglePlaceData(placeMeta, type));
       }
     } catch (e) {
-      print(e);
+      Logger.errorWithInfo(e, "google_place_loader.dart");
     }
     return placeList;
   }
@@ -146,7 +144,7 @@ class PlaceLoader {
 //       http.Response res = await http.get(Uri.parse(url));
 //       return parseEventPlaceData(res.body);
 //     } catch (e) {
-//       print("check internet");
+//   
 //       throw Exception;
 //     }
 //   } else {

@@ -8,6 +8,7 @@ import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/settings/annotations.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/base/mixin/app_bar.dart';
 import 'package:prototype2021/views/board/base/mixin/header_silver.dart';
 import 'package:prototype2021/views/board/base/mixin/helpers.dart';
@@ -147,10 +148,13 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
       UserInfoHandler model =
           Provider.of<UserInfoHandler>(context, listen: false);
       if (model.token != null) {
-        planDataController.sink.add(await planLoader.getPlanList(model.token!));
+        List<ProductCardBaseProps> result =
+            await planLoader.getPlanList(model.token!, reset);
+        planDataController.sink.add(result);
       }
     } catch (error) {
-      print(error);
+      Logger.errorWithInfo(error, "board.dart -> getPlanData");
+      planDataController.sink.addError(error);
       // error handle
     }
   }
@@ -175,17 +179,20 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
             areaCodeToDetailName[areaCode]?[k] == location['subLocation']);
       }
       if (model.token != null) {
-        contentsDataController.sink.add(await contentsLoader.getContentsList(
+        List<ContentsCardBaseProps> result =
+            await contentsLoader.getContentsList(
           token: model.token!,
           keyword: keyword != null && keyword.length > 0 ? keyword : null,
           type: type,
           reset: reset,
           areaCode: areaCode,
           areaDetailCode: areaDetailCode,
-        ));
+        );
+        contentsDataController.sink.add(result);
       }
     } catch (error) {
-      print("Error from getContentsData: $error");
+      Logger.errorWithInfo(error, "board.dart -> getContentsData");
+      contentsDataController.sink.addError(error);
       // error handle
     }
   }
@@ -208,7 +215,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   void handleModeChange(BoardMode _viewMode) {
     if (_viewMode == BoardMode.search) {
       loadSearchKeywords();
-      print('onSearch');
+      Logger.group2("onSearch");
       textEditingController.text = "";
     } else {
       callApi(searchInput, currentFilter, true);

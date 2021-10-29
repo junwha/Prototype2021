@@ -1,7 +1,7 @@
 import 'dart:io';
 
+import 'package:prototype2021/model/board/plan/http/plan.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
-import 'package:prototype2021/model/board/wishlist/http/wishlist.dart';
 import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
@@ -20,12 +20,11 @@ class AuthLoader {
 
   Future<bool> validateToken(String? token) async {
     if (token == null) return false;
-    ContentsWishlistInput params = new ContentsWishlistInput();
-    SafeQueryInput<ContentsWishlistInput> dto =
+    PlanListInput params = new PlanListInput();
+    SafeQueryInput<PlanListInput> dto =
         new SafeQueryInput(url: validateTokenUrl, params: params, token: token);
-    SafeQueryOutput<ContentsWishlistOutput> result =
-        await safeGET<ContentsWishlistInput, ContentsWishlistOutput>(
-            dto, 200, true);
+    SafeQueryOutput<PlanListOutput> result =
+        await safeGET<PlanListInput, PlanListOutput>(dto, 200, true);
     if (result.success) return true;
     return false;
   }
@@ -38,6 +37,6 @@ class AuthLoader {
 
   // Endpoints
 
-  String loginUrl = "$apiBaseUrl/user/login";
-  String validateTokenUrl = "$apiBaseUrl/contents/wishlist";
+  String loginUrl = "$apiBaseUrl/user/login/";
+  String validateTokenUrl = "$apiBaseUrl/plans/wishlist/";
 }

@@ -6,6 +6,7 @@ import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/handler/event/editor_handler.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/plan/make/plan_make_view.dart';
 import 'package:prototype2021/views/event/editor/plan_select/plan_select_view.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
@@ -325,7 +326,6 @@ class _EditorViewState extends State<EditorView> {
               onChanged: (bool? onChecked) {
                 setState(() {
                   editorModel.hasGender = !editorModel.hasGender;
-                  print(editorModel.hasGender);
                 });
               },
             ),
@@ -566,7 +566,7 @@ class _EditorViewState extends State<EditorView> {
               if (result)
                 Navigator.pop(context, true);
               else
-                print("Error");
+                Logger.group2('Error');
             },
             child: Text('등록',
                 style:
@@ -613,7 +613,6 @@ class _EditorViewState extends State<EditorView> {
         builder: (context) => PlanSelectView(navigator: (Navigate navigate) {}),
       ),
     ) as Map<String, dynamic>;
-    print(data["id"] as int);
     editorHandler.pid = data["id"] as int;
   }
 }

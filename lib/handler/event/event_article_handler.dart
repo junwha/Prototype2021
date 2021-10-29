@@ -7,6 +7,7 @@ import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/loader/event/article_loader.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 
 class EventArticleHandler with ChangeNotifier {
   ArticleLoader articleLoader = ArticleLoader();
@@ -72,7 +73,8 @@ class EventArticleHandler with ChangeNotifier {
     ArticleDetailData? result =
         await articleLoader.loadArticleDetail(id, articleType);
     if (result == null) {
-      print("Article Load failed"); // TODO: move to exception page
+      Logger.errorWithInfo("Article Load failed",
+          'event_article_handler.dart -> loadDetail'); // TODO: move to exception page
       return;
     } else {
       detailData = result;

@@ -8,6 +8,7 @@ import 'package:prototype2021/model/board/contents/http/contents.dart';
 import 'package:prototype2021/model/board/wishlist/http/heart.dart';
 import 'package:prototype2021/utils/safe_http/safe_http.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/string_tools/nullable_string.dart';
 import 'package:prototype2021/widgets/cards/contents_card.dart';
 
 class ContentsLoader {
@@ -88,18 +89,18 @@ class ContentsLoader {
   }) async {
     if (reset) {
       pagination = PaginationState.start;
-      contentsListUrl = contentsWishlistUrlDefault;
+      contentsWishlistUrl = contentsWishlistUrlDefault;
     }
     if (pagination == PaginationState.end) {
       return [];
     }
     ContentsWishlistInput params = new ContentsWishlistInput(
-      areaCode: areaCode.toString(),
-      detailAreaCode: areaDetailCode.toString(),
+      areaCode: nullableString(areaCode),
+      detailAreaCode: nullableString(areaDetailCode),
       typeId: type,
     );
     SafeQueryInput<ContentsWishlistInput> dto = new SafeQueryInput(
-      url: contentsListUrl,
+      url: contentsWishlistUrl,
       params: params,
       token: token,
       queryStringAppendMode: pagination == PaginationState.start ? false : true,

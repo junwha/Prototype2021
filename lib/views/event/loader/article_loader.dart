@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:prototype2021/model/event/event_dto.dart';
 import 'package:prototype2021/settings/constants.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 
 class ArticleLoader {
   Future<List<EventPreviewData>> loadSearchResults(
@@ -17,11 +18,10 @@ class ArticleLoader {
 
     try {
       http.Response response = await http.get(Uri.parse(url));
-      print(response.body);
+      Logger.logHTTP(response);
       return parseEventArticle(utf8.decode(response.bodyBytes));
     } catch (e) {
-      print(e);
-      print("check internet");
+      Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
     }
 
     return [];
@@ -40,8 +40,7 @@ class ArticleLoader {
       return parseTopEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
-      print(e);
-      print("check internet");
+      Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
     }
 
     return [];
@@ -64,8 +63,7 @@ class ArticleLoader {
           data["cid"],
         ));
       } catch (e) {
-        print(e);
-        print("error occurred");
+        Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
       }
     }
     return articleList;
@@ -85,8 +83,7 @@ class ArticleLoader {
       return parseEventArticle(
           utf8.decode(response.bodyBytes)); // 한글 깨짐 현상 해결 방법
     } catch (e) {
-      print(e);
-      print("check internet");
+      Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
     }
 
     return [];
@@ -109,8 +106,7 @@ class ArticleLoader {
           ),
         ));
       } catch (e) {
-        print(e);
-        print("error occurred");
+        Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
       }
     }
     return articleList;
@@ -169,12 +165,10 @@ class ArticleLoader {
             data["pid"],
           );
       } catch (e) {
-        print(e);
-        print("error occurred");
+        Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
       }
     } catch (e) {
-      print("check internet");
-      print(e);
+      Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
     }
 
     return null;
@@ -189,10 +183,9 @@ class ArticleLoader {
     try {
       http.Response response = await http.delete(Uri.parse(url));
       if (response.statusCode == 204) return true;
-      print(response.body);
+      Logger.logHTTP(response);
     } catch (e) {
-      print(e);
-      print("check internet");
+      Logger.errorWithInfo(e, "loader/article_loader.dart -> [Func Name]");
     }
     return false;
   }
