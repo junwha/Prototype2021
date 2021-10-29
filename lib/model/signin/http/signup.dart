@@ -62,8 +62,6 @@ class SignupInput extends SafeHttpDataInput {
         "agree_marketing_terms": agreeMarketingTerms.toString(),
       });
     }
-    print(phoneNumber);
-    print(email);
     if (phoneNumber != null) {
       baseMap.addAll({"phone_number": phoneNumber!});
     }

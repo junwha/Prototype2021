@@ -243,7 +243,6 @@ class _SignInViewVerificationState extends State<SignInViewVerification>
   bool validatePhoneNumber(String rawPhoneNumber) {
     String pattern = r"^010-\d{4}-\d{4}$";
     RegExp regex = new RegExp(pattern);
-    print(regex.hasMatch(rawPhoneNumber));
     if (!regex.hasMatch(rawPhoneNumber)) return false;
     return true;
   }

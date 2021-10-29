@@ -13,7 +13,7 @@ const String placeHolder =
 
 const String apiBaseUrl = 'https://api.tripbuilder.co.kr';
 
-bool SAFE_HTTP_DEBUG = false;
+const bool DEBUG = false;
 // TODO: migrate this settings to secure storage
 const String S3_BUCKET_NAME = "trip-builder";
 const String S3_POOL_ID = "ap-northeast-2:454452c8-81de-43cb-9072-9d4b043fd38e";

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/loader/board/plan_loader.dart';
 import 'package:prototype2021/model/board/contents/content_type.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/base/board.dart';
 import 'package:provider/provider.dart';
 
@@ -37,7 +38,7 @@ class _WishlistViewState extends BoardState<WishlistView> {
         ));
       }
     } catch (error) {
-      print("Error from getContentsData: $error");
+      Logger.errorWithInfo(error, "wishlist_view.dart -> getContentsData");
       // error handle
     }
   }

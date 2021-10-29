@@ -3,6 +3,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/plan/make/calendar/plan_make_calendar_view.dart';
 import 'package:prototype2021/views/board/plan/make/home/plan_make_home_view.dart';
 import 'package:prototype2021/views/board/plan/make/save/planMake.saved.0_view.dart';
@@ -106,7 +107,7 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
   @override
   void initState() {
     super.initState();
-    Future.delayed(Duration.zero, () {
+    Future.delayed(Duration.zero, () async {
       PlanMakeHandler handler =
           Provider.of<PlanMakeHandler>(context, listen: false);
       PlanMapHandler mapHandler =
@@ -122,22 +123,21 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
                 List.generate(handler.dateDifference!, (index) => []));
           }
         } catch (e) {
-          print(e);
+          Logger.errorWithInfo(e, "plan_make_view.dart -> initState");
         }
       }
 
       handler.addListener(calendarHandlerListener);
 
-      WidgetsBinding.instance?.addPostFrameCallback((_) async {
-        Position position = await Geolocator.getCurrentPosition();
-        mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
-      });
+      Logger.group1("Init map");
+
+      Position position = await Geolocator.getCurrentPosition();
+      mapHandler.updateCenter(LatLng(position.latitude, position.longitude));
     });
   }
 
   @override
   void dispose() {
-    print("dispose");
     PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
     PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);
     planMapHandler.doDispose();

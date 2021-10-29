@@ -132,7 +132,6 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                   "여유롭고\n느긋한여행",
                                   "바쁘더라도\n알찬 여행",
                                   (int? val) {
-                                    print(val);
                                     // Changes the selected value on 'onChanged' click on each radio button
                                     setState(() {
                                       selectedRadio1 = val!;
@@ -194,7 +193,6 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
 
                                         bool saved = await loader.createPlan(
                                             userInfoHandler.token!, data);
-                                        print(saved);
 
                                         if (saved)
                                           widget.navigator(Navigate.forward);
@@ -264,8 +262,6 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                       onPressed: () {
                         showTagsDialog(context)
                             .then((value) => setState(() {}));
-
-                        print(isTagsSelected[0]);
                       }),
                 ],
               ),

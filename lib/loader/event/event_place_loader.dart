@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 import 'package:prototype2021/settings/constants.dart';
 
@@ -29,8 +30,7 @@ class EventPlaceLoader {
             ))));
       }
     } catch (e) {
-      print("Unexpected Error");
-      print(e);
+      Logger.errorWithInfo(e, "event_place_loader.dart");
     }
     return locations;
   }

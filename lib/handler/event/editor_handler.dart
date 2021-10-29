@@ -7,6 +7,7 @@ import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/loader/google_place/google_place_loader.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/utils/safe_http/base.dart';
 import 'package:prototype2021/utils/safe_http/legacy_http.dart';
 
@@ -46,7 +47,7 @@ class EditorHandler with ChangeNotifier {
   EditorHandler({this.location, required this.userInfoHandler}) {
     if (location is GooglePlaceData) {
       this.placeId = (location as GooglePlaceData).placeId;
-      print(this.placeId);
+      Logger.group2(this.placeId);
     }
   }
 

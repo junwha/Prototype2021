@@ -8,6 +8,7 @@ import 'package:prototype2021/model/board/contents/content_type.dart';
 import 'package:prototype2021/loader/board/contents_loader.dart';
 import 'package:prototype2021/handler/user/user_info_handler.dart';
 import 'package:prototype2021/settings/annotations.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 import 'package:prototype2021/views/board/base/mixin/app_bar.dart';
 import 'package:prototype2021/views/board/base/mixin/header_silver.dart';
 import 'package:prototype2021/views/board/base/mixin/helpers.dart';
@@ -151,7 +152,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
             .add(await planLoader.getPlanList(model.token!, reset));
       }
     } catch (error) {
-      print(error);
+      Logger.errorWithInfo(error, "board.dart -> getPlanData");
       // error handle
     }
   }
@@ -186,7 +187,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
         ));
       }
     } catch (error) {
-      print("Error from getContentsData: $error");
+      Logger.errorWithInfo(error, "board.dart -> getContentsData");
       // error handle
     }
   }
@@ -209,7 +210,7 @@ abstract class BoardState<T extends StatefulWidget> extends State<T>
   void handleModeChange(BoardMode _viewMode) {
     if (_viewMode == BoardMode.search) {
       loadSearchKeywords();
-      print('onSearch');
+      Logger.group2("onSearch");
       textEditingController.text = "";
     } else {
       callApi(searchInput, currentFilter, true);

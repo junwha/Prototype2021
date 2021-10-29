@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/model/board/place_data_props.dart';
 import 'package:prototype2021/handler/board/plan/plan_map_handler.dart';
 import 'package:prototype2021/handler/board/plan/plan_make_calendar_handler.dart';
@@ -205,25 +204,26 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         navigator: () => navigator(Navigate.backward),
       ),
       body: ScreenUtilInit(
-          designSize: Size(3200, 1440),
-          builder: () {
-            return buildBody(context);
-          }),
+        designSize: Size(3200, 1440),
+        builder: () {
+          return buildBody(context);
+        },
+      ),
       bottomNavigationBar: buildBottomAppBar(context),
     );
   }
 
   NotificationListener buildBody(BuildContext context) {
     return NotificationListener<ScrollNotification>(
-        onNotification: (ScrollNotification scrollNotification) =>
-            onScrollNotificationHandler(
-              scrollNotification,
-              _scrollController,
-              _onTop,
-              _setOnTop,
-            ),
-        child: SingleChildScrollView(
-            child: Container(
+      onNotification: (ScrollNotification scrollNotification) =>
+          onScrollNotificationHandler(
+        scrollNotification,
+        _scrollController,
+        _onTop,
+        _setOnTop,
+      ),
+      child: SingleChildScrollView(
+        child: Container(
           child: Column(
             children: [
               buildHeader(
@@ -233,20 +233,24 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
               buildMain(context),
             ],
           ),
-        )));
+        ),
+      ),
+    );
   }
 
   Widget buildMain(BuildContext context) {
     PlanMakeHandler calendarHandler = Provider.of<PlanMakeHandler>(context);
 
-    List<Widget> planListItemWidgets =
-        List.generate(calendarHandler.dateDifference!, (index) {
-      return PlanListItem(
-        dateIndex: index,
-        incrementOpenedCount: _incrementOpenedCount,
-        decrementOpenedCount: _decrementOpenedCount,
-      );
-    });
+    List<Widget> planListItemWidgets = List.generate(
+      calendarHandler.dateDifference!,
+      (index) {
+        return PlanListItem(
+          dateIndex: index,
+          incrementOpenedCount: _incrementOpenedCount,
+          decrementOpenedCount: _decrementOpenedCount,
+        );
+      },
+    );
 
     return Container(
       child: Column(
@@ -260,9 +264,12 @@ class PlanMakeHomeViewState extends State<PlanMakeHomeView>
         ],
       ),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(40), topRight: Radius.circular(40)),
-          color: Colors.white),
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(40),
+          topRight: Radius.circular(40),
+        ),
+        color: Colors.white,
+      ),
       width: MediaQuery.of(context).size.width,
       constraints:
           BoxConstraints(minHeight: MediaQuery.of(context).size.height),

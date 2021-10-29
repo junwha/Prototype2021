@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:prototype2021/utils/google_map/handler/location.dart';
 import 'package:prototype2021/utils/google_map/widgets/marker.dart';
+import 'package:prototype2021/utils/logger/logger.dart';
 
 class TBMapHandler with ChangeNotifier {
   bool mapLoaded = false;
@@ -52,6 +53,7 @@ class TBMapHandler with ChangeNotifier {
    * Update center and move the camera to newer center.
    */
   void updateCenter(LatLng center) {
+    Logger.group1("Updating center");
     this.center = center;
     mapController?.moveCamera(
       CameraUpdate.newLatLng(center),

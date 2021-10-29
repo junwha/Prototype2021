@@ -34,7 +34,6 @@ class _MapViewState extends State<MapView> {
   void initLocation() async {
     LatLng savedCenter = await Geolocator.getCurrentPosition()
         .then((value) => LatLng(value.latitude, value.longitude));
-    print(savedCenter);
     setState(() {
       center = savedCenter;
     });

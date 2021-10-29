@@ -31,7 +31,6 @@ class PlanMarker extends MarkerList {
 
       return true && isSuperComplete;
     } catch (e) {
-      print(e);
       return false;
     }
   }
