@@ -28,7 +28,7 @@ void testTBMapModel() {
   test('change center', () {
     final model = TBMapHandler(LatLng(0, 0));
 
-    model.updateCenter(LatLng(1, 1));
+    model.updateCenterByLatLng(LatLng(1, 1));
     expect(LatLng(1, 1), model.center);
   });
 
@@ -131,18 +131,18 @@ void testTBMapModel() {
     expect(model.isFocused(), false);
 
     // new focused location
-    model.changeFocus(A);
+    await model.changeFocus(A);
     expect(model.markerList.focusedLocation, A);
     expect(model.isFocused(), true);
 
     // if the location which is not exist has tried to be focus, maintain old one
-    model.changeFocus(newLocation);
+    await model.changeFocus(newLocation);
     expect(model.markerList.focusedLocation, A);
     expect(model.isFocused(), true);
 
     // change with newely added location
     model.addLocations([newLocation]);
-    model.changeFocus(newLocation);
+    await model.changeFocus(newLocation);
     expect(model.markerList.focusedLocation, newLocation);
     expect(model.isFocused(), true);
 

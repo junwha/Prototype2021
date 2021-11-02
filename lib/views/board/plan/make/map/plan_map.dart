@@ -23,7 +23,9 @@ class _PlanMapState extends State<PlanMap> {
             center: model.center,
             markers: model.markers,
             onMapCreated: (GoogleMapController controller) {
-              model.mapController = controller;
+              if (!model.mapController.isCompleted) {
+                model.mapController.complete(controller);
+              }
             },
             polylines: model.polyline != null
                 ? <Polyline>{model.polyline!}
@@ -48,8 +50,8 @@ class _PlanMapState extends State<PlanMap> {
               (index) => TBSelectableTextButton(
                     titleName: "${index + 1}일차",
                     isChecked: model.day == index + 1,
-                    onPressed: () {
-                      model.setDay(index + 1);
+                    onPressed: () async {
+                      await model.setDay(index + 1);
                     },
                     padding: EdgeInsets.symmetric(
                       horizontal: 5,

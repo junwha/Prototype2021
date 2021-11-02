@@ -105,13 +105,48 @@ class _PlanMakeViewContentState extends State<_PlanMakeViewContent>
   }
 
   @override
-  void dispose() {
-    PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
-    PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);
-    planMapHandler.doDispose();
-    planMakeHandler.doDispose();
-    super.dispose();
+  void initState() {
+    super.initState();
+    PlanMakeHandler handler =
+        Provider.of<PlanMakeHandler>(context, listen: false);
+    PlanMapHandler mapHandler =
+        Provider.of<PlanMapHandler>(context, listen: false);
+    Future<void> calendarHandlerListener() async {
+      // Notify to plan map model when the calendar handler has changed.
+      try {
+        if (handler.planListItems != null) {
+          Logger.group1("PlanListItems");
+          await mapHandler.updatePlaceData(handler.planListItems!);
+        } else {
+          Logger.group1("No PlanListItems");
+          // if the items are null, generate empty List with dateDifference. this logic is for generating date buttons.
+          await mapHandler.updatePlaceData(
+              List.generate(handler.dateDifference!, (index) => []));
+        }
+      } catch (e) {
+        Logger.errorWithInfo(e, "plan_make_view.dart -> initState");
+      }
+    }
+
+    handler.addListener(calendarHandlerListener);
+
+    Logger.group1("Init map");
+
+    Future.delayed(Duration.zero, () async {
+      Position position = await Geolocator.getCurrentPosition();
+      await mapHandler
+          .updateCenterByLatLng(LatLng(position.latitude, position.longitude));
+    });
   }
+
+  // @override
+  // void dispose() {
+  //   PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
+  //   PlanMapHandler planMapHandler = Provider.of<PlanMapHandler>(context);
+  //   planMapHandler.doDispose();
+  //   planMakeHandler.doDispose();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

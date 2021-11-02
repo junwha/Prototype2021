@@ -46,7 +46,9 @@ class _EventMapViewState extends State<EventMapView> {
                           } else {}
                         },
                         onMapCreated: (GoogleMapController controller) {
-                          mapModel.mapController = controller;
+                          if (!mapModel.mapController.isCompleted) {
+                            mapModel.mapController.complete(controller);
+                          }
                         },
                         initialCameraPosition:
                             this.widget.initialCameraPosition,

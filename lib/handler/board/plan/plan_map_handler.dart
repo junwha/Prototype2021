@@ -8,13 +8,6 @@ import 'package:prototype2021/utils/google_map/widgets/plan_marker.dart';
 import 'package:prototype2021/utils/logger/logger.dart';
 
 class PlanMapHandler extends TBMapHandler {
-  @override
-  void dispose() {}
-
-  void doDispose() {
-    super.dispose();
-  }
-
   List<List<PlaceDataInterface>> placeItemsPerDay = [];
   int day = 1;
 
@@ -39,9 +32,8 @@ class PlanMapHandler extends TBMapHandler {
   /// Please add this method as another model's notifier
   /// Example: handler.addNotifier((){updatePolyline(handler.placeItems){...}});
   /// This method updates placeItems and call updatePolyline so that the map can be reloaded with new data
-  void updatePlaceData(List<List<PlaceDataInterface>> _placeItemsPerDay) {
-    Logger.group1("Updating Place Data...");
-    Logger.group1(_placeItemsPerDay.length);
+  Future<void> updatePlaceData(
+      List<List<PlaceDataInterface>> _placeItemsPerDay) async {
     // Copy PlaceData
     placeItemsPerDay = List.generate(
       _placeItemsPerDay.length,
@@ -60,7 +52,7 @@ class PlanMapHandler extends TBMapHandler {
   }
 
   /// change the day of markers which are included in placeItemsPerDay
-  void setDay(int day) {
+  Future<void> setDay(int day) async {
     if (day <= placeItemsPerDay.length) {
       this.day = day;
       _updatePolyline();
@@ -69,9 +61,8 @@ class PlanMapHandler extends TBMapHandler {
   }
 
   // This private method update the map with its given day and placeItems
-  void _updatePolyline() {
+  Future<void> _updatePolyline() async {
     updateLocations([]);
-    Logger.group1(placeItemsPerDay.length);
     if (placeItemsPerDay.length == 0) return;
 
     List<PlaceDataInterface> placeItems = placeItemsPerDay[day - 1];
@@ -91,23 +82,7 @@ class PlanMapHandler extends TBMapHandler {
 
       if (placeItems.length > 0) {
         Logger.group1("Calculating Center...");
-        placeItems.forEach((element) {
-          Logger.group1(
-              '${element.location.latitude}, ${element.location.longitude}');
-        });
-        // Calculate mean point
-        double meanLatitude = placeItems
-                .map((e) => e.location.latitude)
-                .reduce((value, element) => value + element) /
-            placeItems.length;
-        double meanLongitude = placeItems
-                .map((e) => e.location.longitude)
-                .reduce((value, element) => value + element) /
-            placeItems.length;
-
-        Logger.group1("$meanLatitude, $meanLongitude");
-        // Update center as mean point
-        updateCenter(LatLng(meanLatitude, meanLongitude));
+        updateCenterByLatLngBound(placeItems);
       }
     }
   }

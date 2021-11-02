@@ -6,7 +6,6 @@ import 'package:prototype2021/utils/google_map/handler/tb_map_handler.dart';
 import 'package:prototype2021/model/google_place/place_data.dart';
 import 'package:prototype2021/model/map/location.dart';
 
-
 class ContentMapHandler extends TBMapHandler {
   Location? clickedLocation;
 
@@ -54,7 +53,7 @@ class ContentMapHandler extends TBMapHandler {
       if (clickedLocation != null) removeLocations({this.clickedLocation!});
       this.clickedLocation = location;
       addLocations([location]);
-      changeFocus(location);
+      await changeFocus(location);
       notifyListeners();
     }
   }
@@ -99,13 +98,13 @@ class ContentMapHandler extends TBMapHandler {
   /*
    * When user clicked search result, this method would be called.
    */
-  void moveToResult(GooglePlaceData data) {
+  Future<void> moveToResult(GooglePlaceData data) async {
     clearMap();
     Location location = GooglePlaceLocation(data.placeId, data.photo, data.name,
         data.address, data.location, PlaceType.DEFAULT);
     updateLocations([location]);
     clearFilters();
-    changeFocus(location);
+    await changeFocus(location);
     notifyListeners();
   }
 }

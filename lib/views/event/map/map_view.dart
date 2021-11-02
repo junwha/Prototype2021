@@ -81,11 +81,11 @@ class _MapViewState extends State<MapView> {
       leading: PlaceFilterChip(
         leading: Image.asset("assets/icons/event.png"),
         text: "내 주변 이벤트",
-        onSelected: (bool _isSelected) {
-          double zoomLevel = 14.0;
-          mapModel.mapController?.getZoomLevel().then((value) {
-            zoomLevel = value;
-          });
+        onSelected: (bool _isSelected) async {
+          final GoogleMapController controller =
+              await mapModel.mapController.future;
+          double zoomLevel =
+              await controller.getZoomLevel(); // Default was 14.0
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -121,7 +121,9 @@ class _MapViewState extends State<MapView> {
         }
       },
       onMapCreated: (GoogleMapController controller) {
-        mapModel.mapController = controller;
+        if (!mapModel.mapController.isCompleted) {
+          mapModel.mapController.complete(controller);
+        }
       },
     );
   }

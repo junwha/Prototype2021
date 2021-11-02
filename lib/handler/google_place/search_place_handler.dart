@@ -56,8 +56,8 @@ class SearchPlaceModel with ChangeNotifier {
           image: NetworkImage(data.photo ?? placeHolder),
           fit: BoxFit.cover,
         ),
-        onclick: () {
-          this.locationModel.moveToResult(data);
+        onclick: () async {
+          await this.locationModel.moveToResult(data);
           this.resultCards = [];
           Logger.group2("Card clicked");
         },

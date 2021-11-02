@@ -69,7 +69,8 @@ class _SelectLocationMapViewState extends State<SelectLocationMapView> {
                                   }
                                 },
                                 onMapCreated: (GoogleMapController controller) {
-                                  locationModel.mapController = controller;
+                                  locationModel.mapController
+                                      .complete(controller);
                                 }),
                             //buildSelectButton(maxHeight),
                             buildContentInfo(

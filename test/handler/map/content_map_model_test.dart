@@ -89,7 +89,8 @@ void testContentMapModel() {
       },
       "types": ["street_address"]
     };
-    model.moveToResult(GooglePlaceData(googleExampleMeta, PlaceType.DEFAULT));
+    await model
+        .moveToResult(GooglePlaceData(googleExampleMeta, PlaceType.DEFAULT));
     expect(model.locations.length, 1);
     expect(model.center.latitude.toStringAsFixed(6),
         googleExampleMeta["geometry"]["location"]["lat"].toStringAsFixed(6));

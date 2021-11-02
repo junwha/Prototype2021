@@ -88,8 +88,9 @@ class _PlanDetailViewState extends State<PlanDetailView> {
     planData = await getPlanDetail(this.widget.pid, userInfoHandler.token);
     mapModel = PlanMapHandler(LatLng(0, 0));
     // Update PlaceData and polyline when map is completely loaded
-    mapModel.setMapLoadListener(
-        () => {mapModel.updatePlaceData(planData.contents)});
+    mapModel.setMapLoadListener(() async {
+      await mapModel.updatePlaceData(planData.contents);
+    });
     setState(() {
       isLoaded = true;
     });

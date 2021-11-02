@@ -14,12 +14,12 @@ enum CalendarTouchPhase {
 }
 
 class PlanMakeHandler with ChangeNotifier {
-  @override
-  void dispose() {}
+  // @override
+  // void dispose() {}
 
-  void doDispose() {
-    super.dispose();
-  }
+  // void doDispose() {
+  //   super.dispose();
+  // }
 
   CalendarTouchPhase _phase = CalendarTouchPhase.PENDING;
   DateTime _now;
