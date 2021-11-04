@@ -81,6 +81,8 @@ class PlanMakeSelectViewState extends BoardState<PlanMakeSelectView> {
           setViewMode(BoardMode.main);
         }
         break;
+      default:
+        break;
     }
   }
 
