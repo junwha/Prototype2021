@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 const double pt = 96 / 72;
 
 enum ArticleType { EVENT, COMPANION }
@@ -11,7 +13,9 @@ const kGoogleApiKey = "AIzaSyBhcuH45NaLJEqVuqGG7EmPqPPIJq9kumc";
 const String placeHolder =
     "https://www.orcajourney.com/wp-content/uploads/2020/08/placeholder.png";
 
-const String apiBaseUrl = 'https://api.tripbuilder.co.kr';
+const String apiBaseUrl = kReleaseMode
+    ? 'https://api.tripbuilder.co.kr'
+    : 'https://dev-api.tripbuilder.co.kr';
 
 const bool DEBUG = true;
 // TODO: migrate this settings to secure storage

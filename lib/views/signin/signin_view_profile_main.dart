@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
 import 'package:prototype2021/views/signin/mixin/widgets.dart';
 import 'package:prototype2021/views/signin/signin_view_gender.dart';
 import 'package:prototype2021/views/signin/signin_view_verification.dart';
+import 'package:prototype2021/widgets/shapes/circular_image.dart';
 import 'package:provider/provider.dart';
 
 class SigninViewProfileMain extends StatefulWidget {
@@ -135,25 +135,13 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
   Stack buildImagePicker() {
     return Stack(
       children: [
-        Container(
-          height: 140,
-          width: 140,
+        CircularImage(
           margin: EdgeInsets.only(
             left: 128,
             right: 128,
           ),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xffdbdbdb),
-            image: (image == null)
-                ? null
-                : DecorationImage(
-                    fit: BoxFit.cover,
-                    image: FileImage(
-                      File(image!.path),
-                    ),
-                  ),
-          ),
+          image: image,
+          size: 140,
         ),
         Positioned(
           child: Container(
