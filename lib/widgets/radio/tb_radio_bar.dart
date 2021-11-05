@@ -31,7 +31,7 @@ class _TBRadioBarState extends State<TBRadioBar> {
             ),
             Container(
               height: 2,
-              width: 350,
+              width: MediaQuery.of(context).size.width - 100,
               color: Color(0xffbdbdbd),
             ),
             ButtonBar(

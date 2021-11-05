@@ -67,19 +67,6 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
                   ),
                   buildImagePicker(),
                   buildTextInput(),
-                  Container(
-                    height: 0,
-                    margin: EdgeInsets.only(
-                      left: 87.5,
-                      right: 87.5,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff707070),
-                        width: 1,
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 60,
                   ),
@@ -116,19 +103,28 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
     );
   }
 
-  TextField buildTextInput() {
-    return TextField(
-      decoration: new InputDecoration(
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        contentPadding:
-            EdgeInsets.only(left: 140, bottom: 11, top: 30, right: 50),
-        hintText: "닉네임을 입력해주세요",
+  Container buildTextInput() {
+    return Container(
+      width: MediaQuery.of(context).size.width - 100,
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: TextField(
+            decoration: InputDecoration(
+          hintText: '닉네임을 입력해주세요',
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+        ),
+          controller: _controller,
+          maxLines: 1,
+          onChanged: setNickname,
+          enableInteractiveSelection: false,
+          textAlign: TextAlign.center
+        ),
       ),
-      onChanged: setNickname,
-      maxLines: 1,
-      enableInteractiveSelection: false,
-      controller: _controller,
     );
   }
 
@@ -136,12 +132,12 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
     return Stack(
       children: [
         Container(
-          height: 140,
-          width: 140,
-          margin: EdgeInsets.only(
-            left: 128,
-            right: 128,
-          ),
+          height: MediaQuery.of(context).size.height - 700,
+          width:  MediaQuery.of(context).size.width - 150,
+          // margin: EdgeInsets.only(
+          //   left: 128,
+          //   right: 128,
+          // ),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
             color: Color(0xffdbdbdb),
@@ -169,7 +165,8 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
                   "assets/icons/ic_image_gray.png",
                 )),
           ),
-          right: 110,
+
+          left: 110,
           bottom: 0,
         )
       ],

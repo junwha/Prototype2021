@@ -145,20 +145,27 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
         appBar: buildAppBar(),
         body: ScreenUtilInit(
           designSize: Size(3200, 1440),
-          builder: () => Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildMainTexts(),
-                ...buildLoginInputs(), // Spreading widgets
-                buildLoginCheckboxes(),
-                buildLoginButton(context),
-                // buildSocialLoginButtons(),
-                buildFindIDPW(),
-                buildSignin(),
-              ],
-            ),
+          builder: () => Stack(
+            children: [
+              SingleChildScrollView(
+                physics: BouncingScrollPhysics(),
+                child: Container(
+                  padding: const EdgeInsets.fromLTRB(20, 10, 20, 10),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      buildMainTexts(),
+                      ...buildLoginInputs(), // Spreading widgets
+                      buildLoginCheckboxes(),
+                      buildLoginButton(context),
+                      // buildSocialLoginButtons(),
+                      buildFindIDPW(),
+                      buildSignin(),
+                    ],
+                  ),
+                ),
+              ),
+            ],
           ),
         ));
   }
