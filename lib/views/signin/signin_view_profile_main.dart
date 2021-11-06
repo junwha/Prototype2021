@@ -3,13 +3,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:prototype2021/handler/signin/signin_handler.dart';
 import 'dart:async';
 import 'dart:io';
-import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:prototype2021/widgets/dialogs/pop_up.dart';
 import 'package:prototype2021/views/signin/mixin/helpers.dart';
 import 'package:prototype2021/views/signin/mixin/widgets.dart';
 import 'package:prototype2021/views/signin/signin_view_gender.dart';
 import 'package:prototype2021/views/signin/signin_view_verification.dart';
+import 'package:prototype2021/widgets/shapes/circular_image.dart';
 import 'package:provider/provider.dart';
 
 class SigninViewProfileMain extends StatefulWidget {
@@ -67,19 +67,6 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
                   ),
                   buildImagePicker(),
                   buildTextInput(),
-                  Container(
-                    height: 0,
-                    margin: EdgeInsets.only(
-                      left: 87.5,
-                      right: 87.5,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Color(0xff707070),
-                        width: 1,
-                      ),
-                    ),
-                  ),
                   SizedBox(
                     height: 60,
                   ),
@@ -116,44 +103,41 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
     );
   }
 
-  TextField buildTextInput() {
-    return TextField(
-      decoration: new InputDecoration(
-        border: InputBorder.none,
-        focusedBorder: InputBorder.none,
-        contentPadding:
-            EdgeInsets.only(left: 140, bottom: 11, top: 30, right: 50),
-        hintText: "닉네임을 입력해주세요",
+  Container buildTextInput() {
+    return Container(
+      width: MediaQuery.of(context).size.width - 100,
+      child: Padding(
+        padding: EdgeInsets.all(10.0),
+        child: TextField(
+            decoration: InputDecoration(
+          hintText: '닉네임을 입력해주세요',
+          enabledBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+          focusedBorder: UnderlineInputBorder(
+            borderSide: BorderSide(color: Colors.black),
+          ),
+        ),
+          controller: _controller,
+          maxLines: 1,
+          onChanged: setNickname,
+          enableInteractiveSelection: false,
+          textAlign: TextAlign.center
+        ),
       ),
-      onChanged: setNickname,
-      maxLines: 1,
-      enableInteractiveSelection: false,
-      controller: _controller,
     );
   }
 
   Stack buildImagePicker() {
     return Stack(
       children: [
-        Container(
-          height: 140,
-          width: 140,
+        CircularImage(
           margin: EdgeInsets.only(
             left: 128,
             right: 128,
           ),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Color(0xffdbdbdb),
-            image: (image == null)
-                ? null
-                : DecorationImage(
-                    fit: BoxFit.cover,
-                    image: FileImage(
-                      File(image!.path),
-                    ),
-                  ),
-          ),
+          image: image,
+          size: 140,
         ),
         Positioned(
           child: Container(
@@ -169,7 +153,8 @@ class _SigninViewProfileMainState extends State<SigninViewProfileMain>
                   "assets/icons/ic_image_gray.png",
                 )),
           ),
-          right: 110,
+
+          left: 110,
           bottom: 0,
         )
       ],

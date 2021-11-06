@@ -74,6 +74,8 @@ class PlanSelectViewState extends BoardState<PlanSelectView> {
           setViewMode(BoardMode.main);
         }
         break;
+      default:
+        break;
     }
   }
 

@@ -37,6 +37,6 @@ class AuthLoader {
 
   // Endpoints
 
-  String loginUrl = "$apiBaseUrl/user/login/";
-  String validateTokenUrl = "$apiBaseUrl/plans/wishlist/";
+  String loginUrl = "$apiBaseUrl/user/login";
+  String validateTokenUrl = "$apiBaseUrl/plans/wishlist";
 }

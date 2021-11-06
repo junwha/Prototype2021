@@ -119,18 +119,27 @@ class _SigninViewBirthState extends State<SigninViewBirth>
     );
   }
 
-  Row buildDatePicker() {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        buildDropdownMenu<int>(
-            value: year, allValues: yearList, valueSetter: setYear),
-        buildDropdownMenu<String>(
-            value: month, allValues: monthList, valueSetter: setMonth),
-        buildDropdownMenu<int>(
-            value: day, allValues: dayList, valueSetter: setDay),
-      ],
+  Container buildDatePicker() {
+    return Container(
+      margin: EdgeInsets.only(left: 20, right: 20),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Flexible(
+              child: buildDropdownMenu<int>(
+                  value: year, allValues: yearList, valueSetter: setYear),
+              flex: 1),
+          Flexible(
+              child: buildDropdownMenu<String>(
+                  value: month, allValues: monthList, valueSetter: setMonth),
+              flex: 1),
+          Flexible(
+              child: buildDropdownMenu<int>(
+                  value: day, allValues: dayList, valueSetter: setDay),
+              flex: 1)
+        ],
+      ),
     );
   }
 
@@ -149,7 +158,7 @@ class _SigninViewBirthState extends State<SigninViewBirth>
         borderRadius: BorderRadius.circular(4),
       ),
       height: 60,
-      width: 120,
+      width: MediaQuery.of(context).size.width,
       child: Center(
         child: DropdownButton<T>(
           value: value,

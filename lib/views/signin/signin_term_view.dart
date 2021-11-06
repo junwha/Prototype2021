@@ -64,22 +64,28 @@ class _SigninTermViewState extends State<SigninTermView>
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Wrap(
-                    direction: Axis.horizontal,
+                  Row(
                     children: [
-                      buildMethodTabButton(
-                        onPressed: () =>
-                            setVerificationMethod(VerificationMethod.Phone),
-                        isChecked:
-                            verificationMethod == VerificationMethod.Phone,
-                        text: "휴대폰으로 회원가입",
-                      ),
-                      buildMethodTabButton(
+                      Flexible(
+                        fit: FlexFit.loose,
+                        flex: 1,
+                        child: buildMethodTabButton(
                           onPressed: () =>
-                              setVerificationMethod(VerificationMethod.Email),
+                              setVerificationMethod(VerificationMethod.Phone),
                           isChecked:
-                              verificationMethod == VerificationMethod.Email,
-                          text: "이메일로 회원가입")
+                              verificationMethod == VerificationMethod.Phone,
+                          text: "휴대폰으로 회원가입",
+                        ),
+                      ),
+                      Flexible(
+                          fit: FlexFit.loose,
+                          flex: 1,
+                          child: buildMethodTabButton(
+                              onPressed: () => setVerificationMethod(
+                                  VerificationMethod.Email),
+                              isChecked: verificationMethod ==
+                                  VerificationMethod.Email,
+                              text: "이메일로 회원가입"))
                     ],
                   ),
                   SizedBox(
@@ -191,10 +197,6 @@ class _SigninTermViewState extends State<SigninTermView>
       onPressed: onPressed,
       child: Container(
         height: 55,
-        margin: EdgeInsets.only(
-          left: 20,
-          right: 20,
-        ),
         child: Center(
           child: Text(
             text,

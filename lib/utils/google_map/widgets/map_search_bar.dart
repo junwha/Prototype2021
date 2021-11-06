@@ -33,20 +33,34 @@ class _MapSearchBarState extends State<MapSearchBar> {
   Widget buildChipBar(ContentMapHandler locationModel) {
     return Padding(
       padding: EdgeInsets.fromLTRB(10, searchbarHeight + 10, 10, 0),
-      child: SizedBox.expand(
-        child: Wrap(
-          direction: Axis.horizontal,
-          alignment: WrapAlignment.spaceEvenly,
-          children: [
-            this.widget.leading ?? SizedBox(),
-            buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
+      child: Row(
+        children: [
+          Flexible(
+              fit: FlexFit.loose,
+              flex: 1,
+              child: this.widget.leading ?? SizedBox()),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: buildPlaceFilterChip(locationModel, "여행지", PlaceType.SPOT,
                 Image.asset("assets/icons/place.png")),
-            buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFE,
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: buildPlaceFilterChip(locationModel, "카페", PlaceType.CAFE,
                 Image.asset("assets/icons/caffe.png")),
-            buildPlaceFilterChip(locationModel, "음식점", PlaceType.RESTAURANT,
+          ),
+          Flexible(
+            fit: FlexFit.loose,
+            flex: 1,
+            child: buildPlaceFilterChip(
+                locationModel,
+                "음식점",
+                PlaceType.RESTAURANT,
                 Image.asset("assets/icons/restaurant.png")),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
