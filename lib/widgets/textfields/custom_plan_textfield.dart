@@ -48,7 +48,7 @@ class _CustomPlanTextFieldState extends State<CustomPlanTextField> {
                 ),
               ),
               contentPadding:
-                  EdgeInsets.only(left: 15, bottom: 0, top: 10, right: 15),
+                  EdgeInsets.only(bottom: 0, top: 10, right: 15),
               hintText: this.widget.hintText,
               hintStyle: TextStyle(
                 color: Color(0xffbdbdbd),

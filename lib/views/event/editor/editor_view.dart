@@ -188,7 +188,7 @@ class _EditorViewState extends State<EditorView> {
         ),
         Text("남", style: TextStyle(fontSize: 13 * pt)),
         SizedBox(
-          width: 10 * pt,
+          width: 5 * pt,
         ),
         DropdownButton<int>(
           value: editorModel.maleRecruitNumber,
@@ -208,7 +208,7 @@ class _EditorViewState extends State<EditorView> {
         ),
         Text("명", style: TextStyle(fontSize: 13 * pt)),
         SizedBox(
-          width: 20 * pt,
+          width: 5 * pt,
         ),
         Text("여", style: TextStyle(fontSize: 13 * pt)),
         SizedBox(
@@ -316,12 +316,16 @@ class _EditorViewState extends State<EditorView> {
       children: [
         Text("이벤트 정보",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 14 * pt)),
-        Row(
-          children: [
-            Text("성별무관",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, fontSize: 13 * pt)),
-            Checkbox(
+        Text("성별무관",
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: 13 * pt)),
+
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child:  Checkbox(
               value: !editorModel.hasGender,
               onChanged: (bool? onChecked) {
                 setState(() {
@@ -329,10 +333,19 @@ class _EditorViewState extends State<EditorView> {
                 });
               },
             ),
-            Text("나이무관",
-                style: TextStyle(
-                    fontWeight: FontWeight.normal, fontSize: 13 * pt)),
-            Checkbox(
+          ),
+        ),
+
+        Text("나이무관",
+            style: TextStyle(
+                fontWeight: FontWeight.normal, fontSize: 13 * pt)),
+
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: SizedBox(
+            width: 24.0,
+            height: 24.0,
+            child: Checkbox(
               value: !editorModel.hasAge,
               onChanged: (bool? onChecked) {
                 setState(() {
@@ -340,8 +353,8 @@ class _EditorViewState extends State<EditorView> {
                 });
               },
             ),
-          ],
-        ),
+          ),
+        )
       ],
     );
   }

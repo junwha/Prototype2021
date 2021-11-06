@@ -92,6 +92,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
             designSize: Size(3200, 1440),
             builder: () {
               return SingleChildScrollView(
+                physics: const BouncingScrollPhysics(),
                 child: Container(
                   height: MediaQuery.of(context).size.height,
                   child: Column(
