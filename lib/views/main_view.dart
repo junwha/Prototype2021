@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prototype2021/views/mypage/configuration_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainView extends StatefulWidget {
@@ -121,9 +122,9 @@ class _MainViewState extends State<MainView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        buildIconButton("내주변여행", () {
-          Navigator.pushNamed(context, 'event');
-        }, Image.asset('assets/icons/ic_home_location_event.png')),
+        buildIconButton("환경설정", () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => ConfigurationView()));
+        }, Image.asset('assets/icons/configuration.png')),
         buildIconButton("플랜제작", () {
           Navigator.pushNamed(context, 'planmake');
         }, Image.asset('assets/icons/ic_home_myprofile.png')),
