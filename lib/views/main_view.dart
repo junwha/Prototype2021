@@ -124,15 +124,15 @@ class _MainViewState extends State<MainView> {
         buildIconButton("내주변여행", () {
           Navigator.pushNamed(context, 'event');
         }, Image.asset('assets/icons/ic_home_location_event.png')),
-        buildIconButton("마이플랜", () {
-          Navigator.pushNamed(context, 'wishlist');
-        }, Image.asset('assets/icons/ic_home_myplan.png')),
-        buildIconButton("여행게시판", () {
-          Navigator.pushNamed(context, 'board');
-        }, Image.asset('assets/icons/ic_home_board.png')),
         buildIconButton("플랜제작", () {
           Navigator.pushNamed(context, 'planmake');
         }, Image.asset('assets/icons/ic_home_myprofile.png')),
+        buildIconButton("여행게시판", () {
+          Navigator.pushNamed(context, 'board');
+        }, Image.asset('assets/icons/ic_home_board.png')),
+        buildIconButton("마이플랜", () {
+          Navigator.pushNamed(context, 'wishlist');
+        }, Image.asset('assets/icons/ic_home_myplan.png')),
       ],
     );
   }
