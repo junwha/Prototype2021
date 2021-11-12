@@ -16,8 +16,23 @@ class ConfigurationView extends StatelessWidget {
   Widget build(BuildContext context) {
     UserInfoHandler infoHandler = Provider.of<UserInfoHandler>(context);
     return Scaffold(
-      appBar: CupertinoNavigationBar(
-        middle: Text('환경설정',style: TextStyle(fontSize: 15),),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        shadowColor: Colors.white,
+        leading: IconButton(
+            icon: Icon(
+              Icons.arrow_back,
+              color: Colors.black,
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
+        centerTitle: false,
+        title: Text(
+          "환경설정",
+          style: TextStyle(
+              color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20),
+        ),
       ),
       body: Center(
 
