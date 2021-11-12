@@ -49,23 +49,23 @@ class ConfigurationView extends StatelessWidget {
                 SizedBox(
                   height: 20,
                 ),
-                // SizedBox(
-                //   height: 60,
-                //   width: 330,
-                //   child:
-                //   TextButton(
-                //     style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
-                //     onPressed: () {
-                //       infoHandler.setToken(null);
-                //       SimpleStorage.writeString(SimpleStorageKeys.jwtToken, "");
-                //       Navigator.of(context).pushAndRemoveUntil(
-                //         MaterialPageRoute(builder: (_) => LoginView()),
-                //             (route) => false,
-                //       );
-                //     },
-                //     child: Text("회원탈퇴", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color : Colors.black),),
-                //   ),
-                // )
+                SizedBox(
+                  height: 60,
+                  width: 330,
+                  child:
+                  TextButton(
+                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                    onPressed: () {
+                      infoHandler.setToken(null);
+                      SimpleStorage.writeString(SimpleStorageKeys.jwtToken, "");
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => LoginView()),
+                            (route) => false,
+                      );
+                    },
+                    child: Text("회원탈퇴", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color : Colors.black),),
+                  ),
+                )
               ],
             )
 
