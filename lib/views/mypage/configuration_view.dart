@@ -38,13 +38,13 @@ class ConfigurationView extends StatelessWidget {
 
         child: (Column(
           children: [
-          SizedBox(
+            Container(
           width: 70.0,
           height: 70.0,)
             ,
             Column(
               children: [
-                  SizedBox(
+                Container(
                     height: 60,
                     width: 330,
                     child:
@@ -61,10 +61,10 @@ class ConfigurationView extends StatelessWidget {
                       child: Text("로그아웃", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color : Colors.black),),
                     ),
                   ),
-                SizedBox(
+                Container(
                   height: 20,
                 ),
-                SizedBox(
+                Container(
                   height: 60,
                   width: 330,
                   child:
