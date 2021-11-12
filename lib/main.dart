@@ -24,7 +24,7 @@ void main() {
           'editor': (context) => EditorView(),
           'select_location': (context) => SelectLocationMapView(),
           'map': (context) => MapView(),
-          'event': (context) => EventMainView(),
+          // 'event': (context) => EventMainView(),
           'wishlist': (context) => WishlistView(),
           'board': (context) => BoardMainView(),
           'planmake': (context) => PlanMakeView(),
