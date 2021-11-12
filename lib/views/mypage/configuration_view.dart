@@ -35,64 +35,70 @@ class ConfigurationView extends StatelessWidget {
         ),
       ),
       body: Center(
-
         child: (Column(
           children: [
             Container(
-          width: 70.0,
-          height: 70.0,)
-            ,
+              width: 70.0,
+              height: 70.0,
+            ),
             Column(
               children: [
                 Container(
-                    height: 60,
-                    width: 330,
-                    child:
-                    TextButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
-                      onPressed: () {
-                        infoHandler.setToken(null);
-                        SimpleStorage.writeString(SimpleStorageKeys.jwtToken, "");
-                        Navigator.of(context).pushAndRemoveUntil(
-                          MaterialPageRoute(builder: (_) => LoginView()),
-                              (route) => false,
-                        );
-                      },
-                      child: Text("로그아웃", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color : Colors.black),),
+                  height: 60,
+                  width: 330,
+                  child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.blue)),
+                    onPressed: () {
+                      infoHandler.setToken(null);
+                      SimpleStorage.writeString(SimpleStorageKeys.jwtToken, "");
+                      Navigator.of(context).pushAndRemoveUntil(
+                        MaterialPageRoute(builder: (_) => LoginView()),
+                        (route) => false,
+                      );
+                    },
+                    child: Text(
+                      "로그아웃",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
                     ),
                   ),
+                ),
                 Container(
                   height: 20,
                 ),
                 Container(
                   height: 60,
                   width: 330,
-                  child:
-                  TextButton(
-                    style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Colors.blue)),
+                  child: TextButton(
+                    style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.blue)),
                     onPressed: () {
                       infoHandler.setToken(null);
                       SimpleStorage.writeString(SimpleStorageKeys.jwtToken, "");
                       Navigator.of(context).pushAndRemoveUntil(
                         MaterialPageRoute(builder: (_) => LoginView()),
-                            (route) => false,
+                        (route) => false,
                       );
                     },
-                    child: Text("회원탈퇴", style: TextStyle(fontSize: 15,fontWeight: FontWeight.bold, color : Colors.black),),
+                    child: Text(
+                      "회원탈퇴",
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
                   ),
                 )
               ],
             )
-
           ],
-        )
-        ),
+        )),
       ),
-
-      );
+    );
   }
 }
-
-
-
-
