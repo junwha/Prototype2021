@@ -8,6 +8,7 @@ import 'package:prototype2021/views/login/login_view.dart';
 import 'package:prototype2021/views/event/map/map_view.dart';
 import 'package:prototype2021/views/event/map/select_location_map_view.dart';
 import 'package:prototype2021/views/main_view.dart';
+import 'package:prototype2021/views/mypage/configuration_view.dart';
 import 'package:prototype2021/views/mypage/wishlist_view.dart';
 import 'package:provider/provider.dart';
 
@@ -18,11 +19,12 @@ void main() {
       create: (_) => UserInfoHandler(),
       child: MaterialApp(
         routes: {
+          'configuration': (context) => ConfigurationView(),
           'login': (context) => LoginView(),
           'editor': (context) => EditorView(),
           'select_location': (context) => SelectLocationMapView(),
           'map': (context) => MapView(),
-          'event': (context) => EventMainView(),
+          // 'event': (context) => EventMainView(),
           'wishlist': (context) => WishlistView(),
           'board': (context) => BoardMainView(),
           'planmake': (context) => PlanMakeView(),
