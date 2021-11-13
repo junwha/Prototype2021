@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prototype2021/widgets/buttons/tb_wide_button.dart';
 
 class MyPageView extends StatefulWidget {
   MyPageView({Key? key}) : super(key: key);
@@ -72,36 +73,12 @@ class _MyPageViewState extends State<MyPageView> {
                     width: double.infinity,
                     color: Color.fromRGBO(244, 244, 252, 1),
                   ),
-                  buildCard("제작한 플랜", () {}),
-                  buildCard("저장한 플랜 / 컨텐츠", () => null)
+                  TBWideButton(title: "제작한 플랜", onTap: () => null),
+                  TBWideButton(title: "저장한 플랜 / 컨텐츠", onTap: () => null)
                 ],
               ),
             );
           }),
     );
-  }
-
-  Container buildCard(
-    String title,
-    Function()? onTap,
-  ) {
-    return Container(
-        width: double.infinity,
-        height: 85,
-        child: Card(
-          child: InkWell(
-            onTap: onTap,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(50, 25, 0, 0),
-              child: Text(
-                title,
-                style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color.fromRGBO(68, 68, 68, 1)),
-              ),
-            ),
-          ),
-        ));
   }
 }

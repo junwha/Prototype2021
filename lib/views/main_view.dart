@@ -48,7 +48,9 @@ class _MainViewState extends State<MainView> {
                   height: 40,
                 ),
                 Container(
-                    child: Image.asset('assets/icons/img_home_adbanner.png', fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width)),
+                    child: Image.asset('assets/icons/img_home_adbanner.png',
+                        fit: BoxFit.fitWidth,
+                        width: MediaQuery.of(context).size.width)),
                 SizedBox(
                   height: 50,
                 ),
