@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prototype2021/views/mypage/configuration_view.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MainView extends StatefulWidget {
@@ -47,7 +48,9 @@ class _MainViewState extends State<MainView> {
                   height: 40,
                 ),
                 Container(
-                    child: Image.asset('assets/icons/img_home_adbanner.png', fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width)),
+                    child: Image.asset('assets/icons/img_home_adbanner.png',
+                        fit: BoxFit.fitWidth,
+                        width: MediaQuery.of(context).size.width)),
                 SizedBox(
                   height: 50,
                 ),
@@ -121,18 +124,18 @@ class _MainViewState extends State<MainView> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
-        buildIconButton("내주변여행", () {
-          Navigator.pushNamed(context, 'event');
-        }, Image.asset('assets/icons/ic_home_location_event.png')),
-        buildIconButton("마이플랜", () {
-          Navigator.pushNamed(context, 'wishlist');
-        }, Image.asset('assets/icons/ic_home_myplan.png')),
-        buildIconButton("여행게시판", () {
-          Navigator.pushNamed(context, 'board');
-        }, Image.asset('assets/icons/ic_home_board.png')),
+        buildIconButton("환경설정", () {
+          Navigator.pushNamed(context, 'configuration');
+        }, Image.asset('assets/icons/configuration.png')),
         buildIconButton("플랜제작", () {
           Navigator.pushNamed(context, 'planmake');
         }, Image.asset('assets/icons/ic_home_myprofile.png')),
+        buildIconButton("여행게시판", () {
+          Navigator.pushNamed(context, 'board');
+        }, Image.asset('assets/icons/ic_home_board.png')),
+        buildIconButton("마이플랜", () {
+          Navigator.pushNamed(context, 'wishlist');
+        }, Image.asset('assets/icons/ic_home_myplan.png')),
       ],
     );
   }

@@ -6,7 +6,7 @@ import 'dart:convert';
 const Map<String, bool> _loggerConfig = {
   "1": true, // Important things
   "2": false, // Not important things
-  "http": false,
+  "http": true,
 };
 
 class Logger {
