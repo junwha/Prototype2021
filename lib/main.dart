@@ -19,7 +19,7 @@ void main() {
       create: (_) => UserInfoHandler(),
       child: MaterialApp(
         routes: {
-          // 'configuration': (context) => ConfigurationView(),
+          'configuration': (context) => ConfigurationView(),
           'login': (context) => LoginView(),
           'editor': (context) => EditorView(),
           'select_location': (context) => SelectLocationMapView(),

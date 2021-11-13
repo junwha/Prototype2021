@@ -123,7 +123,7 @@ class _MainViewState extends State<MainView> {
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: [
         buildIconButton("환경설정", () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => ConfigurationView()));
+          Navigator.pushNamed(context, 'configuration');
         }, Image.asset('assets/icons/configuration.png')),
         buildIconButton("플랜제작", () {
           Navigator.pushNamed(context, 'planmake');
