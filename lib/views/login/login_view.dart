@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prototype2021/data/signin_terms.dart';
 import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
@@ -32,18 +33,23 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
   bool autoLogin = false;
   bool saveId = false;
   bool loading = true;
+
   void setUsername(String? _username) => setState(() {
         username = _username ?? "";
       });
+
   void setPassword(String? _password) => setState(() {
         password = _password ?? "";
       });
+
   void setAutoLogin(bool _autoLogin) => setState(() {
         autoLogin = _autoLogin;
       });
+
   void setSaveId(bool _saveId) => setState(() {
         saveId = _saveId;
       });
+
   void setLoading(bool _loading) => setState(() {
         loading = _loading;
       });
@@ -161,7 +167,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                       // buildSocialLoginButtons(),
                       buildFindIDPW(),
                       buildSignin(),
-                      User_ToS(),
+                      User_Terms(),
                     ],
                   ),
                 ),
@@ -458,7 +464,8 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
       ),
     );
   }
-  Widget User_ToS() {
+
+  Widget User_Terms() {
     const TextStyle textStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w400,
@@ -470,18 +477,77 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
 
     return Container(
       margin: EdgeInsets.only(
-          top: ScreenUtil().setHeight(0.1), bottom: ScreenUtil().setHeight(0.1)),
+          top: ScreenUtil().setHeight(0.1),
+          bottom: ScreenUtil().setHeight(0.1)),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          "트립빌더 개인 정보처리방침",
+                          style: const TextStyle(
+                              color: const Color(0xff000000),
+                              fontWeight: FontWeight.w800,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0 * pt),
+                        ),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: [Text(privacy_term)],
+                          ),
+                        ),
+                        actions: [
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('확인'))
+                        ],
+                      );
+                    });
+              },
               child: Text(
                 "개인정보처리방침",
                 style: textStyle,
               )),
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                showDialog(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: Text(
+                          "트립빌더 서비스 이용약관",
+                          style: const TextStyle(
+                              color: const Color(0xff000000),
+                              fontWeight: FontWeight.w800,
+                              fontFamily: "Roboto",
+                              fontStyle: FontStyle.normal,
+                              fontSize: 16.0 * pt),
+                        ),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: [Text(service_term)],
+                          ),
+                        ),
+                        actions: [
+                          FlatButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('확인'))
+                        ],
+                      );
+                    });
+              },
               child: Text(
                 "서비스이용약관",
                 style: textStyle,
