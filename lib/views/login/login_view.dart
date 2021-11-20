@@ -161,6 +161,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                       // buildSocialLoginButtons(),
                       buildFindIDPW(),
                       buildSignin(),
+                      User_ToS(),
                     ],
                   ),
                 ),
@@ -452,6 +453,38 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                   ),
                   Image.asset("assets/icons/ic_small_arrow_right.png"),
                 ],
+              ))
+        ],
+      ),
+    );
+  }
+  Widget User_ToS() {
+    const TextStyle textStyle = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle: FontStyle.normal,
+      fontSize: 12.0 * pt,
+      decoration: TextDecoration.underline,
+    );
+
+    return Container(
+      margin: EdgeInsets.only(
+          top: ScreenUtil().setHeight(0.1), bottom: ScreenUtil().setHeight(0.1)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                "개인정보처리방침",
+                style: textStyle,
+              )),
+          TextButton(
+              onPressed: () {},
+              child: Text(
+                "서비스이용약관",
+                style: textStyle,
               ))
         ],
       ),
