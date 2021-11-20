@@ -101,10 +101,6 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
           },
           icon: Image.asset("assets/icons/ic_main_heart_default.png"),
           text: "찜목록"),
-      TBAppBarTextButton(
-          onPressed: () {},
-          icon: Image.asset("assets/icons/ic_hamburger_menu.png"),
-          text: "메뉴"),
     ];
     if (viewMode == BoardMode.search) actions = [];
     if (viewMode == BoardMode.result) actions.removeAt(0);
@@ -143,7 +139,7 @@ class _BoardMainViewState extends BoardState<BoardMainView> {
                 isEnabled: tabIndex == 1,
               )),
         ];
-        // if (tabIndex == 1) slivers.removeAt(2);
+        if (tabIndex == 0) slivers.removeAt(2);
         if (viewMode == BoardMode.result) slivers.removeAt(0);
         return slivers;
       };
