@@ -167,7 +167,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                       // buildSocialLoginButtons(),
                       buildFindIDPW(),
                       buildSignin(),
-                      User_Terms(),
+                      buildUserTerms(),
                     ],
                   ),
                 ),
@@ -465,7 +465,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
     );
   }
 
-  Widget User_Terms() {
+  Widget buildUserTerms() {
     const TextStyle textStyle = const TextStyle(
       color: Colors.black,
       fontWeight: FontWeight.w400,
