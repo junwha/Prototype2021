@@ -484,34 +484,19 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
         children: [
           TextButton(
               onPressed: () {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          "트립빌더 개인 정보처리방침",
-                          style: const TextStyle(
-                              color: const Color(0xff000000),
-                              fontWeight: FontWeight.w800,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16.0 * pt),
-                        ),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: [Text(privacy_term)],
+                tbShowDialog(
+                    context,
+                    TBSimpleDialog(
+                        title: "트립빌더 개인 정보처리방침",
+                        isBackEnabled: false,
+                        body: Container(
+                          child: Text(
+                            privacy_term,
+                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        actions: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('확인'))
-                        ],
-                      );
-                    });
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                        )));
               },
               child: Text(
                 "개인정보처리방침",
@@ -519,34 +504,19 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
               )),
           TextButton(
               onPressed: () {
-                showDialog(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text(
-                          "트립빌더 서비스 이용약관",
-                          style: const TextStyle(
-                              color: const Color(0xff000000),
-                              fontWeight: FontWeight.w800,
-                              fontFamily: "Roboto",
-                              fontStyle: FontStyle.normal,
-                              fontSize: 16.0 * pt),
-                        ),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: [Text(service_term)],
+                tbShowDialog(
+                    context,
+                    TBSimpleDialog(
+                        title: "트립빌더 서비스 이용약관",
+                        isBackEnabled: false,
+                        body: Container(
+                          child: Text(
+                            service_term,
+                            textAlign: TextAlign.center,
                           ),
-                        ),
-                        actions: [
-                          FlatButton(
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Text('확인'))
-                        ],
-                      );
-                    });
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                        )));
               },
               child: Text(
                 "서비스이용약관",
