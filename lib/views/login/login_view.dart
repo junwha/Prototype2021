@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:prototype2021/data/signin_terms.dart';
 import 'package:prototype2021/model/login/http/login.dart';
 import 'package:prototype2021/loader/user/auth_loader.dart';
 import 'package:prototype2021/handler/login/login_handler.dart';
@@ -32,18 +33,23 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
   bool autoLogin = false;
   bool saveId = false;
   bool loading = true;
+
   void setUsername(String? _username) => setState(() {
         username = _username ?? "";
       });
+
   void setPassword(String? _password) => setState(() {
         password = _password ?? "";
       });
+
   void setAutoLogin(bool _autoLogin) => setState(() {
         autoLogin = _autoLogin;
       });
+
   void setSaveId(bool _saveId) => setState(() {
         saveId = _saveId;
       });
+
   void setLoading(bool _loading) => setState(() {
         loading = _loading;
       });
@@ -161,6 +167,7 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                       // buildSocialLoginButtons(),
                       buildFindIDPW(),
                       buildSignin(),
+                      buildUserTerms(),
                     ],
                   ),
                 ),
@@ -452,6 +459,68 @@ class _LoginViewState extends State<LoginView> with AuthLoader {
                   ),
                   Image.asset("assets/icons/ic_small_arrow_right.png"),
                 ],
+              ))
+        ],
+      ),
+    );
+  }
+
+  Widget buildUserTerms() {
+    const TextStyle textStyle = const TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.w400,
+      fontFamily: "Roboto",
+      fontStyle: FontStyle.normal,
+      fontSize: 12.0 * pt,
+      decoration: TextDecoration.underline,
+    );
+
+    return Container(
+      margin: EdgeInsets.only(
+          top: ScreenUtil().setHeight(0.1),
+          bottom: ScreenUtil().setHeight(0.1)),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          TextButton(
+              onPressed: () {
+                tbShowDialog(
+                    context,
+                    TBSimpleDialog(
+                        title: "트립빌더 개인 정보처리방침",
+                        isBackEnabled: false,
+                        body: Container(
+                          child: Text(
+                            privacy_term,
+                            textAlign: TextAlign.center,
+                          ),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                        )));
+              },
+              child: Text(
+                "개인정보처리방침",
+                style: textStyle,
+              )),
+          TextButton(
+              onPressed: () {
+                tbShowDialog(
+                    context,
+                    TBSimpleDialog(
+                        title: "트립빌더 서비스 이용약관",
+                        isBackEnabled: false,
+                        body: Container(
+                          child: Text(
+                            service_term,
+                            textAlign: TextAlign.center,
+                          ),
+                          alignment: Alignment.center,
+                          padding: const EdgeInsets.all(10),
+                        )));
+              },
+              child: Text(
+                "서비스이용약관",
+                style: textStyle,
               ))
         ],
       ),
