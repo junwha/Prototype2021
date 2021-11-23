@@ -104,7 +104,7 @@ mixin ContentDetailViewHeaderMixin {
       }
     }
     if (ratingText.length == 0) {
-      ratingText += "?";
+      ratingText += "정보 없음";
     }
     return ratingText;
   }

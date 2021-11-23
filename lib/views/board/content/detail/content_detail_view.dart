@@ -179,11 +179,6 @@ class ContentDetailViewState extends State<ContentDetailView>
     PlanMakeSelectViewState? parent =
         context.findAncestorStateOfType<PlanMakeSelectViewState>();
     return AppBar(
-        actions: [
-          IconButton(
-              onPressed: () {},
-              icon: Image.asset('assets/icons/ic_hamburger_menu.png'))
-        ],
         backgroundColor: Colors.white,
         shadowColor: Colors.white,
         centerTitle: false,
@@ -262,20 +257,6 @@ class ContentDetailViewState extends State<ContentDetailView>
                       buildTimeArea(props!),
                       buildLineArea(),
                       buildLocationArea(props!),
-                      buildLineArea(),
-                      // 이벤트와 관련한 위젯을 theme/board/contents_detail/body_event.dart에 옮겨두었습니다
-                      buildEventArea(
-                        context,
-                        eventArticleModel,
-                      ),
-                      buildEventArticles(
-                        context,
-                        eventArticleModel,
-                      ),
-                      buildEventNavigatorButton(
-                        context,
-                        onPressed: onEventNavButtonPressed,
-                      ),
                     ],
                   );
                 }),
