@@ -160,45 +160,7 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [
-                                    TBSaveButton(
-                                      buttonTitle: '저장하기',
-                                      onPressed: () async {
-                                        UserInfoHandler userInfoHandler =
-                                            Provider.of<UserInfoHandler>(
-                                                context,
-                                                listen: false);
-                                        PlanMakeHandler planMakeHandler =
-                                            Provider.of<PlanMakeHandler>(
-                                                context,
-                                                listen: false);
-                                        PlanLoader loader = PlanLoader();
-
-                                        PlanData data = PlanData(
-                                          -1,
-                                          planMakeHandler.title!,
-                                          [],
-                                          (planMakeHandler.flattenPlanListItems
-                                                      .length !=
-                                                  0)
-                                              ? planMakeHandler
-                                                  .flattenPlanListItems[randomN]
-                                                  .photo
-                                              : null,
-                                          selectedTags,
-                                          _selectedValue,
-                                          planMakeHandler.dateRange,
-                                          selectedRadio1,
-                                          selectedRadio2,
-                                          planMakeHandler.planListItems ?? [],
-                                        );
-
-                                        bool saved = await loader.createPlan(
-                                            userInfoHandler.token!, data);
-
-                                        if (saved)
-                                          widget.navigator(Navigate.forward);
-                                      },
-                                    ),
+                                    buildSaveButton(context),
                                   ],
                                 ),
                               ],
@@ -211,6 +173,35 @@ class _PlanmakeSaveViewState extends State<PlanmakeSaveView> {
                 ),
               );
             }));
+  }
+
+  TBSaveButton buildSaveButton(BuildContext context) {
+    UserInfoHandler userInfoHandler = Provider.of<UserInfoHandler>(context);
+    PlanMakeHandler planMakeHandler = Provider.of<PlanMakeHandler>(context);
+    PlanLoader loader = PlanLoader();
+    return TBSaveButton(
+      buttonTitle: '저장하기',
+      onPressed: () async {
+        PlanData data = PlanData(
+          -1,
+          planMakeHandler.title!,
+          [],
+          (planMakeHandler.flattenPlanListItems.length != 0)
+              ? planMakeHandler.flattenPlanListItems[randomN].photo
+              : null,
+          selectedTags,
+          _selectedValue,
+          planMakeHandler.dateRange,
+          selectedRadio1,
+          selectedRadio2,
+          planMakeHandler.planListItems ?? [],
+        );
+
+        bool saved = await loader.createPlan(userInfoHandler.token!, data);
+
+        if (saved) widget.navigator(Navigate.forward);
+      },
+    );
   }
 
   Row buildInfo(BuildContext context) {

@@ -190,7 +190,7 @@ class _PlanDetailViewState extends State<PlanDetailView> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text(
               '${planData.title}',
@@ -201,16 +201,17 @@ class _PlanDetailViewState extends State<PlanDetailView> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            IconButton(
-              padding: EdgeInsets.zero,
-              onPressed: () {},
-              icon: Image.asset(
-                // TODO: replace this part with newly implemented heart widget
-                true
-                    ? "assets/icons/ic_product_heart_fill.png"
-                    : "assets/icons/ic_product_heart_default.png",
-              ),
-            ),
+            // TODO: render heart buttons
+            // IconButton(
+            //   padding: EdgeInsets.zero,
+            //   onPressed: () {},
+            //   icon: Image.asset(
+            //     // TODO: replace this part with newly implemented heart widget
+            //     true
+            //         ? "assets/icons/ic_product_heart_fill.png"
+            //         : "assets/icons/ic_product_heart_default.png",
+            //   ),
+            // ),
           ],
         ),
         Text(
@@ -237,9 +238,10 @@ class _PlanDetailViewState extends State<PlanDetailView> {
           ),
         ),
         SizedBox(height: 10),
-        Row(
-          children: [TBContentTag(contentTitle: "asdf")],
-        )
+        // TODO: render tags
+        // Row(
+        //   children: [TBContentTag(contentTitle: "asdf")],
+        // )
       ],
     );
   }
